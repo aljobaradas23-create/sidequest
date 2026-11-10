@@ -563,6 +563,23 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
 .av-opt[aria-pressed="true"] { border-color: #7e1712; background: rgba(140,23,18,.07); }
 .am-up { display: block; width: max-content; margin: 0 auto; color: #2a1d12 !important; border-color: rgba(43,27,16,.5) !important; }
 .am-note { font-size: 14px; font-style: italic; color: #5a3f25; margin: 8px 0 12px; }
+
+.qotd-btn { justify-self: center; margin-top: 4px; padding: 6px 14px; border: 1px dashed rgba(126,23,18,.55); border-radius: 4px; background: rgba(214,162,74,.14);
+  font-family: "IM Fell English", Georgia, serif; font-size: 17px; color: #5a2a0c; cursor: pointer; }
+.qotd-btn small { display: block; font-family: "IM Fell English SC", Georgia, serif; font-size: 13px; color: #7e1712; letter-spacing: .04em; }
+.qotd-btn:hover { background: rgba(214,162,74,.24); }
+.qotd-btn[hidden] { display: none; }
+
+.ledger-tabs { margin: 10px 0 4px; }
+.ledger-note { margin: 6px 0 0; font-size: 14px; font-style: italic; color: var(--muted); }
+.log li.ledger-row { display: grid; grid-template-columns: 1fr auto auto; gap: 10px; align-items: center; }
+.log li.ledger-day { display: block; padding: 10px 0 4px; border: 0; font-family: "IM Fell English SC", Georgia, serif; font-size: 14px; color: var(--gold); letter-spacing: .04em; }
+.lf { background: none; border: 1px solid rgba(196,82,58,.5); border-radius: 3px; padding: 1px 8px; font-family: "IM Fell English SC", Georgia, serif; font-size: 13px; color: #e08a72; }
+.lf:hover { background: rgba(196,82,58,.12); }
+.lf-none { font-size: 12px; font-style: italic; color: var(--muted); }
+.cm-warn { margin: 2px 0 10px; padding: 8px 10px; font-size: 16px; font-style: italic; color: #5a1a0e; background: rgba(140,23,18,.08); border-left: 3px solid #8c1712; text-align: left; }
+.cm-warn[hidden] { display: none; }
+.pm-honest { margin: 0 0 10px; font-style: italic; font-size: 15px; color: #2f5a2f; }
 </style>
 </head>
 <body>
@@ -633,6 +650,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
         <div class="row" role="group" aria-label="Job class to ask for" id="classTabs"></div>
         <div class="filters" role="group" aria-label="Job type to ask for" id="filters"></div>
         <button class="btn wax give" id="giveBtn" type="button">Give me a job</button>
+        <button class="qotd-btn" id="qotdBtn" type="button">★ Reveal today’s Quest of the Day <small>double reward</small></button>
       </div>
       <div class="plank" id="quests"></div>
     </section>
@@ -647,7 +665,9 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
       </section>
 
       <section class="scroll iron stone-bg" aria-labelledby="logTitle">
-        <h2 id="logTitle">Today's Deeds</h2>
+        <div class="sec-head"><h2 id="logTitle">Deed Ledger</h2><span class="meta" id="ffMeta"></span></div>
+        <div class="lb-tabs ledger-tabs" role="group" aria-label="Which deeds"><button class="chip" data-ledger="today" aria-pressed="true">Today</button><button class="chip" data-ledger="past" aria-pressed="false">Past 7 days</button></div>
+        <p class="ledger-note">Forfeit any deed you didn't truly finish. The XP goes back and your record stays honest.</p>
         <ul class="log" id="log"></ul>
       </section>
 
@@ -727,9 +747,10 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
 <div class="qmodal" id="cmodal" role="dialog" aria-modal="true" aria-labelledby="cmTitle">
   <div class="qm-paper cm-paper">
     <span class="pin" aria-hidden="true"></span><button class="qm-x" data-cclose aria-label="Close">×</button>
-    <div class="qm-kicker">Seal the Deed</div>
+    <div class="qm-kicker" id="cmKick">Seal the Deed</div>
     <h3 id="cmTitle"></h3>
-    <p class="cm-lead">Did you truly finish this job? Type <b>complete</b> below to seal it.</p>
+    <p class="cm-warn" id="cmWarn" hidden></p>
+    <p class="cm-lead" id="cmLead"></p>
     <input id="cmInput" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Type complete to confirm">
     <p class="cm-hint" id="cmHint" aria-live="polite"></p>
     <div class="qm-acts"><button class="btn gold" id="cmOk" type="button" disabled>Seal it</button><button class="btn ghost" type="button" data-cclose>Not yet</button></div>
@@ -837,8 +858,9 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
   function fresh() {
     return { name: "Adventurer", xp: 0, total: 0, active: [], today: { d: todayKey(), ids: [] }, log: [], days: [], custom: [], posted: [], postedAt: {},
       stats: { cats: {}, ranks: {}, ids: {}, qotd: 0, boss: 0, best: 0 }, badges: {}, honor: "", journal: [], boss: null,
-      settings: { sfx: true, music: false }, avatar: "p:hunter", updatedAt: 0 };
+      settings: { sfx: true, music: false }, avatar: "p:hunter", seed: newSeed(), qotdShown: "", takenAt: {}, forfeit: { n: 0, xp: 0 }, updatedAt: 0 };
   }
+  function newSeed() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
   function todayKey(dt) { var d = dt || new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
   function pad(n) { return (n < 10 ? "0" : "") + n; }
   function $(id) { return document.getElementById(id); }
@@ -862,6 +884,11 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     if (!Array.isArray(s.journal)) s.journal = [];
     if (!s.settings || typeof s.settings !== "object") s.settings = { sfx: true, music: false };
     if (typeof s.avatar !== "string" || !s.avatar) s.avatar = "p:hunter";
+    if (typeof s.seed !== "string" || !s.seed) s.seed = newSeed();
+    if (typeof s.qotdShown !== "string") s.qotdShown = "";
+    if (!s.takenAt || typeof s.takenAt !== "object" || Array.isArray(s.takenAt)) s.takenAt = {};
+    if (!s.forfeit || typeof s.forfeit !== "object") s.forfeit = { n: 0, xp: 0 };
+    s.log.forEach(function (l, i) { if (!l.k) l.k = "o" + i + "-" + (l.d || "") ; });
     s.custom.forEach(function (q) {
       if (OLD_CAT[q.cat]) q.cat = OLD_CAT[q.cat];
       if (OLD_RANK[q.rank]) q.rank = OLD_RANK[q.rank];
@@ -908,7 +935,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
 
   /* ---------- progress records, achievements, quest of the day, weekly boss ---------- */
   function hash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
-  function qotdId(dk) { return BASE[hash("qotd:" + (dk || todayKey())) % BASE.length].id; }
+  function qotdId(dk) { return BASE[hash("qotd:" + state.seed + ":" + (dk || todayKey())) % BASE.length].id; }
   function weekInfo(d) {
     d = d || new Date();
     var back = (d.getDay() + 6) % 7;
@@ -971,7 +998,8 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     { id: "slayer", name: "Beast Slayer", title: "the Beast Slayer", goal: 1, desc: "Defeat a weekly boss.", get: function () { return state.stats.boss || 0; } },
     { id: "warlord", name: "Warlord", title: "the Warlord", goal: 5, desc: "Defeat 5 weekly bosses.", get: function () { return state.stats.boss || 0; } },
     { id: "chronicler", name: "Chronicler", title: "the Chronicler", goal: 10, desc: "Write 10 pages in your journal.", get: journalCount },
-    { id: "centurion", name: "Centurion", title: "the Centurion", goal: 100, desc: "Complete 100 jobs.", get: function () { return state.total; } }
+    { id: "centurion", name: "Centurion", title: "the Centurion", goal: 100, desc: "Complete 100 jobs.", get: function () { return state.total; } },
+    { id: "honest", name: "Honest Soul", title: "the Honest", goal: 1, desc: "Forfeit XP from a deed you didn't truly finish.", get: function () { return state.forfeit.n; } }
   ];
   var ACHMAP = {}; ACH.forEach(function (a) { ACHMAP[a.id] = a; });
   function badgeCount() { return ACH.filter(function (a) { return state.badges[a.id]; }).length; }
@@ -996,6 +1024,48 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     return st;
   }
 
+  /* ---------- forfeiting XP that wasn't honestly earned ---------- */
+  function longestRun(days) {
+    var set = {}; days.forEach(function (d) { set[d] = 1; }); var best = 0;
+    days.forEach(function (d) {
+      var p = d.split("-"), dt = new Date(+p[0], +p[1] - 1, +p[2]), prev = new Date(dt); prev.setDate(dt.getDate() - 1);
+      if (set[todayKey(prev)]) return; var n = 0; while (set[todayKey(dt)]) { n++; dt.setDate(dt.getDate() + 1); } if (n > best) best = n;
+    });
+    return best;
+  }
+  function forfeitDeed(k) {
+    var e = null; state.log.forEach(function (l) { if (l.k === k) e = l; }); if (!e || e.bounty) return;
+    var q = e.id ? findQ(e.id) : null;
+    if (!q) BASE.forEach(function (b) { if (!q && e.t.indexOf(b.title) === 0) q = b; });
+    var cat = e.cat || (q && q.cat), rank = e.rank || (q && q.rank), qid = e.id || (q && q.id);
+    var S = state.stats, lost = e.xp, notes = [];
+    state.xp = Math.max(0, state.xp - e.xp); state.total = Math.max(0, state.total - 1);
+    if (cat && S.cats[cat]) S.cats[cat]--; if (rank && S.ranks[rank]) S.ranks[rank]--; if (qid && S.ids[qid]) S.ids[qid]--;
+    if (e.q && S.qotd) S.qotd--;
+    state.log = state.log.filter(function (l) { return l.k !== k; });
+    if (e.d === todayKey() && qid) state.today.ids = state.today.ids.filter(function (x) { return x !== qid; });
+    if (!state.log.some(function (l) { return l.d === e.d && !l.bounty; })) state.days = state.days.filter(function (d) { return d !== e.d; });
+    S.best = Math.min(S.best || 0, Math.max(longestRun(state.days), streak()));
+    var cb = currentBoss();
+    if (e.bw && e.bw === cb.w.key && cb.st.hits > 0) {
+      cb.st.hits--;
+      if (cb.st.won && cb.st.hits < cb.b.hp) {
+        cb.st.won = false; if (S.boss) S.boss--;
+        state.xp = Math.max(0, state.xp - BOSS_XP); lost += BOSS_XP;
+        state.log = state.log.filter(function (l) { return !(l.bounty && l.bw === cb.w.key); });
+        notes.push("the bounty on " + cb.b.name + " is revoked");
+      }
+    }
+    var revoked = ACH.filter(function (a) { return state.badges[a.id] && a.get() < a.goal; });
+    revoked.forEach(function (a) { delete state.badges[a.id]; if (state.honor === a.id) state.honor = ""; });
+    if (revoked.length) notes.push((revoked.length === 1 ? "badge " : "badges ") + revoked.map(function (a) { return a.name; }).join(", ") + " returned");
+    state.forfeit.n++; state.forfeit.xp += lost;
+    save(); render(); renderAch();
+    sfx("hit");
+    toast("−" + lost + " XP forfeited" + (notes.length ? "; " + notes.join("; ") : "") + ". Your honor is intact.");
+    checkBadges();
+  }
+
   /* ---------- celebrations (level ups, achievements, bosses) ---------- */
   var cele = { queue: [], open: false };
   function celebrate(c) { cele.queue.push(c); if (!cele.open) nextCelebration(); }
@@ -1018,7 +1088,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
   function accept(id) {
     if (state.active.length >= MAX_SLOTS) { toast("Your hands are full. Finish a job first."); return; }
     if (state.active.indexOf(id) >= 0 || state.today.ids.indexOf(id) >= 0) return;
-    state.active.push(id);
+    state.active.push(id); state.takenAt[id] = Date.now();
     state.posted = state.posted.filter(function (x) { return x !== id; });
     save(); render(); sfx("take");
     var q = findQ(id); if (q) toast("Job taken: " + q.title);
@@ -1046,15 +1116,16 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     state.today.ids.push(id);
     var tk = todayKey(); if (state.days.indexOf(tk) < 0) state.days.push(tk);
     if (state.days.length > 400) state.days = state.days.slice(-400);
-    state.log.unshift({ t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk });
+    var entry = { k: id + "-" + Date.now().toString(36), id: id, cat: q.cat, rank: q.rank, q: isQ, t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
+    state.log.unshift(entry); delete state.takenAt[id];
     var S = state.stats;
     S.cats[q.cat] = (S.cats[q.cat] || 0) + 1; S.ranks[q.rank] = (S.ranks[q.rank] || 0) + 1; S.ids[id] = (S.ids[id] || 0) + 1;
     if (isQ) S.qotd++;
     S.best = Math.max(S.best || 0, streak());
     var cb = currentBoss(), hit = false, slain = false;
     if (!cb.st.won && cb.b.match(q)) {
-      cb.st.hits++; hit = true;
-      if (cb.st.hits >= cb.b.hp) { cb.st.won = true; slain = true; S.boss++; state.xp += BOSS_XP; state.log.unshift({ t: "Bounty: " + cb.b.name + " slain", xp: BOSS_XP, d: tk }); }
+      cb.st.hits++; hit = true; entry.bw = cb.w.key;
+      if (cb.st.hits >= cb.b.hp) { cb.st.won = true; slain = true; S.boss++; state.xp += BOSS_XP; state.log.unshift({ k: "b-" + cb.w.key, bounty: true, bw: cb.w.key, t: "Bounty: " + cb.b.name + " slain", xp: BOSS_XP, d: tk, at: Date.now() }); }
     }
     if (state.log.length > 150) state.log.length = 150;
     save(); render();
@@ -1144,7 +1215,9 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     var shown = onBoard.filter(function (q) { return (filter === "All" || q.cat === filter) && (rankTab === "All" || q.rank === rankTab); });
     var what = (rankTab === "All" ? "" : RANK_NAME[rankTab] + " ") + (filter === "All" ? "" : filter + " ");
     var qq = findQ(QID), qDone = state.today.ids.indexOf(QID) >= 0, qTaken = state.active.indexOf(QID) >= 0;
-    var qotdHtml = '<div class="qotd-wrap"><div class="qotd-head">Quest of the Day <small>double reward · changes at midnight</small></div>' +
+    var qShown = state.qotdShown === todayKey() || qDone || qTaken;
+    $("qotdBtn").hidden = qShown;
+    var qotdHtml = !qShown ? "" : '<div class="qotd-wrap"><div class="qotd-head">Quest of the Day <small>yours alone · double reward · changes at midnight</small></div>' +
       '<button class="note qotd tear2 r-' + qq.rank + (qDone ? " done" : "") + (qTaken ? " taken" : "") + '" data-open="' + QID + '" aria-label="Quest of the Day: ' + esc(qq.title) + '">' +
       '<span class="pin" aria-hidden="true"></span><span class="wax star" aria-hidden="true">★</span>' +
       '<span class="ncat">' + esc(qq.cat) + " · " + RANK_NAME[qq.rank] + "</span>" +
@@ -1156,7 +1229,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
         (shown.length < onBoard.length ? "Showing " + shown.length + " of " + onBoard.length + " requests · " : "") + onBoard.length + " of " + MAX_BOARD + " spaces used</div>"
       : onBoard.length
         ? '<p class="board-empty">No ' + esc(what) + 'requests on the board.<small>Tap “Give me a job” to ask for one, or pick another type above.</small></p>'
-        : '<p class="board-empty">The rest of the board is bare.<small>Tap “Give me a job” and the guild will pin a request here.</small></p>');
+        : '<p class="board-empty">' + (qShown ? "The rest of the board is bare." : "The board is bare.") + '<small>Tap “Give me a job” and the guild will pin a request here' + (qShown ? "" : ", or reveal today\u2019s Quest of the Day") + ".</small></p>");
     var open = state.posted.length;
     $("boardMeta").textContent = onBoard.length ? (open + (open === 1 ? " request" : " requests") + " waiting. Tap one to read it.") : "No requests posted yet.";
     $("askLab").textContent = "Show and ask the guild for";
@@ -1180,10 +1253,30 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     renderBoss();
     $("slotCount").textContent = state.active.length + " of " + MAX_SLOTS;
 
-    var todayLog = state.log.filter(function (l) { return l.d === todayKey(); });
-    $("log").innerHTML = todayLog.length ? todayLog.map(function (l) {
-      return "<li><span>" + esc(l.t) + '</span><span class="xp">+' + l.xp + " XP</span></li>";
-    }).join("") : '<li class="none">No deeds yet today. The first job is the hardest to begin.</li>';
+    renderLedger();
+  }
+
+  /* ---------- deed ledger ---------- */
+  var ledgerView = "today";
+  function renderLedger() {
+    document.querySelectorAll("[data-ledger]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.ledger === ledgerView)); });
+    var tk = todayKey(), cut = new Date(); cut.setDate(cut.getDate() - 7); var cutKey = todayKey(cut);
+    var rows = state.log.filter(function (l) { return ledgerView === "today" ? l.d === tk : (l.d < tk && l.d > cutKey); });
+    $("ffMeta").textContent = state.forfeit.n ? state.forfeit.n + " forfeited" : "";
+    if (!rows.length) {
+      $("log").innerHTML = '<li class="none">' + (ledgerView === "today" ? "No deeds yet today. The first job is the hardest to begin." : "No deeds in the past week.") + "</li>";
+      return;
+    }
+    var last = "", html = "";
+    rows.forEach(function (l) {
+      if (ledgerView === "past" && l.d !== last) {
+        last = l.d; var p = l.d.split("-"), dt = new Date(+p[0], +p[1] - 1, +p[2]);
+        html += '<li class="ledger-day">The ' + ordinal(dt.getDate()) + " of " + MONTHS[dt.getMonth()] + "</li>";
+      }
+      html += '<li class="ledger-row"><span class="lt">' + esc(l.t) + '</span><span class="xp">+' + l.xp + " XP</span>" +
+        (l.bounty ? '<span class="lf-none">bounty</span>' : '<button class="lf" type="button" data-forfeit="' + esc(l.k) + '">Forfeit</button>') + "</li>";
+    });
+    $("log").innerHTML = html;
   }
 
   /* ---------- job popup ---------- */
@@ -1236,6 +1329,8 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     if (t.dataset.complete) { if (inModal) closeJob(); askComplete(t.dataset.complete); return; }
     if (t.hasAttribute("data-cclose")) { closeConfirm(); return; }
     if (t.dataset.player) { openProfile(t.dataset.player); return; }
+    if (t.dataset.forfeit) { askForfeit(t.dataset.forfeit); return; }
+    if (t.dataset.ledger) { ledgerView = t.dataset.ledger; renderLedger(); return; }
     if (t.hasAttribute("data-pclose")) { $("pmodal").classList.remove("show"); return; }
     if (t.hasAttribute("data-avopen")) { $("pmodal").classList.remove("show"); openAvatarPicker(); return; }
     if (t.hasAttribute("data-aclose")) { $("amodal").classList.remove("show"); return; }
@@ -1249,6 +1344,10 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     if (t.dataset.photo) { var im = t.querySelector("img"); if (im && im.src) { $("lbImg").src = im.src; $("lbImg").alt = im.alt; $("lightbox").classList.add("show"); } return; }
   });
   $("giveBtn").addEventListener("click", drawJob);
+  $("qotdBtn").addEventListener("click", function () {
+    state.qotdShown = todayKey(); save(); render(); sfx("pin");
+    toast("Today’s Quest of the Day is pinned to the board.");
+  });
   $("luClose").addEventListener("click", function () { $("levelup").classList.remove("show"); setTimeout(nextCelebration, 180); });
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
@@ -1262,15 +1361,34 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
   var cm = { id: null };
   function askComplete(id) {
     var q = findQ(id); if (!q) return;
-    cm.id = id; $("cmTitle").textContent = q.title; $("cmInput").value = ""; $("cmOk").disabled = true; $("cmHint").textContent = "";
+    cm.mode = "complete"; cm.word = "complete"; cm.id = id;
+    var t = state.takenAt[id], mins = t ? Math.floor((Date.now() - t) / 60000) : null, fast = mins !== null && mins < 5;
+    $("cmKick").textContent = "Seal the Deed"; $("cmTitle").textContent = q.title;
+    $("cmLead").innerHTML = "Did you truly finish this job? Type <b>complete</b> below to seal it.";
+    $("cmWarn").hidden = !fast;
+    $("cmWarn").textContent = fast ? "You took this job " + (mins < 1 ? "less than a minute" : mins + (mins === 1 ? " minute" : " minutes")) + " ago. Only seal it if it's truly done; the guild runs on honor." : "";
+    $("cmOk").textContent = "Seal it"; $("cmOk").className = "btn gold";
+    $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type complete to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
+    $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
+  }
+  function askForfeit(k) {
+    var e = null; state.log.forEach(function (l) { if (l.k === k) e = l; }); if (!e) return;
+    cm.mode = "forfeit"; cm.word = "forfeit"; cm.id = k;
+    var cb = currentBoss(), boss = e.bw && e.bw === cb.w.key && cb.st.won && cb.st.hits - 1 < cb.b.hp;
+    $("cmKick").textContent = "Forfeit the Deed"; $("cmTitle").textContent = e.t;
+    $("cmLead").innerHTML = "This takes back <b>" + e.xp + " XP</b>" + (boss ? " and the <b>+" + BOSS_XP + " XP</b> bounty it helped win" : "") + ". Type <b>forfeit</b> to confirm.";
+    $("cmWarn").hidden = false; $("cmWarn").textContent = "Owning up keeps the guild fair. Badges that depended on this deed go back too.";
+    $("cmOk").textContent = "Forfeit XP"; $("cmOk").className = "btn wax";
+    $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type forfeit to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
     $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
   }
   function closeConfirm() { cm.id = null; $("cmodal").classList.remove("show"); }
-  function cmValid() { return $("cmInput").value.trim().toLowerCase() === "complete"; }
+  function cmValid() { return $("cmInput").value.trim().toLowerCase() === (cm.word || "complete"); }
   function cmSubmit() {
     if (!cm.id) return;
-    if (!cmValid()) { $("cmHint").textContent = "Type the word complete exactly to seal it."; return; }
-    var id = cm.id; closeConfirm(); $("cmInput").blur(); complete(id);
+    if (!cmValid()) { $("cmHint").textContent = "Type the word " + cm.word + " exactly to confirm."; return; }
+    var id = cm.id, mode = cm.mode; closeConfirm(); $("cmInput").blur();
+    if (mode === "forfeit") forfeitDeed(id); else complete(id);
   }
   $("cmInput").addEventListener("input", function () { $("cmOk").disabled = !cmValid(); $("cmHint").textContent = ""; });
   $("cmInput").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); cmSubmit(); } });
@@ -1796,10 +1914,10 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     var li = levelInfo(state.xp), tk = todayKey();
     var r = me
       ? { name: state.name, honor: honorText(), avatar: state.avatar, level: li.lv, title: titleFor(li.lv), xp: state.xp, today: todayXp(), streak: streak(), done: state.total,
-          badges: ACH.filter(function (a) { return state.badges[a.id]; }).map(function (a) { return a.id; }), badgeN: badgeCount(), at: 0 }
+          badges: ACH.filter(function (a) { return state.badges[a.id]; }).map(function (a) { return a.id; }), badgeN: badgeCount(), at: 0, forfeits: state.forfeit.n }
       : { name: p.name, honor: typeof p.honor === "string" ? p.honor : "", avatar: p.avatar, level: p.level || 1, title: p.title || "", xp: +p.xp || 0,
           today: p.day === tk ? (+p.today || 0) : 0, streak: +p.streak || 0, done: +p.done || 0,
-          badges: typeof p.badgeList === "string" && p.badgeList ? p.badgeList.split(",").filter(function (b) { return ACHMAP[b]; }) : [], badgeN: +p.badges || 0, at: p.updatedAt };
+          badges: typeof p.badgeList === "string" && p.badgeList ? p.badgeList.split(",").filter(function (b) { return ACHMAP[b]; }) : [], badgeN: +p.badges || 0, at: p.updatedAt, forfeits: +p.forfeits || 0 };
     var rank = 0; cloud.players.slice().sort(function (a, b) { return (+b.xp || 0) - (+a.xp || 0); }).forEach(function (x, i) { if ((me && x.id === cloud.uid) || (!me && x.id === id)) rank = i + 1; });
     var medals = r.badges.length
       ? '<div class="pm-badges">' + r.badges.map(function (b) { var a = ACHMAP[b]; return '<span class="pm-badge" title="' + esc(a.desc) + '"><i>' + esc(a.name.replace(/^The /, "").charAt(0)) + "</i>" + esc(a.name) + "</span>"; }).join("") + "</div>"
@@ -1812,6 +1930,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
       '<div class="pm-lv">Level ' + r.level + " · " + esc(r.title) + (rank ? " · Rank " + rank + " in the guild" : "") + "</div>" +
       '<dl class="pm-stats"><div><dt>Total XP</dt><dd>' + r.xp + "</dd></div><div><dt>Today</dt><dd>" + r.today + "</dd></div><div><dt>Streak</dt><dd>" + r.streak + "d</dd></div><div><dt>Deeds</dt><dd>" + r.done + "</dd></div></dl>" +
       '<div class="pm-sub">Badges</div>' + medals +
+      (r.forfeits ? '<p class="pm-honest">Honestly forfeited ' + r.forfeits + (r.forfeits === 1 ? " deed" : " deeds") + " they didn't truly finish.</p>" : "") +
       (me ? '<div class="qm-acts"><button class="btn gold" type="button" data-avopen>Change avatar</button></div>' : (r.at ? '<p class="pm-seen">Last seen ' + ago(r.at).replace(/^active /, "") + "</p>" : ""));
     $("pmodal").classList.add("show"); sfx("paper");
   }
@@ -1821,7 +1940,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     var av = (state.avatar || "").indexOf("p:") === 0 ? state.avatar.slice(2) : "x";
     var mask = 0; ACH.forEach(function (a, i) { if (state.badges[a.id]) mask += Math.pow(2, i); });
     var h = -1; ACH.forEach(function (a, i) { if (a.id === state.honor && state.badges[a.id]) h = i; });
-    return ("~" + av + "." + mask.toString(36) + "." + (h >= 0 ? h.toString(36) : "")).slice(0, 40);
+    return ("~" + av + "." + mask.toString(36) + "." + (h >= 0 ? h.toString(36) : "") + "." + (state.forfeit.n || 0).toString(36)).slice(0, 40);
   }
   function decodePlayer(v) {
     if (typeof v.title !== "string" || v.title.charAt(0) !== "~") return v;
@@ -1832,6 +1951,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     if (!v.badgeList) v.badgeList = list.join(",");
     if (!v.badges) v.badges = list.length;
     if (!v.honor && !isNaN(h) && ACH[h]) v.honor = ACH[h].title;
+    v.forfeits = parseInt(parts[3] || "0", 36) || 0;
     return v;
   }
   /* ---------- boot ---------- */
