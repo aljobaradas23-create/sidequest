@@ -744,7 +744,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     <div class="av-grid" id="avGrid"></div>
     <label class="btn ghost small am-up" for="avFile">Use my own photo</label>
     <input type="file" id="avFile" accept="image/*" class="vh">
-    <p class="am-note">Your avatar is shown to everyone in your guild.</p>
+    <p class="am-note">Your avatar is shown to everyone in your guild. If you use your own photo, friends see your initial instead until the guild's database rules are updated.</p>
     <div class="qm-acts"><button class="btn gold" id="avSave" type="button">Save avatar</button><button class="btn ghost" type="button" data-aclose>Cancel</button></div>
   </div>
 </div>
@@ -1370,7 +1370,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     if (!cloud.ready) return;
     var li = levelInfo(state.xp);
     var data = {
-      name: (state.name || "Adventurer").slice(0, 24), xp: state.xp, level: li.lv, title: titleFor(li.lv),
+      name: (state.name || "Adventurer").slice(0, 24), xp: state.xp, level: li.lv, title: packTitle(),
       done: state.total, streak: streak(), today: todayXp(), day: todayKey(),
       updatedAt: firebase.database.ServerValue.TIMESTAMP
     };
@@ -1395,7 +1395,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
         if (!firebase.apps.length) firebase.initializeApp(cfg);
         cloud.db = firebase.database();
         cloud.db.ref("players").orderByChild("xp").limitToLast(200).on("value", function (snap) {
-          var arr = []; snap.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(v); });
+          var arr = []; snap.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(decodePlayer(v)); });
           cloud.players = arr; try { localStorage.setItem("sidequest-lb", JSON.stringify(arr)); } catch (e) {}
           if (cloud.status !== "error") setStatus(cloud.ready ? "live" : "reading");
         }, function (e) { setStatus("error", "Could not read the rankings: " + (e && e.code || e)); });
@@ -1816,6 +1816,24 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     $("pmodal").classList.add("show"); sfx("paper");
   }
 
+  /* ---------- share avatar/badges/title through the always-allowed "title" field ---------- */
+  function packTitle() {
+    var av = (state.avatar || "").indexOf("p:") === 0 ? state.avatar.slice(2) : "x";
+    var mask = 0; ACH.forEach(function (a, i) { if (state.badges[a.id]) mask += Math.pow(2, i); });
+    var h = -1; ACH.forEach(function (a, i) { if (a.id === state.honor && state.badges[a.id]) h = i; });
+    return ("~" + av + "." + mask.toString(36) + "." + (h >= 0 ? h.toString(36) : "")).slice(0, 40);
+  }
+  function decodePlayer(v) {
+    if (typeof v.title !== "string" || v.title.charAt(0) !== "~") return v;
+    var parts = v.title.slice(1).split("."), mask = parseInt(parts[1] || "0", 36) || 0, h = parseInt(parts[2], 36);
+    var list = ACH.filter(function (a, i) { return Math.floor(mask / Math.pow(2, i)) % 2 === 1; }).map(function (a) { return a.id; });
+    v.title = titleFor(+v.level || 1);
+    if (!v.avatar && parts[0] && parts[0] !== "x" && AV_MAP[parts[0]]) v.avatar = "p:" + parts[0];
+    if (!v.badgeList) v.badgeList = list.join(",");
+    if (!v.badges) v.badges = list.length;
+    if (!v.honor && !isNaN(h) && ACH[h]) v.honor = ACH[h].title;
+    return v;
+  }
   /* ---------- boot ---------- */
   function start(snap) {
     var local = loadLocal();
@@ -1823,7 +1841,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     if (snap && snap.state && (!local || (snap.state.updatedAt || 0) >= (local.updatedAt || 0))) pick = snap.state;
     state = normalize(pick);
     if (snap && snap.filter && (snap.filter === "All" || CATS.indexOf(snap.filter) >= 0)) filter = snap.filter;
-    try { var cached = JSON.parse(localStorage.getItem("sidequest-lb") || "null"); if (Array.isArray(cached)) cloud.players = cached; } catch (e) {}
+    try { var cached = JSON.parse(localStorage.getItem("sidequest-lb") || "null"); if (Array.isArray(cached)) cloud.players = cached.map(decodePlayer); } catch (e) {}
     checkBadges(true);
     render();
     renderLb(); renderJournal(); renderAch(); renderSound();
