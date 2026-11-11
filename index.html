@@ -1920,7 +1920,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   setInterval(boardTick, 30000);
   document.addEventListener("visibilitychange", function () { if (!document.hidden) boardTick(); });
   function renderBoardReset() {
-    $("boardReset").innerHTML = "Shared by the whole guild · each notice may be taken by <b>one</b> only · <b>+" + TAKE_XP + " XP</b> for taking one · fresh notices in <b>" + boardResetIn() + "</b> (6 in the morn)";
+    $("boardReset").innerHTML = "Shared by the whole guild · each notice may be taken by <b>one</b> only · XP is earned only when the quest is <b>completed</b> (+" + TAKE_XP + " board bonus) · fresh notices in <b>" + boardResetIn() + "</b> (6 in the morn)";
   }
   function weekInfo(d) {
     d = d || new Date();
@@ -2272,12 +2272,9 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     state.active.push(id); state.takenAt[id] = Date.now();
     state.posted = state.posted.filter(function (x) { return x !== id; });
     setLocalClaim(dk, id, { uid: me.uid, name: me.name, at: me.at, qid: id });
-    var e = { k: "tk-" + id + "-" + Date.now().toString(36), take: true, id: id, t: "Took from the board: " + q.title, xp: TAKE_XP, d: tk, at: Date.now() };
-    state.log.unshift(e); if (state.log.length > 150) state.log.length = 150;
-    state.xp += TAKE_XP; bumpDay(tk, 0, TAKE_XP);
-    state.boardTake[id] = { d: dk, q: id === qotdId(dk), k: e.k };
+    state.boardTake[id] = { d: dk, q: id === qotdId(dk) };
     save(); render(); sfx("take"); crowFly();
-    toast("Quest taken: " + q.title + " · +" + TAKE_XP + " XP for taking it" + (note || ""));
+    toast("Quest taken: " + q.title + ". Complete it to earn the XP." + (note || ""));
     var after = levelInfo(state.xp).lv; if (after > before) levelUp(after);
   }
   /* ---------- a crow flies past the screen whenever a quest is accepted ---------- */
@@ -2303,7 +2300,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var e = null; state.log.forEach(function (l) { if (l.k === bt.k) e = l; });
     if (e) { state.xp = Math.max(0, state.xp - e.xp); bumpDay(e.d, 0, -e.xp); state.log = state.log.filter(function (l) { return l.k !== bt.k; }); }
     save(); render();
-    toast(bt.d === boardDayKey() ? "The notice goes back upon the board for another to take. The " + TAKE_XP + " free XP are returned." : "Thou hast set it down. The " + TAKE_XP + " free XP are returned.");
+    toast(bt.d === boardDayKey() ? "The notice goes back upon the board for another to take." : "Thou hast set the quest down.");
   }
   function takeDown(id) {
     state.posted = state.posted.filter(function (x) { return x !== id; });
@@ -2314,7 +2311,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     opts = opts || {};
     var q = findQ(id); if (!q) { abandon(id); return; }
     var before = levelInfo(state.xp).lv, isQ = isQOf(id), bt = state.boardTake[id];
-    var gain = (XP[q.rank] || 10) * (isQ ? 2 : 1), coins = (COIN[q.rank] || 2) * (isQ ? 2 : 1);
+    var gain = (XP[q.rank] || 10) * (isQ ? 2 : 1) + (bt ? TAKE_XP : 0), coins = (COIN[q.rank] || 2) * (isQ ? 2 : 1);
     state.xp += gain; state.total += 1; state.coins = (state.coins || 0) + coins;
     state.active = state.active.filter(function (x) { return x !== id; });
     state.posted = state.posted.filter(function (x) { return x !== id; });
@@ -2352,7 +2349,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     save(); render();
     sfx("coin");
     if (conquered) celebrate({ head: "Day Conquered", big: "+" + MAIN_BONUS + " XP", msg: "Every decree is fulfilled. The Crown is well pleased. New decrees arrive on the morrow at 7.", sound: "fanfare" });
-    toast("+" + gain + " XP · +" + coins + " coins · " + q.title + (isQ ? " (double reward!)" : ""));
+    toast("+" + gain + " XP · +" + coins + " coins · " + q.title + (isQ ? " (double reward!)" : "") + (bt ? " (+" + TAKE_XP + " board bonus)" : ""));
     var after = levelInfo(state.xp).lv;
     if (after > before) levelUp(after);
     checkBadges();
@@ -2409,7 +2406,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var pi = null, xp = (XP[q.rank] || 10) * (kind === "qotd" ? 2 : 1);
     var who = bc ? (mine ? "thee" : esc(bc.name || "an adventurer")) : "";
     var sub = kind === "main" ? (q.once ? "Once and no more" : "Renewed each morn at 7") + (q.after != null ? " · seal after " + q.after + ":00" : "")
-      : (kind === "qotd" ? "Quest for " + qotdDateLabel() + " · twice the reward" : "Free to take · +" + TAKE_XP + " XP for taking it");
+      : (kind === "qotd" ? "Quest for " + qotdDateLabel() + " · twice the reward" : "Free to take · +" + TAKE_XP + " bonus XP when done");
     if (bc) sub = mine ? '<span class="nby">' + (bc.done ? "Done by " : "Taken by ") + who + "</span>" : "";
     return '<button class="note p-' + P.v + " t-" + P.tone + " tear" + tear + " r-" + q.rank + (done ? " done" : "") + (taken ? " taken" : "") + (other && !done ? " claimed" : "") + (other && done ? " claimed" : "") +
       (pi && pi.days >= 3 ? " old" : "") + (q.id === freshId ? " fresh" : "") + (kind === "qotd" ? " qotd" : "") +
@@ -2484,7 +2481,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       var id = state.active[i], q = id && findQ(id);
       if (q) {
         var isQ = isQOf(q.id);
-        slotsHtml += '<div class="slot filled r-' + q.rank + (isQ ? " qslot" : "") + '"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span class="cat">' + esc(q.cat) + (isQ ? " · Quest of the Day" : "") + '</span><span class="xp">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP</span></div>" +
+        slotsHtml += '<div class="slot filled r-' + q.rank + (isQ ? " qslot" : "") + '"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span class="cat">' + esc(q.cat) + (isQ ? " · Quest of the Day" : "") + '</span><span class="xp">+' + ((XP[q.rank] || 10) * (isQ ? 2 : 1) + (state.boardTake[q.id] ? TAKE_XP : 0)) + " XP</span></div>" +
           '<div class="t">' + esc(q.title) + "</div>" +
           '<div class="acts"><button class="btn gold small" data-complete="' + q.id + '">Complete</button><button class="btn ghost small" data-abandon="' + q.id + '">Abandon</button></div></div>';
       } else {
@@ -2541,7 +2538,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     else if (done) { status = '<p class="qm-status" style="color:#8f1f1c">Done this day. It returns at dawn.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
     else if (taken) { status = '<p class="qm-status" style="color:#2f5a2f">Underway</p>'; acts = '<button class="btn gold" data-complete="' + id + '">Complete</button><button class="btn ghost" data-abandon="' + id + '">Abandon</button>'; }
     else if (full) { status = '<p class="qm-status" style="color:#6b5134">Thy hands are full (3 of 3). See a quest through first.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
-    else acts = '<button class="btn wax" data-accept="' + id + '">Take this quest (+' + TAKE_XP + ' XP)</button><button class="btn ghost" data-close>Not now</button>';
+    else acts = '<button class="btn wax" data-accept="' + id + '">Take this quest</button><button class="btn ghost" data-close>Not now</button>';
     var isQ = isQOf(id), isMain = !!q.main;
     var left = isMain ? stepsLeft(q) : 0;
     if (isMain && !done) acts = '<button class="btn gold" data-complete="' + id + '"' + (left ? " disabled" : "") + ">Complete</button><button class=\"btn ghost\" data-close>Not now</button>";
@@ -2569,7 +2566,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       '<div class="qm-story"><span>' + (q.story ? "The tale" : "Word from the guild") + '</span><p>' + esc(q.story || FLAVOR[q.rank]) + "</p></div>" +
       (function () { return isMain || q.custom ? "" : '<p class="qm-posted">Upon the guild board for <b>' + esc(qotdDateLabel()) + "</b> only.<br>If none takes it, it vanishes at 6 in the morn.</p>"; })() +
       '<dl class="qm-meta"><div><dt>Patron</dt><dd>' + esc(isMain && !q.custom ? "The Crown" : q.custom ? "Yourself" : (CLIENT[q.cat] || "The Guild")) + '</dd></div><div><dt>Kind</dt><dd>' + esc(q.cat) +
-      '</dd></div><div><dt>Reward</dt><dd class="rw">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP</dd></div></dl>" +
+      '</dd></div><div><dt>Reward</dt><dd class="rw">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP" + (!q.main && (state.boardTake[id] || onBoardToday(id)) ? " <small>+" + TAKE_XP + " board bonus, on completion</small>" : "") + "</dd></div></dl>" +
       status + '<div class="qm-acts">' + acts + "</div>" +
       (isMain ? '<div class="qm-two">' + (q.custom ? '<button class="qm-del" data-medit="' + id + '">Amend this decree</button>' : "") + '<button class="qm-del" data-mremove="' + id + '">Strike this decree</button></div>' :
        q.custom ? '<button class="qm-del" data-remove="' + id + '">Burn this notice</button>' :
