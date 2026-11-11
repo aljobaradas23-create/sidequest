@@ -1813,7 +1813,6 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   try { fetch("crow.webp").then(function (r) { return r.ok ? r.blob() : null; }).then(function (b) { crow.blob = b; }).catch(function () {}); } catch (e) {}
   function crowFly() {
     var box = $("crowFly"), img = $("crowImg"); if (!box || !img) return;
-    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
     clearTimeout(crow.timer); if (crow.url) { URL.revokeObjectURL(crow.url); crow.url = null; }
     var src = crow.blob ? (crow.url = URL.createObjectURL(crow.blob)) : "crow.webp?t=" + Date.now();
     img.onload = function () { box.classList.add("show"); sfx("wings"); };
