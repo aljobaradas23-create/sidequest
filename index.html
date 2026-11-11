@@ -970,6 +970,110 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .crow-fly { position: fixed; inset: 0; z-index: 90; pointer-events: none; overflow: hidden; display: none; }
 .crow-fly.show { display: block; }
 .crow-fly img { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: max(100vw, 135vh); height: auto; max-width: none; }
+
+/* ---------- companion ---------- */
+.pet-card { display: grid; grid-template-columns: 78px 1fr; gap: 12px; align-items: center; width: 100%; margin-top: 12px; padding: 8px 12px; text-align: left; cursor: pointer;
+  border: 1px solid rgba(214,162,74,.45); border-radius: 4px; background: linear-gradient(90deg, rgba(214,162,74,.12), rgba(0,0,0,.25)); color: var(--text); font: inherit; }
+.pet-card:hover, .pet-card:focus-visible { border-color: rgba(214,162,74,.85); }
+.pet-art { display: block; width: 78px; height: 78px; }
+.pet-art svg { width: 100%; height: 100%; }
+.pet-svg { animation: petBob 2.8s ease-in-out infinite; transform-origin: 50% 90%; overflow: visible; }
+.pet-svg.s0 { animation: petWobble 3.4s ease-in-out infinite; }
+@keyframes petBob { 50% { transform: translateY(-3px) scale(1.01); } }
+@keyframes petWobble { 0%, 70%, 100% { transform: rotate(0); } 75% { transform: rotate(-4deg); } 80% { transform: rotate(4deg); } 85% { transform: rotate(-2deg); } }
+.pet-txt { display: grid; gap: 1px; min-width: 0; }
+.pet-txt small { font: 12px "IM Fell English SC", Georgia, serif; letter-spacing: .12em; color: var(--muted); }
+.pet-txt b { font: 400 21px "IM Fell English", Georgia, serif; color: var(--gold); }
+.pet-txt span { font-size: 15px; color: var(--text); }
+.pet-txt .pet-next { font-size: 13px; font-style: italic; color: var(--muted); }
+.pet-paper { max-width: 440px; text-align: center; }
+.pet-big { width: 190px; height: 190px; margin: 4px auto 0; }
+.pet-big svg { width: 100%; height: 100%; }
+.pet-paper h3 small { display: block; font-size: 17px; font-style: italic; color: #6b4a2a; }
+.pet-line { margin: 4px 0 10px; font-style: italic; font-size: 17px; color: #3b2715; }
+.pet-prog { margin: 0 0 6px; font-size: 15px; color: #3b2715; }
+.pet-bar { height: 8px; margin: 0 auto 14px; max-width: 280px; border-radius: 4px; background: rgba(43,27,16,.15); border: 1px solid rgba(43,27,16,.35); overflow: hidden; }
+.pet-bar i { display: block; height: 100%; background: linear-gradient(90deg, #8c1712, #d6a24a); }
+.pet-gallery { display: grid; grid-template-columns: repeat(7, 1fr); gap: 4px; margin: 0 0 14px; }
+.pg-cell { display: grid; justify-items: center; gap: 2px; padding: 4px 0; border-radius: 3px; }
+.pg-cell svg { width: 100%; height: auto; animation: none; }
+.pg-cell span { font-size: 10.5px; line-height: 1.1; color: #4a2f16; }
+.pg-cell.locked svg { filter: brightness(0) opacity(.28); }
+.pg-cell.locked span { color: #8a7a62; }
+.pg-cell.now { background: rgba(214,162,74,.25); box-shadow: inset 0 0 0 1px rgba(140,23,18,.5); }
+.pet-namerow { display: flex; gap: 8px; margin-top: 4px; }
+.pet-namerow input { flex: 1; min-width: 0; font: 18px "IM Fell English", Georgia, serif; text-align: center; padding: 6px; background: rgba(255,250,235,.5); border: 0; border-bottom: 2px solid rgba(43,27,16,.5); color: #160d05; }
+.pm-pet { display: flex; align-items: center; justify-content: center; gap: 8px; margin: 4px 0 6px; font-size: 15px; color: #3b2715; }
+.pm-petart { width: 54px; height: 54px; }
+.pm-crown { display: flex; align-items: center; justify-content: center; gap: 6px; margin: 2px 0 4px; font: 14px "IM Fell English SC", Georgia, serif; color: #7a5310; }
+
+/* ---------- seasons & crowns ---------- */
+.crown-ic { display: inline-block; width: 18px; height: 13px; margin-right: 4px; vertical-align: -1px; filter: drop-shadow(0 1px 1px rgba(0,0,0,.5)); }
+.lb-season { margin: 4px 0 8px; padding: 8px 10px; border: 1px solid rgba(214,162,74,.4); border-radius: 3px; background: rgba(214,162,74,.08); font-size: 14.5px; color: var(--text); }
+.lb-season[hidden] { display: none; }
+.lb-season b { color: var(--gold); font-weight: 400; font-family: "IM Fell English SC", Georgia, serif; letter-spacing: .04em; }
+.lbs-last { margin-top: 4px; font-size: 14px; color: var(--muted); }
+
+/* ---------- party quests ---------- */
+.party-wrap { display: grid; gap: 14px; padding: 4px 2px 6px; }
+.party-wrap > .give { justify-self: center; }
+.party-empty, .tv-empty { margin: 4px 0; text-align: center; font-style: italic; color: var(--muted); font-size: 16px; }
+#partyList { display: grid; gap: 14px; }
+.pq-card { position: relative; padding: 16px 14px 14px 14px; color: #22160c; border-radius: 2px;
+  background: radial-gradient(ellipse at 50% 40%, transparent 55%, rgba(80,36,6,.35) 100%), var(--age-img) 0 0 / 320px, linear-gradient(#f1dcb2, #f1dcb2), var(--parch-img) 0 0 / 300px;
+  background-blend-mode: normal, multiply, multiply, normal; box-shadow: 0 6px 14px rgba(0,0,0,.6); }
+.pq-card.won { box-shadow: 0 0 0 2px rgba(214,162,74,.8), 0 6px 14px rgba(0,0,0,.6); }
+.pq-card.gone { filter: grayscale(.6) brightness(.8); }
+.pq-seal { position: absolute; right: 10px; top: 10px; display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; font: 13px "IM Fell English SC", Georgia, serif; color: rgba(255,240,220,.9); transform: rotate(-10deg);
+  background: radial-gradient(circle at 36% 30%, rgba(255,255,255,.35), transparent 42%), radial-gradient(circle, var(--seal) 55%, var(--seal-dk) 100%); box-shadow: 0 2px 3px rgba(0,0,0,.45); }
+.pq-kick { font: 12.5px "IM Fell English SC", Georgia, serif; letter-spacing: .08em; color: #6b4a2a; padding-right: 44px; }
+.pq-title { margin: 4px 0 2px; font: 400 21px "IM Fell English", Georgia, serif; line-height: 1.15; color: #170b03; padding-right: 40px; }
+.pq-desc { margin: 0 0 6px; font-size: 15px; color: #3b2715; }
+.pq-meta { font-size: 14px; color: #4e3620; }
+.pq-meta b { font-weight: 400; color: #7e1712; }
+.pq-members { display: flex; flex-wrap: wrap; gap: 5px; margin: 8px 0; }
+.pq-m { font-size: 14px; padding: 2px 9px; border-radius: 10px; background: rgba(43,27,16,.12); color: #2a1a0c; }
+.pq-m.done { background: rgba(60,110,40,.2); color: #24481a; }
+.pq-m.me { box-shadow: inset 0 0 0 1px rgba(140,23,18,.6); }
+.pq-st { display: block; font: 15px "IM Fell English SC", Georgia, serif; color: #6e0f0a; }
+.pq-st.won { color: #2f5a2f; } .pq-st.gone { color: #6b5134; }
+.pq-acts { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; margin-top: 10px; }
+.pq-acts .btn.ghost { color: #2a1d12; border-color: rgba(43,27,16,.5); }
+.pq-wait { font-size: 14.5px; font-style: italic; color: #5a3f25; }
+.pq-del { margin-left: auto; background: none; border: 0; font: 14px "IM Fell English SC", Georgia, serif; color: #8c1712; text-decoration: underline; cursor: pointer; }
+
+/* ---------- tavern board ---------- */
+.tv-compose { display: grid; gap: 8px; margin: 0 0 14px; padding: 12px; border-radius: 3px; background: rgba(0,0,0,.28); border: 1px solid var(--iron-lo); }
+.tv-compose textarea { width: 100%; box-sizing: border-box; resize: vertical; font: 17px "IM Fell English", Georgia, serif; color: var(--text); background: rgba(0,0,0,.3); border: 1px solid var(--iron-lo); border-radius: 3px; padding: 8px; }
+.tv-compose textarea::placeholder { color: var(--muted); }
+#tvPrev { max-width: 100%; max-height: 220px; object-fit: contain; border-radius: 2px; justify-self: start; }
+#tvPrev[hidden], #tvClear[hidden] { display: none; }
+.tv-row { display: flex; flex-wrap: wrap; gap: 8px; align-items: center; }
+.tv-row #tvPost { margin-left: auto; }
+.tv-note { margin: 0; font-size: 14px; font-style: italic; color: var(--muted); }
+.tv-note:empty { display: none; }
+.tv-feed { display: grid; gap: 12px; }
+.tv-post { display: grid; grid-template-columns: 42px 1fr; gap: 10px; padding: 10px 12px; color: #22160c; border-radius: 2px;
+  background: radial-gradient(ellipse at 50% 40%, transparent 60%, rgba(80,36,6,.3) 100%), linear-gradient(#f6e7c6, #f6e7c6), var(--parch-img) 0 0 / 300px; background-blend-mode: normal, multiply, normal; box-shadow: 0 4px 10px rgba(0,0,0,.55); }
+.tv-post.mine { box-shadow: inset 3px 0 0 #8c1712, 0 4px 10px rgba(0,0,0,.55); }
+.tv-who { padding: 0; border: 0; background: none; cursor: pointer; align-self: start; }
+.tv-av { width: 42px; height: 42px; border-radius: 50%; object-fit: cover; display: grid; place-items: center; background: #3a2a1a; color: #f3e2b8; font: 18px "IM Fell English SC", Georgia, serif; box-shadow: 0 0 0 2px rgba(140,100,40,.6); }
+.tv-body { min-width: 0; display: grid; gap: 4px; }
+.tv-head { display: flex; gap: 8px; align-items: baseline; }
+.tv-head b { font: 400 17px "IM Fell English SC", Georgia, serif; color: #3a1a0c; }
+.tv-head small { font-size: 13px; font-style: italic; color: #6b4a2a; }
+.tv-quest { font: 14px "IM Fell English SC", Georgia, serif; color: #2f5a2f; }
+.tv-text { margin: 0; font-size: 17px; line-height: 1.35; color: #1e1006; white-space: pre-wrap; overflow-wrap: anywhere; }
+.tv-img { padding: 4px 4px 10px; border: 0; background: #fbf6ea; box-shadow: 0 2px 6px rgba(0,0,0,.3); justify-self: start; max-width: 100%; cursor: zoom-in; transform: rotate(-.6deg); }
+.tv-img img { display: block; max-width: 100%; max-height: 300px; object-fit: contain; }
+.tv-reacts { display: flex; flex-wrap: wrap; gap: 5px; align-items: center; margin-top: 2px; }
+.tv-r { display: inline-flex; align-items: center; gap: 3px; padding: 2px 8px; border-radius: 12px; border: 1px solid rgba(43,27,16,.3); background: rgba(255,250,235,.55); font-size: 15px; cursor: pointer; line-height: 1.4; }
+.tv-r b { font: 12px Georgia, serif; color: #4a2f16; }
+.tv-r.on { background: rgba(140,23,18,.15); border-color: rgba(140,23,18,.6); }
+.tv-del { margin-left: auto; background: none; border: 0; font: 13.5px "IM Fell English SC", Georgia, serif; color: #8c1712; text-decoration: underline; cursor: pointer; }
+.tv-more { display: block; margin: 12px auto 0; }
+.jm-share { margin: 10px 0 2px; color: #2a1a0c !important; }
+.jm-share[hidden] { display: none !important; }
 </style>
 </head>
 <body>
@@ -1022,6 +1126,10 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       <div class="stat"><div class="k">Days Unbroken</div><div class="v" id="sStreak">0</div></div>
       <div class="stat"><div class="k">Deeds Done</div><div class="v" id="sDone">0</div></div>
     </div>
+    <button class="pet-card" type="button" id="petBtn" aria-label="Thy companion">
+      <span class="pet-art" id="petArt" aria-hidden="true"></span>
+      <span class="pet-txt"><small>Thy Companion</small><b id="petName">Corvin</b><span id="petStage"></span><span class="pet-next" id="petNext"></span></span>
+    </button>
   </section>
 
   <section class="boss-sec" aria-label="Weekly bounty">
@@ -1034,9 +1142,11 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       <div class="lb-tabs" role="group" aria-label="Ranking period">
         <button class="chip" data-lb="all" aria-pressed="true">Since the founding</button>
         <button class="chip" data-lb="today" aria-pressed="false">This day</button>
+        <button class="chip" data-lb="season" aria-pressed="false">This season</button>
         <button class="btn small gold" id="inviteBtn" type="button">Summon a friend</button>
       </div>
     </div>
+    <div class="lb-season" id="lbSeason" hidden></div>
     <p class="lb-status" id="lbStatus"><span class="dot"></span>Sending a raven to the guild…</p>
     <ol class="lb-list" id="lbList"></ol>
     <div class="gm-box" id="gmBox" hidden></div>
@@ -1081,6 +1191,36 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
         <button class="qotd-btn" id="qotdBtn" type="button">★ Unseal this day’s Quest of the Day <small>twice the reward</small></button>
       </div>
       <div class="plank" id="quests"></div>
+    </section>
+
+    <section class="board party-board iron stone-bg" aria-labelledby="partyQTitle">
+      <div class="board-sign">
+        <h2 id="partyQTitle">Party Quests</h2>
+        <div class="meta">Quests for two or more. Finish together for bonus XP.</div>
+      </div>
+      <div class="party-wrap">
+        <button class="btn wax give" type="button" data-pnew>+ Raise a party</button>
+        <div id="partyList"></div>
+      </div>
+    </section>
+
+    <section class="board tavern-board iron stone-bg" aria-labelledby="tavernTitle">
+      <div class="board-sign">
+        <h2 id="tavernTitle">The Tavern Board</h2>
+        <div class="meta">Boasts, tidings and proof of thy deeds, for the whole guild</div>
+      </div>
+      <div class="tv-compose" id="tvCompose">
+        <textarea id="tvText" rows="2" maxlength="240" aria-label="Thy message to the tavern" placeholder="Raise thy cup: what deed hast thou done?"></textarea>
+        <img id="tvPrev" alt="Picture to post" hidden>
+        <div class="tv-row">
+          <label class="btn ghost small" for="tvFile">Affix a picture</label><input type="file" id="tvFile" accept="image/*" class="vh">
+          <button class="btn small ghost" type="button" id="tvClear" hidden>Remove picture</button>
+          <button class="btn gold small" type="button" id="tvPost">Post to the tavern</button>
+        </div>
+        <p class="tv-note" id="tvNote"></p>
+      </div>
+      <div class="tv-feed" id="tvFeed"></div>
+      <button class="btn small ghost tv-more" type="button" id="tvMore" hidden>Read older tidings</button>
     </section>
    </div>
 
@@ -1178,6 +1318,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     <textarea id="jmText" rows="5" maxlength="1500"></textarea>
     <div class="jm-photo"><img id="jmPrev" alt="Chosen picture" hidden><label class="btn ghost small" for="jmFile">Affix a picture</label>
       <input type="file" id="jmFile" accept="image/*" class="vh"></div>
+    <label class="chk jm-share" id="jmShareRow"><input type="checkbox" id="jmShare"> Also post it on the Tavern Board</label>
     <div class="qm-acts"><button class="btn gold" id="jmSave" type="button">Write it in the journal</button><button class="btn ghost" type="button" data-jclose>Not now</button></div>
   </div>
 </div>
@@ -1196,6 +1337,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 </div>
 <div class="qmodal hall-modal" id="hmodal" role="dialog" aria-modal="true" aria-labelledby="hallTitle"><div class="hall" id="hall"></div></div>
 <div class="qmodal" id="bmodal" role="dialog" aria-modal="true" aria-labelledby="bmTitle"><div class="qm-paper bm-paper" id="bmPaper"></div></div>
+<div class="qmodal" id="petModal" role="dialog" aria-modal="true" aria-labelledby="petTitle"><div class="qm-paper pet-paper" id="petPaper"></div></div>
 <div class="qmodal" id="pmodal" role="dialog" aria-modal="true" aria-labelledby="pmTitle"><div class="qm-paper pm-paper" id="pmPaper"></div></div>
 <div class="qmodal" id="amodal" role="dialog" aria-modal="true" aria-labelledby="amTitle">
   <div class="qm-paper am-paper">
@@ -1376,6 +1518,14 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     });
     if (!s.mainChecks || typeof s.mainChecks !== "object" || typeof s.mainChecks.c !== "object" || !s.mainChecks.c) s.mainChecks = { d: "", c: {} };
     if (!Array.isArray(s.mainHidden)) s.mainHidden = [];
+    if (!s.pet || typeof s.pet !== "object") s.pet = { name: "Corvin" };
+    if (!s.partyClaims || typeof s.partyClaims !== "object") s.partyClaims = {};
+    if (!s.seasonClaims || typeof s.seasonClaims !== "object") s.seasonClaims = {};
+    if (!s.season || typeof s.season !== "object" || typeof s.season.base !== "number") {
+      var mk0 = new Date(), mkey = mk0.getFullYear() + "-" + pad(mk0.getMonth() + 1), earned = 0;
+      (s.log || []).forEach(function (l) { if (l && typeof l.d === "string" && l.d.indexOf(mkey) === 0) earned += +l.xp || 0; });
+      s.season = { k: mkey, base: Math.max(0, (s.xp || 0) - earned) };
+    }
     s.mainCustom.forEach(function (m) { m.once = !!m.once; if (typeof m.doneOn !== "string") delete m.doneOn; });
     if (!s.mainDone || typeof s.mainDone !== "object" || !Array.isArray(s.mainDone.ids)) {
       var was = s.today && s.today.d === todayKey() && Array.isArray(s.today.ids) ? s.today.ids.filter(function (x) { return /^m[qx]/.test(x); }) : [];
@@ -1736,7 +1886,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     return best;
   }
   function forfeitDeed(k) {
-    var e = null; state.log.forEach(function (l) { if (l.k === k) e = l; }); if (!e || e.bounty || e.mainBonus) return;
+    var e = null; state.log.forEach(function (l) { if (l.k === k) e = l; }); if (!e || e.bounty || e.mainBonus || e.crown) return;
     var q = e.id ? findQ(e.id) : null;
     if (!q) BASE.forEach(function (b) { if (!q && e.t.indexOf(b.title) === 0) q = b; });
     var cat = e.cat || (q && q.cat), rank = e.rank || (q && q.rank), qid = e.id || (q && q.id);
@@ -1950,6 +2100,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   }
   function render() {
     if (state.today.d !== todayKey()) state.today = { d: todayKey(), ids: [] };
+    try { renderPet(); } catch (e) {}
     var li = levelInfo(state.xp);
     if (document.activeElement !== $("name")) $("name").value = state.name;
     $("portrait").src = avatarSrc(state.avatar) || AV_MAP.hunter.src;
@@ -2034,7 +2185,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
         html += '<li class="ledger-day">The ' + ordinal(dt.getDate()) + " of " + MONTHS[dt.getMonth()] + "</li>";
       }
       html += '<li class="ledger-row"><span class="lt">' + esc(l.t) + '</span><span class="xp">+' + l.xp + " XP</span>" +
-        (l.bounty ? '<span class="lf-none">bounty</span>' : l.mainBonus ? '<span class="lf-none">bonus</span>' : '<button class="lf" type="button" data-forfeit="' + esc(l.k) + '">Forfeit</button>') + "</li>";
+        (l.bounty ? '<span class="lf-none">bounty</span>' : l.mainBonus ? '<span class="lf-none">bonus</span>' : l.crown ? '<span class="lf-none">crown</span>' : '<button class="lf" type="button" data-forfeit="' + esc(l.k) + '">Forfeit</button>') + "</li>";
     });
     $("log").innerHTML = html;
   }
@@ -2254,7 +2405,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     if (!cm.id) return;
     if (!cmValid()) { $("cmHint").textContent = "Write the word " + cm.word + " exactly to confirm."; return; }
     var id = cm.id, mode = cm.mode, bar = $("cmBar").checked; closeConfirm(); $("cmInput").blur();
-    if (mode === "forfeit") forfeitDeed(id); else if (mode === "mremove") removeMain(id); else if (mode === "exile") exilePlayer(id, bar); else complete(id);
+    if (mode === "forfeit") forfeitDeed(id); else if (mode === "mremove") removeMain(id); else if (mode === "party") partyDone(id); else if (mode === "exile") exilePlayer(id, bar); else complete(id);
   }
   $("cmInput").addEventListener("input", function () { $("cmOk").disabled = !cmValid(); $("cmHint").textContent = ""; });
   $("cmInput").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); cmSubmit(); } });
@@ -2441,6 +2592,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       var av = state.avatar || ""; if (av.length <= 16000) data.avatar = av;
       data.badgeList = ACH.filter(function (a) { return state.badges[a.id]; }).map(function (a) { return a.id; }).join(",");
     }
+    pushSeason();
     cloud.db.ref("players/" + cloud.uid).set(data).catch(function (e) {
       var m = String(e && (e.code || e.message) || e);
       if (cloud.banished && cloud.banished[cloud.uid] != null) { cloud.exiled = true; renderLb(); return; }
@@ -2457,7 +2609,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       .then(function () {
         if (!firebase.apps.length) firebase.initializeApp(cfg);
         cloud.db = firebase.database();
-        renderBoss();
+        renderBoss(); watchSeasons(); watchTavern(); watchParties();
         cloud.db.ref("players").orderByChild("xp").limitToLast(200).on("value", function (snap) {
           var arr = []; snap.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(decodePlayer(v)); });
           cloud.players = arr; try { localStorage.setItem("sidequest-lb", JSON.stringify(arr)); } catch (e) {}
@@ -2487,6 +2639,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
           if (state.acct && u.isAnonymous) { openGate("relogin"); return; }
           if (!u.isAnonymous && state.acct) watchSave(u.uid);
           pushNow();
+          try { claimCrown(); claimParties(); renderTavern(); renderParty(); } catch (e) {}
         });
       })
       .catch(authFail);
@@ -2541,21 +2694,29 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     };
     var offline = navigator.onLine === false || (cloud.seen && cloud.online === false);
     st.className = "lb-status" + (cloud.status === "live" && !offline ? " live" : "");
-    var tk = todayKey();
+    var tk = todayKey(), cr = crowns(), sea = cloud.season || {};
     var rows = cloud.players.map(function (p) {
       var me = p.id === cloud.uid;
       return { me: me, name: me ? state.name : p.name, xp: me ? state.xp : (+p.xp || 0), level: me ? levelInfo(state.xp).lv : p.level,
         title: me ? titleFor(levelInfo(state.xp).lv) : p.title, today: me ? todayXp() : (p.day === tk ? (+p.today || 0) : 0),
         streak: me ? streak() : (+p.streak || 0), at: me ? Date.now() : p.updatedAt,
         honor: me ? honorText() : (typeof p.honor === "string" ? p.honor : ""), badges: me ? badgeCount() : (+p.badges || 0),
-        id: p.id, avatar: me ? state.avatar : p.avatar, gm: cloud.master && p.id === cloud.master };
+        id: p.id, avatar: me ? state.avatar : p.avatar, gm: cloud.master && p.id === cloud.master,
+        sxp: me ? seasonXp() : (sea[p.id] ? (+sea[p.id].sxp || 0) : 0), crown: cr.map[p.id] || 0 };
     });
     // players who never chose a name stay off the rankings (you always see yourself)
     // (the Guild Master still sees them, so they can be exiled)
     var unnamed = isMaster() ? 0 : rows.filter(function (r) { return !r.me && /^\s*adventurer\s*$/i.test(r.name || "adventurer"); }).length;
     if (!isMaster()) rows = rows.filter(function (r) { return r.me || !/^\s*adventurer\s*$/i.test(r.name || "adventurer"); });
     if (cloud.view === "today") rows = rows.filter(function (r) { return r.today > 0 || r.me; });
-    rows.sort(function (a, b) { return cloud.view === "today" ? (b.today - a.today) || (b.xp - a.xp) : (b.xp - a.xp) || (b.today - a.today); });
+    if (cloud.view === "season") rows = rows.filter(function (r) { return r.sxp > 0 || r.me; });
+    rows.sort(function (a, b) { return cloud.view === "today" ? (b.today - a.today) || (b.xp - a.xp) : cloud.view === "season" ? (b.sxp - a.sxp) || (b.xp - a.xp) : (b.xp - a.xp) || (b.today - a.today); });
+    var lbs = $("lbSeason");
+    if (cloud.view === "season") {
+      lbs.hidden = false;
+      lbs.innerHTML = '<b>Season of ' + esc(monthName(monthKey())) + "</b> · " + seasonLeft() + " · the top three win a crown and XP (+" + CROWN_XP[1] + ", +" + CROWN_XP[2] + ", +" + CROWN_XP[3] + ")" +
+        (cr.list.length ? '<div class="lbs-last">Crowned in ' + esc(monthName(prevMonthKey())) + ": " + cr.list.map(function (x, i) { return crownSvg(i + 1) + esc(x.name); }).join(" · ") + "</div>" : "");
+    } else lbs.hidden = true;
     if (cloud.exiled) {
       st.innerHTML = '<span class="dot"></span>Exiled from this guild.';
     } else if ((cloud.status === "live" || cloud.status === "reading") && offline) {
@@ -2567,13 +2728,13 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     } else st.innerHTML = '<span class="dot"></span>' + esc(msgs[cloud.status] || "");
     var cap = cloud.showAll ? rows.length : 10;
     list.innerHTML = rows.slice(0, cap).map(function (r, i) {
-      var pos = i + 1, val = cloud.view === "today" ? r.today : r.xp;
+      var pos = i + 1, val = cloud.view === "today" ? r.today : cloud.view === "season" ? r.sxp : r.xp;
       var sub = "Lv " + (r.level || 1) + " · " + esc(r.title || "") + (r.badges ? " · " + r.badges + (r.badges === 1 ? " honor" : " honors") : "") + (r.streak ? " · " + r.streak + " days unbroken" : "") + (r.me ? "" : (r.at ? " · " + ago(r.at) : ""));
       return '<li><button type="button" class="lb-row' + (pos <= 3 ? " p" + pos : "") + (r.me ? " me" : "") + '" data-player="' + esc(r.id) + '" aria-label="View ' + esc(r.name || "Adventurer") + '\'s guild record">' +
         '<span class="lb-pos">' + pos + '</span>' +
         avatarHtml(r.avatar, r.name, "lb-av") +
-        '<span style="min-width:0"><div class="lb-name">' + esc(r.name || "Adventurer") + (r.honor ? ' <em class="lb-honor">' + esc(r.honor) + "</em>" : "") + (r.gm ? '<small class="gm-tag">GUILD MASTER</small>' : "") + (r.me ? "<small>YOU</small>" : "") + '</div><div class="lb-sub">' + sub + '</div></span>' +
-        '<span class="lb-xp">' + val + '<span>' + (cloud.view === "today" ? "TODAY" : "XP") + '</span></span></button></li>';
+        '<span style="min-width:0"><div class="lb-name">' + (r.crown ? crownSvg(r.crown) : "") + esc(r.name || "Adventurer") + (r.honor ? ' <em class="lb-honor">' + esc(r.honor) + "</em>" : "") + (r.gm ? '<small class="gm-tag">GUILD MASTER</small>' : "") + (r.me ? "<small>YOU</small>" : "") + '</div><div class="lb-sub">' + sub + '</div></span>' +
+        '<span class="lb-xp">' + val + '<span>' + (cloud.view === "today" ? "TODAY" : cloud.view === "season" ? "SEASON" : "XP") + '</span></span></button></li>';
     }).join("");
     more.hidden = rows.length <= 10;
     renderGuildMaster();
@@ -2920,6 +3081,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     $("jmTitle").textContent = ctx ? ctx.title : "A page of my own";
     $("jmLead").textContent = ctx ? "Quest complete. Write what befell thee while it is fresh." : "Aught worth remembering this day.";
     $("jmText").value = ""; $("jmPrev").hidden = true; $("jmPrev").removeAttribute("src"); $("jmFile").value = "";
+    $("jmShareRow").hidden = !canPost(); $("jmShare").checked = !!ctx && canPost();
     $("jmodal").classList.add("show");
   }
   function closeJournal() { $("jmodal").classList.remove("show"); jm.ctx = null; jm.photo = null; }
@@ -2927,6 +3089,11 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     var text = $("jmText").value.trim();
     if (!text && !jm.photo) { toast("Write a line or affix a picture first, or tap Not now."); return; }
     var c = jm.ctx || {}, id = "e" + Date.now().toString(36);
+    if ($("jmShare").checked && canPost()) {
+      var shareText = text.slice(0, 240), shareQuest = jm.ctx ? c.title : "";
+      (jm.photo ? shrinkData(jm.photo, 720, 0.62) : Promise.resolve(null)).then(function (sm) { return postTavern(shareText, sm, shareQuest); })
+        .then(function () { toast("Also posted on the Tavern Board."); }).catch(function () {});
+    }
     var entry = { id: id, at: Date.now(), qid: c.id || "", title: c.title || "A page of my own", cat: c.cat || "", rank: c.rank || "", text: text, photo: false };
     var done = function () {
       state.journal.unshift(entry); if (state.journal.length > 300) state.journal.length = 300;
@@ -3238,6 +3405,8 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       '<div class="pm-av">' + avatarHtml(r.avatar, r.name, "pm-img") + "</div>" +
       '<h3 id="pmTitle" class="pm-name">' + esc(r.name || "Adventurer") + "</h3>" +
       (r.honor ? '<div class="pm-honor">' + esc(r.honor) + "</div>" : "") +
+      (function () { var c = crowns().map[me ? cloud.uid : id]; return c ? '<div class="pm-crown">' + crownSvg(c) + "Crowned " + PLACE[c] + " of the " + esc(monthName(prevMonthKey())) + " season</div>" : ""; })() +
+      (function () { var k = petStage(r.level || 1); return '<div class="pm-pet">' + petSvg(k, "pm-petart") + "<span>Companion: <b>" + (me ? esc(petName()) + " the " : "") + esc(PET_STAGES[k].name) + "</b></span></div>"; })() +
       '<div class="pm-lv">Level ' + r.level + " · " + esc(r.title) + (rank ? " · Rank " + rank + " in the guild" : "") + "</div>" +
       '<dl class="pm-stats"><div><dt>Total XP</dt><dd>' + r.xp + "</dd></div><div><dt>This day</dt><dd>" + r.today + "</dd></div><div><dt>Streak</dt><dd>" + r.streak + "d</dd></div><div><dt>Deeds</dt><dd>" + r.done + "</dd></div></dl>" +
       '<div class="pm-sub">Honors</div>' + medals +
@@ -3401,6 +3570,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
         state.signed = true;
         cloud.uid = o.uid; cloud.anon = false; cloud.ready = true; cloud.hold = false;
         save(); renderAll(); pushNow(); pushSave(true); watchSave(o.uid);
+        try { claimCrown(); claimParties(); renderTavern(); renderParty(); } catch (e) {}
         return got ? "back" : "fresh";
       })
       .catch(function (e) { cloud.hold = false; if (state.signed) pushNow(); throw e; });
@@ -3413,6 +3583,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       state.name = n; state.signed = true; state.acct = { name: n, key: acctKey(n), since: Date.now() };
       cloud.uid = uid; cloud.anon = false; cloud.ready = true;
       save(); renderAll(); pushNow(); pushSave(true); watchSave(uid);
+      try { renderTavern(); renderParty(); } catch (e) {}
       return "made";
     });
   }
@@ -3457,6 +3628,367 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     else if (cloudConfigured() && !state.acct) openGate("secure");
   }
 
+
+  /* ======================================================================= MONTHLY SEASONS */
+  var CROWN_XP = [0, 100, 60, 30], PLACE = ["", "first", "second", "third"];
+  function monthKey(d) { d = d || new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1); }
+  function prevMonthKey() { var d = new Date(); return monthKey(new Date(d.getFullYear(), d.getMonth() - 1, 15)); }
+  function monthName(k) { var a = String(k).split("-"); return MONTHS[(+a[1] || 1) - 1] + " " + a[0]; }
+  function seasonState() { var k = monthKey(); if (!state.season || state.season.k !== k) state.season = { k: k, base: state.xp }; return state.season; }
+  function seasonXp() { return Math.max(0, state.xp - seasonState().base); }
+  function seasonLeft() { var d = new Date(), end = new Date(d.getFullYear(), d.getMonth() + 1, 1), days = Math.ceil((end - d) / 864e5); return days <= 1 ? "ends at the midnight bell" : "ends in " + days + " days"; }
+  function watchSeasons() {
+    if (!cloud.db) return; var k = monthKey(); if (cloud.sKey === k) return;
+    if (cloud.sRefs) cloud.sRefs.forEach(function (r) { try { r.off(); } catch (e) {} });
+    cloud.sKey = k; cloud.season = {}; cloud.lastSeason = {};
+    var a = cloud.db.ref("season/" + k), b = cloud.db.ref("season/" + prevMonthKey()); cloud.sRefs = [a, b];
+    a.on("value", function (sn) { cloud.season = sn.val() || {}; renderLb(); }, function () {});
+    b.on("value", function (sn) { cloud.lastSeason = sn.val() || {}; renderLb(); claimCrown(); }, function () {});
+  }
+  function crowns() {
+    var ls = cloud.lastSeason || {}, m = {};
+    var list = Object.keys(ls).map(function (u) { return { uid: u, name: (ls[u] && ls[u].name) || "Adventurer", sxp: +(ls[u] && ls[u].sxp) || 0 }; })
+      .filter(function (x) { return x.sxp > 0; }).sort(function (a, b) { return b.sxp - a.sxp; }).slice(0, 3);
+    list.forEach(function (x, i) { m[x.uid] = i + 1; });
+    return { map: m, list: list };
+  }
+  function crownSvg(n) {
+    var c = ["", "#f4c84a", "#d7dde4", "#d08a4e"][n] || "#f4c84a", d = ["", "#8a6416", "#6d7680", "#7a4a20"][n] || "#8a6416";
+    return '<svg class="crown-ic c' + n + '" viewBox="0 0 64 44" aria-label="Crowned ' + PLACE[n] + ' last season" role="img"><path d="M4 36 L8 10 L20 22 L32 4 L44 22 L56 10 L60 36 Z" fill="' + c + '" stroke="' + d + '" stroke-width="3" stroke-linejoin="round"/><rect x="4" y="35" width="56" height="6" rx="2" fill="' + c + '" stroke="' + d + '" stroke-width="2.5"/></svg>';
+  }
+  function claimCrown() {
+    if (!state.signed || !cloud.uid) return;
+    var c = crowns(), pk = prevMonthKey(), place = c.map[cloud.uid];
+    if (!place) return;
+    if (!state.seasonClaims || typeof state.seasonClaims !== "object") state.seasonClaims = {};
+    if (state.seasonClaims[pk]) return;
+    state.seasonClaims[pk] = place;
+    var gain = CROWN_XP[place], before = levelInfo(state.xp).lv;
+    state.xp += gain; seasonState().base += gain;
+    state.log.unshift({ k: "sc-" + pk, crown: true, t: "Crowned " + PLACE[place] + " of the " + monthName(pk) + " season", xp: gain, d: todayKey(), at: Date.now() });
+    save(); render();
+    celebrate({ head: "Thou Art Crowned", big: PLACE[place].charAt(0).toUpperCase() + PLACE[place].slice(1) + " of " + monthName(pk), msg: "+" + gain + " XP. A crown now shines beside thy name in the rankings for all of " + monthName(monthKey()) + ".", sound: "fanfare" });
+    if (levelInfo(state.xp).lv > before) levelUp(levelInfo(state.xp).lv);
+    checkBadges();
+  }
+  function pushSeason() {
+    if (!cloud.ready || !cloud.db || !cloud.uid || !state.signed || cloud.exiled || cloud.hold || (state.acct && cloud.anon)) return;
+    var k = seasonState().k;
+    cloud.db.ref("season/" + k + "/" + cloud.uid).set({ name: (state.name || "Adventurer").slice(0, 24), sxp: seasonXp(), at: Date.now() }).catch(function () {});
+  }
+
+  /* ======================================================================= COMPANION */
+  var PET_STAGES = [
+    { lv: 1, name: "Egg", line: "A dark, warm egg tucked in a nest of twigs. Something inside listens for thy footsteps." },
+    { lv: 3, name: "Hatchling", line: "A fluffy, wobbly chick with an enormous appetite. It squawks with joy every time thou return." },
+    { lv: 5, name: "Fledgling", line: "Half fluff, half feather. It practices flapping on thy shoulder and mostly falls off." },
+    { lv: 8, name: "Young Crow", line: "Sleek and curious. It steals shiny trinkets and brings them to thee as gifts." },
+    { lv: 12, name: "Raven", line: "Wise-eyed and bold, wearing the guild's red band. Other birds make way for it." },
+    { lv: 20, name: "Great Raven", line: "Its wings cast a shadow across the training yard. The guild calls it an omen of victory." },
+    { lv: 30, name: "Raven King", line: "Crowned in gold and wreathed in violet light. Legends say it once carried a message to the moon." }
+  ];
+  function petStage(lv) { var i = 0; PET_STAGES.forEach(function (st, k) { if (lv >= st.lv) i = k; }); return i; }
+  function petName() { return (state.pet && state.pet.name) || "Corvin"; }
+  var petN = 0;
+  function petSvg(i, cls) {
+    var u = "pt" + (++petN), B = "url(#" + u + "b)";
+    var defs = '<defs><radialGradient id="' + u + 'b" cx="38%" cy="32%" r="80%"><stop offset="0" stop-color="#57506a"/><stop offset="1" stop-color="#16131c"/></radialGradient>' +
+      '<radialGradient id="' + u + 'a" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#c79bff" stop-opacity=".8"/><stop offset=".6" stop-color="#7a3ae0" stop-opacity=".35"/><stop offset="1" stop-color="#4a1aa0" stop-opacity="0"/></radialGradient></defs>';
+    var eye = function (x, y, r, col) { return '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + (col || "#fff") + '"/><circle cx="' + (x + r * 0.22) + '" cy="' + y + '" r="' + (r * 0.55) + '" fill="#120f16"/><circle cx="' + (x + r * 0.42) + '" cy="' + (y - r * 0.36) + '" r="' + (r * 0.24) + '" fill="#fff"/>'; };
+    var nest = '<ellipse cx="60" cy="98" rx="42" ry="12" fill="#5a3818"/><path d="M20 94q20 10 40 4t42-2M24 101q18-8 36-2t38 2M30 90q14 4 30 2" stroke="#8a5a2e" stroke-width="3" fill="none" stroke-linecap="round"/>';
+    var branch = '<path d="M6 102Q60 95 114 103" stroke="#6b4422" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M88 100l12-10" stroke="#6b4422" stroke-width="3" stroke-linecap="round"/><ellipse cx="101" cy="88" rx="7" ry="3.5" fill="#6f9a40" transform="rotate(-35 101 88)"/>';
+    var legs = '<path d="M54 88L52 101M66 88L68 101" stroke="#c49a3c" stroke-width="3.2" stroke-linecap="round"/><path d="M46 101h11M63 101h11" stroke="#c49a3c" stroke-width="2.6" stroke-linecap="round"/>';
+    var side = function (o) {
+      return (o.aura ? '<circle cx="60" cy="58" r="56" fill="url(#' + u + 'a)"/>' : "") +
+        (o.wings ? '<path d="M46 66Q30 24 4 14Q18 38 14 48Q26 52 28 62Z" fill="' + B + '" opacity=".9"/><path d="M62 62Q68 20 100 6Q90 30 94 40Q80 44 80 58Z" fill="' + B + '"/>' : "") +
+        branch + '<path d="M36 72L10 84L14 92L40 80Z" fill="' + B + '"/>' + legs +
+        '<ellipse cx="58" cy="72" rx="26" ry="18" fill="' + B + '"/>' +
+        '<path d="M38 66Q60 52 80 64Q68 86 36 82Z" fill="#2c2734"/>' +
+        '<circle cx="80" cy="52" r="' + (o.big ? 14 : 12) + '" fill="' + B + '"/>' +
+        (o.hackles ? '<path d="M70 60l4 8 3-7 3 8 3-8 3 6 2-8" fill="#1d1924" stroke="#1d1924" stroke-width="2" stroke-linejoin="round"/>' : "") +
+        '<path d="M90 ' + (o.big ? "46" : "48") + 'L' + (o.big ? "113" : "108") + ' 54L90 ' + (o.big ? "61" : "59") + 'Z" fill="#3e3848"/><path d="M90 54L' + (o.big ? "113" : "108") + ' 54" stroke="#1a1720" stroke-width="1.2"/>' +
+        (o.band ? '<path d="M70 58Q80 66 90 58L91 63Q80 72 69 63Z" fill="#a3202a"/><path d="M72 64l-6 12 6-3 2 6 3-13Z" fill="#8a1820"/>' : "") +
+        (o.collar ? '<path d="M68 58Q80 68 92 57" stroke="#e2b453" stroke-width="4" fill="none" stroke-linecap="round"/><circle cx="80" cy="64" r="3.2" fill="#f4d47a" stroke="#8a6416"/>' : "") +
+        (o.crown ? '<path d="M70 41L72 30L77 36L81 27L85 36L90 30L91 41Z" fill="#f4c84a" stroke="#8a6416" stroke-width="1.6" stroke-linejoin="round"/><circle cx="81" cy="38" r="1.8" fill="#a3202a"/>' : "") +
+        eye(84, 49, o.big ? 3.6 : 3.2, o.eye) +
+        (o.sparks ? '<path d="M18 30l2 5 5 2-5 2-2 5-2-5-5-2 5-2zM104 70l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5zM96 22l1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5z" fill="#e6d2ff"/>' : "");
+    };
+    var art;
+    if (i === 0) art = nest + '<ellipse cx="60" cy="66" rx="21" ry="27" fill="' + B + '"/><circle cx="52" cy="58" r="2.4" fill="#6d6680"/><circle cx="66" cy="72" r="3" fill="#6d6680"/><circle cx="58" cy="80" r="1.8" fill="#6d6680"/><circle cx="68" cy="56" r="1.6" fill="#6d6680"/><ellipse cx="52" cy="54" rx="5" ry="9" fill="#fff" opacity=".16" transform="rotate(-20 52 54)"/>';
+    else if (i === 1) art = nest + '<circle cx="60" cy="58" r="21" fill="' + B + '"/><path d="M50 40l3-10 4 8 3-11 3 11 4-8 3 10Z" fill="#2a2532"/>' + eye(52, 54, 5.5) + eye(68, 54, 5.5) +
+      '<path d="M53 63L60 70L67 63Z" fill="#f2b33a"/><path d="M53 63Q60 66 67 63" stroke="#c9802a" stroke-width="1.4" fill="none"/>' +
+      '<path d="M36 70L43 63L49 71L55 63L61 71L67 63L73 71L79 63L84 70L82 88Q60 98 38 88Z" fill="#2a2632"/><circle cx="48" cy="80" r="2" fill="#6d6680"/><circle cx="70" cy="84" r="2.4" fill="#6d6680"/>';
+    else if (i === 2) art = branch + legs + '<ellipse cx="38" cy="74" rx="8" ry="14" fill="#2c2734" transform="rotate(20 38 74)"/><ellipse cx="82" cy="74" rx="8" ry="14" fill="#2c2734" transform="rotate(-20 82 74)"/>' +
+      '<ellipse cx="60" cy="74" rx="22" ry="20" fill="' + B + '"/><ellipse cx="60" cy="80" rx="12" ry="11" fill="#3b3548"/><circle cx="60" cy="48" r="17" fill="' + B + '"/><path d="M52 32l3-7 3 6 2-8 3 8 3-6 3 7Z" fill="#2a2532"/>' +
+      eye(53, 46, 4.6) + eye(67, 46, 4.6) + '<path d="M55 54L60 62L65 54Z" fill="#3e3848"/>';
+    else if (i === 3) art = side({});
+    else if (i === 4) art = side({ hackles: true, band: true, big: true });
+    else if (i === 5) art = side({ hackles: true, collar: true, wings: true, big: true, eye: "#f7c25a" });
+    else art = side({ hackles: true, collar: true, wings: true, big: true, crown: true, aura: true, sparks: true, eye: "#d9a6ff" });
+    return '<svg class="pet-svg s' + i + (cls ? " " + cls : "") + '" viewBox="0 0 120 120" aria-hidden="true">' + defs + art + "</svg>";
+  }
+  function renderPet() {
+    var lv = levelInfo(state.xp).lv, i = petStage(lv), st = PET_STAGES[i], nx = PET_STAGES[i + 1];
+    if (!state.pet || typeof state.pet !== "object") state.pet = { name: "Corvin" };
+    if (typeof state.pet.seen !== "number") state.pet.seen = i;
+    else if (i > state.pet.seen) {
+      state.pet.seen = i;
+      try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
+      celebrate({ head: "Thy Companion Evolved", big: petName() + " became a " + st.name, msg: st.line, sound: "fanfare" });
+    } else if (i < state.pet.seen) state.pet.seen = i;
+    $("petArt").innerHTML = petSvg(i);
+    $("petName").textContent = petName();
+    $("petStage").textContent = st.name;
+    $("petNext").textContent = nx ? "Grows into a " + nx.name + " at Level " + nx.lv : "Its final, mightiest form";
+    if ($("petModal").classList.contains("show")) openPet(true);
+  }
+  function openPet(keep) {
+    var lv = levelInfo(state.xp).lv, i = petStage(lv), st = PET_STAGES[i], nx = PET_STAGES[i + 1];
+    var nameVal = keep && $("petNameIn") ? $("petNameIn").value : petName();
+    $("petPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-petclose aria-label="Close">&times;</button>' +
+      '<div class="qm-kicker">Thy Companion</div>' +
+      '<div class="pet-big">' + petSvg(i, "big") + "</div>" +
+      '<h3 id="petTitle">' + esc(petName()) + ' <small>the ' + esc(st.name) + "</small></h3>" +
+      '<p class="pet-line">' + esc(st.line) + "</p>" +
+      (nx ? '<p class="pet-prog">Grows into a <b>' + esc(nx.name) + "</b> at Level " + nx.lv + " · thou art Level " + lv + "</p>" +
+            '<div class="pet-bar"><i style="width:' + Math.round(Math.max(0, Math.min(1, (lv - st.lv) / (nx.lv - st.lv))) * 100) + '%"></i></div>' : '<p class="pet-prog">Its final, mightiest form. Few companions ever reach it.</p>') +
+      '<div class="pet-gallery">' + PET_STAGES.map(function (x, k) {
+        var got = k <= i;
+        return '<div class="pg-cell' + (got ? "" : " locked") + (k === i ? " now" : "") + '">' + petSvg(k) + "<span>" + (got ? esc(x.name) : "Level " + x.lv) + "</span></div>";
+      }).join("") + "</div>" +
+      '<label class="jm-lab" for="petNameIn">Name thy companion</label><div class="pet-namerow"><input id="petNameIn" maxlength="16" autocomplete="off"><button class="btn gold small" type="button" data-petname>Name it</button></div>';
+    $("petNameIn").value = nameVal;
+    if (!keep) { $("petModal").classList.add("show"); sfx("paper"); }
+  }
+  $("petBtn").addEventListener("click", function () { openPet(false); });
+  $("petModal").addEventListener("click", function (e) {
+    if (e.target === this) { this.classList.remove("show"); return; }
+    var t = e.target.closest("button"); if (!t) return;
+    if (t.hasAttribute("data-petclose")) this.classList.remove("show");
+    else if (t.hasAttribute("data-petname")) {
+      var n = $("petNameIn").value.trim().replace(/\s+/g, " ").slice(0, 16);
+      if (!n) { toast("Give thy companion a name first."); return; }
+      state.pet.name = n; save(); renderPet(); openPet(true); sfx("quill"); toast("Thy companion answers to " + n + " now.");
+    }
+  });
+
+  /* ======================================================================= TAVERN BOARD */
+  var TAVERN_REACT = ["🍺", "🔥", "👏", "😂", "👑"];
+  var tav = { img: null, show: 15, armed: null };
+  function newKey() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
+  function canPost() { return !!(cloud.ready && cloud.db && cloud.uid && state.signed && !cloud.exiled && !cloud.hold && !(state.acct && cloud.anon)); }
+  function shortAgo(ts) {
+    var m = Math.floor((Date.now() - (ts || 0)) / 60000);
+    if (m < 1) return "just now"; if (m < 60) return m + "m ago"; var h = Math.floor(m / 60); if (h < 24) return h + "h ago";
+    var d = Math.floor(h / 24); return d === 1 ? "yesterday" : d + " days ago";
+  }
+  function playerOf(uid) { var r = null; (cloud.players || []).forEach(function (p) { if (p.id === uid) r = p; }); return r; }
+  function watchTavern() {
+    if (!cloud.db || cloud.tRef) return;
+    cloud.tRef = cloud.db.ref("tavern").orderByChild("at").limitToLast(80);
+    cloud.tRef.on("value", function (sn) {
+      var arr = []; sn.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(v); });
+      cloud.tavern = arr; cloud.tavernErr = ""; renderTavern();
+    }, function (e) { cloud.tavernErr = String(e && e.code || e); renderTavern(); });
+  }
+  function postTavern(text, img, quest) {
+    if (!canPost()) return Promise.reject({ code: "not-ready" });
+    var d = { uid: cloud.uid, name: (state.name || "Adventurer").slice(0, 24), text: String(text || "").slice(0, 240), at: Date.now() };
+    if (img) d.img = img; if (quest) d.quest = String(quest).slice(0, 80);
+    return cloud.db.ref("tavern/" + newKey()).set(d);
+  }
+  function renderTavern() {
+    var ok = canPost();
+    $("tvPost").disabled = !ok; $("tvText").disabled = !ok;
+    $("tvNote").textContent = ok ? "" : cloud.exiled ? "Exiles may not speak in this tavern." : !state.signed ? "Sign the guild ledger to speak in the tavern." : "The tavern opens once the guild is reached (thou must be online).";
+    var list = (cloud.tavern || []).slice().sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
+    if (cloud.tavernErr && !list.length) { $("tvFeed").innerHTML = '<p class="tv-empty">The tavern doors are shut: the new Firebase rules need to be published.</p>'; $("tvMore").hidden = true; return; }
+    if (!list.length) { $("tvFeed").innerHTML = '<p class="tv-empty">The tavern is quiet. Be the first to raise a cup and post thy tidings.</p>'; $("tvMore").hidden = true; return; }
+    var gm = isMaster();
+    $("tvFeed").innerHTML = list.slice(0, tav.show).map(function (p) {
+      var pl = playerOf(p.uid), mine = p.uid === cloud.uid, r = p.r || {}, counts = {};
+      Object.keys(r).forEach(function (u) { counts[r[u]] = (counts[r[u]] || 0) + 1; });
+      return '<article class="tv-post' + (mine ? " mine" : "") + '">' +
+        '<button type="button" class="tv-who" data-player="' + esc(p.uid || "") + '">' + avatarHtml(pl && pl.avatar, p.name, "tv-av") + "</button>" +
+        '<div class="tv-body"><div class="tv-head"><b>' + esc(p.name || "Adventurer") + "</b><small>" + shortAgo(p.at) + "</small></div>" +
+        (p.quest ? '<div class="tv-quest">&#9876; Quest done: ' + esc(p.quest) + "</div>" : "") +
+        (p.text ? '<p class="tv-text">' + esc(p.text) + "</p>" : "") +
+        (p.img ? '<button type="button" class="tv-img" data-tvimg><img src="' + p.img + '" alt="Picture from ' + esc(p.name || "an adventurer") + '"></button>' : "") +
+        '<div class="tv-reacts">' + TAVERN_REACT.map(function (em) {
+          var on = r[cloud.uid] === em;
+          return '<button type="button" class="tv-r' + (on ? " on" : "") + '" data-tvr="' + esc(p.id) + '" data-em="' + em + '" aria-pressed="' + on + '">' + em + (counts[em] ? "<b>" + counts[em] + "</b>" : "") + "</button>";
+        }).join("") +
+        ((mine || gm) ? '<button type="button" class="tv-del" data-tvdel="' + esc(p.id) + '">' + (tav.armed === p.id ? "Tap again to burn it" : "Burn") + "</button>" : "") +
+        "</div></div></article>";
+    }).join("");
+    $("tvMore").hidden = list.length <= tav.show;
+  }
+  $("tvFile").addEventListener("change", function () {
+    var f = this.files && this.files[0]; if (!f) return;
+    shrinkImage(f).then(function (d) { return shrinkData(d, 720, 0.62); }).then(function (d) { tav.img = d; $("tvPrev").src = d; $("tvPrev").hidden = false; $("tvClear").hidden = false; })
+      .catch(function () { toast("That picture could not be opened."); });
+    this.value = "";
+  });
+  $("tvClear").addEventListener("click", function () { tav.img = null; $("tvPrev").hidden = true; $("tvPrev").removeAttribute("src"); this.hidden = true; });
+  $("tvPost").addEventListener("click", function () {
+    var text = $("tvText").value.trim();
+    if (!text && !tav.img) { toast("Write a few words or affix a picture first."); return; }
+    var btn = this; btn.disabled = true;
+    postTavern(text, tav.img, "").then(function () {
+      $("tvText").value = ""; tav.img = null; $("tvPrev").hidden = true; $("tvPrev").removeAttribute("src"); $("tvClear").hidden = true;
+      sfx("take"); toast("Thy tidings are pinned in the tavern.");
+    }).catch(function (e) { toast(/permission/i.test(String(e && e.code || e)) ? "The tavern is shut until the new Firebase rules are published." : "The raven could not deliver thy message."); })
+      .then(function () { btn.disabled = !canPost(); });
+  });
+  $("tvMore").addEventListener("click", function () { tav.show += 15; renderTavern(); });
+  $("tvFeed").addEventListener("click", function (e) {
+    var t = e.target.closest("button"); if (!t) return;
+    if (t.hasAttribute("data-tvimg")) { var im = t.querySelector("img"); $("lbImg").src = im.src; $("lbImg").alt = im.alt; $("lightbox").classList.add("show"); return; }
+    if (t.dataset.tvr) {
+      if (!canPost()) { toast("Thou must be in the guild and online to react."); return; }
+      var post = null; (cloud.tavern || []).forEach(function (x) { if (x.id === t.dataset.tvr) post = x; }); if (!post) return;
+      var ref = cloud.db.ref("tavern/" + post.id + "/r/" + cloud.uid), cur = post.r && post.r[cloud.uid];
+      (cur === t.dataset.em ? ref.remove() : ref.set(t.dataset.em)).then(function () { sfx("pin"); }).catch(function () { toast("Couldn't react just now."); });
+      return;
+    }
+    if (t.dataset.tvdel) {
+      var id = t.dataset.tvdel;
+      if (tav.armed !== id) { tav.armed = id; renderTavern(); setTimeout(function () { if (tav.armed === id) { tav.armed = null; renderTavern(); } }, 3000); return; }
+      tav.armed = null;
+      cloud.db.ref("tavern/" + id).remove().then(function () { sfx("paper"); toast("The post is burned."); }).catch(function () { toast("Couldn't burn it."); });
+    }
+  });
+
+  /* ======================================================================= PARTY QUESTS */
+  var PARTY_BONUS = 30, MAX_PARTY = 6, pt = { armed: null };
+  function watchParties() {
+    if (!cloud.db || cloud.pRef) return;
+    cloud.pRef = cloud.db.ref("party");
+    cloud.pRef.on("value", function (sn) {
+      var arr = []; sn.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(v); });
+      cloud.parties = arr; cloud.partyErr = ""; renderParty(); claimParties();
+    }, function (e) { cloud.partyErr = String(e && e.code || e); renderParty(); });
+  }
+  function partyInfo(p) {
+    var m = p.members || {}, ids = Object.keys(m).filter(function (u) { return m[u]; });
+    var done = ids.filter(function (u) { return m[u].done; });
+    return { ids: ids, done: done, mine: !!m[cloud.uid], myDone: !!(m[cloud.uid] && m[cloud.uid].done), full: ids.length >= MAX_PARTY,
+      won: done.length >= (+p.need || 2), expired: Date.now() > (+p.ends || 0), lead: p.leader === cloud.uid };
+  }
+  function partyReward(p) { return (XP[p.rank] || 25) + PARTY_BONUS; }
+  function claimParties() {
+    if (!state.signed || !cloud.uid) return;
+    if (!state.partyClaims || typeof state.partyClaims !== "object") state.partyClaims = {};
+    (cloud.parties || []).forEach(function (p) {
+      var i = partyInfo(p);
+      if (!i.won || !i.myDone || state.partyClaims[p.id]) return;
+      state.partyClaims[p.id] = Date.now();
+      var gain = partyReward(p), tk = todayKey(), before = levelInfo(state.xp).lv, S = state.stats;
+      state.xp += gain; state.total += 1; if (state.days.indexOf(tk) < 0) state.days.push(tk);
+      S.cats.Social = (S.cats.Social || 0) + 1; S.ranks[p.rank] = (S.ranks[p.rank] || 0) + 1;
+      state.log.unshift({ k: "pq-" + p.id, party: true, cat: "Social", rank: p.rank, t: "Party quest: " + p.title, xp: gain, d: tk, at: Date.now() });
+      if (state.log.length > 150) state.log.length = 150;
+      save(); render();
+      celebrate({ head: "The Party Prevails", big: "+" + gain + " XP", msg: "“" + p.title + "” is fulfilled together: " + (XP[p.rank] || 25) + " XP for the deed and " + PARTY_BONUS + " for the fellowship.", sound: "fanfare" });
+      if (levelInfo(state.xp).lv > before) levelUp(levelInfo(state.xp).lv);
+      checkBadges();
+    });
+    // the leader sweeps away parties that ended over a week ago
+    (cloud.parties || []).forEach(function (p) { if (p.leader === cloud.uid && Date.now() > (+p.ends || 0) + 7 * 864e5) cloud.db.ref("party/" + p.id).remove().catch(function () {}); });
+  }
+  function daysLeft(t) { var h = Math.ceil(((+t || 0) - Date.now()) / 3600000); return h <= 0 ? "ended" : h < 24 ? h + (h === 1 ? " hour left" : " hours left") : Math.ceil(h / 24) + " days left"; }
+  function renderParty() {
+    var box = $("partyList"); if (!box) return;
+    var list = (cloud.parties || []).filter(function (p) { var i = partyInfo(p); return !(i.expired && Date.now() > (+p.ends || 0) + 2 * 864e5) || i.mine; })
+      .sort(function (a, b) { var A = partyInfo(a), B = partyInfo(b); return (A.won - B.won) || (A.expired - B.expired) || ((b.at || 0) - (a.at || 0)); });
+    if (cloud.partyErr && !list.length) { box.innerHTML = '<p class="party-empty">The party hall is shut: the new Firebase rules need to be published.</p>'; return; }
+    if (!cloud.db) { box.innerHTML = '<p class="party-empty">Party quests open once the guild is reached (thou must be online).</p>'; return; }
+    if (!list.length) { box.innerHTML = '<p class="party-empty">No party has been raised yet. Raise one, and summon thy companions to join.</p>'; return; }
+    var gm = isMaster();
+    box.innerHTML = list.map(function (p) {
+      var i = partyInfo(p), m = p.members || {}, need = +p.need || 2, status, acts = "";
+      if (i.won) status = '<span class="pq-st won">Fulfilled! Each who finished earned +' + partyReward(p) + " XP</span>";
+      else if (i.expired) status = '<span class="pq-st gone">The time ran out</span>';
+      else if (i.ids.length < need) status = '<span class="pq-st">Gathering: ' + i.ids.length + " of " + need + " have joined</span>";
+      else status = '<span class="pq-st">On the quest: ' + i.done.length + " of " + need + " have finished</span>";
+      if (!i.won && !i.expired) {
+        if (!i.mine && !i.full) acts += '<button class="btn gold small" type="button" data-pjoin="' + esc(p.id) + '">Join the party</button>';
+        if (i.mine && !i.myDone) acts += '<button class="btn wax small" type="button" data-pdone="' + esc(p.id) + '">We did it</button>' + (i.lead ? "" : '<button class="btn ghost small" type="button" data-pleave="' + esc(p.id) + '">Leave</button>');
+        if (i.mine && i.myDone) acts += '<span class="pq-wait">Thy part is done. Waiting on the others…</span>';
+        if (!i.mine && i.full) acts += '<span class="pq-wait">The party is full.</span>';
+      }
+      if (i.lead || gm) acts += '<button class="pq-del" type="button" data-pdel="' + esc(p.id) + '">' + (pt.armed === p.id ? "Tap again to disband" : "Disband") + "</button>";
+      return '<div class="pq-card r-' + esc(p.rank || "S") + (i.won ? " won" : "") + (i.expired && !i.won ? " gone" : "") + '">' +
+        '<span class="pq-seal" aria-hidden="true">' + esc(p.rank || "S") + "</span>" +
+        '<div class="pq-kick">Party Quest · ' + (RANK_NAME[p.rank] || "S-Class") + " · +" + (XP[p.rank] || 25) + " XP +" + PARTY_BONUS + " fellowship</div>" +
+        '<h3 class="pq-title">' + esc(p.title || "A party quest") + "</h3>" +
+        (p.desc ? '<p class="pq-desc">' + esc(p.desc) + "</p>" : "") +
+        '<div class="pq-meta">Raised by <b>' + esc(p.lname || "Adventurer") + "</b> · needs " + need + " to finish · " + daysLeft(p.ends) + "</div>" +
+        '<div class="pq-members">' + i.ids.map(function (u) { var x = m[u]; return '<span class="pq-m' + (x.done ? " done" : "") + (u === cloud.uid ? " me" : "") + '">' + (x.done ? "&#10003; " : "") + esc(x.name || "Adventurer") + "</span>"; }).join("") + "</div>" +
+        status + (acts ? '<div class="pq-acts">' + acts + "</div>" : "") + "</div>";
+    }).join("");
+  }
+  function openPartyEditor() {
+    if (!canPost()) { toast("Thou must be in the guild and online to raise a party."); return; }
+    openId = null;
+    $("qmPaper").className = "qm-paper r-S";
+    $("qmPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" data-close aria-label="Close">&times;</button>' +
+      '<div class="qm-kicker">Party Quest</div><h3>Raise a party</h3>' +
+      '<p class="me-lead">A quest for two or more, like jogging together or cleaning the court as a team. When enough members finish, each one earns the XP plus ' + PARTY_BONUS + ' for the fellowship.</p>' +
+      '<form class="me-form" id="ptForm" autocomplete="off">' +
+      '<label>The quest<input id="ptTitle" required maxlength="80"></label>' +
+      '<label>Particulars (where, when)<textarea id="ptDesc" rows="2" maxlength="240"></textarea></label>' +
+      '<div class="me-row"><label>How many must finish<select id="ptNeed"><option>2</option><option selected>3</option><option>4</option><option>5</option><option>6</option></select></label>' +
+      '<label>Rank<select id="ptRank"><option value="N">Normal · 10 XP</option><option value="S" selected>S-Class · 25 XP</option><option value="SS">SS-Class · 50 XP</option></select></label></div>' +
+      '<label>Time to finish<select id="ptDays"><option value="1">1 day</option><option value="3" selected>3 days</option><option value="7">7 days</option></select></label>' +
+      '<div class="qm-acts"><button class="btn gold" type="submit">Raise the party</button><button class="btn ghost" type="button" data-close>Not now</button></div></form>';
+    $("qmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("ptTitle").focus(); }, 60);
+  }
+  document.addEventListener("submit", function (e) {
+    if (e.target.id !== "ptForm") return;
+    e.preventDefault();
+    var title = $("ptTitle").value.trim(); if (!title) return;
+    var now = Date.now(), id = newKey(), name = (state.name || "Adventurer").slice(0, 24), mem = {};
+    mem[cloud.uid] = { name: name, at: now, done: 0 };
+    cloud.db.ref("party/" + id).set({ title: title.slice(0, 80), desc: $("ptDesc").value.trim().slice(0, 240), rank: $("ptRank").value, need: +$("ptNeed").value,
+      leader: cloud.uid, lname: name, at: now, ends: now + (+$("ptDays").value) * 864e5, members: mem })
+      .then(function () { closeJob(); sfx("pin"); toast("The party is raised. Summon thy companions to join!"); })
+      .catch(function (er) { toast(/permission/i.test(String(er && er.code || er)) ? "The party hall is shut until the new Firebase rules are published." : "The raven could not deliver it."); });
+  });
+  function askPartyDone(id) {
+    var p = null; (cloud.parties || []).forEach(function (x) { if (x.id === id) p = x; }); if (!p) return;
+    cm.mode = "party"; cm.word = "complete"; cm.id = id;
+    $("cmKick").textContent = "Seal Thy Part"; $("cmTitle").textContent = p.title;
+    $("cmLead").innerHTML = "Did thou truly do this with thy party? Write <b>complete</b> below to seal thy part.";
+    $("cmWarn").hidden = false; $("cmWarn").textContent = "The XP comes once enough of the party has sealed their part.";
+    $("cmOk").textContent = "Seal it"; $("cmOk").className = "btn gold";
+    $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type complete to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
+    $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
+  }
+  function partyDone(id) {
+    var p = null; (cloud.parties || []).forEach(function (x) { if (x.id === id) p = x; }); if (!p || !canPost()) return;
+    var mine = (p.members || {})[cloud.uid] || {};
+    cloud.db.ref("party/" + id + "/members/" + cloud.uid).set({ name: (state.name || "Adventurer").slice(0, 24), at: +mine.at || Date.now(), done: Date.now() })
+      .then(function () { sfx("coin"); toast("Thy part is sealed."); }).catch(function () { toast("The raven could not deliver it."); });
+  }
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest("button"); if (!t) return;
+    if (t.hasAttribute("data-pnew")) { openPartyEditor(); return; }
+    var id = t.dataset.pjoin || t.dataset.pleave || t.dataset.pdone || t.dataset.pdel; if (!id) return;
+    if (!canPost()) { toast("Thou must be in the guild and online."); return; }
+    var ref = cloud.db.ref("party/" + id + "/members/" + cloud.uid);
+    if (t.dataset.pjoin) {
+      var p = null; (cloud.parties || []).forEach(function (x) { if (x.id === id) p = x; });
+      if (p && partyInfo(p).full) { toast("The party is full."); return; }
+      ref.set({ name: (state.name || "Adventurer").slice(0, 24), at: Date.now(), done: 0 }).then(function () { sfx("take"); toast("Thou hast joined the party."); }).catch(function () { toast("Couldn't join just now."); });
+    } else if (t.dataset.pleave) ref.remove().then(function () { toast("Thou hast left the party."); }).catch(function () {});
+    else if (t.dataset.pdone) askPartyDone(id);
+    else if (t.dataset.pdel) {
+      if (pt.armed !== id) { pt.armed = id; renderParty(); setTimeout(function () { if (pt.armed === id) { pt.armed = null; renderParty(); } }, 3000); return; }
+      pt.armed = null; cloud.db.ref("party/" + id).remove().then(function () { toast("The party is disbanded."); }).catch(function () { toast("Couldn't disband it."); });
+    }
+  });
+
   /* ---------- boot ---------- */
   function start(snap) {
     var local = loadLocal();
@@ -3480,6 +4012,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   window.SIDEQUEST_BOOT = function () { cloudInit(); bootGate(); };
   setInterval(renderLb, 60000);
   var lastMainDay = mainDayKey();
+  setInterval(function () { watchSeasons(); }, 60000);
   setInterval(function () { var mk = mainDayKey(); if (state.today.d !== todayKey() || mk !== lastMainDay) { lastMainDay = mk; render(); } }, 60000);
 })();
 </script>
