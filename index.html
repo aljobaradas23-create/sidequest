@@ -1274,7 +1274,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 
 /* ---------- bookmarks drawer ---------- */
 .wrap > section, .cols section, .wrap section { scroll-margin-top: 14px; }
-.bm-tab { position: fixed; right: 0; top: 36%; z-index: 60; width: 28px; height: 104px; padding: 8px 0 20px; border: 0; cursor: pointer;
+.bm-tab { position: fixed; right: 0; top: 36%; z-index: 12; width: 28px; height: 104px; padding: 8px 0 20px; border: 0; cursor: pointer;
   background: linear-gradient(90deg, #6e1414, #a32222 45%, #7a1616); color: #f6dca0; font: 700 11px/1 "IM Fell English SC", Georgia, serif; letter-spacing: .12em;
   writing-mode: vertical-rl; text-orientation: mixed; clip-path: polygon(0 0, 100% 0, 100% 100%, 50% 86%, 0 100%); box-shadow: -2px 2px 6px rgba(0,0,0,.5);
   border-radius: 4px 0 0 0; opacity: .92; transition: transform .25s, opacity .25s; }
@@ -1304,6 +1304,25 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 .bm-foot b { color: #2f5a2f; }
 .bm-flash { animation: bmFlash 1.6s ease-out 1; }
 @keyframes bmFlash { 0% { box-shadow: 0 0 0 3px rgba(255,210,110,.95), 0 0 30px rgba(255,200,90,.8); } 100% { box-shadow: 0 0 0 0 rgba(255,210,110,0), 0 0 0 rgba(255,200,90,0); } }
+
+/* ---------- quest deadlines ---------- */
+.qm-time { margin: 2px 0 12px; padding: 10px 10px 8px; border: 1px dashed rgba(60,35,15,.45); border-radius: 8px; background: rgba(255,240,205,.35); text-align: center; }
+.qm-time > span { display: block; font: 400 16px/1.2 "IM Fell English SC", Georgia, serif; color: #4a2a12; margin-bottom: 8px; }
+.qt-chips { display: flex; flex-wrap: wrap; gap: 6px; justify-content: center; }
+.qt-chips button { min-width: 50px; padding: 6px 8px; border-radius: 16px; border: 1px solid rgba(60,35,15,.5); background: rgba(255,248,230,.7); color: #3b2412; font: 700 13px Georgia, serif; cursor: pointer; }
+.qt-chips button[aria-pressed="true"] { background: #7a1d14; color: #fbe6bd; border-color: #4a0f0a; }
+.qt-custom { margin-top: 8px; display: flex; align-items: center; justify-content: center; gap: 6px; font: 600 14px Georgia, serif; color: #4a2a12; }
+.qt-custom input { width: 54px; padding: 5px 4px; border-radius: 6px; border: 1px solid rgba(60,35,15,.55); background: #fff8ea; color: #2a1a0c; font: 700 15px Georgia, serif; text-align: center; color-scheme: light; }
+.qt-warn { margin: 9px 2px 0; font: 13px/1.4 Georgia, serif; color: #5a2a14; }
+.qt-warn b { color: #8a1c10; }
+.slot-timer { margin-top: 4px; font: 700 12.5px Georgia, serif; color: #f2d48a; }
+.slot-timer.low { color: #ff8a6e; animation: qtPulse 1s ease-in-out infinite; }
+@keyframes qtPulse { 50% { opacity: .55; } }
+
+/* the job paper grows with its words; the dark backdrop scrolls instead, so the parchment never ends early */
+#qmodal { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+#qmodal.show { display: flex; flex-direction: column; }
+#qmodal .qm-paper { margin: auto; flex: none; max-height: none; overflow: visible; }
 </style>
 </head>
 <body>
@@ -1708,7 +1727,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   function fresh() {
     return { name: "Adventurer", xp: 0, total: 0, active: [], today: { d: todayKey(), ids: [] }, log: [], days: [], custom: [], posted: [], postedAt: {},
       stats: { cats: {}, ranks: {}, ids: {}, qotd: 0, boss: 0, best: 0 }, badges: {}, honor: "", journal: [], boss: null,
-      settings: { sfx: true, music: false }, avatar: "p:hunter", seed: newSeed(), qotdShown: "", takenAt: {}, forfeit: { n: 0, xp: 0 }, mainCustom: [], mainBonus: "", mainChecks: { d: "", c: {} }, mainHidden: [], acct: null, boardTake: {}, boardLocal: { d: "", c: {} }, boardMine: [], updatedAt: 0 };
+      settings: { sfx: true, music: false }, avatar: "p:hunter", seed: newSeed(), qotdShown: "", takenAt: {}, forfeit: { n: 0, xp: 0 }, mainCustom: [], mainBonus: "", mainChecks: { d: "", c: {} }, mainHidden: [], acct: null, boardTake: {}, boardLocal: { d: "", c: {} }, boardMine: [], boardBan: { d: "", ids: [] }, updatedAt: 0 };
   }
   function newSeed() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
   function todayKey(dt) { var d = dt || new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
@@ -1756,7 +1775,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       (s.log || []).forEach(function (l) {
         if (!l || typeof l.d !== "string") return;
         var o = s.dayStats[l.d] || (s.dayStats[l.d] = { n: 0, xp: 0 });
-        o.xp += +l.xp || 0; if (!l.mainBonus && !l.bounty && !l.crown && !l.take) o.n += 1;
+        o.xp += +l.xp || 0; if (!l.mainBonus && !l.bounty && !l.crown && !l.take && !l.fail) o.n += 1;
       });
       (s.days || []).forEach(function (d) { if (!s.dayStats[d]) s.dayStats[d] = { n: 1, xp: 0 }; });
     }
@@ -1793,6 +1812,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     if (!s.boardLocal || typeof s.boardLocal !== "object" || !s.boardLocal.c || typeof s.boardLocal.c !== "object") s.boardLocal = { d: "", c: {} };
     if (s.posted.length) s.posted = [];
     if (!Array.isArray(s.boardMine)) s.boardMine = [];
+    if (!s.boardBan || typeof s.boardBan !== "object" || !Array.isArray(s.boardBan.ids)) s.boardBan = { d: "", ids: [] };
     return s;
   }
   var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -1933,11 +1953,17 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   function localClaims() { var dk = boardDayKey(); if (state.boardLocal.d !== dk) state.boardLocal = { d: dk, c: {} }; return state.boardLocal.c; }
   function boardClaims() {
     var dk = boardDayKey(), loc = localClaims(), out = {}, k;
-    if (cloud.claims && cloud.bDay === dk) { for (k in cloud.claims) out[k] = cloud.claims[k]; for (k in loc) if (!out[k] && (loc[k].pend || state.active.indexOf(k) >= 0)) out[k] = loc[k]; return out; }
+    if (cloud.claims && cloud.bDay === dk) { for (k in cloud.claims) if (!(lapsed(cloud.claims[k]) && cloud.claims[k].uid !== cloud.uid)) out[k] = cloud.claims[k]; for (k in loc) if (!out[k] && (loc[k].pend || state.active.indexOf(k) >= 0)) out[k] = loc[k]; return out; }
     for (k in loc) out[k] = loc[k];
     return out;
   }
   function claimOf(id) { return boardClaims()[id] || null; }
+  var FAIL_XP = { N: 5, S: 10, SS: 20 }, pickFor = null, pickMins = 60;
+  function lapsed(c) { return !!c && !c.done && typeof c.due === "number" && c.due < Date.now(); }
+  function bannedToday(id) { return state.boardBan.d === boardDayKey() && state.boardBan.ids.indexOf(id) >= 0; }
+  function clockAt(t) { var d = new Date(t), h = d.getHours(), m = d.getMinutes(); return ((h % 12) || 12) + ":" + pad(m) + (h < 12 ? " AM" : " PM"); }
+  function leftTxt(ms) { if (ms <= 0) return "time is up"; var s = Math.ceil(ms / 1000), h = Math.floor(s / 3600), m = Math.floor(s % 3600 / 60), x = s % 60; return h ? h + "h " + pad(m) + "m left" : m >= 10 ? m + "m left" : m + "m " + pad(x) + "s left"; }
+  function minsTxt(n) { var h = Math.floor(n / 60), m = n % 60; return (h ? h + (h === 1 ? " hour" : " hours") : "") + (h && m ? " " : "") + (m ? m + (m === 1 ? " minute" : " minutes") : ""); }
   function isMine(c) { return !!c && (c.uid === "me" || (cloud.uid && c.uid === cloud.uid) || (c.pend && state.active.indexOf(c.qid) >= 0)); }
   function setLocalClaim(dk, id, c) { if (state.boardLocal.d !== dk) state.boardLocal = { d: dk, c: {} }; if (c) state.boardLocal.c[id] = c; else delete state.boardLocal.c[id]; }
   function watchBoard() {
@@ -2211,7 +2237,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     return best;
   }
   function forfeitDeed(k) {
-    var e = null; state.log.forEach(function (l) { if (l.k === k) e = l; }); if (!e || e.bounty || e.mainBonus || e.crown || e.take) return;
+    var e = null; state.log.forEach(function (l) { if (l.k === k) e = l; }); if (!e || e.bounty || e.mainBonus || e.crown || e.take || e.fail) return;
     var q = e.id ? findQ(e.id) : null;
     if (!q) BASE.forEach(function (b) { if (!q && e.t.indexOf(b.title) === 0) q = b; });
     var cat = e.cat || (q && q.cat), rank = e.rank || (q && q.rank), qid = e.id || (q && q.id);
@@ -2278,8 +2304,10 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     schedulePush(); if (state.acct) pushSave();
   }
   /* ---------- actions ---------- */
-  function accept(id) {
+  function accept(id, mins) {
     var q = findQ(id); if (!q) return;
+    if (bannedToday(id)) { toast("Thou failed this quest in time. Thou may not take it again this day."); return; }
+    mins = Math.max(5, Math.min(24 * 60, Math.round(+mins || 60)));
     if (state.active.length >= MAX_SLOTS) { toast("Thy hands are full. See a quest through first."); return; }
     if (state.active.indexOf(id) >= 0) return;
     var dk = boardDayKey();
@@ -2289,11 +2317,11 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     if (c && c.done) return;
     if (accepting[id]) return;
     accepting[id] = 1;
-    var me = { uid: cloud.uid || "me", name: (state.name || "Adventurer").slice(0, 24), at: Date.now() };
+    var me = { uid: cloud.uid || "me", name: (state.name || "Adventurer").slice(0, 24), at: Date.now(), due: Date.now() + mins * 60000 };
     function finish(note) { delete accepting[id]; takeUp(q, dk, me, note); }
     if (!boardOnline()) { finish(cloud.db ? " (Offline: the guild will not see thy claim.)" : ""); return; }
-    setLocalClaim(dk, id, { uid: me.uid, name: me.name, at: me.at, pend: 1, qid: id }); render();
-    cloud.db.ref("board/" + dk + "/" + id).transaction(function (cur) { if (cur) return; return me; })
+    setLocalClaim(dk, id, { uid: me.uid, name: me.name, at: me.at, due: me.due, pend: 1, qid: id }); render();
+    cloud.db.ref("board/" + dk + "/" + id).transaction(function (cur) { if (cur && !lapsed(cur)) return; return me; })
       .then(function (r) {
         if (r && r.committed) { finish(""); return; }
         delete accepting[id]; setLocalClaim(dk, id, null);
@@ -2312,11 +2340,11 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     if (state.active.indexOf(id) >= 0 || state.active.length >= MAX_SLOTS) { setLocalClaim(dk, id, null); render(); return; }
     state.active.push(id); state.takenAt[id] = Date.now();
     state.posted = state.posted.filter(function (x) { return x !== id; });
-    setLocalClaim(dk, id, { uid: me.uid, name: me.name, at: me.at, qid: id });
-    state.boardTake[id] = { d: dk, q: id === qotdId(dk) };
+    setLocalClaim(dk, id, { uid: me.uid, name: me.name, at: me.at, due: me.due, qid: id });
+    state.boardTake[id] = { d: dk, q: id === qotdId(dk), due: me.due };
     if (me.uid !== "me") { state.boardMine.push({ d: dk, id: id }); if (state.boardMine.length > 60) state.boardMine = state.boardMine.slice(-60); }
     save(); render(); sfx("take"); crowFly();
-    toast("Quest taken: " + q.title + ". Complete it to earn the XP." + (note || ""));
+    toast("Quest taken: " + q.title + ". Finish it by " + clockAt(me.due) + " to earn the XP." + (note || ""));
     var after = levelInfo(state.xp).lv; if (after > before) levelUp(after);
   }
   /* ---------- a crow flies past the screen whenever a quest is accepted ---------- */
@@ -2331,6 +2359,32 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     img.src = src;
     crow.timer = setTimeout(function () { box.classList.remove("show"); img.removeAttribute("src"); if (crow.url) { URL.revokeObjectURL(crow.url); crow.url = null; } }, 2350);
   }
+  function failQuest(id) {
+    var bt = state.boardTake[id], q = findQ(id); if (!bt) return;
+    state.active = state.active.filter(function (x) { return x !== id; });
+    delete state.boardTake[id]; delete state.takenAt[id]; delete state.postedAt[id];
+    if (bt.d === boardDayKey()) { if (state.boardBan.d !== bt.d) state.boardBan = { d: bt.d, ids: [] }; if (state.boardBan.ids.indexOf(id) < 0) state.boardBan.ids.push(id); }
+    if (state.boardLocal.d === bt.d) delete state.boardLocal.c[id];
+    if (boardOnline()) cloud.db.ref("board/" + bt.d + "/" + id).transaction(function (cur) { if (cur && cur.uid === cloud.uid && !cur.done) return null; return; }).catch(function () {});
+    var rank = q ? q.rank : "N", lose = Math.min(FAIL_XP[rank] || 5, state.xp), tk = todayKey();
+    state.xp -= lose; bumpDay(tk, 0, -lose);
+    state.log.unshift({ k: "fl-" + id + "-" + Date.now().toString(36), fail: true, id: id, t: "Failed in time: " + (q ? q.title : "a quest"), xp: -lose, d: tk, at: Date.now() });
+    if (state.log.length > 150) state.log.length = 150;
+    if (openId === id) closeJob();
+    save(); render(); sfx("paper");
+    toast("\u231B Time is up! \u201C" + (q ? q.title : "The quest") + "\u201D returns to the board. \u2212" + lose + " XP.");
+  }
+  function checkDeadlines() {
+    var now = Date.now(), gone = [];
+    for (var id in state.boardTake) { var bt = state.boardTake[id]; if (bt && typeof bt.due === "number" && bt.due <= now && state.active.indexOf(id) >= 0) gone.push(id); }
+    gone.forEach(failQuest);
+    document.querySelectorAll("[data-due]").forEach(function (el) {
+      var ms = +el.getAttribute("data-due") - now;
+      el.textContent = "\u23F3 " + leftTxt(ms) + " \u00B7 by " + clockAt(+el.getAttribute("data-due"));
+      el.classList.toggle("low", ms < 5 * 60000);
+    });
+  }
+  setInterval(checkDeadlines, 1000);
   function abandon(id) {
     state.active = state.active.filter(function (x) { return x !== id; });
     delete state.postedAt[id];
@@ -2352,6 +2406,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   function complete(id, opts) {
     opts = opts || {};
     var q = findQ(id); if (!q) { abandon(id); return; }
+    var bt0 = state.boardTake[id]; if (bt0 && typeof bt0.due === "number" && Date.now() > bt0.due) { failQuest(id); return; }
     var before = levelInfo(state.xp).lv, isQ = isQOf(id), bt = state.boardTake[id];
     var gain = (XP[q.rank] || 10) * (isQ ? 2 : 1) + (bt ? TAKE_XP : 0), coins = (COIN[q.rank] || 2) * (isQ ? 2 : 1);
     state.xp += gain; state.total += 1; state.coins = (state.coins || 0) + coins;
@@ -2449,8 +2504,9 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var who = bc ? (mine ? "thee" : esc(bc.name || "an adventurer")) : "";
     var sub = kind === "main" ? (q.once ? "Once and no more" : "Renewed each morn at 7") + (q.after != null ? " · seal after " + q.after + ":00" : "")
       : (kind === "qotd" ? "Quest for " + qotdDateLabel() + " · twice the reward" : "Free to take · +" + TAKE_XP + " bonus XP when done");
+    if (mine && !bc.done && bc.due && kind !== "main") sub = '<span class="nby">Thine · finish by ' + clockAt(bc.due) + "</span>";
     if (bc) sub = mine ? '<span class="nby">' + (bc.done ? "Done by " : "Taken by ") + who + "</span>" : "";
-    return '<button class="note p-' + P.v + " t-" + P.tone + " tear" + tear + " r-" + q.rank + (done ? " done" : "") + (taken ? " taken" : "") + (other && !done ? " claimed" : "") + (other && done ? " claimed" : "") +
+    return '<button class="note p-' + P.v + " t-" + P.tone + " tear" + tear + " r-" + q.rank + (done ? " done" : "") + (taken ? " taken" : "") + (other ? " claimed" : "") + (kind !== "main" && !bc && bannedToday(q.id) ? " claimed" : "") +
       (pi && pi.days >= 3 ? " old" : "") + (q.id === freshId ? " fresh" : "") + (kind === "qotd" ? " qotd" : "") +
       '" data-open="' + q.id + '" aria-label="' + esc(P.head + ", " + RANK_NAME[q.rank] + ": " + q.title) + '">' +
       (P.v === "scroll" ? '<span class="roll rt" aria-hidden="true"></span><span class="roll rb" aria-hidden="true"></span>' : '<span class="pin" aria-hidden="true"></span>') +
@@ -2465,7 +2521,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       })() : "") +
       '<span class="nfoot"><span class="nxp">+' + xp + " XP" + (kind === "qotd" ? " <s>+" + XP[q.rank] + "</s>" : "") + "</span>" +
       '<span class="sealbox" aria-hidden="true"><span class="wax' + (kind === "qotd" ? " star" : "") + '">' + (kind === "qotd" ? "★" : q.rank) + '</span><span class="nrib">' + RANK_NAME[q.rank] + "</span></span></span>" +
-      (other ? '<span class="stamp">' + (bc.done ? "Done" : "Taken") + "<small>by " + who + "</small></span>" : done ? '<span class="stamp">Done</span>' : taken || bc ? '<span class="stamp">Taken</span>' : "") + "</button>";
+      (other ? '<span class="stamp">' + (bc.done ? "Done" : "Taken") + "<small>by " + who + "</small>" + (!bc.done && bc.due ? "<small>till " + clockAt(bc.due) + "</small>" : "") + "</span>" : kind !== "main" && !bc && bannedToday(q.id) ? '<span class="stamp">Failed<small>not for thee</small></span>' : done ? '<span class="stamp">Done</span>' : taken || bc ? '<span class="stamp">Taken</span>' : "") + "</button>";
   }
   function renderMain() {
     var list = mainQuests(), tk = todayKey();
@@ -2516,7 +2572,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var warn = cloud.ready && cloud.bErr ? "The guild board could not be read (" + cloud.bErr + "). Publish the newest Firebase rules so all may share it." : !cloud.db ? "The guild board is not connected. Claims are kept on this device only." : "";
     $("boardWarn").hidden = !warn; $("boardWarn").textContent = warn;
     renderMain();
-    if (openId) showJob(openId, true);
+    if (openId && !(pickFor === openId && document.activeElement && /^qt[HM]$/.test(document.activeElement.id))) showJob(openId, true);
 
     var slotsHtml = "";
     for (var i = 0; i < MAX_SLOTS; i++) {
@@ -2525,6 +2581,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
         var isQ = isQOf(q.id);
         slotsHtml += '<div class="slot filled r-' + q.rank + (isQ ? " qslot" : "") + '"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span class="cat">' + esc(q.cat) + (isQ ? " · Quest of the Day" : "") + '</span><span class="xp">+' + ((XP[q.rank] || 10) * (isQ ? 2 : 1) + (state.boardTake[q.id] ? TAKE_XP : 0)) + " XP</span></div>" +
           '<div class="t">' + esc(q.title) + "</div>" +
+          (state.boardTake[q.id] && state.boardTake[q.id].due ? '<div class="slot-timer" data-due="' + state.boardTake[q.id].due + '">\u23F3 ' + leftTxt(state.boardTake[q.id].due - Date.now()) + " \u00B7 by " + clockAt(state.boardTake[q.id].due) + "</div>" : "") +
           '<div class="acts"><button class="btn gold small" data-complete="' + q.id + '">Complete</button><button class="btn ghost small" data-abandon="' + q.id + '">Abandon</button></div></div>';
       } else {
         slotsHtml += '<div class="slot"><span class="empty">An empty hand. Take up a quest from the board.</span></div>';
@@ -2555,8 +2612,8 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
         last = l.d; var p = l.d.split("-"), dt = new Date(+p[0], +p[1] - 1, +p[2]);
         html += '<li class="ledger-day">The ' + ordinal(dt.getDate()) + " of " + MONTHS[dt.getMonth()] + "</li>";
       }
-      html += '<li class="ledger-row"><span class="lt">' + esc(l.t) + '</span><span class="xp">+' + l.xp + " XP</span>" +
-        (l.bounty ? '<span class="lf-none">bounty</span>' : l.mainBonus ? '<span class="lf-none">bonus</span>' : l.crown ? '<span class="lf-none">crown</span>' : l.take ? '<span class="lf-none">taken</span>' : '<button class="lf" type="button" data-forfeit="' + esc(l.k) + '">Forfeit</button>') + "</li>";
+      html += '<li class="ledger-row"><span class="lt">' + esc(l.t) + '</span><span class="xp"' + (l.xp < 0 ? ' style="color:#e0715a"' : "") + ">" + (l.xp < 0 ? "\u2212" + (-l.xp) : "+" + l.xp) + " XP</span>" +
+        (l.bounty ? '<span class="lf-none">bounty</span>' : l.mainBonus ? '<span class="lf-none">bonus</span>' : l.crown ? '<span class="lf-none">crown</span>' : l.take ? '<span class="lf-none">taken</span>' : l.fail ? '<span class="lf-none">failed</span>' : '<button class="lf" type="button" data-forfeit="' + esc(l.k) + '">Forfeit</button>') + "</li>";
     });
     $("log").innerHTML = html;
   }
@@ -2575,11 +2632,21 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var done = q.main ? mainIsDone(id) : bc ? !!bc.done && !other : state.today.ids.indexOf(id) >= 0, taken = state.active.indexOf(id) >= 0, full = state.active.length >= MAX_SLOTS;
     var gone = !q.main && !taken && !bc && !onBoardToday(id);
     var acts, status = "";
-    if (other) { status = '<p class="qm-status" style="color:#7a1f14">' + (bc.done ? "Done by " : "Taken by ") + esc(bc.name || "another adventurer") + ". None else may take it this day.</p>"; acts = '<button class="btn ghost" data-close>Close</button>'; }
+    var ban = !q.main && !taken && !bc && bannedToday(id);
+    if (other) { status = '<p class="qm-status" style="color:#7a1f14">' + (bc.done ? "Done by " : "Taken by ") + esc(bc.name || "another adventurer") + (!bc.done && bc.due ? ". If not done by " + clockAt(bc.due) + ", it returns to the board." : ". None else may take it this day.") + "</p>"; acts = '<button class="btn ghost" data-close>Close</button>'; }
+    else if (ban) { status = '<p class="qm-status" style="color:#7a1f14">Thou did not finish this in time. Thou may not take it again this day.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
     else if (gone) { status = '<p class="qm-status" style="color:#6b5134">This notice has left the board.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
     else if (done) { status = '<p class="qm-status" style="color:#8f1f1c">Done this day. It returns at dawn.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
-    else if (taken) { status = '<p class="qm-status" style="color:#2f5a2f">Underway</p>'; acts = '<button class="btn gold" data-complete="' + id + '">Complete</button><button class="btn ghost" data-abandon="' + id + '">Abandon</button>'; }
+    else if (taken) { var tb = state.boardTake[id]; status = '<p class="qm-status" style="color:#2f5a2f">Underway' + (tb && tb.due ? '</p><p class="slot-timer" style="color:#7a1d14;text-align:center;margin:-6px 0 12px" data-due="' + tb.due + '">\u23F3 ' + leftTxt(tb.due - Date.now()) + " \u00B7 by " + clockAt(tb.due) : "") + "</p>"; acts = '<button class="btn gold" data-complete="' + id + '">Complete</button><button class="btn ghost" data-abandon="' + id + '">Abandon</button>'; }
     else if (full) { status = '<p class="qm-status" style="color:#6b5134">Thy hands are full (3 of 3). See a quest through first.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
+    else if (pickFor === id) {
+      var lose = FAIL_XP[q.rank] || 5;
+      status = '<div class="qm-time"><span>How long until thou finish it?</span><div class="qt-chips">' +
+        [15, 30, 60, 120, 180, 360, 720].map(function (n) { return '<button type="button" data-tmin="' + n + '" aria-pressed="' + (pickMins === n) + '">' + (n < 60 ? n + "m" : n / 60 + "h") + "</button>"; }).join("") +
+        '</div><div class="qt-custom"><input id="qtH" type="number" inputmode="numeric" min="0" max="24" value="' + Math.floor(pickMins / 60) + '" aria-label="Hours"> h <input id="qtM" type="number" inputmode="numeric" min="0" max="59" value="' + pickMins % 60 + '" aria-label="Minutes"> m</div>' +
+        '<p class="qt-warn" id="qtWarn">' + pickWarn(lose) + "</p></div>";
+      acts = '<button class="btn wax" data-takeok="' + id + '">Take it</button><button class="btn ghost" data-takeback>Back</button>';
+    }
     else acts = '<button class="btn wax" data-accept="' + id + '">Take this quest</button><button class="btn ghost" data-close>Not now</button>';
     var isQ = isQOf(id), isMain = !!q.main;
     var left = isMain ? stepsLeft(q) : 0;
@@ -2613,9 +2680,19 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       (isMain ? '<div class="qm-two">' + (q.custom ? '<button class="qm-del" data-medit="' + id + '">Amend this decree</button>' : "") + '<button class="qm-del" data-mremove="' + id + '">Strike this decree</button></div>' :
        q.custom ? '<button class="qm-del" data-remove="' + id + '">Burn this notice</button>' :
        canDown ? '<button class="qm-del" data-down="' + id + '">Tear this notice down</button>' : "");
-    if (!keep) { $("qmodal").classList.add("show"); sfx("paper"); var b = $("qmPaper").querySelector(".qm-acts .btn"); if (b) b.focus(); }
+    if (!keep) { $("qmodal").classList.add("show"); $("qmodal").scrollTop = 0; sfx("paper"); var b = $("qmPaper").querySelector(".qm-acts .btn"); if (b) b.focus(); }
   }
-  function closeJob() { openId = null; $("qmodal").classList.remove("show"); }
+  function closeJob() { openId = null; pickFor = null; $("qmodal").classList.remove("show"); }
+  function pickWarn(lose) {
+    return "Finish by <b>" + clockAt(Date.now() + pickMins * 60000) + "</b> (" + minsTxt(pickMins) + "). If not, the notice returns to the board, thou may not take it again this day, and thou lose <b>" + lose + " XP</b>.";
+  }
+  function readPick() {
+    var h = Math.max(0, Math.min(24, parseInt($("qtH").value, 10) || 0)), m = Math.max(0, Math.min(59, parseInt($("qtM").value, 10) || 0));
+    pickMins = Math.max(5, Math.min(24 * 60, h * 60 + m));
+    var q = findQ(pickFor); $("qtWarn").innerHTML = pickWarn(FAIL_XP[q ? q.rank : "N"] || 5);
+    document.querySelectorAll("#qmPaper [data-tmin]").forEach(function (b) { b.setAttribute("aria-pressed", String(+b.dataset.tmin === pickMins)); });
+  }
+  document.addEventListener("input", function (e) { if (e.target && (e.target.id === "qtH" || e.target.id === "qtM") && pickFor) readPick(); });
   function numberSteps() { var ins = $("meSteps").querySelectorAll("input"); for (var i = 0; i < ins.length; i++) ins[i].setAttribute("aria-label", "Step " + (i + 1)); $("meSteps").setAttribute("data-n", ins.length); }
   function addStepRow(v) {
     if ($("meSteps").children.length >= 10) { toast("Ten steps at most."); return; }
@@ -2683,7 +2760,10 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     if (t.dataset.open) { showJob(t.dataset.open); return; }
     if (t.hasAttribute("data-close")) { closeJob(); return; }
     var inModal = !!t.closest("#qmodal");
-    if (t.dataset.accept) { accept(t.dataset.accept); if (inModal) closeJob(); return; }
+    if (t.dataset.accept) { var aq = findQ(t.dataset.accept); pickFor = t.dataset.accept; pickMins = { N: 60, S: 120, SS: 240 }[aq ? aq.rank : "N"] || 60; showJob(pickFor, true); sfx("paper"); var qt = $("qmPaper").querySelector(".qm-time"); if (qt) qt.scrollIntoView({ block: "center", behavior: "smooth" }); return; }
+    if (t.dataset.tmin) { pickMins = +t.dataset.tmin; if (pickFor) showJob(pickFor, true); return; }
+    if (t.hasAttribute("data-takeback")) { var pb = pickFor; pickFor = null; if (pb) showJob(pb, true); return; }
+    if (t.dataset.takeok) { if (pickFor && $("qtH")) readPick(); var tid = t.dataset.takeok, tm = pickMins; closeJob(); accept(tid, tm); return; }
     if (t.dataset.complete) { if (inModal) closeJob(); askComplete(t.dataset.complete); return; }
     if (t.hasAttribute("data-cclose")) { closeConfirm(); return; }
     if (t.dataset.player) { openProfile(t.dataset.player); return; }
@@ -2737,6 +2817,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var left = q.main ? stepsLeft(q) : 0;
     if (left) { toast("Mark every step first. " + left + (left === 1 ? " step is" : " steps are") + " yet unmarked."); return; }
     if (q.after != null && hr < q.after && hr >= MAIN_HOUR) { toast("Seal this one when thou retire to bed, after " + q.after + ":00."); return; }
+    var bt0 = state.boardTake[id]; if (bt0 && typeof bt0.due === "number" && Date.now() > bt0.due) { failQuest(id); return; }
     cm.mode = "complete"; cm.word = "complete"; cm.id = id;
     var t = state.takenAt[id], mins = t ? Math.floor((Date.now() - t) / 60000) : null, fast = mins !== null && mins < 5;
     var late = q.id === "mq-rest" && (hr > 22 || (hr === 22 && mn > 15) || hr < MAIN_HOUR);
@@ -4326,7 +4407,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var o = (state.dayStats || {})[k] || { n: 0, xp: 0 }, p = k.split("-"), dd = new Date(+p[0], +p[1] - 1, +p[2]);
     var list = state.log.filter(function (l) { return l.d === k; });
     box.innerHTML = '<div class="cal-dh"><b>The ' + ordinal(dd.getDate()) + " of " + MONTHS[dd.getMonth()] + "</b> · " + o.n + (o.n === 1 ? " deed" : " deeds") + " · " + o.xp + " XP</div>" +
-      (list.length ? '<ul class="cal-list">' + list.map(function (l) { return "<li><span>" + esc(l.t) + "</span><small>+" + l.xp + " XP</small></li>"; }).join("") + "</ul>"
+      (list.length ? '<ul class="cal-list">' + list.map(function (l) { return "<li><span>" + esc(l.t) + "</span><small>" + (l.xp < 0 ? "\u2212" + (-l.xp) : "+" + l.xp) + " XP</small></li>"; }).join("") + "</ul>"
                    : '<p class="cal-hint">' + (o.n ? "The details of this day have faded from the ledger, but the count remains." : "No deeds this day.") + "</p>");
   }
   $("calPrev").addEventListener("click", function () { cal.m--; if (cal.m < 0) { cal.m = 11; cal.y--; } cal.pick = null; renderCal(); });
