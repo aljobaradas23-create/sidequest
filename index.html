@@ -910,6 +910,66 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .chapel-play:hover .cp-seal, .chapel-play:focus-visible .cp-seal { transform: scale(1.08); }
 .cp-txt { font: 18px "IM Fell English SC", Georgia, serif; letter-spacing: .14em; text-shadow: 0 1px 4px rgba(0,0,0,.9); }
 @media (max-width: 480px) { .chapel-frame { padding: 9px; } .cp-seal { width: 54px; height: 54px; } .cp-seal::after { left: 22px; top: 16px; border-width: 11px 0 11px 17px; } }
+
+/* ---------- weekly bounty: poster list + popup ---------- */
+#bossBox { cursor: pointer; }
+#bossBox:focus-visible { outline: 2px solid #d6a24a; outline-offset: 4px; }
+.b-jobs { list-style: none; margin: 10px auto 8px; padding: 0; max-width: 380px; display: grid; gap: 6px; text-align: left; }
+.b-jobs li { display: flex; align-items: center; gap: 8px; font-size: 17px; color: #1c1006; }
+.b-jobs li.hit { text-decoration: line-through; text-decoration-color: rgba(140,23,18,.75); color: #5a3f25; }
+.b-ss { flex: none; display: grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; font: 11px "IM Fell English SC", Georgia, serif; color: rgba(255,240,220,.9);
+  background: radial-gradient(circle at 36% 30%, rgba(255,255,255,.35), transparent 42%), radial-gradient(circle, #7a3aa0 55%, #24082f 100%); box-shadow: 0 1px 2px rgba(0,0,0,.5); }
+.b-by { margin: 8px 0 0; font-size: 19px; color: #3b2715; }
+.b-by b { font-family: var(--black); font-weight: 400; font-size: 26px; color: #7e1712; }
+.b-tap { margin: 6px 0 0; font-size: 14px; font-style: italic; color: #6b4a2a; }
+.bm-paper { max-width: 460px; text-align: center; }
+.bm-paper .b-beast { width: 110px; }
+.bm-rule { margin: 4px 0 12px; font-size: 16.5px; line-height: 1.35; color: #2a1a0c; }
+.bm-jobs { display: grid; gap: 10px; margin: 6px 0 12px; text-align: left; }
+.bm-job { display: grid; grid-template-columns: 38px 1fr; gap: 6px 10px; align-items: start; padding: 10px; border: 1px solid rgba(43,27,16,.35); border-radius: 3px; background: rgba(255,248,225,.35); }
+.bm-job.done { background: rgba(120,160,90,.14); border-color: rgba(60,100,40,.45); }
+.bm-job > .btn, .bm-job > span:last-child { grid-column: 1 / -1; justify-self: stretch; text-align: center; }
+.bm-seal { display: grid; place-items: center; width: 38px; height: 38px; border-radius: 50%; font: 13px "IM Fell English SC", Georgia, serif; color: rgba(255,240,220,.9);
+  background: radial-gradient(circle at 36% 30%, rgba(255,255,255,.35), transparent 42%), radial-gradient(circle, #7a3aa0 55%, #24082f 100%); box-shadow: 0 2px 3px rgba(0,0,0,.45); transform: rotate(-8deg); }
+.bm-jt { display: grid; gap: 2px; }
+.bm-jt b { font-weight: 400; font-size: 18px; line-height: 1.15; color: #170b03; }
+.bm-jt small { font-size: 14px; line-height: 1.3; color: #4e3620; }
+.bm-jt em { font: normal 14px "IM Fell English SC", Georgia, serif; color: #6e0f0a; }
+.bm-done { font: 16px "IM Fell English SC", Georgia, serif; color: #2f5a2f; }
+.bm-closed { font-size: 14.5px; font-style: italic; color: #7a5a3a; }
+.bm-slain { margin: 6px 0 12px; padding: 10px 12px; border: 2px solid rgba(140,23,18,.6); border-radius: 4px; background: rgba(140,23,18,.06); }
+.bm-slain span { display: block; font: 14px "IM Fell English SC", Georgia, serif; letter-spacing: .12em; color: #7e1712; }
+.bm-slain b { display: block; font-family: var(--black); font-weight: 400; font-size: 34px; line-height: 1.05; color: #2a1609; }
+.bm-slain small { display: block; font-size: 13.5px; font-style: italic; color: #6b4a2a; }
+.bm-proofs { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-top: 10px; }
+.bm-proof { padding: 4px 4px 12px; border: 0; background: #f4ecd8; box-shadow: 0 2px 6px rgba(0,0,0,.35); cursor: zoom-in; }
+.bm-proof:nth-child(odd) { transform: rotate(-2deg); } .bm-proof:nth-child(even) { transform: rotate(2deg); }
+.bm-proof img { display: block; width: 100%; aspect-ratio: 1; object-fit: cover; }
+.bm-trail { display: flex; flex-wrap: wrap; justify-content: center; gap: 6px; margin: 0 0 10px; }
+.bm-trail span { flex-basis: 100%; font: 13px "IM Fell English SC", Georgia, serif; letter-spacing: .12em; color: #6b4a2a; }
+.bm-trail i { font-style: normal; font-size: 14px; padding: 2px 9px; border-radius: 10px; background: rgba(43,27,16,.1); color: #2a1a0c; }
+.bp-back { display: block; margin: 0 0 8px; background: none; border: 0; padding: 0; font: 15px "IM Fell English SC", Georgia, serif; color: #7e1712; text-decoration: underline; cursor: pointer; text-align: left; }
+.bp-lead { margin: 0 0 12px; font-size: 16px; color: #3b2715; }
+.bp-pick { display: grid; place-items: center; gap: 6px; min-height: 150px; margin: 0 0 6px; padding: 12px; border: 2px dashed rgba(43,27,16,.5); border-radius: 4px; background: rgba(255,248,225,.4); cursor: pointer; font: 17px "IM Fell English SC", Georgia, serif; color: #4a2f16; }
+.bp-pick.has { padding: 6px 6px 16px; border-style: solid; background: #f4ecd8; box-shadow: 0 3px 8px rgba(0,0,0,.3); }
+.bp-pick img { display: block; width: 100%; max-height: 300px; object-fit: contain; }
+.bp-cam { font-size: 40px; }
+#bpWord { width: 100%; text-align: center; font-size: 22px; padding: 6px; background: rgba(255,250,235,.45); border: 0; border-bottom: 2px solid rgba(43,27,16,.5); color: #160d05; font-family: Georgia, serif; }
+#bpWord:focus { outline: none; border-bottom-color: #7e1712; }
+
+/* ---------- main quest editor: repeat or once ---------- */
+.me-rep { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; }
+.me-rep label { display: flex !important; align-items: flex-start; gap: 8px; padding: 8px 10px; border: 1px solid rgba(43,27,16,.4); border-radius: 3px; background: rgba(255,250,235,.4); cursor: pointer; letter-spacing: 0 !important; }
+.me-rep input { width: 18px !important; height: 18px; margin: 2px 0 0; padding: 0 !important; flex: none; accent-color: #7e1712; background: none !important; border: 0 !important; -webkit-appearance: radio; appearance: auto; color-scheme: light; }
+.me-rep span { display: grid; gap: 2px; }
+.me-rep b { font: 400 16px "IM Fell English", Georgia, serif; color: #1e1006; }
+.me-rep small { font: italic 13px "IM Fell English", Georgia, serif; color: #5a3f25; letter-spacing: 0; }
+.me-rep label:has(input:checked) { border-color: #7e1712; background: rgba(126,23,18,.08); box-shadow: inset 0 0 0 1px #7e1712; }
+
+/* ---------- crow fly-by on accepting a quest ---------- */
+.crow-fly { position: fixed; inset: 0; z-index: 90; pointer-events: none; overflow: hidden; display: none; }
+.crow-fly.show { display: block; }
+.crow-fly img { position: absolute; bottom: 0; left: 50%; transform: translateX(-50%); width: max(100vw, 135vh); height: auto; max-width: none; }
 </style>
 </head>
 <body>
@@ -922,9 +982,9 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       <div class="it-sub">The guild awaits, adventurer</div>
     </div>
   </div>
-  <button class="intro-sound" id="introSound" type="button">&#128264; Tap for sound</button>
-  <button class="intro-play" id="introPlay" type="button" hidden>&#9654; Play the intro</button>
-  <button class="intro-skip" id="introSkip" type="button">Skip &rsaquo;</button>
+  <button class="intro-sound" id="introSound" type="button">&#128264; Tap to hear the tale</button>
+  <button class="intro-play" id="introPlay" type="button" hidden>&#9654; Begin the tale</button>
+  <button class="intro-skip" id="introSkip" type="button">Onward &rsaquo;</button>
 </div>
 <div class="backdrop" aria-hidden="true"></div><div class="fog" aria-hidden="true"></div>
 <div class="wrap">
@@ -936,8 +996,8 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     </div>
     <div class="crest">
       <h1>Sidequest Board</h1>
-      <div class="sub">Take a job from the guild board, see it through, and earn your renown. New requests are posted every dawn.</div>
-      <div class="sound-row"><button class="chip" id="musicBtn" type="button" aria-pressed="false">♪ Tavern music: off</button><button class="chip" id="sfxBtn" type="button" aria-pressed="true">Sounds: on</button></div>
+      <div class="sub">Take up a quest from the guild board, see it through, and earn thy renown. New notices are nailed up every dawn.</div>
+      <div class="sound-row"><button class="chip" id="musicBtn" type="button" aria-pressed="false">♪ Tavern music: off</button><button class="chip" id="sfxBtn" type="button" aria-pressed="true">Hall sounds: on</button></div>
     </div>
   </header>
 
@@ -946,7 +1006,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       <div class="who">
       <button class="portrait-btn" id="avatarBtn" type="button" aria-label="Change avatar"><img class="portrait" id="portrait" src="data:image/jpeg;base64,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" alt="Your avatar"><span class="pchg">Change</span></button>
       <div>
-      <label for="name" class="name-lab">Guild name (tap to change)</label>
+      <label for="name" class="name-lab">Thy name in the guild (tap to see thy ledger)</label>
       <input id="name" class="name-input" maxlength="24" value="Adventurer" readonly>
       <div class="title-tag" id="titleTag">Level 1 · Peasant</div>
       </div>
@@ -959,28 +1019,28 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     <div class="statrow">
       <div class="stat"><div class="k">Level</div><div class="v gold" id="sLv">1</div></div>
       <div class="stat"><div class="k">Total XP</div><div class="v" id="sXp">0</div></div>
-      <div class="stat"><div class="k">Streak</div><div class="v" id="sStreak">0</div></div>
+      <div class="stat"><div class="k">Days Unbroken</div><div class="v" id="sStreak">0</div></div>
       <div class="stat"><div class="k">Deeds Done</div><div class="v" id="sDone">0</div></div>
     </div>
   </section>
 
   <section class="boss-sec" aria-label="Weekly bounty">
-    <div class="bounty tear2" id="bossBox"></div>
+    <div class="bounty tear2" id="bossBox" role="button" tabindex="0" aria-label="Open the weekly bounty"></div>
   </section>
 
   <section class="ranks iron stone-bg" aria-labelledby="lbTitle">
     <div class="lb-head">
       <h2 id="lbTitle">Guild Rankings</h2>
       <div class="lb-tabs" role="group" aria-label="Ranking period">
-        <button class="chip" data-lb="all" aria-pressed="true">All time</button>
-        <button class="chip" data-lb="today" aria-pressed="false">Today</button>
-        <button class="btn small gold" id="inviteBtn" type="button">Invite</button>
+        <button class="chip" data-lb="all" aria-pressed="true">Since the founding</button>
+        <button class="chip" data-lb="today" aria-pressed="false">This day</button>
+        <button class="btn small gold" id="inviteBtn" type="button">Summon a friend</button>
       </div>
     </div>
-    <p class="lb-status" id="lbStatus"><span class="dot"></span>Connecting to the guild…</p>
+    <p class="lb-status" id="lbStatus"><span class="dot"></span>Sending a raven to the guild…</p>
     <ol class="lb-list" id="lbList"></ol>
     <div class="gm-box" id="gmBox" hidden></div>
-    <button class="btn small ghost lb-more" id="lbMore" type="button" hidden>Show all</button>
+    <button class="btn small ghost lb-more" id="lbMore" type="button" hidden>Unroll the whole list</button>
   </section>
 
   <div class="main">
@@ -994,7 +1054,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
         <span class="cf-rivet tl" aria-hidden="true"></span><span class="cf-rivet tr" aria-hidden="true"></span><span class="cf-rivet bl" aria-hidden="true"></span><span class="cf-rivet br" aria-hidden="true"></span>
         <div class="chapel-screen">
           <video id="chapelVid" src="chapel.mp4" poster="chapel.jpg" playsinline webkit-playsinline preload="metadata"></video>
-          <button class="chapel-play" id="chapelPlay" type="button" aria-label="Play the film"><span class="cp-seal" aria-hidden="true"></span><span class="cp-txt">Watch</span></button>
+          <button class="chapel-play" id="chapelPlay" type="button" aria-label="Play the film"><span class="cp-seal" aria-hidden="true"></span><span class="cp-txt">Behold</span></button>
         </div>
       </div>
     </section>
@@ -1005,20 +1065,20 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
         <div class="meta" id="mainMeta"></div>
       </div>
       <div class="plank" id="mainQuests"></div>
-      <button class="btn wax give add-main" type="button" data-mnew>+ Add a main quest</button>
+      <button class="btn wax give add-main" type="button" data-mnew>+ Decree a main quest</button>
     </section>
 
     <section class="board iron stone-bg" aria-labelledby="boardTitle">
       <div class="board-sign">
         <h2 id="boardTitle">Side Quests</h2>
-        <div class="meta" id="boardMeta">Tap a request to read it.</div>
+        <div class="meta" id="boardMeta">Tap a notice to read it.</div>
       </div>
       <div class="board-tools tear3">
-        <div class="ask-lab" id="askLab">Show and ask the guild for</div>
+        <div class="ask-lab" id="askLab">Ask the guild for</div>
         <div class="row" role="group" aria-label="Job class to ask for" id="classTabs"></div>
         <div class="filters" role="group" aria-label="Job type to ask for" id="filters"></div>
-        <button class="btn wax give" id="giveBtn" type="button">Give me a job</button>
-        <button class="qotd-btn" id="qotdBtn" type="button">★ Reveal today’s Quest of the Day <small>double reward</small></button>
+        <button class="btn wax give" id="giveBtn" type="button">Grant me a quest</button>
+        <button class="qotd-btn" id="qotdBtn" type="button">★ Unseal this day’s Quest of the Day <small>twice the reward</small></button>
       </div>
       <div class="plank" id="quests"></div>
     </section>
@@ -1027,7 +1087,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     <aside class="side">
       <section class="scroll iron stone-bg" aria-labelledby="partyTitle">
         <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px solid var(--iron-lo);padding-bottom:6px">
-          <h2 id="partyTitle" style="border:0;padding:0">Ongoing Jobs</h2>
+          <h2 id="partyTitle" style="border:0;padding:0">Quests in Hand</h2>
           <span class="meta" id="slotCount">0 of 3</span>
         </div>
         <div class="slots" id="slots"></div>
@@ -1035,44 +1095,44 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 
       <section class="scroll iron stone-bg" aria-labelledby="logTitle">
         <div class="sec-head"><h2 id="logTitle">Deed Ledger</h2><span class="meta" id="ffMeta"></span></div>
-        <div class="lb-tabs ledger-tabs" role="group" aria-label="Which deeds"><button class="chip" data-ledger="today" aria-pressed="true">Today</button><button class="chip" data-ledger="past" aria-pressed="false">Past 7 days</button></div>
-        <p class="ledger-note">Forfeit any deed you didn't truly finish. The XP goes back and your record stays honest.</p>
+        <div class="lb-tabs ledger-tabs" role="group" aria-label="Which deeds"><button class="chip" data-ledger="today" aria-pressed="true">This day</button><button class="chip" data-ledger="past" aria-pressed="false">Seven days past</button></div>
+        <p class="ledger-note">Forfeit any deed not truly finished. The XP returns to the guild and thy name stays honest.</p>
         <ul class="log" id="log"></ul>
       </section>
 
       <section class="scroll iron stone-bg journal-sec" aria-labelledby="jTitle">
         <div class="sec-head"><h2 id="jTitle">Adventurer's Journal</h2><span class="meta" id="jCount"></span></div>
-        <button class="btn small ghost j-write" id="jWrite" type="button">Write a page</button>
+        <button class="btn small ghost j-write" id="jWrite" type="button">Pen a page</button>
         <div class="jpages" id="jPages"></div>
-        <button class="btn small ghost" id="jMore" type="button" hidden>Read older pages</button>
+        <button class="btn small ghost" id="jMore" type="button" hidden>Turn to older pages</button>
       </section>
 
       <section class="scroll iron stone-bg" aria-labelledby="achTitle">
-        <div class="sec-head"><h2 id="achTitle">Achievements</h2><span class="meta" id="achMeta"></span></div>
-        <label class="honor-pick" for="honorSel">Title shown to the guild
+        <div class="sec-head"><h2 id="achTitle">Honors &amp; Feats</h2><span class="meta" id="achMeta"></span></div>
+        <label class="honor-pick" for="honorSel">Title the heralds call thee
           <select id="honorSel"></select>
         </label>
         <div class="ach-grid" id="achGrid"></div>
         <div class="ach-btns">
           <button class="btn small ghost" id="achAll" type="button"></button>
-          <button class="btn small gold" id="hallBtn" type="button">Open the Hall of Honors</button>
+          <button class="btn small gold" id="hallBtn" type="button">Enter the Hall of Honors</button>
         </div>
       </section>
 
       <section class="scroll iron stone-bg" aria-labelledby="addTitle">
-        <h2 id="addTitle">Post Your Own Job</h2>
+        <h2 id="addTitle">Nail Up Thine Own Quest</h2>
         <form class="form" id="addForm">
-          <label for="qTitle">Job
+          <label for="qTitle">The quest
             <input id="qTitle" required maxlength="80">
           </label>
-          <label for="qDesc">Details (optional)
+          <label for="qDesc">Particulars (if any)
             <textarea id="qDesc" rows="2" maxlength="240"></textarea>
           </label>
           <div class="row">
-            <label for="qCat">Category
+            <label for="qCat">Kind of deed
               <select id="qCat"></select>
             </label>
-            <label for="qRank">Class
+            <label for="qRank">Rank
               <select id="qRank">
                 <option value="N">Normal · 10 XP</option>
                 <option value="S">S-Class · 25 XP</option>
@@ -1080,26 +1140,26 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
               </select>
             </label>
           </div>
-          <button class="btn" type="submit">Pin it to the board</button>
+          <button class="btn" type="submit">Nail it to the board</button>
         </form>
       </section>
       <section class="scroll iron stone-bg save-sec" aria-labelledby="bkTitle">
         <div class="sec-head"><h2 id="bkTitle">Save Scroll</h2></div>
-        <p class="meta" style="margin:8px 0 6px">Everything lives on this phone only. Export a save file now and then and keep it in Files, iCloud Drive or Google Drive. If something goes wrong, or you switch phones, import it here.</p>
+        <p class="meta" style="margin:8px 0 6px">Thy deeds are kept on this device. Now and then, write a save scroll and keep it safe in Files, iCloud Drive or Google Drive. Should ill fortune strike, or should thou change devices, restore it here.</p>
         <p class="save-status" id="saveStatus"></p>
         <div class="save-acts">
-          <button class="btn gold" id="exportBtn" type="button">Export save file</button>
-          <label class="btn ghost" for="importFile">Import save file</label>
+          <button class="btn gold" id="exportBtn" type="button">Write a save scroll</button>
+          <label class="btn ghost" for="importFile">Restore from a scroll</label>
           <input type="file" id="importFile" accept="application/json,.json,.sqsave,text/plain" class="vh">
         </div>
         <div class="save-more">
-          <button class="btn small ghost" id="copyBtn" type="button">Copy as text</button>
-          <button class="btn small ghost" id="pasteBtn" type="button">Paste text</button>
-          <button class="btn small ghost" id="undoBtn" type="button" hidden>Undo last import</button>
+          <button class="btn small ghost" id="copyBtn" type="button">Copy as plain words</button>
+          <button class="btn small ghost" id="pasteBtn" type="button">Paste the words</button>
+          <button class="btn small ghost" id="undoBtn" type="button" hidden>Undo the last restoring</button>
         </div>
         <div id="pasteBox" class="form" style="display:none">
           <textarea id="pasteText" rows="4" aria-label="Save text"></textarea>
-          <button class="btn small" id="pasteApply" type="button">Check this save</button>
+          <button class="btn small" id="pasteApply" type="button">Inspect this scroll</button>
         </div>
       </section>
     </aside>
@@ -1114,11 +1174,11 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     <p class="jm-date" id="jmDate"></p>
     <h3 id="jmTitle"></h3>
     <p class="jm-lead" id="jmLead"></p>
-    <label class="jm-lab" for="jmText">What happened? What did you learn?</label>
+    <label class="jm-lab" for="jmText">What befell thee? What wisdom did thou gain?</label>
     <textarea id="jmText" rows="5" maxlength="1500"></textarea>
-    <div class="jm-photo"><img id="jmPrev" alt="Chosen picture" hidden><label class="btn ghost small" for="jmFile">Add a picture</label>
+    <div class="jm-photo"><img id="jmPrev" alt="Chosen picture" hidden><label class="btn ghost small" for="jmFile">Affix a picture</label>
       <input type="file" id="jmFile" accept="image/*" class="vh"></div>
-    <div class="qm-acts"><button class="btn gold" id="jmSave" type="button">Save to journal</button><button class="btn ghost" type="button" data-jclose>Skip</button></div>
+    <div class="qm-acts"><button class="btn gold" id="jmSave" type="button">Write it in the journal</button><button class="btn ghost" type="button" data-jclose>Not now</button></div>
   </div>
 </div>
 <div class="qmodal" id="cmodal" role="dialog" aria-modal="true" aria-labelledby="cmTitle">
@@ -1135,6 +1195,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   </div>
 </div>
 <div class="qmodal hall-modal" id="hmodal" role="dialog" aria-modal="true" aria-labelledby="hallTitle"><div class="hall" id="hall"></div></div>
+<div class="qmodal" id="bmodal" role="dialog" aria-modal="true" aria-labelledby="bmTitle"><div class="qm-paper bm-paper" id="bmPaper"></div></div>
 <div class="qmodal" id="pmodal" role="dialog" aria-modal="true" aria-labelledby="pmTitle"><div class="qm-paper pm-paper" id="pmPaper"></div></div>
 <div class="qmodal" id="amodal" role="dialog" aria-modal="true" aria-labelledby="amTitle">
   <div class="qm-paper am-paper">
@@ -1142,10 +1203,10 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     <div class="qm-kicker" id="amTitle">Your Likeness</div>
     <img class="am-prev" id="avPrev" alt="Chosen avatar">
     <div class="av-grid" id="avGrid"></div>
-    <label class="btn ghost small am-up" for="avFile">Use my own photo</label>
+    <label class="btn ghost small am-up" for="avFile">Use mine own portrait</label>
     <input type="file" id="avFile" accept="image/*" class="vh">
-    <p class="am-note">Your avatar is shown to everyone in your guild. If you use your own photo, friends see your initial instead until the guild's database rules are updated.</p>
-    <div class="qm-acts"><button class="btn gold" id="avSave" type="button">Save avatar</button><button class="btn ghost" type="button" data-aclose>Cancel</button></div>
+    <p class="am-note">Thy likeness is shown to all in thy guild. If thou use thine own portrait, friends see thy first letter instead until the guild's rules are updated.</p>
+    <div class="qm-acts"><button class="btn gold" id="avSave" type="button">Keep this likeness</button><button class="btn ghost" type="button" data-aclose>Turn back</button></div>
   </div>
 </div>
 <div class="qmodal" id="smodal" role="dialog" aria-modal="true" aria-labelledby="smTitle">
@@ -1153,8 +1214,8 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     <span class="pin" aria-hidden="true"></span><button class="qm-x" data-sclose aria-label="Close">×</button>
     <div class="qm-kicker" id="smTitle">Restore a Save</div>
     <div class="sm-body" id="smBody"></div>
-    <p class="cm-warn">This replaces the progress on this phone. You can undo it right after.</p>
-    <div class="qm-acts"><button class="btn gold" id="smOk" type="button">Restore it</button><button class="btn ghost" type="button" data-sclose>Cancel</button></div>
+    <p class="cm-warn">This replaces the deeds kept on this device. Thou may undo it straight after.</p>
+    <div class="qm-acts"><button class="btn gold" id="smOk" type="button">Restore it</button><button class="btn ghost" type="button" data-sclose>Turn back</button></div>
   </div>
 </div>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Picture"><img id="lbImg" alt=""><button class="qm-x" data-lbclose aria-label="Close">×</button></div>
@@ -1163,12 +1224,12 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     <span class="pin" aria-hidden="true"></span>
     <div class="qm-kicker" id="gTitle">The Guild Ledger</div>
     <div class="g-tabs" id="gTabs" role="tablist">
-      <button type="button" role="tab" data-gmode="login">Log in</button>
-      <button type="button" role="tab" data-gmode="new">New adventurer</button>
+      <button type="button" role="tab" data-gmode="login">Enter the Guild</button>
+      <button type="button" role="tab" data-gmode="new">Enlist Anew</button>
     </div>
     <p class="g-lead" id="gLead"></p>
     <div id="gForm">
-      <label class="jm-lab" for="gName">Your name</label>
+      <label class="jm-lab" for="gName">Thy name</label>
       <input id="gName" type="text" maxlength="24" autocomplete="username" autocapitalize="words" spellcheck="false">
       <div id="gPinRow">
         <label class="jm-lab" for="gPin">Secret seal · 4 to 6 numbers</label>
@@ -1182,10 +1243,11 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     <p class="cm-hint" id="gHint" aria-live="polite"></p>
     <div class="qm-acts"><button class="btn gold" id="gOk" type="button">Log in</button><button class="btn ghost" id="gCancel" type="button" hidden>Not now</button></div>
     <button class="g-link" id="gSwitch" type="button" hidden></button>
-    <button class="g-link" id="gLocal" type="button" hidden>Play on this device only, without an account</button>
+    <button class="g-link" id="gLocal" type="button" hidden>Journey on this device alone, without a sealed account</button>
     <p class="g-note" id="gNote"></p>
   </div>
 </div>
+<div class="crow-fly" id="crowFly" aria-hidden="true"><img id="crowImg" alt=""></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="levelup" id="levelup" role="dialog" aria-modal="true" aria-labelledby="luTitle">
   <div class="card">
@@ -1193,7 +1255,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     <div class="scroll iron stone-bg">
       <h2 id="luTitle">You Have Risen</h2>
       <div class="big" id="luLv">Level 2</div>
-      <p class="meta" id="luMsg" style="margin:0 0 14px">Keep going.</p>
+      <p class="meta" id="luMsg" style="margin:0 0 14px">Onward, ever onward.</p>
       <button class="btn gold" id="luClose">Onward</button>
     </div>
   </div>
@@ -1314,6 +1376,11 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     });
     if (!s.mainChecks || typeof s.mainChecks !== "object" || typeof s.mainChecks.c !== "object" || !s.mainChecks.c) s.mainChecks = { d: "", c: {} };
     if (!Array.isArray(s.mainHidden)) s.mainHidden = [];
+    s.mainCustom.forEach(function (m) { m.once = !!m.once; if (typeof m.doneOn !== "string") delete m.doneOn; });
+    if (!s.mainDone || typeof s.mainDone !== "object" || !Array.isArray(s.mainDone.ids)) {
+      var was = s.today && s.today.d === todayKey() && Array.isArray(s.today.ids) ? s.today.ids.filter(function (x) { return /^m[qx]/.test(x); }) : [];
+      s.mainDone = { d: mainDayKey(), ids: was };
+    }
     if (typeof s.mainBonus !== "string") s.mainBonus = "";
     if (typeof s.stats.mainDays !== "number") s.stats.mainDays = 0;
     s.log.forEach(function (l, i) { if (!l.k) l.k = "o" + i + "-" + (l.d || "") ; });
@@ -1359,15 +1426,23 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       story: "By royal decree the town gates close at the tenth bell. Those who rest well ride out strongest at dawn; those who don't, the road remembers." }
   ];
   var MAIN_BONUS = 20;
-  function mainQuests() { var h = state.mainHidden || []; return MAIN.filter(function (m) { return h.indexOf(m.id) < 0; }).concat(state.mainCustom || []); }
+  var MAIN_HOUR = 7;
+  function mainDayKey(dt) { var d = dt || new Date(); return todayKey(new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours() - MAIN_HOUR, d.getMinutes())); }
+  function mainDoneIds() { var k = mainDayKey(); if (!state.mainDone || state.mainDone.d !== k) state.mainDone = { d: k, ids: [] }; return state.mainDone.ids; }
+  function mainIsDone(id) { return mainDoneIds().indexOf(id) >= 0; }
+  function mainQuests() {
+    var h = state.mainHidden || [], k = mainDayKey();
+    return MAIN.filter(function (m) { return h.indexOf(m.id) < 0; })
+      .concat((state.mainCustom || []).filter(function (m) { return !(m.once && m.doneOn && m.doneOn !== k); }));
+  }
   function askRemoveMain(id) {
     var q = findQ(id); if (!q || !q.main) return;
     cm.mode = "mremove"; cm.word = "remove"; cm.id = id;
-    $("cmKick").textContent = "Remove a Main Quest"; $("cmTitle").textContent = q.title;
-    $("cmLead").innerHTML = "This takes the decree off your Main Quests board. Type <b>remove</b> to confirm.";
+    $("cmKick").textContent = "Strike a Main Quest"; $("cmTitle").textContent = q.title;
+    $("cmLead").innerHTML = "This strikes the decree from thy Main Quests board. Write <b>remove</b> to confirm.";
     $("cmWarn").hidden = false;
-    $("cmWarn").textContent = q.custom ? "Your own main quest will be gone for good, steps included. XP you already earned stays." : "You can bring it back anytime with “Bring back removed main quests” under the board. XP you already earned stays.";
-    $("cmOk").textContent = "Remove it"; $("cmOk").className = "btn wax";
+    $("cmWarn").textContent = q.custom ? "Thine own decree shall be gone for good, steps and all. XP already earned stays with thee." : "Thou may summon it back anytime with “Restore struck decrees” beneath the board. XP already earned stays with thee.";
+    $("cmOk").textContent = "Strike it"; $("cmOk").className = "btn wax";
     $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type remove to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
     $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
   }
@@ -1376,10 +1451,10 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     if (state.mainChecks && state.mainChecks.c) delete state.mainChecks.c[id];
     if (q.custom) state.mainCustom = state.mainCustom.filter(function (m) { return m.id !== id; });
     else if (state.mainHidden.indexOf(id) < 0) state.mainHidden.push(id);
-    save(); render(); sfx("paper"); toast("“" + q.title + "” is off the board.");
+    save(); render(); sfx("paper"); toast("“" + q.title + "” is struck from the board.");
   }
   function checksFor(id) {
-    if (!state.mainChecks || state.mainChecks.d !== todayKey()) state.mainChecks = { d: todayKey(), c: {} };
+    if (!state.mainChecks || state.mainChecks.d !== mainDayKey()) state.mainChecks = { d: mainDayKey(), c: {} };
     return state.mainChecks.c[id] || [];
   }
   function stepsLeft(q) {
@@ -1387,14 +1462,14 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     var c = checksFor(q.id); return q.steps.filter(function (s, i) { return c.indexOf(i) < 0; }).length;
   }
   function toggleStep(id, i) {
-    var q = findQ(id); if (!q || !q.steps || state.today.ids.indexOf(id) >= 0) return;
+    var q = findQ(id); if (!q || !q.steps || mainIsDone(id)) return;
     var c = checksFor(id).slice(), at = c.indexOf(i);
     if (at >= 0) c.splice(at, 1); else c.push(i);
     state.mainChecks.c[id] = c; save(); render();
-    if (at < 0) { sfx("pin"); if (!stepsLeft(q)) toast("Every step is checked. You may seal it now."); }
+    if (at < 0) { sfx("pin"); if (!stepsLeft(q)) toast("Every step is marked. Thou may seal it now."); }
   }
   function allQuests() { return BASE.concat(state.custom); }
-  function findQ(id) { var a = allQuests().concat(MAIN, state.mainCustom || []); for (var i = 0; i < a.length; i++) if (a[i].id === id) return a[i]; return null; }
+  function findQ(id) { var a = allQuests().concat(MAIN, state.mainCustom || [], BOUNTY); for (var i = 0; i < a.length; i++) if (a[i].id === id) return a[i]; return null; }
 
   function levelInfo(xp) {
     var lv = 1, need = 100, rem = xp;
@@ -1422,35 +1497,65 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   }
   var BOSS_XP = 120;
   var BOSSES = [
-    { id: "sloth", name: "The Sloth Wyrm", epithet: "Coiler of Couches", hp: 4, eye: "#9be05a",
-      goal: "Complete 4 Body jobs this week.", story: "It sleeps across the training grounds and every recruit who sees it suddenly feels tired. Only movement wounds it.",
+    { id: "sloth", name: "The Sloth Wyrm", epithet: "Coiler of Couches", hp: 2, eye: "#9be05a",
+      goal: "Complete the two SS-Class jobs on this poster, each with a picture as proof.", story: "It sleeps across the training grounds and every recruit who sees it suddenly feels tired. Only movement wounds it.",
       match: function (q) { return q.cat === "Body"; } },
-    { id: "hydra", name: "The Hydra of Distraction", epithet: "Thief of Hours", hp: 4, eye: "#59c3ff",
-      goal: "Complete 4 Mind or Spirit jobs this week.", story: "Cut off one notification and two more grow back. Focus and a quiet mind are the only blades that work.",
+    { id: "hydra", name: "The Hydra of Distraction", epithet: "Thief of Hours", hp: 2, eye: "#59c3ff",
+      goal: "Complete the two SS-Class jobs on this poster, each with a picture as proof.", story: "Cut off one notification and two more grow back. Focus and a quiet mind are the only blades that work.",
       match: function (q) { return q.cat === "Mind" || q.cat === "Spirit"; } },
-    { id: "giant", name: "The Wandering Giant", epithet: "Keeper of the Far Roads", hp: 3, eye: "#ffcf4a",
-      goal: "Complete 3 Adventure jobs this week.", story: "He guards every road you've never walked. He only kneels to those who go out and walk them.",
+    { id: "giant", name: "The Wandering Giant", epithet: "Keeper of the Far Roads", hp: 2, eye: "#ffcf4a",
+      goal: "Complete the two SS-Class jobs on this poster, each with a picture as proof.", story: "He guards every road you've never walked. He only kneels to those who go out and walk them.",
       match: function (q) { return q.cat === "Adventure"; } },
-    { id: "golem", name: "The Clutter Golem", epithet: "Lord of the Messy Room", hp: 4, eye: "#ff9a3c",
-      goal: "Complete 4 Home jobs this week.", story: "Built from unwashed bowls and forgotten laundry, it grows a little every day you look away.",
+    { id: "golem", name: "The Clutter Golem", epithet: "Lord of the Messy Room", hp: 2, eye: "#ff9a3c",
+      goal: "Complete the two SS-Class jobs on this poster, each with a picture as proof.", story: "Built from unwashed bowls and forgotten laundry, it grows a little every day you look away.",
       match: function (q) { return q.cat === "Home"; } },
-    { id: "wraith", name: "The Lonely Wraith", epithet: "Whisperer of 'Later'", hp: 3, eye: "#c49bff",
-      goal: "Complete 3 Social jobs this week.", story: "It feeds on unanswered messages and postponed meetups. Real connection burns it like sunlight.",
+    { id: "wraith", name: "The Lonely Wraith", epithet: "Whisperer of 'Later'", hp: 2, eye: "#c49bff",
+      goal: "Complete the two SS-Class jobs on this poster, each with a picture as proof.", story: "It feeds on unanswered messages and postponed meetups. Real connection burns it like sunlight.",
       match: function (q) { return q.cat === "Social"; } },
-    { id: "specter", name: "The Blank-Page Specter", epithet: "Silencer of Bards", hp: 3, eye: "#e8e4dc",
-      goal: "Complete 3 Creative jobs this week.", story: "It haunts every unfinished idea. Make something, anything, and it fades.",
+    { id: "specter", name: "The Blank-Page Specter", epithet: "Silencer of Bards", hp: 2, eye: "#e8e4dc",
+      goal: "Complete the two SS-Class jobs on this poster, each with a picture as proof.", story: "It haunts every unfinished idea. Make something, anything, and it fades.",
       match: function (q) { return q.cat === "Creative"; } },
-    { id: "dragon", name: "The Iron Dragon", epithet: "Bane of the Idle", hp: 15, eye: "#ff4a3a",
-      goal: "Complete 15 jobs of any kind this week.", story: "An old beast with scales like shields. No single blow will fell it, only many, struck day after day.",
+    { id: "dragon", name: "The Iron Dragon", epithet: "Bane of the Idle", hp: 2, eye: "#ff4a3a",
+      goal: "Complete the two SS-Class jobs on this poster, each with a picture as proof.", story: "An old beast with scales like shields. No single blow will fell it, only many, struck day after day.",
       match: function () { return true; } },
     { id: "tyrant", name: "The Tyrant of the Peak", epithet: "Who Waits Above", hp: 2, eye: "#ff5577",
-      goal: "Complete 2 SS-Class jobs this week.", story: "It sits where few climb. Only the hardest requests on the board can reach it.",
+      goal: "Complete the two SS-Class jobs on this poster, each with a picture as proof.", story: "It sits where few climb. Only the hardest requests on the board can reach it.",
       match: function (q) { return q.rank === "SS"; } }
   ];
+  var BOUNTY = [
+    ["bx01", "Walk or jog 5 km around your area", "Body", "Early morning or late afternoon, around your barangay, school or a park. Walking counts; just finish the full 5 km. A free map or step app can measure it.", "The beast hates a steady stride. Five thousand steps of it and it starts to limp."],
+    ["bx02", "100 push-ups, 100 squats and 100 sit-ups in one day", "Body", "Spread them across the day in small sets. Knee push-ups are fine. No equipment needed, just a floor.", "Three hundred blows, struck one by one. No blade required, only stubbornness."],
+    ["bx03", "Study 2 hours with your phone in another room", "Mind", "Two hours of real focus on schoolwork or a skill. Short breaks are fine; the phone stays away the whole time.", "The beast feeds on every glance at a screen. Starve it for two whole hours."],
+    ["bx04", "Read 50 pages of a book in one day", "Mind", "Any book: from the school library, borrowed from someone, or a free e-book. Fifty pages before you sleep.", "Old scrolls hide old weaknesses. Read far enough and you'll find this beast's."],
+    ["bx05", "Clean the whole house, not just your room", "Home", "Sweep, mop and wipe every room. Ask your family what needs doing first, then do all of it.", "It nests in dust and forgotten corners. Leave it nowhere to hide."],
+    ["bx06", "Cook a full meal for your family", "Home", "Rice and one ulam, made by you from start to finish, then wash every dish after.", "A hall that eats well fights well. Feed your people and the beast loses its hunger."],
+    ["bx07", "Wash, dry and fold your family's laundry", "Home", "A full load for the household, by hand or by machine, hung out and folded neatly.", "The beast hides in the laundry pile. Every folded shirt is a wall it can't climb."],
+    ["bx08", "Help a neighbor or an elder with a chore", "Social", "Carry their groceries, fetch water, sweep their yard, or run an errand. Don't accept payment.", "Kindness given freely is a blade this beast has never learned to block."],
+    ["bx09", "Teach someone for a full hour", "Social", "Help a younger sibling, cousin or classmate with schoolwork or a skill you know, for one whole hour.", "Knowledge shared doubles. The beast was only ready to fight one of you."],
+    ["bx10", "Write a letter to your parents and give it to them", "Social", "At least a full page, by hand: thank them, tell them something true. Then hand it to them yourself.", "Words left unsaid make the beast stronger. Say them on paper, face to face."],
+    ["bx11", "Make something useful from things at home", "Creative", "Turn old bottles, boxes, cans or scraps into something your family will actually use.", "The guild's smiths say the best weapons are made from what others throw away."],
+    ["bx12", "Finish one drawing, poem, story or song cover", "Creative", "Start it and finish it today. Show it to at least one person.", "An unfinished work is the beast's favorite meal. Finish yours and it goes hungry."],
+    ["bx13", "Walk or bike to a place in town you've never been", "Adventure", "A chapel, a park, a market, a viewpoint. Free or almost free. Tell someone where you're going.", "The beast only knows the roads you always take. Take a new one and it loses your trail."],
+    ["bx14", "Watch the sunrise from outside", "Adventure", "Wake up before dawn, go outside or up to a high spot, and stay until the sun is fully up.", "Creatures of the night can't stand the first light. Be there to meet it."],
+    ["bx15", "A whole day without social media", "Spirit", "From waking up to bedtime. Texting family and friends directly is fine; scrolling feeds is not.", "The beast whispers through every feed. A day of silence and it loses its voice."],
+    ["bx16", "Go a whole day without complaining", "Spirit", "Catch yourself complaining? Turn it into a solution or let it go. Ask someone to keep you honest.", "Every grumble feeds it. A day without one and it starves."],
+    ["bx17", "Clean up a public spot for 30 minutes", "Spirit", "Pick up trash on your street, a basketball court or a park. Bring a bag, and gloves if you have them.", "The beast loves a littered road. Clear one and the whole barangay breathes easier."]
+  ].map(function (r) { return { id: r[0], title: r[1], cat: r[2], rank: "SS", desc: r[3], story: r[4], bounty: true }; });
+  function bountyJobs(b, w) {
+    var ss = BOUNTY;
+    var mix = function (arr) { return arr.slice().sort(function (x, y) { return hash(x.id + ":" + w.key) - hash(y.id + ":" + w.key); }); };
+    var near = ss.filter(function (q) { return b.match(q); });
+    if (near.length === ss.length) near = [];
+    return mix(near).concat(mix(ss.filter(function (q) { return near.indexOf(q) < 0; }))).slice(0, 2);
+  }
   function currentBoss() {
     var w = weekInfo(), b = BOSSES[hash("boss:" + w.key) % BOSSES.length];
-    if (!state.boss || state.boss.week !== w.key) state.boss = { week: w.key, hits: 0, won: false };
-    return { b: b, w: w, st: state.boss };
+    if (!state.boss || state.boss.week !== w.key) state.boss = { week: w.key, hits: 0, won: false, done: [], proofs: {} };
+    if (!Array.isArray(state.boss.done)) { state.boss.done = []; state.boss.hits = 0; }
+    if (!state.boss.proofs || typeof state.boss.proofs !== "object") state.boss.proofs = {};
+    var jobs = bountyJobs(b, w);
+    if (!state.boss.won) { state.boss.done = state.boss.done.filter(function (id) { return jobs.some(function (j) { return j.id === id; }); }); state.boss.hits = state.boss.done.length; }
+    return { b: b, w: w, st: state.boss, jobs: jobs };
   }
   function catCount(c) { return (state.stats.cats[c] || 0); }
   function idCount(id) { return (state.stats.ids[id] || 0); }
@@ -1645,18 +1750,25 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     S.best = Math.min(S.best || 0, Math.max(longestRun(state.days), streak()));
     var cb = currentBoss();
     if (e.bw && e.bw === cb.w.key && cb.st.hits > 0) {
-      cb.st.hits--;
+      cb.st.done = cb.st.done.filter(function (x) { return x !== e.id; }); cb.st.hits = cb.st.done.length; delete cb.st.proofs[e.id];
       if (cb.st.won && cb.st.hits < cb.b.hp) {
         cb.st.won = false; if (S.boss) S.boss--;
         state.xp = Math.max(0, state.xp - BOSS_XP); lost += BOSS_XP;
         state.log = state.log.filter(function (l) { return !(l.bounty && l.bw === cb.w.key); });
         notes.push("the bounty on " + cb.b.name + " is revoked");
+        if (cloud.db && cloud.bounty && cloud.bounty.uid === cloud.uid) cloud.db.ref("bounty/" + cb.w.key).remove().catch(function () {});
       }
+      pushHunt(cb);
     }
-    if (e.main && state.mainBonus === e.d) {
+    var emk = e.md || e.d;
+    if (e.main && qid && emk === mainDayKey()) {
+      state.mainDone.ids = mainDoneIds().filter(function (x) { return x !== qid; });
+      (state.mainCustom || []).forEach(function (m) { if (m.id === qid && m.once) delete m.doneOn; });
+    }
+    if (e.main && state.mainBonus === emk) {
       state.mainBonus = ""; if (S.mainDays) S.mainDays--;
       state.xp = Math.max(0, state.xp - MAIN_BONUS); lost += MAIN_BONUS;
-      state.log = state.log.filter(function (l) { return !(l.mainBonus && l.d === e.d); });
+      state.log = state.log.filter(function (l) { return !(l.mainBonus && (l.md || l.d) === emk); });
       notes.push("the day-conquered bonus is returned");
     }
     var revoked = allAch().filter(function (a) { return state.badges[a.id] && a.get() < a.goal; });
@@ -1689,25 +1801,39 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   }
   /* ---------- actions ---------- */
   function accept(id) {
-    if (state.active.length >= MAX_SLOTS) { toast("Your hands are full. Finish a job first."); return; }
+    if (state.active.length >= MAX_SLOTS) { toast("Thy hands are full. See a quest through first."); return; }
     if (state.active.indexOf(id) >= 0 || state.today.ids.indexOf(id) >= 0) return;
     state.active.push(id); state.takenAt[id] = Date.now();
     state.posted = state.posted.filter(function (x) { return x !== id; });
-    save(); render(); sfx("take");
-    var q = findQ(id); if (q) toast("Job taken: " + q.title);
+    save(); render(); sfx("take"); crowFly();
+    var q = findQ(id); if (q) toast("Quest accepted: " + q.title);
+  }
+  /* ---------- a crow flies past the screen whenever a quest is accepted ---------- */
+  var crow = { blob: null, timer: null, url: null };
+  try { fetch("crow.webp").then(function (r) { return r.ok ? r.blob() : null; }).then(function (b) { crow.blob = b; }).catch(function () {}); } catch (e) {}
+  function crowFly() {
+    var box = $("crowFly"), img = $("crowImg"); if (!box || !img) return;
+    if (window.matchMedia && matchMedia("(prefers-reduced-motion: reduce)").matches) return;
+    clearTimeout(crow.timer); if (crow.url) { URL.revokeObjectURL(crow.url); crow.url = null; }
+    var src = crow.blob ? (crow.url = URL.createObjectURL(crow.blob)) : "crow.webp?t=" + Date.now();
+    img.onload = function () { box.classList.add("show"); sfx("wings"); };
+    img.onerror = function () { box.classList.remove("show"); };
+    img.src = src;
+    crow.timer = setTimeout(function () { box.classList.remove("show"); img.removeAttribute("src"); if (crow.url) { URL.revokeObjectURL(crow.url); crow.url = null; } }, 2350);
   }
   function abandon(id) {
     state.active = state.active.filter(function (x) { return x !== id; });
     if (state.posted.indexOf(id) < 0 && findQ(id)) state.posted.push(id);
     if (typeof state.postedAt[id] !== "number") state.postedAt[id] = Date.now();
-    save(); render(); toast("The request goes back on the board.");
+    save(); render(); toast("The notice goes back upon the board.");
   }
   function takeDown(id) {
     state.posted = state.posted.filter(function (x) { return x !== id; });
     delete state.postedAt[id];
-    save(); render(); toast("Request taken down.");
+    save(); render(); toast("The notice is torn down.");
   }
-  function complete(id) {
+  function complete(id, opts) {
+    opts = opts || {};
     var q = findQ(id); if (!q) { abandon(id); return; }
     var before = levelInfo(state.xp).lv, isQ = id === qotdId();
     var gain = (XP[q.rank] || 10) * (isQ ? 2 : 1);
@@ -1719,51 +1845,52 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     state.today.ids.push(id);
     var tk = todayKey(); if (state.days.indexOf(tk) < 0) state.days.push(tk);
     if (state.days.length > 400) state.days = state.days.slice(-400);
-    var entry = { k: id + "-" + Date.now().toString(36), id: id, cat: q.cat, rank: q.rank, q: isQ, main: !!q.main, t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
+    var mk = mainDayKey();
+    if (q.main) { if (!mainIsDone(id)) mainDoneIds().push(id); if (q.once) q.doneOn = mk; }
+    var entry = { k: id + "-" + Date.now().toString(36), id: id, cat: q.cat, rank: q.rank, q: isQ, main: !!q.main, md: q.main ? mk : "", t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
     state.log.unshift(entry); delete state.takenAt[id];
     var S = state.stats;
     S.cats[q.cat] = (S.cats[q.cat] || 0) + 1; S.ranks[q.rank] = (S.ranks[q.rank] || 0) + 1; S.ids[id] = (S.ids[id] || 0) + 1;
     if (isQ) S.qotd++;
     S.best = Math.max(S.best || 0, streak());
-    var cb = currentBoss(), hit = false, slain = false;
-    if (!cb.st.won && cb.b.match(q)) {
-      cb.st.hits++; hit = true; entry.bw = cb.w.key;
-      if (cb.st.hits >= cb.b.hp) { cb.st.won = true; slain = true; S.boss++; state.xp += BOSS_XP; state.log.unshift({ k: "b-" + cb.w.key, bounty: true, bw: cb.w.key, t: "Bounty: " + cb.b.name + " slain", xp: BOSS_XP, d: tk, at: Date.now() }); }
+    var cb = currentBoss(), hit = false;
+    if (opts.bounty && !cb.st.won && cb.st.done.indexOf(id) < 0 && cb.jobs.some(function (j) { return j.id === id; })) {
+      cb.st.done.push(id); cb.st.hits = cb.st.done.length; hit = true; entry.bw = cb.w.key;
+      if (opts.proof) cb.st.proofs[id] = opts.proof;
     }
     var conquered = false;
-    if (q.main && state.mainBonus !== tk && mainQuests().every(function (m) { return state.today.ids.indexOf(m.id) >= 0; })) {
-      conquered = true; state.mainBonus = tk; S.mainDays = (S.mainDays || 0) + 1; state.xp += MAIN_BONUS;
-      state.log.unshift({ k: "mb-" + tk, mainBonus: true, t: "Day conquered: every main quest done", xp: MAIN_BONUS, d: tk, at: Date.now() });
+    if (q.main && state.mainBonus !== mk && mainQuests().every(function (m) { return mainIsDone(m.id); })) {
+      conquered = true; state.mainBonus = mk; S.mainDays = (S.mainDays || 0) + 1; state.xp += MAIN_BONUS;
+      state.log.unshift({ k: "mb-" + mk, mainBonus: true, md: mk, t: "The day conquered: every decree fulfilled", xp: MAIN_BONUS, d: tk, at: Date.now() });
     }
     if (state.log.length > 150) state.log.length = 150;
     save(); render();
     sfx("coin");
-    if (conquered) celebrate({ head: "Day Conquered", big: "+" + MAIN_BONUS + " XP", msg: "Every main quest is done today. The Crown is pleased.", sound: "fanfare" });
+    if (conquered) celebrate({ head: "Day Conquered", big: "+" + MAIN_BONUS + " XP", msg: "Every decree is fulfilled. The Crown is well pleased. New decrees arrive on the morrow at 7.", sound: "fanfare" });
     toast("+" + gain + " XP · " + q.title + (isQ ? " (double reward!)" : ""));
-    if (hit && !slain) setTimeout(function () { sfx("hit"); toast("You strike " + cb.b.name + "! " + cb.st.hits + " of " + cb.b.hp + " blows."); }, 1300);
-    if (slain) celebrate({ head: "Bounty Claimed", big: cb.b.name + " is slain", msg: "+" + BOSS_XP + " XP. The whole guild will hear of this.", sound: "hit" });
     var after = levelInfo(state.xp).lv;
     if (after > before) levelUp(after);
     checkBadges();
-    openJournal({ id: id, title: q.title, cat: q.cat, rank: q.rank });
+    if (opts.bounty) { proofToJournal(q, cb, opts.photo || opts.proof); if (hit) bountyHit(cb, id); }
+    else openJournal({ id: id, title: q.title, cat: q.cat, rank: q.rank });
   }
   function drawJob() {
     var onBoard = state.posted.length + state.active.length;
-    if (onBoard >= MAX_BOARD) { toast("The board is full. Take or remove a request first."); return; }
+    if (onBoard >= MAX_BOARD) { toast("The board is full. Take up or tear down a notice first."); return; }
     var pool = allQuests().filter(function (q) {
       return q.id !== qotdId() && state.posted.indexOf(q.id) < 0 && state.active.indexOf(q.id) < 0 && state.today.ids.indexOf(q.id) < 0 &&
         (filter === "All" || q.cat === filter) && (rankTab === "All" || q.rank === rankTab);
     });
-    if (!pool.length) { toast("No such requests left today. Try another kind, or return at dawn."); return; }
+    if (!pool.length) { toast("No such notices remain this day. Ask for another kind, or return at dawn."); return; }
     var q = pool[Math.floor(Math.random() * pool.length)];
     state.posted.push(q.id); state.postedAt[q.id] = Date.now(); freshId = q.id; save(); render(); freshId = null;
-    sfx("pin"); toast("A new request is pinned to the board.");
+    sfx("pin"); toast("A new notice is nailed to the board.");
   }
   function addCustom(title, cat, rank, desc) {
     var id = "x" + Date.now().toString(36);
     state.custom.push({ id: id, title: title, cat: cat, rank: rank, desc: desc || "", custom: true });
     state.posted.push(id); state.postedAt[id] = Date.now(); freshId = id;
-    save(); render(); freshId = null; sfx("pin"); toast("Pinned to the board: " + title);
+    save(); render(); freshId = null; sfx("pin"); toast("Nailed to the board: " + title);
   }
   function removeCustom(id) {
     state.custom = state.custom.filter(function (q) { return q.id !== id; });
@@ -1790,11 +1917,11 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     qotd: { v: "torn", tone: "gold", head: "Reward" }
   };
   function noteHtml(q, kind) {
-    var done = state.today.ids.indexOf(q.id) >= 0, taken = state.active.indexOf(q.id) >= 0;
+    var done = kind === "main" ? mainIsDone(q.id) : state.today.ids.indexOf(q.id) >= 0, taken = state.active.indexOf(q.id) >= 0;
     var P = kind === "main" ? PAPER.main : kind === "qotd" ? PAPER.qotd : q.custom ? PAPER.custom : PAPER[q.rank];
     var tear = 1; for (var k = 0; k < q.id.length; k++) tear += q.id.charCodeAt(k); tear = tear % 5 + 1;
     var pi = kind === "side" ? postedInfo(q.id) : null, xp = (XP[q.rank] || 10) * (kind === "qotd" ? 2 : 1);
-    var sub = kind === "main" ? "Returns every dawn" + (q.after != null ? " · seal after " + q.after + ":00" : "") : pi ? "Pinned " + pi.date + " · " + pi.ago : kind === "qotd" ? "Today only · double reward" : "";
+    var sub = kind === "main" ? (q.once ? "Once and no more" : "Renewed each morn at 7") + (q.after != null ? " · seal after " + q.after + ":00" : "") : pi ? "Pinned " + pi.date + " · " + pi.ago : kind === "qotd" ? "This day only · twice the reward" : "";
     return '<button class="note p-' + P.v + " t-" + P.tone + " tear" + tear + " r-" + q.rank + (done ? " done" : "") + (taken ? " taken" : "") +
       (pi && pi.days >= 3 ? " old" : "") + (q.id === freshId ? " fresh" : "") + (kind === "qotd" ? " qotd" : "") +
       '" data-open="' + q.id + '" aria-label="' + esc(P.head + ", " + RANK_NAME[q.rank] + ": " + q.title) + '">' +
@@ -1814,13 +1941,13 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   }
   function renderMain() {
     var list = mainQuests(), tk = todayKey();
-    var n = list.filter(function (m) { return state.today.ids.indexOf(m.id) >= 0; }).length;
+    var n = list.filter(function (m) { return mainIsDone(m.id); }).length; tk = mainDayKey();
     var hid = (state.mainHidden || []).length;
     $("mainQuests").innerHTML = (list.length ? '<div class="notes">' + list.map(function (q) { return noteHtml(q, "main"); }).join("") + "</div>" +
-      '<div class="board-count">' + (state.mainBonus === tk ? "Day conquered! +" + MAIN_BONUS + " XP earned." : n + " of " + list.length + " done today · finish them all for +" + MAIN_BONUS + " XP") + "</div>"
-      : '<div class="board-count">No main quests on the board. Add one below.</div>') +
-      (hid ? '<button class="restore-main" type="button" data-mrestore>Bring back removed main quests (' + hid + ")</button>" : "");
-    $("mainMeta").textContent = "Daily orders from the Crown. They return every dawn.";
+      '<div class="board-count">' + (state.mainBonus === tk ? "The day is conquered! +" + MAIN_BONUS + " XP earned. New decrees arrive at 7 in the morn." : n + " of " + list.length + " done this day · finish them all for +" + MAIN_BONUS + " XP") + "</div>"
+      : '<div class="board-count">No decrees upon the board. Proclaim one below.</div>') +
+      (hid ? '<button class="restore-main" type="button" data-mrestore>Restore struck decrees (' + hid + ")</button>" : "");
+    $("mainMeta").textContent = "Decrees from the Crown, renewed each morn at 7.";
   }
   function render() {
     if (state.today.d !== todayKey()) state.today = { d: todayKey(), ids: [] };
@@ -1845,7 +1972,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     });
     $("classTabs").innerHTML = ["All"].concat(RANKS).map(function (r) {
       return '<button class="tab' + (r === "All" ? "" : " r-" + r) + '" data-rank="' + r + '" aria-pressed="' + (rankTab === r) + '">' +
-        (r === "All" ? "Any class" : RANK_HEAD[r]) + "</button>";
+        (r === "All" ? "Any rank" : RANK_HEAD[r]) + "</button>";
     }).join("");
     var ids = state.posted.concat(state.active.filter(function (id) { return state.posted.indexOf(id) < 0; }));
     var QID = qotdId();
@@ -1855,17 +1982,17 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     var qq = findQ(QID), qDone = state.today.ids.indexOf(QID) >= 0, qTaken = state.active.indexOf(QID) >= 0;
     var qShown = state.qotdShown === todayKey() || qDone || qTaken;
     $("qotdBtn").hidden = qShown;
-    var qotdHtml = !qShown ? "" : '<div class="qotd-wrap"><div class="qotd-head">Quest of the Day <small>yours alone · double reward · changes at midnight</small></div>' +
+    var qotdHtml = !qShown ? "" : '<div class="qotd-wrap"><div class="qotd-head">Quest of the Day <small>thine alone · twice the reward · changes at the midnight bell</small></div>' +
       noteHtml(qq, "qotd") + "</div>";
     $("quests").innerHTML = qotdHtml + (shown.length
       ? '<div class="notes">' + shown.map(function (q) { return noteHtml(q, "side"); }).join("") + '</div><div class="board-count">' +
-        (shown.length < onBoard.length ? "Showing " + shown.length + " of " + onBoard.length + " requests · " : "") + onBoard.length + " of " + MAX_BOARD + " spaces used</div>"
+        (shown.length < onBoard.length ? "Showing " + shown.length + " of " + onBoard.length + " notices · " : "") + onBoard.length + " of " + MAX_BOARD + " places taken</div>"
       : onBoard.length
-        ? '<p class="board-empty">No ' + esc(what) + 'requests on the board.<small>Tap “Give me a job” to ask for one, or pick another type above.</small></p>'
-        : '<p class="board-empty">' + (qShown ? "The rest of the board is bare." : "The board is bare.") + '<small>Tap “Give me a job” and the guild will pin a request here' + (qShown ? "" : ", or reveal today\u2019s Quest of the Day") + ".</small></p>");
+        ? '<p class="board-empty">No ' + esc(what) + 'notices on the board.<small>Tap “Grant me a quest” to ask for one, or choose another kind above.</small></p>'
+        : '<p class="board-empty">' + (qShown ? "The rest of the board is bare." : "The board is bare.") + '<small>Tap “Grant me a quest” and the guild will nail a notice here' + (qShown ? "" : ", or reveal today\u2019s Quest of the Day") + ".</small></p>");
     var open = state.posted.length;
-    $("boardMeta").textContent = onBoard.length ? (open + (open === 1 ? " request" : " requests") + " waiting. Tap one to read it.") : "No requests posted yet.";
-    $("askLab").textContent = "Show and ask the guild for";
+    $("boardMeta").textContent = onBoard.length ? (open + (open === 1 ? " notice" : " notices") + " waiting. Tap one to read it.") : "No notices nailed up yet.";
+    $("askLab").textContent = "Ask the guild for";
     renderMain();
     $("giveBtn").disabled = onBoard.length >= MAX_BOARD;
     if (openId) showJob(openId, true);
@@ -1879,7 +2006,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
           '<div class="t">' + esc(q.title) + "</div>" +
           '<div class="acts"><button class="btn gold small" data-complete="' + q.id + '">Complete</button><button class="btn ghost small" data-abandon="' + q.id + '">Abandon</button></div></div>';
       } else {
-        slotsHtml += '<div class="slot"><span class="empty">Empty slot. Take a job from the board.</span></div>';
+        slotsHtml += '<div class="slot"><span class="empty">An empty hand. Take up a quest from the board.</span></div>';
       }
     }
     $("slots").innerHTML = slotsHtml;
@@ -1898,7 +2025,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     var rows = state.log.filter(function (l) { return ledgerView === "today" ? l.d === tk : (l.d < tk && l.d > cutKey); });
     $("ffMeta").textContent = state.forfeit.n ? state.forfeit.n + " forfeited" : "";
     if (!rows.length) {
-      $("log").innerHTML = '<li class="none">' + (ledgerView === "today" ? "No deeds yet today. The first job is the hardest to begin." : "No deeds in the past week.") + "</li>";
+      $("log").innerHTML = '<li class="none">' + (ledgerView === "today" ? "No deeds yet this day. The first quest is ever the hardest to begin." : "No deeds these seven days past.") + "</li>";
       return;
     }
     var last = "", html = "";
@@ -1923,44 +2050,44 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   function showJob(id, keep) {
     var q = findQ(id); if (!q) { closeJob(); return; }
     openId = id;
-    var done = state.today.ids.indexOf(id) >= 0, taken = state.active.indexOf(id) >= 0, full = state.active.length >= MAX_SLOTS;
+    var done = q.main ? mainIsDone(id) : state.today.ids.indexOf(id) >= 0, taken = state.active.indexOf(id) >= 0, full = state.active.length >= MAX_SLOTS;
     var acts, status = "";
-    if (done) { status = '<p class="qm-status" style="color:#8f1f1c">Completed today. It returns at dawn.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
-    else if (taken) { status = '<p class="qm-status" style="color:#2f5a2f">In progress</p>'; acts = '<button class="btn gold" data-complete="' + id + '">Complete</button><button class="btn ghost" data-abandon="' + id + '">Abandon</button>'; }
-    else if (full) { status = '<p class="qm-status" style="color:#6b5134">Your hands are full (3 of 3). Finish a job first.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
-    else acts = '<button class="btn wax" data-accept="' + id + '">Take this job</button><button class="btn ghost" data-close>Not now</button>';
+    if (done) { status = '<p class="qm-status" style="color:#8f1f1c">Done this day. It returns at dawn.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
+    else if (taken) { status = '<p class="qm-status" style="color:#2f5a2f">Underway</p>'; acts = '<button class="btn gold" data-complete="' + id + '">Complete</button><button class="btn ghost" data-abandon="' + id + '">Abandon</button>'; }
+    else if (full) { status = '<p class="qm-status" style="color:#6b5134">Thy hands are full (3 of 3). See a quest through first.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
+    else acts = '<button class="btn wax" data-accept="' + id + '">Accept this quest</button><button class="btn ghost" data-close>Not now</button>';
     var isQ = id === qotdId(), isMain = !!q.main;
     var left = isMain ? stepsLeft(q) : 0;
     if (isMain && !done) acts = '<button class="btn gold" data-complete="' + id + '"' + (left ? " disabled" : "") + ">Complete</button><button class=\"btn ghost\" data-close>Not now</button>";
     var stepsHtml = "";
     if (isMain && q.steps && q.steps.length) {
       var ck = done ? q.steps.map(function (s, i) { return i; }) : checksFor(id);
-      stepsHtml = '<div class="qm-steps"><span>' + (done ? "Steps done" : "Check each step as you finish it") + "</span><ul>" +
+      stepsHtml = '<div class="qm-steps"><span>' + (done ? "Steps done" : "Mark each step as it is done") + "</span><ul>" +
         q.steps.map(function (s, i) {
           var on = ck.indexOf(i) >= 0;
           return '<li class="' + (on ? "on" : "") + '"><label><input type="checkbox" data-step="' + i + '"' + (on ? " checked" : "") + (done ? " disabled" : "") + "><em></em><span>" + esc(s) + "</span></label></li>";
         }).join("") + "</ul>" +
-        (!done ? '<p class="qm-lock">' + (left ? "&#128274; " + left + " of " + q.steps.length + " steps left before you can seal it" : "All steps checked. Seal it!") + "</p>" : "") + "</div>";
+        (!done ? '<p class="qm-lock">' + (left ? "&#128274; " + left + " of " + q.steps.length + " steps remain ere thou may seal it" : "All steps are marked. Seal it!") + "</p>" : "") + "</div>";
     }
-    if (isMain) status = done ? '<p class="qm-status" style="color:#8f1f1c">Done today. It returns at dawn.</p>' : "";
+    if (isMain) status = done ? '<p class="qm-status" style="color:#8f1f1c">' + (q.once ? "Done! This quest departs the board at 7 in the morn." : "Done. It returns on the morrow at 7.") + "</p>" : "";
     var canDown = !isQ && !isMain && !q.custom && !taken && !done && state.posted.indexOf(id) >= 0;
     $("qmPaper").className = "qm-paper r-" + q.rank;
     $("qmPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" data-close aria-label="Close">×</button>' +
       '<div class="qm-kicker">' + (isMain ? "Royal Decree" : isQ ? "Quest of the Day" : "Job Request") + "</div>" +
-      (isQ ? '<div class="qm-ribbon">Double reward · today only</div>' : isMain ? '<div class="qm-ribbon">Main quest · returns every dawn</div>' : "") +
+      (isQ ? '<div class="qm-ribbon">Twice the reward · this day only</div>' : isMain ? '<div class="qm-ribbon">' + (q.once ? "Main quest · once and no more" : "Main quest · renewed each morn at 7") + "</div>" : "") +
       '<div class="qm-seal" aria-hidden="true">' + q.rank + "</div>" +
       '<div class="qm-rank">' + RANK_NAME[q.rank] + (isMain ? " Main Quest" : " Job") + "</div>" +
       '<h3 id="qmTitle">' + esc(q.title) + "</h3>" +
       (q.desc ? '<p class="qm-desc">' + esc(q.desc) + "</p>" : "") +
       stepsHtml +
       '<div class="qm-story"><span>' + (q.story ? "The tale" : "Word from the guild") + '</span><p>' + esc(q.story || FLAVOR[q.rank]) + "</p></div>" +
-      (function () { var pi = (isQ || isMain) ? null : postedInfo(id); return pi ? '<p class="qm-posted">Pinned upon <b>' + pi.full + "</b><br>Waiting on the board " + pi.ago + "</p>" : ""; })() +
-      '<dl class="qm-meta"><div><dt>Client</dt><dd>' + esc(isMain && !q.custom ? "The Crown" : q.custom ? "Yourself" : (CLIENT[q.cat] || "The Guild")) + '</dd></div><div><dt>Type</dt><dd>' + esc(q.cat) +
+      (function () { var pi = (isQ || isMain) ? null : postedInfo(id); return pi ? '<p class="qm-posted">Nailed up upon <b>' + pi.full + "</b><br>Waiting on the board " + pi.ago + "</p>" : ""; })() +
+      '<dl class="qm-meta"><div><dt>Patron</dt><dd>' + esc(isMain && !q.custom ? "The Crown" : q.custom ? "Yourself" : (CLIENT[q.cat] || "The Guild")) + '</dd></div><div><dt>Kind</dt><dd>' + esc(q.cat) +
       '</dd></div><div><dt>Reward</dt><dd class="rw">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP</dd></div></dl>" +
       status + '<div class="qm-acts">' + acts + "</div>" +
-      (isMain ? '<div class="qm-two">' + (q.custom ? '<button class="qm-del" data-medit="' + id + '">Edit this main quest</button>' : "") + '<button class="qm-del" data-mremove="' + id + '">Remove this main quest</button></div>' :
-       q.custom ? '<button class="qm-del" data-remove="' + id + '">Delete this request</button>' :
-       canDown ? '<button class="qm-del" data-down="' + id + '">Take this request down</button>' : "");
+      (isMain ? '<div class="qm-two">' + (q.custom ? '<button class="qm-del" data-medit="' + id + '">Amend this decree</button>' : "") + '<button class="qm-del" data-mremove="' + id + '">Strike this decree</button></div>' :
+       q.custom ? '<button class="qm-del" data-remove="' + id + '">Burn this notice</button>' :
+       canDown ? '<button class="qm-del" data-down="' + id + '">Tear this notice down</button>' : "");
     if (!keep) { $("qmodal").classList.add("show"); sfx("paper"); var b = $("qmPaper").querySelector(".qm-acts .btn"); if (b) b.focus(); }
   }
   function closeJob() { openId = null; $("qmodal").classList.remove("show"); }
@@ -1976,19 +2103,22 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     openId = null;
     $("qmPaper").className = "qm-paper r-" + (q ? q.rank : "N");
     $("qmPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" data-close aria-label="Close">&times;</button>' +
-      '<div class="qm-kicker">Royal Decree</div><h3>' + (q ? "Amend this main quest" : "Decree a main quest") + "</h3>" +
-      '<p class="me-lead">A daily order that returns every dawn. Add steps and each one must be checked before you can seal it.</p>' +
+      '<div class="qm-kicker">Royal Decree</div><h3>' + (q ? "Amend this decree" : "Proclaim a new decree") + "</h3>" +
+      '<p class="me-lead">Decrees are renewed each morn at 7. Choose whether it returns daily or comes but once. Add steps, and each must be marked ere thou may seal it.</p>' +
       '<form class="me-form" id="meForm" autocomplete="off">' +
       '<label>Quest<input id="meTitle" required maxlength="80"></label>' +
       '<label>Details (optional)<textarea id="meDesc" rows="2" maxlength="240"></textarea></label>' +
       '<div class="me-row"><label>Category<select id="meCat">' + CATS.map(function (c) { return "<option>" + c + "</option>"; }).join("") + "</select></label>" +
       '<label>Class<select id="meRank"><option value="N">Normal · 10 XP</option><option value="S">S-Class · 25 XP</option><option value="SS">SS-Class · 50 XP</option></select></label></div>' +
-      '<div class="me-steps-lab">Steps (bullet points)</div><div id="meSteps"></div>' +
+      '<div class="me-rep" role="radiogroup" aria-label="How often"><label><input type="radio" name="meRep" value="daily"><span><b>Returns every day</b><small>Renewed each morn at 7</small></span></label>' +
+      '<label><input type="radio" name="meRep" value="once"><span><b>Once and no more</b><small>Departs the board when done</small></span></label></div>' +
+      '<div class="me-steps-lab">Steps to be marked</div><div id="meSteps"></div>' +
       '<button type="button" class="me-add" data-addstep>+ Add a step</button>' +
-      '<div class="qm-acts"><button class="btn gold" type="submit">' + (q ? "Save the decree" : "Post the decree") + '</button><button class="btn ghost" type="button" data-close>Not now</button></div>' +
+      '<div class="qm-acts"><button class="btn gold" type="submit">' + (q ? "Seal the amendment" : "Proclaim it") + '</button><button class="btn ghost" type="button" data-close>Not now</button></div>' +
       "</form>";
     $("meTitle").value = q ? q.title : ""; $("meDesc").value = q ? (q.desc || "") : "";
     $("meCat").value = q ? q.cat : "Body"; $("meRank").value = q ? q.rank : "N";
+    $("meForm").querySelector('input[name="meRep"][value="' + (q && q.once ? "once" : "daily") + '"]').checked = true;
     (q && q.steps && q.steps.length ? q.steps : ["", ""]).forEach(addStepRow);
     $("meForm").setAttribute("data-edit", id || "");
     $("qmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("meTitle").focus(); }, 60);
@@ -1998,19 +2128,20 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     e.preventDefault();
     var title = $("meTitle").value.trim(); if (!title) return;
     var steps = [].map.call($("meSteps").querySelectorAll("input"), function (i) { return i.value.trim(); }).filter(Boolean).slice(0, 10);
-    var data = { title: title, desc: $("meDesc").value.trim(), cat: $("meCat").value, rank: $("meRank").value, steps: steps };
+    var rp = $("meForm").querySelector('input[name="meRep"]:checked');
+    var data = { title: title, desc: $("meDesc").value.trim(), cat: $("meCat").value, rank: $("meRank").value, steps: steps, once: !!(rp && rp.value === "once") };
     var edit = e.target.getAttribute("data-edit");
     if (edit) {
       state.mainCustom.forEach(function (m) {
         if (m.id !== edit) return;
         if (JSON.stringify(m.steps || []) !== JSON.stringify(steps) && state.mainChecks && state.mainChecks.c) delete state.mainChecks.c[edit];
-        m.title = data.title; m.desc = data.desc; m.cat = data.cat; m.rank = data.rank; m.steps = data.steps;
+        m.title = data.title; m.desc = data.desc; m.cat = data.cat; m.rank = data.rank; m.steps = data.steps; m.once = data.once;
       });
       save(); render(); closeJob(); toast("The decree is amended.");
     } else {
       var mid = "mx" + Date.now().toString(36);
-      state.mainCustom.push({ id: mid, main: true, custom: true, title: data.title, cat: data.cat, rank: data.rank, desc: data.desc, steps: data.steps });
-      freshId = mid; save(); render(); freshId = null; closeJob(); sfx("pin"); toast("A new daily main quest: " + title);
+      state.mainCustom.push({ id: mid, main: true, custom: true, title: data.title, cat: data.cat, rank: data.rank, desc: data.desc, steps: data.steps, once: data.once });
+      freshId = mid; save(); render(); freshId = null; closeJob(); sfx("pin"); toast((data.once ? "A decree for once only: " : "A new daily decree: ") + title);
     }
   });
   document.addEventListener("change", function (e) {
@@ -2042,7 +2173,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     if (t.hasAttribute("data-addstep")) { addStepRow(""); var ins = $("meSteps").querySelectorAll("input"); ins[ins.length - 1].focus(); return; }
     if (t.hasAttribute("data-delstep")) { t.parentNode.remove(); numberSteps(); return; }
     if (t.dataset.mremove) { var mr = t.dataset.mremove; closeJob(); askRemoveMain(mr); return; }
-    if (t.hasAttribute("data-mrestore")) { state.mainHidden = []; save(); render(); sfx("pin"); toast("The Crown's main quests are back on the board."); return; }
+    if (t.hasAttribute("data-mrestore")) { state.mainHidden = []; save(); render(); sfx("pin"); toast("The Crown's decrees are restored to the board."); return; }
     if (t.dataset.exile) { askExile(t.dataset.exile); return; }
     if (t.dataset.pardon) { pardonPlayer(t.dataset.pardon); return; }
     if (t.hasAttribute("data-claim")) { claimMaster(); return; }
@@ -2063,7 +2194,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   $("giveBtn").addEventListener("click", drawJob);
   $("qotdBtn").addEventListener("click", function () {
     state.qotdShown = todayKey(); save(); render(); sfx("pin");
-    toast("Today’s Quest of the Day is pinned to the board.");
+    toast("This day’s Quest of the Day is nailed to the board.");
   });
   $("luClose").addEventListener("click", function () { $("levelup").classList.remove("show"); setTimeout(nextCelebration, 180); });
   document.addEventListener("keydown", function (e) {
@@ -2072,6 +2203,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     if ($("cmodal").classList.contains("show")) { closeConfirm(); return; }
     if ($("amodal").classList.contains("show")) { $("amodal").classList.remove("show"); return; }
     if ($("pmodal").classList.contains("show")) { $("pmodal").classList.remove("show"); return; }
+    if ($("bmodal").classList.contains("show") && !$("lightbox").classList.contains("show")) { closeBounty(); return; }
     if ($("hmodal").classList.contains("show")) { if (hallView) { hallView = null; renderHall(); } else closeHall(); return; }
     $("lightbox").classList.remove("show"); closeJob(); closeJournal();
   });
@@ -2081,15 +2213,15 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     var q = findQ(id); if (!q) return;
     var hr = new Date().getHours(), mn = new Date().getMinutes();
     var left = q.main ? stepsLeft(q) : 0;
-    if (left) { toast("Check every step first. " + left + (left === 1 ? " step is" : " steps are") + " still unchecked."); return; }
-    if (q.after != null && hr < q.after) { toast("Seal this one when you head to bed, after " + q.after + ":00."); return; }
+    if (left) { toast("Mark every step first. " + left + (left === 1 ? " step is" : " steps are") + " yet unmarked."); return; }
+    if (q.after != null && hr < q.after && hr >= MAIN_HOUR) { toast("Seal this one when thou retire to bed, after " + q.after + ":00."); return; }
     cm.mode = "complete"; cm.word = "complete"; cm.id = id;
     var t = state.takenAt[id], mins = t ? Math.floor((Date.now() - t) / 60000) : null, fast = mins !== null && mins < 5;
-    var late = q.id === "mq-rest" && (hr > 22 || (hr === 22 && mn > 15));
+    var late = q.id === "mq-rest" && (hr > 22 || (hr === 22 && mn > 15) || hr < MAIN_HOUR);
     $("cmKick").textContent = "Seal the Deed"; $("cmTitle").textContent = q.title;
-    $("cmLead").innerHTML = "Did you truly finish this job? Type <b>complete</b> below to seal it.";
+    $("cmLead").innerHTML = "Hast thou truly finished this quest? Write <b>complete</b> below to seal it.";
     $("cmWarn").hidden = !fast && !late;
-    $("cmWarn").textContent = late ? "It's past the tenth bell. Only seal it if you were truly in bed by 22:00." : fast ? "You took this job " + (mins < 1 ? "less than a minute" : mins + (mins === 1 ? " minute" : " minutes")) + " ago. Only seal it if it's truly done; the guild runs on honor." : "";
+    $("cmWarn").textContent = late ? "The tenth bell has long rung. Seal it only if thou were truly abed by 22:00." : fast ? "Thou took up this quest " + (mins < 1 ? "less than a minute" : mins + (mins === 1 ? " minute" : " minutes")) + " ago. Seal it only if it is truly done; the guild runs on honor." : "";
     $("cmOk").textContent = "Seal it"; $("cmOk").className = "btn gold";
     $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type complete to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
     $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
@@ -2099,8 +2231,8 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     cm.mode = "forfeit"; cm.word = "forfeit"; cm.id = k;
     var cb = currentBoss(), boss = e.bw && e.bw === cb.w.key && cb.st.won && cb.st.hits - 1 < cb.b.hp;
     $("cmKick").textContent = "Forfeit the Deed"; $("cmTitle").textContent = e.t;
-    $("cmLead").innerHTML = "This takes back <b>" + e.xp + " XP</b>" + (boss ? " and the <b>+" + BOSS_XP + " XP</b> bounty it helped win" : "") + ". Type <b>forfeit</b> to confirm.";
-    $("cmWarn").hidden = false; $("cmWarn").textContent = "Owning up keeps the guild fair. Badges that depended on this deed go back too.";
+    $("cmLead").innerHTML = "This takes back <b>" + e.xp + " XP</b>" + (boss ? " and the <b>+" + BOSS_XP + " XP</b> bounty it helped win" : "") + ". Write <b>forfeit</b> to confirm.";
+    $("cmWarn").hidden = false; $("cmWarn").textContent = "Honesty keeps the guild fair. Honors that rested on this deed are returned too.";
     $("cmOk").textContent = "Forfeit XP"; $("cmOk").className = "btn wax";
     $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type forfeit to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
     $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
@@ -2111,8 +2243,8 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     $("pmodal").classList.remove("show");
     cm.mode = "exile"; cm.word = "exile"; cm.id = id;
     $("cmKick").textContent = "Exile from the Guild"; $("cmTitle").textContent = p.name || "Adventurer";
-    $("cmLead").innerHTML = "Their record is struck from the guild rankings. Type <b>exile</b> to confirm.";
-    $("cmWarn").hidden = false; $("cmWarn").textContent = "Without the bar, they reappear the next time they open the site. Their own progress on their phone is not touched.";
+    $("cmLead").innerHTML = "Their record is struck from the guild rankings. Write <b>exile</b> to confirm.";
+    $("cmWarn").hidden = false; $("cmWarn").textContent = "Without the bar, they return the next time they open the site. The deeds on their own device are untouched.";
     $("cmBarRow").hidden = false; $("cmBar").checked = false;
     $("cmOk").textContent = "Exile"; $("cmOk").className = "btn wax";
     $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type exile to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
@@ -2121,7 +2253,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   function cmValid() { return $("cmInput").value.trim().toLowerCase() === (cm.word || "complete"); }
   function cmSubmit() {
     if (!cm.id) return;
-    if (!cmValid()) { $("cmHint").textContent = "Type the word " + cm.word + " exactly to confirm."; return; }
+    if (!cmValid()) { $("cmHint").textContent = "Write the word " + cm.word + " exactly to confirm."; return; }
     var id = cm.id, mode = cm.mode, bar = $("cmBar").checked; closeConfirm(); $("cmInput").blur();
     if (mode === "forfeit") forfeitDeed(id); else if (mode === "mremove") removeMain(id); else if (mode === "exile") exilePlayer(id, bar); else complete(id);
   }
@@ -2133,11 +2265,11 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   $("avatarBtn").addEventListener("click", openAvatarPicker);
   $("avFile").addEventListener("change", function () {
     var f = this.files && this.files[0]; if (!f) return;
-    avatarFromPhoto(f).then(function (d) { pickAvatar(d); }).catch(function () { toast("That picture couldn't be opened."); });
+    avatarFromPhoto(f).then(function (d) { pickAvatar(d); }).catch(function () { toast("That picture could not be opened."); });
   });
   $("avSave").addEventListener("click", function () {
     if (avPick) state.avatar = avPick;
-    save(); render(); $("amodal").classList.remove("show"); sfx("coin"); toast("Your likeness is updated.");
+    save(); render(); $("amodal").classList.remove("show"); sfx("coin"); toast("Thy likeness is renewed.");
   });
   ["pmodal", "amodal"].forEach(function (m) { $(m).addEventListener("click", function (e) { if (e.target === this) this.classList.remove("show"); }); });
   $("achAll").addEventListener("click", function () { achAll = !achAll; renderAch(); });
@@ -2148,9 +2280,9 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   $("jmFile").addEventListener("change", function () {
     var f = this.files && this.files[0]; if (!f) return;
     shrinkImage(f).then(function (d) { jm.photo = d; $("jmPrev").src = d; $("jmPrev").hidden = false; })
-      .catch(function () { toast("That picture couldn't be opened."); });
+      .catch(function () { toast("That picture could not be opened."); });
   });
-  $("honorSel").addEventListener("change", function () { state.honor = this.value; save(); render(); toast(this.value ? "You are now known as " + state.name + " " + honorText() + "." : "Title removed."); });
+  $("honorSel").addEventListener("change", function () { state.honor = this.value; save(); render(); toast(this.value ? "You are now known as " + state.name + " " + honorText() + "." : "Thy title is laid down."); });
   $("musicBtn").addEventListener("click", function () { state.settings.music = !state.settings.music; save(); renderSound(); if (state.settings.music) startMusic(); else stopMusic(); });
   $("sfxBtn").addEventListener("click", function () { state.settings.sfx = !state.settings.sfx; save(); renderSound(); if (state.settings.sfx) sfx("coin"); });
   $("name").addEventListener("click", function () { openGate(true); });
@@ -2181,7 +2313,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   function markExported() { state.lastExport = Date.now(); save(); renderSave(); }
   function renderSave() {
     var t = state.lastExport;
-    if (!t) { $("saveStatus").innerHTML = '<span class="warn">No save file yet.</span> Export one so your progress is safe.'; }
+    if (!t) { $("saveStatus").innerHTML = '<span class="warn">No save scroll written yet.</span> Export one so your progress is safe.'; }
     else {
       var d = new Date(t), days = Math.floor((Date.now() - t) / 86400000);
       $("saveStatus").innerHTML = (days >= 7 ? '<span class="warn">' : "<span>") + "Last saved the " + ordinal(d.getDate()) + " of " + MONTHS[d.getMonth()] +
@@ -2193,14 +2325,14 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   function exportSave() {
     if (!photosReady()) {
       $("exportBtn").disabled = true; $("exportBtn").textContent = "Gathering pictures…";
-      loadAllPhotos().then(function () { $("exportBtn").disabled = false; $("exportBtn").textContent = "Tap again to save"; toast("Ready. Tap the button again to save your file."); });
+      loadAllPhotos().then(function () { $("exportBtn").disabled = false; $("exportBtn").textContent = "Tap again to save"; toast("Ready. Tap once more to write thy scroll."); });
       return;
     }
-    $("exportBtn").textContent = "Export save file";
+    $("exportBtn").textContent = "Write a save scroll";
     var text = JSON.stringify(buildSave(true)), name = saveFileName();
     var file = null; try { file = new File([text], name, { type: "application/json" }); } catch (e) {}
     if (file && navigator.canShare && navigator.canShare({ files: [file] })) {
-      navigator.share({ files: [file], title: "Sidequest save file" }).then(function () { markExported(); toast("Save file stored. Keep it somewhere safe."); })
+      navigator.share({ files: [file], title: "Sidequest save file" }).then(function () { markExported(); toast("Save scroll stored. Keep it somewhere safe."); })
         .catch(function (e) { if (!e || e.name !== "AbortError") downloadSave(text, name); });
       return;
     }
@@ -2212,8 +2344,8 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       a.href = URL.createObjectURL(new Blob([text], { type: "application/json" })); a.download = name;
       document.body.appendChild(a); a.click(); a.remove();
       setTimeout(function () { URL.revokeObjectURL(a.href); }, 4000);
-      markExported(); toast("Save file downloaded: " + name);
-    } catch (e) { toast("This browser couldn't save a file. Use Copy as text instead."); }
+      markExported(); toast("Save scroll written: " + name);
+    } catch (e) { toast("This browser could not write the scroll. Use Copy as plain words instead."); }
   }
   function parseSave(text) {
     var data = JSON.parse(text);
@@ -2228,9 +2360,9 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     $("smBody").innerHTML =
       '<h3 class="sm-name">' + esc(st.name || "Adventurer") + "</h3>" +
       '<p class="sm-line">Level ' + li.lv + " · " + (st.xp || 0) + " XP · " + (st.total || 0) + " deeds</p>" +
-      '<p class="sm-line">' + ((st.journal || []).length) + " journal pages" + (nPhotos ? " · " + nPhotos + " pictures" : "") + " · " + Object.keys(st.badges || {}).length + " badges</p>" +
+      '<p class="sm-line">' + ((st.journal || []).length) + " journal pages" + (nPhotos ? " · " + nPhotos + " pictures" : "") + " · " + Object.keys(st.badges || {}).length + " honors</p>" +
       (d ? '<p class="sm-line sm-date">Saved the ' + ordinal(d.getDate()) + " of " + MONTHS[d.getMonth()] + ", " + d.getFullYear() + "</p>" : "") +
-      '<p class="sm-now">On this phone now: ' + esc(state.name) + ", Level " + cur.lv + " · " + state.xp + " XP</p>";
+      '<p class="sm-now">On this device now: ' + esc(state.name) + ", Level " + cur.lv + " · " + state.xp + " XP</p>";
     $("smodal").classList.add("show"); sfx("paper");
   }
   function applyImport() {
@@ -2257,7 +2389,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   $("exportBtn").addEventListener("click", exportSave);
   $("copyBtn").addEventListener("click", function () {
     var text = JSON.stringify(buildSave(false));
-    try { navigator.clipboard.writeText(text).then(function () { markExported(); toast("Save copied as text (without pictures). Paste it into Notes."); }, function () { toast("Couldn't copy on this browser."); }); }
+    try { navigator.clipboard.writeText(text).then(function () { markExported(); toast("Save copied as plain words (without pictures). Keep it in Notes."); }, function () { toast("Couldn't copy on this browser."); }); }
     catch (e) { toast("Couldn't copy on this browser."); }
   });
   $("pasteBtn").addEventListener("click", function () {
@@ -2326,6 +2458,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       .then(function () {
         if (!firebase.apps.length) firebase.initializeApp(cfg);
         cloud.db = firebase.database();
+        renderBoss();
         cloud.db.ref("players").orderByChild("xp").limitToLast(200).on("value", function (snap) {
           var arr = []; snap.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(decodePlayer(v)); });
           cloud.players = arr; try { localStorage.setItem("sidequest-lb", JSON.stringify(arr)); } catch (e) {}
@@ -2368,12 +2501,12 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   function renderGuildMaster() {
     var box = $("gmBox"); if (!box) return;
     var html = "";
-    if (cloud.exiled) html = '<p class="gm-exiled">You have been exiled from this guild by its Guild Master. Your progress is safe on this phone, but it no longer shows in these rankings.</p>';
+    if (cloud.exiled) html = '<p class="gm-exiled">Thou hast been exiled from this guild by its Guild Master. Thy deeds are safe on this device, but thy name no longer stands in these rankings.</p>';
     else if (cloud.ready && cloud.masterKnown && !cloud.master)
-      html = '<p class="gm-note">This guild has no Guild Master yet. The Guild Master can exile players from the rankings.</p><button class="btn small gold" type="button" data-claim>Claim Guild Master</button>';
+      html = '<p class="gm-note">This guild hath no Guild Master yet. The Guild Master may exile members from the rankings.</p><button class="btn small gold" type="button" data-claim>Claim Guild Master</button>';
     else if (isMaster()) {
       var ban = cloud.banished || {}, ids = Object.keys(ban);
-      html = '<p class="gm-note">You are the Guild Master. Tap a player to exile them.</p>' +
+      html = '<p class="gm-note">Thou art the Guild Master. Tap a member to exile them.</p>' +
         (ids.length ? '<div class="gm-ban"><b>Barred from the guild</b>' + ids.map(function (id) {
           return '<div class="gm-row"><span>' + esc(typeof ban[id] === "string" ? ban[id] : "Unknown") + '</span><button class="btn small ghost" type="button" data-pardon="' + esc(id) + '">Pardon</button></div>';
         }).join("") + "</div>" : "");
@@ -2382,7 +2515,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   }
   function claimMaster() {
     if (!cloud.ready) return;
-    cloud.db.ref("guild/master").set(cloud.uid).then(function () { sfx("fanfare"); toast("You are now the Guild Master."); })
+    cloud.db.ref("guild/master").set(cloud.uid).then(function () { sfx("fanfare"); toast("Thou art now the Guild Master."); })
       .catch(function () { toast("Couldn't claim it. Publish the new guild rules in Firebase first, or someone already claimed it."); });
   }
   function exilePlayer(id, bar) {
@@ -2402,9 +2535,9 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     document.querySelectorAll("[data-lb]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.lb === cloud.view)); });
     var msgs = {
       off: "Rankings are not set up yet. Add your Firebase settings to firebase-config.js to share XP with friends.",
-      connecting: "Connecting to the guild…",
-      reading: "Joining the guild…",
-      offline: "You're offline. Showing the last rankings seen; your XP will sync when you're back online.",
+      connecting: "Sending a raven to the guild…",
+      reading: "The guild gates are opening…",
+      offline: "No raven can fly while thou art offline. Showing the last rankings seen; thy XP will be sent when thou return.",
       error: cloud.msg
     };
     var offline = navigator.onLine === false || (cloud.seen && cloud.online === false);
@@ -2430,13 +2563,13 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       st.innerHTML = '<span class="dot"></span>' + esc(msgs.offline);
     } else if (cloud.status === "live" || cloud.status === "reading") {
       var n = cloud.players.length - unnamed;
-      st.innerHTML = '<span class="dot"></span>' + (n ? n + (n === 1 ? " adventurer" : " adventurers") + " in the guild. Updates live." : "No one has joined yet. Share the link!") +
+      st.innerHTML = '<span class="dot"></span>' + (n ? n + (n === 1 ? " adventurer" : " adventurers") + " in the guild. The roll updates as it happens." : "None have joined yet. Send the link to thy companions!") +
         (unnamed ? ' <span class="lb-hidden">' + unnamed + " unnamed " + (unnamed === 1 ? "player is" : "players are") + " hidden until they choose a name.</span>" : "");
     } else st.innerHTML = '<span class="dot"></span>' + esc(msgs[cloud.status] || "");
     var cap = cloud.showAll ? rows.length : 10;
     list.innerHTML = rows.slice(0, cap).map(function (r, i) {
       var pos = i + 1, val = cloud.view === "today" ? r.today : r.xp;
-      var sub = "Lv " + (r.level || 1) + " · " + esc(r.title || "") + (r.badges ? " · " + r.badges + (r.badges === 1 ? " badge" : " badges") : "") + (r.streak ? " · " + r.streak + "d streak" : "") + (r.me ? "" : (r.at ? " · " + ago(r.at) : ""));
+      var sub = "Lv " + (r.level || 1) + " · " + esc(r.title || "") + (r.badges ? " · " + r.badges + (r.badges === 1 ? " honor" : " honors") : "") + (r.streak ? " · " + r.streak + " days unbroken" : "") + (r.me ? "" : (r.at ? " · " + ago(r.at) : ""));
       return '<li><button type="button" class="lb-row' + (pos <= 3 ? " p" + pos : "") + (r.me ? " me" : "") + '" data-player="' + esc(r.id) + '" aria-label="View ' + esc(r.name || "Adventurer") + '\'s guild record">' +
         '<span class="lb-pos">' + pos + '</span>' +
         avatarHtml(r.avatar, r.name, "lb-av") +
@@ -2445,7 +2578,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     }).join("");
     more.hidden = rows.length <= 10;
     renderGuildMaster();
-    more.textContent = cloud.showAll ? "Show top 10" : "Show all " + rows.length;
+    more.textContent = cloud.showAll ? "Show the top ten" : "Show all " + rows.length;
   }
   document.addEventListener("click", function (e) {
     var b = e.target.closest("[data-lb]"); if (!b) return;
@@ -2454,35 +2587,194 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   $("lbMore").addEventListener("click", function () { cloud.showAll = !cloud.showAll; renderLb(); });
   $("inviteBtn").addEventListener("click", function () {
     var url = location.href.split("#")[0];
-    var text = "Join my guild on Sidequest Board and let's see who earns more XP!";
+    var text = "Join my guild on Sidequest Board and let us see who earns the most renown!";
     if (navigator.share) { navigator.share({ title: "Sidequest Board", text: text, url: url }).catch(function () {}); return; }
-    try { navigator.clipboard.writeText(url).then(function () { toast("Link copied. Send it to your friends!"); }, function () { toast(url); }); }
+    try { navigator.clipboard.writeText(url).then(function () { toast("Link copied. Send it to thy companions!"); }, function () { toast(url); }); }
     catch (e) { toast(url); }
   });
 
-  /* ---------- weekly boss poster ---------- */
-  function renderBoss() {
-    var cb = currentBoss(), b = cb.b, st = cb.st, hits = Math.min(st.hits, b.hp);
+  /* ---------- weekly bounty: one beast for the whole guild, two SS jobs with proof, first to finish is named ---------- */
+  function beastSvg(b) {
+    return '<svg class="b-beast" viewBox="0 0 120 92" aria-hidden="true" style="--eye:' + b.eye + '">' +
+      '<path d="M60 86C38 86 24 73 20 56 16 41 20 31 29 24L14 4l24 13c7-3 14-4 22-4s15 1 22 4l24-13-15 20c9 7 13 17 9 32-4 17-18 30-40 30z" fill="#1a110a"/>' +
+      '<path d="M34 44l18 6-4 6-16-5zM86 44l-18 6 4 6 16-5z" fill="var(--eye)"/>' +
+      '<path d="M40 66l6 8 5-8 5 9 4-9 4 9 5-9 5 8 6-8" fill="none" stroke="#e8dcc0" stroke-width="2.4" stroke-linejoin="round"/></svg>';
+  }
+  function bountyLeft(cb) {
     var ms = cb.w.end - new Date(), hrs = Math.max(0, Math.ceil(ms / 3600000)), days = Math.floor(hrs / 24);
-    var left = st.won ? "Slain this week. A new bounty is posted on Monday." : (days >= 1 ? "Ends in " + days + (days === 1 ? " day" : " days") : "Ends in " + hrs + (hrs === 1 ? " hour" : " hours")) + " (Sunday at midnight)";
-    var segs = ""; for (var i = 0; i < b.hp; i++) segs += '<i class="' + (i < b.hp - hits ? "on" : "") + '"></i>';
+    return (days >= 1 ? days + (days === 1 ? " day" : " days") : hrs + (hrs === 1 ? " hour" : " hours")) + " remain (ends Sunday at the midnight bell)";
+  }
+  function slayerOf(cb) {
+    var v = cloud.bounty;
+    if (v && v.week === cb.w.key && v.name) return { name: v.name, uid: v.uid, at: v.at, me: v.uid === cloud.uid };
+    if (cb.st.won) return { name: state.name, uid: cloud.uid, at: 0, me: true };
+    return null;
+  }
+  function renderBoss() {
+    var cb = currentBoss(), b = cb.b, st = cb.st, sl = slayerOf(cb), hits = Math.min(st.done.length, 2);
+    watchBounty(cb);
+    var segs = ""; for (var i = 0; i < 2; i++) segs += '<i class="' + (i < 2 - hits ? "on" : "") + '"></i>';
     $("bossBox").innerHTML =
       '<span class="pin" aria-hidden="true"></span>' +
-      '<div class="b-kicker">Weekly Bounty</div><div class="b-wanted">Wanted</div>' +
-      '<svg class="b-beast" viewBox="0 0 120 92" aria-hidden="true" style="--eye:' + b.eye + '">' +
-        '<path d="M60 86C38 86 24 73 20 56 16 41 20 31 29 24L14 4l24 13c7-3 14-4 22-4s15 1 22 4l24-13-15 20c9 7 13 17 9 32-4 17-18 30-40 30z" fill="#1a110a"/>' +
-        '<path d="M34 44l18 6-4 6-16-5zM86 44l-18 6 4 6 16-5z" fill="var(--eye)"/>' +
-        '<path d="M40 66l6 8 5-8 5 9 4-9 4 9 5-9 5 8 6-8" fill="none" stroke="#e8dcc0" stroke-width="2.4" stroke-linejoin="round"/></svg>' +
+      '<div class="b-kicker">Weekly Bounty · the whole guild hunts</div><div class="b-wanted">Wanted</div>' + beastSvg(b) +
       '<h3 class="b-name">' + esc(b.name) + "</h3>" +
       '<div class="b-epithet">' + esc(b.epithet) + "</div>" +
-      '<p class="b-goal">' + esc(b.goal) + "</p>" +
-      '<p class="b-story">' + esc(b.story) + "</p>" +
-      '<div class="b-hp" role="img" aria-label="' + (b.hp - hits) + " of " + b.hp + ' health left">' + segs + "</div>" +
-      '<p class="b-count">' + hits + " of " + b.hp + (b.hp === 1 ? " blow" : " blows") + " struck · " + left + "</p>" +
-      '<p class="b-reward">Bounty: <b>+' + BOSS_XP + " XP</b></p>" +
-      (st.won ? '<span class="stamp b-slain">Slain</span>' : "");
-    $("bossBox").classList.toggle("won", !!st.won);
+      '<ol class="b-jobs">' + cb.jobs.map(function (j) { return '<li class="' + (st.done.indexOf(j.id) >= 0 ? "hit" : "") + '"><span class="b-ss">SS</span>' + esc(j.title) + "</li>"; }).join("") + "</ol>" +
+      (sl ? '<p class="b-by">Slain by <b>' + esc(sl.name) + "</b>" + (sl.me ? " (you!)" : "") + "</p>"
+          : '<div class="b-hp" role="img" aria-label="' + (2 - hits) + ' of 2 health left">' + segs + '</div><p class="b-count">You: ' + hits + " of 2 · " + bountyLeft(cb) + "</p>") +
+      '<p class="b-reward">Bounty: <b>+' + BOSS_XP + ' XP</b> to the first who fells it</p>' +
+      '<p class="b-tap">Tap the poster to join the hunt</p>' +
+      (sl ? '<span class="stamp b-slain">Slain</span>' : "");
+    $("bossBox").classList.toggle("won", !!sl);
+    if ($("bmodal").classList.contains("show") && !bview.proof) renderBounty();
   }
+  function watchBounty(cb) {
+    if (!cloud.db || cloud.bWeek === cb.w.key) return;
+    if (cloud.bRefs) cloud.bRefs.forEach(function (r) { try { r.off(); } catch (e) {} });
+    cloud.bWeek = cb.w.key; cloud.bounty = null; cloud.hunt = null;
+    var r1 = cloud.db.ref("bounty/" + cb.w.key), r2 = cloud.db.ref("hunt/" + cb.w.key);
+    cloud.bRefs = [r1, r2];
+    r1.on("value", function (sn) { var v = sn.val(); cloud.bounty = v ? Object.assign({ week: cb.w.key }, v) : null; afterBountyNews(); }, function () {});
+    r2.on("value", function (sn) { cloud.hunt = sn.val() || {}; if ($("bmodal").classList.contains("show") && !bview.proof) renderBounty(); }, function () {});
+  }
+  function afterBountyNews() {
+    var cb = currentBoss(), v = cloud.bounty;
+    // someone else claimed it first: this week's hunt is over for everyone else
+    if (v && v.uid !== cloud.uid && !cb.st.won && cb.st.lostTo !== v.name) { cb.st.lostTo = v.name; save(); }
+    renderBoss();
+  }
+  function pushHunt(cb) {
+    if (!cloud.ready || !cloud.db || !cloud.uid || !state.signed) return;
+    var jobs = {};
+    cb.st.done.forEach(function (id) { jobs[id] = { at: Date.now(), img: cb.st.proofs[id] || "" }; });
+    var ref = cloud.db.ref("hunt/" + cb.w.key + "/" + cloud.uid);
+    (cb.st.done.length ? ref.set({ name: (state.name || "Adventurer").slice(0, 24), n: cb.st.done.length, at: Date.now(), jobs: jobs }) : ref.remove()).catch(function () {});
+  }
+  function shrinkData(src, max, q) {
+    return new Promise(function (ok) {
+      var im = new Image();
+      im.onload = function () { var k = Math.min(1, max / Math.max(im.naturalWidth, im.naturalHeight)); var c = document.createElement("canvas"); c.width = Math.round(im.naturalWidth * k); c.height = Math.round(im.naturalHeight * k); c.getContext("2d").drawImage(im, 0, 0, c.width, c.height); ok(c.toDataURL("image/jpeg", q)); };
+      im.onerror = function () { ok(src); }; im.src = src;
+    });
+  }
+  function proofToJournal(q, cb, data) {
+    if (!data) return;
+    var id = "j" + Date.now().toString(36);
+    var entry = { id: id, at: Date.now(), qid: q.id, title: q.title, cat: q.cat, rank: q.rank, text: "Proof of the hunt against " + cb.b.name + ".", photo: false };
+    idbDo("readwrite", function (st) { return st.put(data, id); }).then(function () { photoCache[id] = data; entry.photo = true; }).catch(function () {})
+      .then(function () { state.journal.unshift(entry); if (state.journal.length > 300) state.journal.length = 300; save(); renderJournal(); checkBadges(); });
+  }
+  function bountyHit(cb, id) {
+    pushHunt(cb);
+    if (cb.st.done.length < 2) { setTimeout(function () { sfx("hit"); toast("You strike " + cb.b.name + "! 1 of 2 blows. One more SS job and the bounty is yours."); }, 900); renderBoss(); return; }
+    claimBounty(cb);
+  }
+  function claimBounty(cb) {
+    var finish = function (note) {
+      if (cb.st.won) return;
+      var S = state.stats, tk = todayKey(), before = levelInfo(state.xp).lv;
+      cb.st.won = true; S.boss = (S.boss || 0) + 1; state.xp += BOSS_XP;
+      state.log.unshift({ k: "b-" + cb.w.key, bounty: true, bw: cb.w.key, t: "Bounty: " + cb.b.name + " slain", xp: BOSS_XP, d: tk, at: Date.now() });
+      save(); render(); renderBoss();
+      celebrate({ head: "Bounty Claimed", big: cb.b.name + " is slain", msg: "+" + BOSS_XP + " XP. Your name is nailed to the poster for the whole guild to see." + (note || ""), sound: "hit" });
+      if (levelInfo(state.xp).lv > before) levelUp(levelInfo(state.xp).lv);
+      checkBadges();
+    };
+    var lost = function (name) {
+      cb.st.lostTo = name; save(); renderBoss();
+      celebrate({ head: "Too Late, Hunter", big: name + " got there first", msg: "The bounty on " + cb.b.name + " is already claimed. Your two SS jobs still earned their XP. A new beast appears on Monday.", sound: "paper" });
+    };
+    var v = cloud.bounty;
+    if (v && v.week === cb.w.key && v.uid !== cloud.uid) { lost(v.name); return; }
+    if (!cloud.ready || !cloud.db || !cloud.uid) { finish(" (Offline: the guild will see it when the rankings connect.)"); return; }
+    var ref = cloud.db.ref("bounty/" + cb.w.key);
+    ref.set({ uid: cloud.uid, name: (state.name || "Adventurer").slice(0, 24), at: Date.now() }).then(function () { finish(""); })
+      .catch(function () {
+        ref.once("value").then(function (sn) {
+          var cur = sn.val();
+          if (cur && cur.uid !== cloud.uid) lost(cur.name || "Someone");
+          else finish(" (The guild can't see it yet: the new Firebase rules need to be published.)");
+        }).catch(function () { finish(""); });
+      });
+  }
+
+  var bview = { proof: null, img: null };
+  function openBounty() { bview.proof = null; bview.img = null; renderBounty(); $("bmodal").classList.add("show"); sfx("paper"); }
+  function closeBounty() { $("bmodal").classList.remove("show"); bview.proof = null; bview.img = null; }
+  function renderBounty() {
+    var cb = currentBoss(), b = cb.b, st = cb.st, sl = slayerOf(cb), h;
+    if (bview.proof) {
+      var q = findQ(bview.proof);
+      h = '<button class="qm-x" type="button" data-bclose aria-label="Close">&times;</button>' +
+        '<button class="bp-back" type="button" data-bback>&larr; Back to the poster</button>' +
+        '<div class="qm-kicker">Proof of the Hunt</div><h3 id="bmTitle">' + esc(q.title) + "</h3>" +
+        '<p class="bp-lead">A picture is required as proof that thou truly did it. Shouldst thou claim the bounty, the whole guild shall see it.</p>' +
+        '<label class="bp-pick' + (bview.img ? " has" : "") + '" for="bpFile">' + (bview.img ? '<img src="' + bview.img + '" alt="Your proof">' : '<span class="bp-cam" aria-hidden="true">&#128247;</span><span>Take or choose a picture</span>') + "</label>" +
+        '<input id="bpFile" type="file" accept="image/*" hidden>' +
+        (bview.img ? '<button class="g-link" type="button" data-bclear>Choose another picture</button>' : "") +
+        '<label class="jm-lab" for="bpWord">Type <b>complete</b> to seal it</label><input id="bpWord" type="text" autocomplete="off" autocapitalize="none" spellcheck="false">' +
+        '<p class="cm-hint" id="bpHint" aria-live="polite"></p>' +
+        '<div class="qm-acts"><button class="btn gold" type="button" id="bpOk" disabled>Seal the deed</button></div>';
+      $("bmPaper").innerHTML = h;
+      var ok = function () { $("bpOk").disabled = !(bview.img && $("bpWord").value.trim().toLowerCase() === "complete"); };
+      $("bpWord").addEventListener("input", ok);
+      $("bpWord").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); if (!$("bpOk").disabled) $("bpOk").click(); } });
+      $("bpFile").addEventListener("change", function () {
+        var f = this.files && this.files[0]; if (!f) return;
+        $("bpHint").textContent = "Preparing the picture…";
+        shrinkImage(f).then(function (d) { bview.img = d; var w = $("bpWord").value; renderBounty(); $("bpWord").value = w; ok(); })
+          .catch(function () { $("bpHint").textContent = "That picture couldn't be opened. Try another one."; });
+      });
+      $("bpOk").addEventListener("click", function () {
+        if (!bview.img) { $("bpHint").textContent = "A picture is required."; return; }
+        var id = bview.proof, big = bview.img; this.disabled = true;
+        shrinkData(big, 640, 0.6).then(function (small) {
+          closeBounty(); complete(id, { bounty: true, proof: small, photo: big });
+        });
+      });
+      return;
+    }
+    var mine = function (id) { return st.done.indexOf(id) >= 0; };
+    var others = [];
+    var hunt = cloud.hunt || {};
+    Object.keys(hunt).forEach(function (uid) { var x = hunt[uid]; if (x && x.name && uid !== cloud.uid) others.push(x); });
+    var proofs = [];
+    if (sl) {
+      if (sl.me) cb.jobs.forEach(function (j) { if (st.proofs[j.id]) proofs.push(st.proofs[j.id]); });
+      else { var hx = hunt[sl.uid]; if (hx && hx.jobs) Object.keys(hx.jobs).forEach(function (k) { if (hx.jobs[k] && hx.jobs[k].img) proofs.push(hx.jobs[k].img); }); }
+    }
+    h = '<span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-bclose aria-label="Close">&times;</button>' +
+      '<div class="b-kicker">Weekly Bounty · the whole guild hunts</div><div class="b-wanted" id="bmTitle">Wanted</div>' + beastSvg(b) +
+      '<h3 class="b-name">' + esc(b.name) + '</h3><div class="b-epithet">' + esc(b.epithet) + "</div>" +
+      '<p class="b-story">' + esc(b.story) + "</p>" +
+      (sl ? '<div class="bm-slain"><span>Slain by</span><b>' + esc(sl.name) + "</b>" + (sl.at ? "<small>" + esc(longDate(sl.at)) + "</small>" : "") +
+            (proofs.length ? '<div class="bm-proofs">' + proofs.map(function (src, i) { return '<button type="button" class="bm-proof" data-bproof="' + i + '"><img src="' + src + '" alt="Proof ' + (i + 1) + '"></button>'; }).join("") + "</div>" : "") + "</div>"
+          : '<p class="bm-rule">Complete <b>both</b> SS-Class jobs below, each sealed with a <b>picture as proof</b>. The first adventurer to finish claims the bounty, and their name is nailed to this poster for all the guild to see.</p>') +
+      '<div class="bm-jobs">' + cb.jobs.map(function (j) {
+        var done = mine(j.id), today = state.today.ids.indexOf(j.id) >= 0, act;
+        if (done) act = '<span class="bm-done">&#10003; Sealed with proof</span>';
+        else if (sl) act = '<span class="bm-closed">The bounty is claimed</span>';
+        else if (today) act = '<span class="bm-closed">Already done this day; hunt it again on the morrow</span>';
+        else act = '<button class="btn gold small" type="button" data-bhunt="' + j.id + '">Complete with proof</button>';
+        return '<div class="bm-job' + (done ? " done" : "") + '"><span class="bm-seal" aria-hidden="true">SS</span><div class="bm-jt"><b>' + esc(j.title) + "</b><small>" + esc(j.desc) + '</small><em>+' + XP.SS + " XP</em></div>" + act + "</div>";
+      }).join("") + "</div>" +
+      (others.length ? '<div class="bm-trail"><span>On the trail</span>' + others.sort(function (x, y) { return (y.n || 0) - (x.n || 0); }).map(function (x) { return "<i>" + esc(x.name) + " · " + Math.min(2, x.n || 0) + "/2</i>"; }).join("") + "</div>" : "") +
+      '<p class="b-reward">Bounty: <b>+' + BOSS_XP + " XP</b> · " + (sl ? "a new beast appears on Monday" : bountyLeft(cb)) + "</p>";
+    $("bmPaper").innerHTML = h;
+  }
+  $("bossBox").addEventListener("click", openBounty);
+  $("bossBox").addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openBounty(); } });
+  $("bmodal").addEventListener("click", function (e) {
+    if (e.target === this) { closeBounty(); return; }
+    var t = e.target.closest("button"); if (!t) return;
+    if (t.hasAttribute("data-bclose")) closeBounty();
+    else if (t.hasAttribute("data-bback")) { bview.proof = null; bview.img = null; renderBounty(); }
+    else if (t.hasAttribute("data-bclear")) { bview.img = null; renderBounty(); }
+    else if (t.dataset.bhunt) {
+      var sl = slayerOf(currentBoss()); if (sl) { renderBounty(); return; }
+      bview.proof = t.dataset.bhunt; bview.img = null; renderBounty(); sfx("paper");
+    } else if (t.dataset.bproof != null) { var im = t.querySelector("img"); if (im) { $("lbImg").src = im.src; $("lbImg").alt = im.alt; $("lightbox").classList.add("show"); } }
+  });
 
   /* ---------- achievements ---------- */
   var achAll = false;
@@ -2492,7 +2784,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     var earned = all.filter(function (a) { return state.badges[a.id]; }).sort(function (x, y) { return state.badges[y.id] - state.badges[x.id]; });
     var next = all.filter(function (a) { return !state.badges[a.id]; }).sort(function (x, y) { return achProgress(y) - achProgress(x); });
     n = earned.length;
-    $("achMeta").textContent = n + " earned · " + next.length + " to win";
+    $("achMeta").textContent = n + " won · " + next.length + " yet to win";
     var opts = '<option value="">None</option>' + earned.filter(function (a) { if (seen[a.title]) return false; seen[a.title] = 1; return true; }).map(function (a) {
       return '<option value="' + esc(a.id) + '"' + (state.honor === a.id ? " selected" : "") + ">" + esc(a.title) + "</option>";
     }).join("");
@@ -2512,7 +2804,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       return '<button type="button" class="ach' + (have ? " earned" : "") + (a.gen ? " gen" : "") + '" data-ach="' + esc(a.id) + '">' +
         '<span class="medal" aria-hidden="true">' + esc(a.name.replace(/^The /, "").charAt(0)) + "</span>" +
         '<span class="ach-txt"><b>' + esc(a.name) + "</b><small>" + esc(a.desc) + "</small>" +
-        (have ? '<small class="ach-done">Earned · title “' + esc(a.title) + "”</small>"
+        (have ? '<small class="ach-done">Won · title “' + esc(a.title) + "”</small>"
               : '<span class="ach-bar"><i style="width:' + Math.round(v / a.goal * 100) + '%"></i></span><small>' + v + " / " + a.goal + "</small>") +
         "</span></button>";
     }).join("");
@@ -2560,7 +2852,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
         '<h3 id="hallTitle">' + esc(a.name) + "</h3>" +
         '<div class="rp-ttl">“' + esc(a.title) + "”</div>" +
         '<p class="rp-desc">' + esc(a.desc) + "</p>" +
-        '<div class="hall-tale"><span>' + (have ? "The tale" : "The tale is sealed") + "</span><p>" + (have ? esc(a.tale || "The guild scribes wrote this one in gold.") : "Win this honor and the scribes will unseal its tale.") + "</p></div>" +
+        '<div class="hall-tale"><span>' + (have ? "The tale" : "The tale is sealed") + "</span><p>" + (have ? esc(a.tale || "The guild scribes wrote this one in gold.") : "Win this honor and the scribes shall unseal its tale.") + "</p></div>" +
         (have ? '<p class="rp-when">Won upon ' + honorDate(state.badges[a.id]) + "</p>" +
                 (state.honor === a.id ? '<p class="rp-bear">You bear this title</p>' : '<button class="hall-btn" type="button" data-hhonor="' + esc(a.id) + '">Bear this title</button>')
               : '<div class="rp-bar big"><i style="width:' + Math.round(v / a.goal * 100) + '%"></i></div><p class="rp-when">' + v + " of " + a.goal + "</p>") +
@@ -2580,8 +2872,8 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
         '<h2 id="hallTitle">Hall of Honors</h2>' +
         '<p class="hall-sub">' + esc(state.name || "Adventurer") + (honorText() ? " " + esc(honorText()) : "") + " · " + earned.length + (earned.length === 1 ? " honor" : " honors") + " won</p>" +
         '<div class="hall-sec"><span>Honors won</span></div>' +
-        (earned.length ? '<div class="hall-grid">' + earned.map(card).join("") + "</div>" : '<p class="hall-empty">No honors yet. Finish your first job and the first banner goes up.</p>') +
-        (next.length ? '<div class="hall-sec"><span>Yet to be won</span></div><p class="hall-note">New honors appear as you win the old ones and as you repeat the jobs you love.</p><div class="hall-grid">' + next.map(card).join("") + "</div>" : "");
+        (earned.length ? '<div class="hall-grid">' + earned.map(card).join("") + "</div>" : '<p class="hall-empty">No honors yet. Finish thy first quest and the first banner shall be raised.</p>') +
+        (next.length ? '<div class="hall-sec"><span>Yet to be won</span></div><p class="hall-note">New honors appear as thou win the old ones, and as thou repeat the quests thou love.</p><div class="hall-grid">' + next.map(card).join("") + "</div>" : "");
     }
     $("hall").innerHTML = h; $("hall").scrollTop = 0;
     fillHallPics();
@@ -2627,14 +2919,14 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     jm.ctx = ctx; jm.photo = null;
     $("jmDate").textContent = longDate(Date.now());
     $("jmTitle").textContent = ctx ? ctx.title : "A page of my own";
-    $("jmLead").textContent = ctx ? "Job complete. Write down what happened while it's fresh." : "Anything worth remembering today.";
+    $("jmLead").textContent = ctx ? "Quest complete. Write what befell thee while it is fresh." : "Aught worth remembering this day.";
     $("jmText").value = ""; $("jmPrev").hidden = true; $("jmPrev").removeAttribute("src"); $("jmFile").value = "";
     $("jmodal").classList.add("show");
   }
   function closeJournal() { $("jmodal").classList.remove("show"); jm.ctx = null; jm.photo = null; }
   function saveJournal() {
     var text = $("jmText").value.trim();
-    if (!text && !jm.photo) { toast("Write a line or add a picture first, or tap Skip."); return; }
+    if (!text && !jm.photo) { toast("Write a line or affix a picture first, or tap Not now."); return; }
     var c = jm.ctx || {}, id = "e" + Date.now().toString(36);
     var entry = { id: id, at: Date.now(), qid: c.id || "", title: c.title || "A page of my own", cat: c.cat || "", rank: c.rank || "", text: text, photo: false };
     var done = function () {
@@ -2644,14 +2936,14 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     if (jm.photo) {
       var data = jm.photo;
       idbDo("readwrite", function (s) { return s.put(data, id); }).then(function () { photoCache[id] = data; entry.photo = true; done(); })
-        .catch(function () { toast("The picture couldn't be stored on this phone; saving the words only."); done(); });
+        .catch(function () { toast("The picture could not be kept on this device; saving the words alone."); done(); });
     } else done();
   }
   var jShow = 5;
   function renderJournal() {
     var list = state.journal;
     $("jCount").textContent = list.length ? list.length + (list.length === 1 ? " page" : " pages") : "";
-    if (!list.length) { $("jPages").innerHTML = '<p class="j-empty">Your journal is still blank. Finish a job and write the first page.</p>'; $("jMore").hidden = true; return; }
+    if (!list.length) { $("jPages").innerHTML = '<p class="j-empty">Thy journal is yet blank. Finish a quest and pen the first page.</p>'; $("jMore").hidden = true; return; }
     $("jPages").innerHTML = list.slice(0, jShow).map(function (e, i) {
       return '<article class="jpage tear' + (i % 5 + 1) + '">' +
         '<div class="j-date">' + longDate(e.at) + "</div>" +
@@ -2714,6 +3006,10 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   var SFX = {
     pin: function (t) { noise(t, 0.06, 0.55, "lowpass", 900); tone(180, t, 0.12, "sine", 0.4, 70); tone(2700, t + 0.012, 0.05, "triangle", 0.05); },
     paper: function (t) { noise(t, 0.18, 0.16, "bandpass", 3000, 0.7); noise(t + 0.06, 0.12, 0.1, "bandpass", 4800, 0.9); },
+    wings: function (t) {
+      for (var i = 0; i < 9; i++) { var k = i / 8, at = t + 0.55 + i * 0.15; noise(at, 0.11, 0.05 + 0.35 * k * k, "lowpass", 520 + 260 * k, 0.8); }
+      noise(t + 1.05, 0.55, 0.22, "bandpass", 700, 0.6); noise(t + 1.35, 0.5, 0.16, "bandpass", 420, 0.7);
+    },
     take: function (t) { noise(t, 0.12, 0.16, "bandpass", 2600, 0.6); pluck(62, t + 0.02, 0.25); pluck(69, t + 0.1, 0.2); },
     coin: function (t) { [0, 0.085, 0.2].forEach(function (dd, i) { tone(2093 + i * 150, t + dd, 0.4, "sine", 0.13); tone(3150 + i * 220, t + dd, 0.25, "sine", 0.05); }); },
     hit: function (t) { tone(120, t, 0.35, "sine", 0.55, 42); noise(t, 0.14, 0.4, "lowpass", 700); },
@@ -2813,7 +3109,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     $("musicBtn").setAttribute("aria-pressed", String(!!state.settings.music));
     $("musicBtn").textContent = state.settings.music ? "♪ Tavern music: on" : "♪ Tavern music: off";
     $("sfxBtn").setAttribute("aria-pressed", String(!!state.settings.sfx));
-    $("sfxBtn").textContent = state.settings.sfx ? "Sounds: on" : "Sounds: off";
+    $("sfxBtn").textContent = state.settings.sfx ? "Hall sounds: on" : "Hall sounds: off";
   }
   document.addEventListener("visibilitychange", function () {
     if (!AU.ctx) return;
@@ -2937,17 +3233,17 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     var rank = 0; cloud.players.slice().sort(function (a, b) { return (+b.xp || 0) - (+a.xp || 0); }).forEach(function (x, i) { if ((me && x.id === cloud.uid) || (!me && x.id === id)) rank = i + 1; });
     var medals = r.badges.length
       ? '<div class="pm-badges">' + r.badges.map(function (b) { var a = achById(b); return '<span class="pm-badge" title="' + esc(a.desc) + '"><i>' + esc(a.name.replace(/^The /, "").charAt(0)) + "</i>" + esc(a.name) + "</span>"; }).join("") + "</div>"
-      : '<p class="pm-none">' + (r.badgeN ? r.badgeN + (r.badgeN === 1 ? " badge earned." : " badges earned.") : "No badges earned yet.") + "</p>";
+      : '<p class="pm-none">' + (r.badgeN ? r.badgeN + (r.badgeN === 1 ? " honor won." : " honors won.") : "No honors earned yet.") + "</p>";
     $("pmPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" data-pclose aria-label="Close">×</button>' +
       '<div class="qm-kicker">Guild Record</div>' +
       '<div class="pm-av">' + avatarHtml(r.avatar, r.name, "pm-img") + "</div>" +
       '<h3 id="pmTitle" class="pm-name">' + esc(r.name || "Adventurer") + "</h3>" +
       (r.honor ? '<div class="pm-honor">' + esc(r.honor) + "</div>" : "") +
       '<div class="pm-lv">Level ' + r.level + " · " + esc(r.title) + (rank ? " · Rank " + rank + " in the guild" : "") + "</div>" +
-      '<dl class="pm-stats"><div><dt>Total XP</dt><dd>' + r.xp + "</dd></div><div><dt>Today</dt><dd>" + r.today + "</dd></div><div><dt>Streak</dt><dd>" + r.streak + "d</dd></div><div><dt>Deeds</dt><dd>" + r.done + "</dd></div></dl>" +
-      '<div class="pm-sub">Badges</div>' + medals +
+      '<dl class="pm-stats"><div><dt>Total XP</dt><dd>' + r.xp + "</dd></div><div><dt>This day</dt><dd>" + r.today + "</dd></div><div><dt>Streak</dt><dd>" + r.streak + "d</dd></div><div><dt>Deeds</dt><dd>" + r.done + "</dd></div></dl>" +
+      '<div class="pm-sub">Honors</div>' + medals +
       (r.forfeits ? '<p class="pm-honest">Honestly forfeited ' + r.forfeits + (r.forfeits === 1 ? " deed" : " deeds") + " they didn't truly finish.</p>" : "") +
-      (me ? '<div class="qm-acts"><button class="btn gold" type="button" data-avopen>Change avatar</button></div>' : (r.at ? '<p class="pm-seen">Last seen ' + ago(r.at).replace(/^active /, "") + "</p>" : "")) +
+      (me ? '<div class="qm-acts"><button class="btn gold" type="button" data-avopen>Change thy likeness</button></div>' : (r.at ? '<p class="pm-seen">Last seen ' + ago(r.at).replace(/^active /, "") + "</p>" : "")) +
       (!me && isMaster() ? '<button class="pm-exile" type="button" data-exile="' + esc(id) + '">Exile from the guild</button>' : "") +
       (!me && cloud.master === id ? '<p class="pm-gm">Guild Master of this guild</p>' : "");
     $("pmodal").classList.add("show"); sfx("paper");
@@ -2980,10 +3276,10 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     return cloud.players.some(function (p) { return p.id !== cloud.uid && cleanName(p.name).toLowerCase() === k; });
   }
   function nameProblem(n) {
-    if (n.length < 2) return "Your name needs at least 2 letters.";
+    if (n.length < 2) return "Thy name needs at least 2 letters.";
     if (!/^[\p{L}\p{N} ._'-]+$/u.test(n)) return "Use letters, numbers and spaces only.";
-    if (/^adventurer$/i.test(n)) return "Choose a name of your own, not Adventurer.";
-    if (nameTaken(n)) return "“" + n + "” is already in the guild ledger. If it's yours, choose Log in.";
+    if (/^adventurer$/i.test(n)) return "Choose a name of thine own, not Adventurer.";
+    if (nameTaken(n)) return "“" + n + "” is already in the guild ledger. If it be thine, choose Enter the Guild.";
     return "";
   }
   function cloudConfigured() { var c = window.SIDEQUEST_FIREBASE; return !!(c && c.apiKey && !/PASTE/.test(c.apiKey) && c.databaseURL); }
@@ -2996,12 +3292,12 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   function acctEmail(n) { return acctKey(n) + "@sidequest-guild.app"; }
   function acctPw(pin) { return "sq!" + pin + "#guild"; }
   var GATE_TEXT = {
-    login: { lead: "Already in the guild? Write your name and your secret seal. Your progress comes with you.", ok: "Log in" },
-    "new": { lead: "New to the guild? Choose your name and a secret seal of 4 to 6 numbers. You'll need both to log in on Safari, the home-screen app or a new phone.", ok: "Join the guild" },
-    secure: { lead: "Protect your progress. Choose a secret seal of 4 to 6 numbers for “{n}”. With your name and seal you can log in on Safari, the home-screen app or a new phone, and your progress follows you.", ok: "Seal my account" },
-    relogin: { lead: "This browser needs your secret seal again to open “{n}”.", ok: "Log in" },
-    info: { lead: "You are signed in as “{n}”. To play on Safari, the home-screen app or a new phone, choose Log in there and use this name and your secret seal.", ok: "Close" },
-    local: { lead: "Before you take any job, sign your name in the guild's ledger.", ok: "Sign the ledger" }
+    login: { lead: "Already sworn to the guild? Write thy name and thy secret seal, and thy deeds shall follow thee.", ok: "Enter" },
+    "new": { lead: "New to the guild? Choose thy name and a secret seal of 4 to 6 numbers. Thou shalt need both to enter from Safari, the home-screen app or a new phone.", ok: "Enlist me" },
+    secure: { lead: "Guard thy deeds. Choose a secret seal of 4 to 6 numbers for “{n}”. With thy name and seal thou may enter from Safari, the home-screen app or a new phone, and thy deeds shall follow thee.", ok: "Seal my account" },
+    relogin: { lead: "This device asks for thy secret seal once more to open “{n}”.", ok: "Enter" },
+    info: { lead: "Thou art signed in as “{n}”. To play on Safari, the home-screen app or a new phone, choose Enter the Guild there and use this name and thy secret seal.", ok: "Close" },
+    local: { lead: "Before thou take up any quest, sign thy name in the guild's ledger.", ok: "Sign the ledger" }
   };
   function setGateMode(m) {
     gate.mode = m;
@@ -3015,10 +3311,10 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     $("gPin").setAttribute("autocomplete", isNew ? "new-password" : "current-password");
     $("gOk").textContent = t.ok; $("gHint").textContent = "";
     $("gCancel").hidden = !(m === "secure" && gate.canLater);
-    $("gSwitch").hidden = m !== "secure"; $("gSwitch").textContent = "This name already has an account? Log in instead";
-    $("gNote").textContent = m === "info" ? "One account per device: this browser stays signed in to your account."
-      : m === "local" ? "Without an account your progress lives only on this device. Export a save file to move it."
-      : "Keep your seal secret. Anyone with your name and seal can open your account.";
+    $("gSwitch").hidden = m !== "secure"; $("gSwitch").textContent = "Already sworn to the guild? Enter instead";
+    $("gNote").textContent = m === "info" ? "One account to a device: this one stays bound to thy name."
+      : m === "local" ? "Without an account thy deeds live only on this device. Write a save scroll to carry them elsewhere."
+      : "Keep thy seal secret. Whoever knows thy name and seal may open thy account.";
   }
   function openGate(mode) {
     var cfg = cloudConfigured();
@@ -3045,7 +3341,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     state.signed = true; state.updatedAt = r.at || Date.now();
     try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
     renderAll();
-    if (!quiet) toast("Your progress was updated from your other device.");
+    if (!quiet) toast("A raven brought thy deeds from thy other device.");
     return true;
   }
   function pushSave(now) {
@@ -3056,7 +3352,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     cloud.db.ref("saves/" + cloud.uid).set({ at: at, data: JSON.stringify(state) }).then(function () { cloud.saveErr = ""; })
       .catch(function (e) {
         var m = String(e && (e.code || e.message) || e); cloud.saveErr = m;
-        if (!cloud.saveWarned && /permission/i.test(m)) { cloud.saveWarned = true; toast("Your progress can't be backed up to your account yet. The new Firebase rules need to be published."); }
+        if (!cloud.saveWarned && /permission/i.test(m)) { cloud.saveWarned = true; toast("Thy deeds cannot yet be kept with thy account. The new Firebase rules must be published."); }
       });
   }
   function watchSave(uid) {
@@ -3072,10 +3368,10 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   }
   function gateError(e, n) {
     var c = (e && e.code) || "";
-    if (/invalid-credential|invalid-login-credentials|wrong-password|user-not-found|invalid-email/.test(c)) return "Wrong name or secret seal. Check both and try again.";
-    if (/email-already-in-use|credential-already-in-use/.test(c)) return "“" + n + "” already has an account. Choose Log in and use its seal.";
-    if (/too-many-requests/.test(c)) return "Too many wrong tries. The ledger is locked for a few minutes; try again later.";
-    if (/network-request-failed/.test(c)) return "No connection. Connect to the internet to open the ledger.";
+    if (/invalid-credential|invalid-login-credentials|wrong-password|user-not-found|invalid-email/.test(c)) return "The name or the secret seal is wrong. Check both and try again.";
+    if (/email-already-in-use|credential-already-in-use/.test(c)) return "“" + n + "” is already sworn to the guild. Choose Enter the Guild and use its seal.";
+    if (/too-many-requests/.test(c)) return "Too many wrong tries. The ledger is locked for a few minutes; try again anon.";
+    if (/network-request-failed/.test(c)) return "No raven can fly. Connect to the internet to open the ledger.";
     if (/operation-not-allowed|admin-restricted-operation/.test(c)) { $("gLocal").hidden = false; return "Accounts aren't switched on yet in Firebase (Email/Password sign-in)."; }
     if (c === "sq/off") { $("gLocal").hidden = false; return "The guild's cloud isn't set up, so accounts can't be used yet."; }
     return "Couldn't open the ledger (" + (c || e) + ").";
@@ -3133,10 +3429,10 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
       sfx(first ? "fanfare" : "quill"); toast(first ? "Welcome to the guild, " + n + "." : "The ledger now reads " + n + "."); pushNow();
       return;
     }
-    if (n.length < 2) { $("gHint").textContent = "Write your name first."; return; }
-    if (!/^\d{4,6}$/.test(pin)) { $("gHint").textContent = "Your secret seal is 4 to 6 numbers."; return; }
+    if (n.length < 2) { $("gHint").textContent = "Write thy name first."; return; }
+    if (!/^\d{4,6}$/.test(pin)) { $("gHint").textContent = "Thy secret seal is 4 to 6 numbers."; return; }
     if (m === "new" || m === "secure") {
-      if ($("gPin2").value.trim() !== pin) { $("gHint").textContent = "The two seals don't match. Write the same numbers twice."; return; }
+      if ($("gPin2").value.trim() !== pin) { $("gHint").textContent = "The two seals do not match. Write the same numbers twice."; return; }
       var p = nameProblem(n); if (m === "secure" && n.toLowerCase() === cleanName(state.name).toLowerCase()) p = "";
       if (p) { $("gHint").textContent = p; return; }
     }
@@ -3144,7 +3440,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     whenAuth().then(function () { return m === "login" || m === "relogin" ? doLogin(n, pin) : doCreate(n, pin); })
       .then(function (how) {
         gateBusy(false); closeGate(); sfx("fanfare");
-        toast(how === "back" ? "Welcome back, " + state.name + ". Your progress is here." : how === "fresh" ? "Welcome, " + state.name + ". You're logged in." : "Your account is sealed, " + state.name + ". Log in with it anywhere.");
+        toast(how === "back" ? "Welcome back, " + state.name + ". Thy deeds are all here." : how === "fresh" ? "Welcome, " + state.name + ". The gates are open to thee." : "Thy account is sealed, " + state.name + ". Enter with it from anywhere.");
       })
       .catch(function (e) { gateBusy(false); $("gHint").textContent = gateError(e, n); });
   }
@@ -3184,7 +3480,8 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   }
   window.SIDEQUEST_BOOT = function () { cloudInit(); bootGate(); };
   setInterval(renderLb, 60000);
-  setInterval(function () { if (state.today.d !== todayKey()) render(); }, 60000);
+  var lastMainDay = mainDayKey();
+  setInterval(function () { var mk = mainDayKey(); if (state.today.d !== todayKey() || mk !== lastMainDay) { lastMainDay = mk; render(); } }, 60000);
 })();
 </script>
 <script src="firebase-config.js"></script>
