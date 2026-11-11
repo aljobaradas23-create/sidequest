@@ -889,6 +889,27 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .g-pin:focus { outline: none; border-bottom-color: #7e1712; }
 #gName[readonly] { opacity: .85; border-bottom-style: dotted; }
 .g-link { display: block; margin: 12px auto 0; background: none; border: 0; padding: 2px; font: 15px "IM Fell English", Georgia, serif; font-style: italic; color: #7e1712; text-decoration: underline; cursor: pointer; }
+
+/* ---------- the Chapel: a gilded screen above the Main Quests ---------- */
+.chapel[hidden] { display: none; }
+.chapel-frame { position: relative; padding: 12px; border-radius: 4px;
+  background: linear-gradient(145deg, #f3d98f, #b8862e 28%, #f6e2a4 50%, #9c6b1c 74%, #e9c46e);
+  box-shadow: 0 0 0 2px #3a2408, 0 0 0 5px rgba(201,162,74,.35), 0 14px 30px rgba(0,0,0,.65), inset 0 0 0 1px rgba(255,240,200,.6); }
+.chapel-frame::before { content: ""; position: absolute; inset: 6px; border: 1px solid rgba(80,50,10,.55); border-radius: 2px; pointer-events: none; }
+.cf-rivet { position: absolute; z-index: 2; width: 10px; height: 10px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, #fff6d0, #c79a3c 55%, #6b4510); box-shadow: 0 1px 2px rgba(0,0,0,.6); }
+.cf-rivet.tl { left: 3px; top: 3px; } .cf-rivet.tr { right: 3px; top: 3px; } .cf-rivet.bl { left: 3px; bottom: 3px; } .cf-rivet.br { right: 3px; bottom: 3px; }
+.chapel-screen { position: relative; overflow: hidden; border-radius: 2px; background: #000; aspect-ratio: 1280 / 540; box-shadow: inset 0 0 0 2px #2a1a06, inset 0 0 30px rgba(0,0,0,.8); }
+.chapel-screen video { display: block; width: 100%; height: 100%; object-fit: cover; background: #000; }
+.chapel-play { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: 8px; border: 0; cursor: pointer;
+  background: radial-gradient(ellipse at 50% 55%, rgba(0,0,0,.05) 30%, rgba(0,0,0,.55) 100%); color: #fbe9c6; }
+.chapel-play[hidden] { display: none; }
+.cp-seal { position: relative; width: 64px; height: 64px; border-radius: 50%;
+  background: radial-gradient(circle at 36% 30%, rgba(255,255,255,.4), transparent 42%), radial-gradient(circle at 50% 50%, #b3281c 55%, #5a0c08 100%);
+  box-shadow: 0 0 0 3px rgba(243,217,143,.85), 0 6px 18px rgba(0,0,0,.6); transition: transform .2s; }
+.cp-seal::after { content: ""; position: absolute; left: 26px; top: 20px; border-style: solid; border-width: 12px 0 12px 19px; border-color: transparent transparent transparent #fbe9c6; filter: drop-shadow(0 1px 1px rgba(0,0,0,.4)); }
+.chapel-play:hover .cp-seal, .chapel-play:focus-visible .cp-seal { transform: scale(1.08); }
+.cp-txt { font: 18px "IM Fell English SC", Georgia, serif; letter-spacing: .14em; text-shadow: 0 1px 4px rgba(0,0,0,.9); }
+@media (max-width: 480px) { .chapel-frame { padding: 9px; } .cp-seal { width: 54px; height: 54px; } .cp-seal::after { left: 22px; top: 16px; border-width: 11px 0 11px 17px; } }
 </style>
 </head>
 <body>
@@ -964,6 +985,20 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 
   <div class="main">
    <div class="boards">
+    <section class="board chapel iron stone-bg" aria-labelledby="chapelTitle">
+      <div class="board-sign">
+        <h2 id="chapelTitle">The Chapel</h2>
+        <div class="meta">A word before the road</div>
+      </div>
+      <div class="chapel-frame">
+        <span class="cf-rivet tl" aria-hidden="true"></span><span class="cf-rivet tr" aria-hidden="true"></span><span class="cf-rivet bl" aria-hidden="true"></span><span class="cf-rivet br" aria-hidden="true"></span>
+        <div class="chapel-screen">
+          <video id="chapelVid" src="chapel.mp4" poster="chapel.jpg" playsinline webkit-playsinline preload="metadata"></video>
+          <button class="chapel-play" id="chapelPlay" type="button" aria-label="Play the film"><span class="cp-seal" aria-hidden="true"></span><span class="cp-txt">Watch</span></button>
+        </div>
+      </div>
+    </section>
+
     <section class="board main-board iron stone-bg" aria-labelledby="mainTitle">
       <div class="board-sign">
         <h2 id="mainTitle">Main Quests</h2>
@@ -2791,6 +2826,18 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     if (intro.on) { if (state.settings.music) { audioCtx(); intro.music = true; } return; }
     if (state.settings.music) startMusic();
   }, true);
+
+  /* ---------- the Chapel film on the dashboard (tavern music rests while it plays) ---------- */
+  (function () {
+    var v = $("chapelVid"), b = $("chapelPlay"), hushed = false;
+    if (!v || !b) return;
+    b.addEventListener("click", function () { v.controls = true; b.hidden = true; v.play().catch(function () { b.hidden = false; }); });
+    v.addEventListener("play", function () { b.hidden = true; v.controls = true; if (AU.song || AU.timer) { hushed = true; stopMusic(); } });
+    function back() { if (hushed && state.settings.music) { hushed = false; setTimeout(startMusic, 400); } }
+    v.addEventListener("pause", back);
+    v.addEventListener("ended", function () { back(); v.controls = false; b.hidden = false; try { v.currentTime = 0; } catch (e) {} });
+    v.addEventListener("error", function () { b.hidden = true; v.closest(".chapel").hidden = true; });
+  })();
 
   /* ---------- intro film: plays each time the site opens, skippable ---------- */
   (function () {
