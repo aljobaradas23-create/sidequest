@@ -1,8 +1,8 @@
 // Sidequest Board offline support.
 // The page itself is fetched fresh when online (so your updates show up right away)
 // and served from this cache when you're offline.
-const CACHE = "sidequest-v2";
-const CORE = ["./", "./index.html", "./firebase-config.js", "./apple-touch-icon.png", "./icon-512.png", "./manifest.json"];
+const CACHE = "sidequest-v3";
+const CORE = ["./", "./index.html", "./firebase-config.js", "./apple-touch-icon.png", "./icon-512.png", "./manifest.json", "./tavern.mp3"];
 
 self.addEventListener("install", (e) => {
   e.waitUntil(
