@@ -113,6 +113,7 @@ h1 { font-family: var(--black); font-weight: 400; font-size: clamp(40px, 7vw, 66
 .name-input { background: transparent; border: 0; border-bottom: 1px dashed rgba(211,216,220,.3);
   font-family: var(--label); font-weight: 700; font-size: clamp(24px, 3.4vw, 32px); width: 100%; max-width: 380px; padding: 0 2px; }
 .name-input:hover { border-bottom-color: var(--iron-hi); }
+.name-input[readonly] { cursor: pointer; }
 .title-tag { font-family: var(--label); color: var(--gold); font-size: 16px; letter-spacing: .05em; margin-top: 2px; }
 .xpbar { margin-top: 12px; }
 .xpbar .lab { display: flex; justify-content: space-between; font-size: 15px; color: var(--muted); font-variant-numeric: tabular-nums; }
@@ -607,6 +608,17 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
 .cm-bar { display: flex; gap: 8px; align-items: center; justify-content: center; margin: 12px 0 0; font-size: 17px; color: #2a1a0c; }
 .cm-bar[hidden] { display: none; }
 .cm-bar input { width: 20px; height: 20px; accent-color: #8c1712; }
+
+.gate { position: fixed; inset: 0; z-index: 40; display: none; place-items: center; padding: 18px;
+  background: radial-gradient(ellipse at 50% 30%, rgba(40,28,16,.85), rgba(4,3,2,.96)); backdrop-filter: blur(4px); -webkit-backdrop-filter: blur(4px); }
+.gate.show { display: grid; }
+.gate-paper { max-width: 390px; }
+.g-lead { font-size: 18px; color: #3b2715; margin: 6px 0 14px; }
+#gName { width: 100%; text-align: center; font-family: var(--black); font-size: 30px; color: #160d05; padding: 8px 10px;
+  background: rgba(255,250,235,.45); border: 0; border-bottom: 2px solid rgba(43,27,16,.5); border-radius: 0; }
+#gName:focus { outline: none; border-bottom-color: #7e1712; }
+.gate .jm-lab { text-align: center; }
+.g-note { margin: 14px 0 0; font-size: 14px; font-style: italic; color: #5a3f25; }
 </style>
 </head>
 <body>
@@ -630,8 +642,8 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
       <div class="who">
       <button class="portrait-btn" id="avatarBtn" type="button" aria-label="Change avatar"><img class="portrait" id="portrait" src="data:image/jpeg;base64,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" alt="Your avatar"><span class="pchg">Change</span></button>
       <div>
-      <label for="name" class="name-lab">Adventurer (tap to rename)</label>
-      <input id="name" class="name-input" maxlength="24" value="Adventurer">
+      <label for="name" class="name-lab">Guild name (tap to change)</label>
+      <input id="name" class="name-input" maxlength="24" value="Adventurer" readonly>
       <div class="title-tag" id="titleTag">Level 1 · Peasant</div>
       </div>
       </div>
@@ -813,6 +825,18 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
   </div>
 </div>
 <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Picture"><img id="lbImg" alt=""><button class="qm-x" data-lbclose aria-label="Close">×</button></div>
+<div class="gate" id="gate" role="dialog" aria-modal="true" aria-labelledby="gTitle">
+  <div class="qm-paper gate-paper">
+    <span class="pin" aria-hidden="true"></span>
+    <div class="qm-kicker" id="gTitle">The Guild Ledger</div>
+    <p class="g-lead" id="gLead"></p>
+    <label class="jm-lab" for="gName">Your name</label>
+    <input id="gName" type="text" maxlength="24" autocomplete="nickname" autocapitalize="words" spellcheck="false">
+    <p class="cm-hint" id="gHint" aria-live="polite"></p>
+    <div class="qm-acts"><button class="btn gold" id="gOk" type="button">Sign the ledger</button><button class="btn ghost" id="gCancel" type="button" hidden>Cancel</button></div>
+    <p class="g-note">One name per phone: this phone becomes your account. To move to a new phone, export a save file here and import it there.</p>
+  </div>
+</div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
 <div class="levelup" id="levelup" role="dialog" aria-modal="true" aria-labelledby="luTitle">
   <div class="card">
@@ -1475,7 +1499,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
   $("honorSel").addEventListener("change", function () { state.honor = this.value; save(); render(); toast(this.value ? "You are now known as " + state.name + " " + honorText() + "." : "Title removed."); });
   $("musicBtn").addEventListener("click", function () { state.settings.music = !state.settings.music; save(); renderSound(); if (state.settings.music) startMusic(); else stopMusic(); });
   $("sfxBtn").addEventListener("click", function () { state.settings.sfx = !state.settings.sfx; save(); renderSound(); if (state.settings.sfx) sfx("coin"); });
-  $("name").addEventListener("change", function () { state.name = this.value.trim() || "Adventurer"; save(); render(); });
+  $("name").addEventListener("click", function () { openGate(true); });
   $("addForm").addEventListener("submit", function (e) {
     e.preventDefault();
     var title = $("qTitle").value.trim(); if (!title) return;
@@ -1564,6 +1588,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
       photoCache[id] = v; return idbDo("readwrite", function (st) { return st.put(v, id); }).catch(function () {});
     })).then(function () {
       state = normalize(p.state); pendingImport = null;
+      if (state.name && !/^\s*adventurer\s*$/i.test(state.name)) state.signed = true; else openGate(false);
       save(); render(); renderJournal(); renderAch(); renderSound(); renderSave();
       $("smodal").classList.remove("show"); sfx("fanfare");
       toast("Save restored. Welcome back, " + state.name + ".");
@@ -1617,7 +1642,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
   function setStatus(st, msg) { cloud.status = st; cloud.msg = msg || ""; renderLb(); }
   function schedulePush() { clearTimeout(cloud.timer); cloud.timer = setTimeout(pushNow, 700); }
   function pushNow() {
-    if (!cloud.ready || cloud.exiled) return;
+    if (!cloud.ready || cloud.exiled || !state.signed) return;
     var li = levelInfo(state.xp);
     var data = {
       name: (state.name || "Adventurer").slice(0, 24), xp: state.xp, level: li.lv, title: packTitle(),
@@ -2008,15 +2033,40 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
   }
   var STEP = 0.2;
   function musicTick() { var c = AU.ctx; while (AU.nextT < c.currentTime + 0.5) { scheduleStep(AU.step, AU.nextT); AU.nextT += STEP; AU.step++; } }
+  // tavern music: the polka recording (tavern.mp3) looped seamlessly; the built-in jig plays if the file is missing
+  var SONG = { buf: null, loading: null };
+  function loadSong() {
+    if (SONG.buf) return Promise.resolve(SONG.buf);
+    if (SONG.loading) return SONG.loading;
+    SONG.loading = fetch("tavern.mp3").then(function (r) { if (!r.ok) throw new Error("missing"); return r.arrayBuffer(); })
+      .then(function (ab) { return new Promise(function (ok, bad) { AU.ctx.decodeAudioData(ab, ok, bad); }); })
+      .then(function (b) { SONG.buf = b; return b; })
+      .catch(function (e) { SONG.loading = null; throw e; });
+    return SONG.loading;
+  }
   function startMusic() {
-    if (AU.timer || !audioCtx()) return;
-    var c = AU.ctx; AU.bus = c.createGain(); AU.bus.gain.setValueAtTime(0.0001, c.currentTime); AU.bus.gain.exponentialRampToValueAtTime(0.3, c.currentTime + 2.5);
-    AU.bus.connect(AU.master); AU.nextT = c.currentTime + 0.15; AU.step = 0; AU.timer = setInterval(musicTick, 120); musicTick();
+    if (AU.timer || AU.song || !audioCtx()) return;
+    var c = AU.ctx; AU.bus = c.createGain(); AU.bus.gain.setValueAtTime(0.0001, c.currentTime); AU.bus.connect(AU.master);
+    AU.song = "loading";
+    loadSong().then(function (b) {
+      if (!state.settings.music || AU.song !== "loading") return;
+      var src = c.createBufferSource(); src.buffer = b; src.loop = true; src.connect(AU.bus); src.start();
+      AU.song = src; AU.bus.gain.setValueAtTime(0.0001, c.currentTime); AU.bus.gain.exponentialRampToValueAtTime(0.6, c.currentTime + 1.2);
+    }).catch(function () {
+      if (AU.song !== "loading") return; AU.song = null;
+      if (!state.settings.music) return;
+      AU.bus.gain.exponentialRampToValueAtTime(0.3, c.currentTime + 2.5);
+      AU.nextT = c.currentTime + 0.15; AU.step = 0; AU.timer = setInterval(musicTick, 120); musicTick();
+    });
   }
   function stopMusic() {
-    if (!AU.timer) return; clearInterval(AU.timer); AU.timer = null;
-    var c = AU.ctx, g = AU.bus; g.gain.cancelScheduledValues(c.currentTime); g.gain.setValueAtTime(Math.max(0.0001, g.gain.value), c.currentTime);
-    g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 0.8); setTimeout(function () { try { g.disconnect(); } catch (e) {} }, 1200);
+    if (!AU.timer && !AU.song) return;
+    if (AU.timer) { clearInterval(AU.timer); AU.timer = null; }
+    var song = AU.song; AU.song = null;
+    var c = AU.ctx, g = AU.bus; if (!g) return;
+    g.gain.cancelScheduledValues(c.currentTime); g.gain.setValueAtTime(Math.max(0.0001, g.gain.value), c.currentTime);
+    g.gain.exponentialRampToValueAtTime(0.0001, c.currentTime + 0.8);
+    setTimeout(function () { try { if (song && song.stop) song.stop(); } catch (e) {} try { g.disconnect(); } catch (e) {} }, 1000);
   }
   function renderSound() {
     $("musicBtn").setAttribute("aria-pressed", String(!!state.settings.music));
@@ -2137,6 +2187,46 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     v.forfeits = parseInt(parts[3] || "0", 36) || 0;
     return v;
   }
+  /* ---------- sign-in: one name per device ---------- */
+  var gateRename = false;
+  function cleanName(n) { return String(n || "").trim().replace(/\s+/g, " "); }
+  function nameTaken(n) {
+    var k = n.toLowerCase();
+    return cloud.players.some(function (p) { return p.id !== cloud.uid && cleanName(p.name).toLowerCase() === k; });
+  }
+  function nameProblem(n) {
+    if (n.length < 2) return "Your name needs at least 2 letters.";
+    if (!/^[\p{L}\p{N} ._'-]+$/u.test(n)) return "Use letters, numbers and spaces only.";
+    if (/^adventurer$/i.test(n)) return "Choose a name of your own, not Adventurer.";
+    if (nameTaken(n)) return "“" + n + "” is already in the guild ledger. Choose another, or if it's yours on another phone or browser, import your save file there instead.";
+    return "";
+  }
+  function openGate(rename) {
+    gateRename = !!rename;
+    $("gLead").textContent = rename ? "Change the name the guild knows you by. Your progress stays with you."
+      : "Before you take any job, sign your name in the guild's ledger. This phone becomes your account.";
+    $("gName").value = rename ? state.name : ""; $("gHint").textContent = "";
+    $("gOk").textContent = rename ? "Change name" : "Sign the ledger";
+    $("gCancel").hidden = !rename;
+    $("gate").classList.add("show");
+    setTimeout(function () { $("gName").focus(); }, 80);
+  }
+  function submitGate() {
+    var n = cleanName($("gName").value), p = nameProblem(n);
+    if (gateRename && n.toLowerCase() === cleanName(state.name).toLowerCase() && n.length >= 2) p = "";
+    if (p) { $("gHint").textContent = p; return; }
+    var first = !state.signed;
+    state.name = n; state.signed = true; save(); render(); renderLb();
+    $("gate").classList.remove("show"); $("gName").blur();
+    sfx(first ? "fanfare" : "quill");
+    toast(first ? "Welcome to the guild, " + n + "." : "The ledger now reads " + n + ".");
+    pushNow();
+  }
+  $("gOk").addEventListener("click", submitGate);
+  $("gName").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); submitGate(); } });
+  $("gName").addEventListener("input", function () { $("gHint").textContent = ""; });
+  $("gCancel").addEventListener("click", function () { if (state.signed) $("gate").classList.remove("show"); });
+
   /* ---------- boot ---------- */
   function start(snap) {
     var local = loadLocal();
@@ -2145,9 +2235,11 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     state = normalize(pick);
     if (snap && snap.filter && (snap.filter === "All" || CATS.indexOf(snap.filter) >= 0)) filter = snap.filter;
     try { var cached = JSON.parse(localStorage.getItem("sidequest-lb") || "null"); if (Array.isArray(cached)) cloud.players = cached.map(decodePlayer); } catch (e) {}
+    if (!state.signed && state.name && !/^\s*adventurer\s*$/i.test(state.name)) { state.signed = true; save(); }
     checkBadges(true);
     render();
-    renderLb(); renderJournal(); renderAch(); renderSound(); renderSave();
+    renderLb();
+    if (!state.signed) openGate(false); renderJournal(); renderAch(); renderSound(); renderSave();
     loadAllPhotos();
   }
   start({});
