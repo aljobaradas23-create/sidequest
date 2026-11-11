@@ -876,6 +876,19 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
 .intro-sound[hidden], .intro-play[hidden] { display: none; }
 .intro-play { left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 14px 26px; font-size: 22px; color: #2a1a0c; background: linear-gradient(#f3d48a, #c9a24a); border: 1px solid #8a6416; box-shadow: 0 6px 20px rgba(0,0,0,.6); }
 @keyframes introPulse { 50% { box-shadow: 0 0 0 6px rgba(214,162,74,.18); } }
+
+/* ---------- account gate ---------- */
+.g-tabs { display: grid; grid-template-columns: 1fr 1fr; gap: 0; margin: 8px 0 4px; border: 1px solid rgba(43,27,16,.45); border-radius: 3px; overflow: hidden; }
+.g-tabs[hidden] { display: none; }
+.g-tabs button { padding: 8px 6px; border: 0; background: rgba(255,250,235,.35); font: 16px "IM Fell English SC", Georgia, serif; letter-spacing: .05em; color: #4a2f16; cursor: pointer; }
+.g-tabs button + button { border-left: 1px solid rgba(43,27,16,.45); }
+.g-tabs button[aria-selected="true"] { background: #7e1712; color: #fbe9c6; }
+#gForm[hidden], #gPinRow[hidden], #gPin2Row[hidden], .g-link[hidden] { display: none; }
+#gPinRow, #gPin2Row { margin-top: 12px; }
+.g-pin { width: 100%; text-align: center; font-size: 28px; letter-spacing: .5em; padding: 6px 10px; color: #160d05; background: rgba(255,250,235,.45); border: 0; border-bottom: 2px solid rgba(43,27,16,.5); border-radius: 0; font-family: Georgia, serif; }
+.g-pin:focus { outline: none; border-bottom-color: #7e1712; }
+#gName[readonly] { opacity: .85; border-bottom-style: dotted; }
+.g-link { display: block; margin: 12px auto 0; background: none; border: 0; padding: 2px; font: 15px "IM Fell English", Georgia, serif; font-style: italic; color: #7e1712; text-decoration: underline; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -1114,12 +1127,28 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   <div class="qm-paper gate-paper">
     <span class="pin" aria-hidden="true"></span>
     <div class="qm-kicker" id="gTitle">The Guild Ledger</div>
+    <div class="g-tabs" id="gTabs" role="tablist">
+      <button type="button" role="tab" data-gmode="login">Log in</button>
+      <button type="button" role="tab" data-gmode="new">New adventurer</button>
+    </div>
     <p class="g-lead" id="gLead"></p>
-    <label class="jm-lab" for="gName">Your name</label>
-    <input id="gName" type="text" maxlength="24" autocomplete="nickname" autocapitalize="words" spellcheck="false">
+    <div id="gForm">
+      <label class="jm-lab" for="gName">Your name</label>
+      <input id="gName" type="text" maxlength="24" autocomplete="username" autocapitalize="words" spellcheck="false">
+      <div id="gPinRow">
+        <label class="jm-lab" for="gPin">Secret seal · 4 to 6 numbers</label>
+        <input id="gPin" class="g-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="current-password">
+      </div>
+      <div id="gPin2Row">
+        <label class="jm-lab" for="gPin2">Write the seal again</label>
+        <input id="gPin2" class="g-pin" type="password" inputmode="numeric" pattern="[0-9]*" maxlength="6" autocomplete="new-password">
+      </div>
+    </div>
     <p class="cm-hint" id="gHint" aria-live="polite"></p>
-    <div class="qm-acts"><button class="btn gold" id="gOk" type="button">Sign the ledger</button><button class="btn ghost" id="gCancel" type="button" hidden>Cancel</button></div>
-    <p class="g-note">One name per phone: this phone becomes your account. To move to a new phone, export a save file here and import it there.</p>
+    <div class="qm-acts"><button class="btn gold" id="gOk" type="button">Log in</button><button class="btn ghost" id="gCancel" type="button" hidden>Not now</button></div>
+    <button class="g-link" id="gSwitch" type="button" hidden></button>
+    <button class="g-link" id="gLocal" type="button" hidden>Play on this device only, without an account</button>
+    <p class="g-note" id="gNote"></p>
   </div>
 </div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
@@ -1210,7 +1239,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   function fresh() {
     return { name: "Adventurer", xp: 0, total: 0, active: [], today: { d: todayKey(), ids: [] }, log: [], days: [], custom: [], posted: [], postedAt: {},
       stats: { cats: {}, ranks: {}, ids: {}, qotd: 0, boss: 0, best: 0 }, badges: {}, honor: "", journal: [], boss: null,
-      settings: { sfx: true, music: false }, avatar: "p:hunter", seed: newSeed(), qotdShown: "", takenAt: {}, forfeit: { n: 0, xp: 0 }, mainCustom: [], mainBonus: "", mainChecks: { d: "", c: {} }, mainHidden: [], updatedAt: 0 };
+      settings: { sfx: true, music: false }, avatar: "p:hunter", seed: newSeed(), qotdShown: "", takenAt: {}, forfeit: { n: 0, xp: 0 }, mainCustom: [], mainBonus: "", mainChecks: { d: "", c: {} }, mainHidden: [], acct: null, updatedAt: 0 };
   }
   function newSeed() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
   function todayKey(dt) { var d = dt || new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
@@ -1621,7 +1650,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   function save() {
     state.updatedAt = Date.now();
     try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
-    schedulePush();
+    schedulePush(); if (state.acct) pushSave();
   }
   /* ---------- actions ---------- */
   function accept(id) {
@@ -2187,7 +2216,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   function undoImport() {
     var raw = null; try { raw = localStorage.getItem(UNDO_KEY); } catch (e) {}
     if (!raw) return;
-    try { state = normalize(JSON.parse(raw)); localStorage.removeItem(UNDO_KEY); save(); render(); renderJournal(); renderAch(); renderSound(); renderSave(); toast("Import undone. Your earlier progress is back."); }
+    try { var keepAcct = state.acct, keepName = state.name; state = normalize(JSON.parse(raw)); if (keepAcct) { state.acct = keepAcct; state.name = keepName; state.signed = true; } localStorage.removeItem(UNDO_KEY); save(); render(); renderJournal(); renderAch(); renderSound(); renderSave(); toast("Import undone. Your earlier progress is back."); }
     catch (e) { toast("Couldn't undo the import."); }
   }
   $("exportBtn").addEventListener("click", exportSave);
@@ -2216,7 +2245,8 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   $("smodal").addEventListener("click", function (e) { if (e.target === this) { this.classList.remove("show"); pendingImport = null; } });
 
   /* ---------- guild rankings (Firebase) ---------- */
-  var cloud = { ready: false, uid: null, db: null, players: [], status: "connecting", view: "all", showAll: false, timer: null, tier: 2 };
+  var cloud = { ready: false, uid: null, db: null, players: [], status: "connecting", view: "all", showAll: false, timer: null, tier: 2, anon: true, hold: false };
+  cloud.authWait = new Promise(function (ok) { cloud.authOk = ok; });
   var FB_VER = "10.12.2";
   function todayXp() { var tk = todayKey(), n = 0; state.log.forEach(function (l) { if (l.d === tk) n += l.xp; }); return n; }
   function ago(ts) {
@@ -2232,14 +2262,15 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   function setStatus(st, msg) { cloud.status = st; cloud.msg = msg || ""; renderLb(); }
   function schedulePush() { clearTimeout(cloud.timer); cloud.timer = setTimeout(pushNow, 700); }
   function pushNow() {
-    if (!cloud.ready || cloud.exiled || !state.signed) return;
+    if (!cloud.ready || cloud.exiled || !state.signed || cloud.hold) return;
+    if (state.acct && cloud.anon) return;
     var li = levelInfo(state.xp);
     var data = {
       name: (state.name || "Adventurer").slice(0, 24), xp: state.xp, level: li.lv, title: packTitle(),
       done: state.total, streak: streak(), today: todayXp(), day: todayKey(),
       updatedAt: firebase.database.ServerValue.TIMESTAMP
     };
-    if (cloud.tier >= 1) { data.honor = honorText().slice(0, 40); data.badges = badgeCount(); }
+    if (cloud.tier >= 1) { data.honor = honorText().slice(0, 40); data.badges = Math.min(100, badgeCount()); }
     if (cloud.tier >= 2) {
       var av = state.avatar || ""; if (av.length <= 16000) data.avatar = av;
       data.badgeList = ACH.filter(function (a) { return state.badges[a.id]; }).map(function (a) { return a.id; }).join(",");
@@ -2275,17 +2306,28 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
         cloud.db.ref(".info/connected").on("value", function (sn) {
           cloud.online = !!(sn && typeof sn.val === "function" && sn.val()); if (cloud.online) { cloud.seen = true; pushNow(); } renderLb();
         });
+        var firstAuth = true;
         firebase.auth().onAuthStateChanged(function (u) {
-          if (!u) return;
-          cloud.uid = u.uid; cloud.ready = true; setStatus("live"); pushNow();
+          if (firstAuth) { firstAuth = false; cloud.authOk(); }
+          if (!u) {
+            cloud.ready = false;
+            if (state.acct) { openGate("relogin"); return; }
+            firebase.auth().signInAnonymously().catch(authFail);
+            return;
+          }
+          if (cloud.hold) return;
+          cloud.uid = u.uid; cloud.anon = !!u.isAnonymous; cloud.ready = true; setStatus("live");
+          if (state.acct && u.isAnonymous) { openGate("relogin"); return; }
+          if (!u.isAnonymous && state.acct) watchSave(u.uid);
+          pushNow();
         });
-        return firebase.auth().signInAnonymously();
       })
-      .catch(function (e) {
-        if (e && e.code === "auth/network-request-failed") setStatus(cloud.ready ? "live" : "offline");
-        else if (e && e.code) setStatus("error", "Sign-in failed: " + e.code + ". Check that Anonymous sign-in is on.");
-        else setStatus("offline");
-      });
+      .catch(authFail);
+  }
+  function authFail(e) {
+    if (e && e.code === "auth/network-request-failed") setStatus(cloud.ready ? "live" : "offline");
+    else if (e && e.code) setStatus("error", "Sign-in failed: " + e.code + ". Check that Anonymous sign-in is on.");
+    else setStatus("offline");
   }
   function isMaster() { return !!(cloud.uid && cloud.master && cloud.master === cloud.uid); }
   function renderGuildMaster() {
@@ -2883,8 +2925,8 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     v.forfeits = parseInt(parts[3] || "0", 36) || 0;
     return v;
   }
-  /* ---------- sign-in: one name per device ---------- */
-  var gateRename = false;
+  /* ---------- accounts: a name + secret seal, the same on Safari, the home-screen app and any new phone ---------- */
+  var gate = { mode: "login", busy: false };
   function cleanName(n) { return String(n || "").trim().replace(/\s+/g, " "); }
   function nameTaken(n) {
     var k = n.toLowerCase();
@@ -2894,34 +2936,184 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     if (n.length < 2) return "Your name needs at least 2 letters.";
     if (!/^[\p{L}\p{N} ._'-]+$/u.test(n)) return "Use letters, numbers and spaces only.";
     if (/^adventurer$/i.test(n)) return "Choose a name of your own, not Adventurer.";
-    if (nameTaken(n)) return "“" + n + "” is already in the guild ledger. Choose another, or if it's yours on another phone or browser, import your save file there instead.";
+    if (nameTaken(n)) return "“" + n + "” is already in the guild ledger. If it's yours, choose Log in.";
     return "";
   }
-  function openGate(rename) {
-    gateRename = !!rename;
-    $("gLead").textContent = rename ? "Change the name the guild knows you by. Your progress stays with you."
-      : "Before you take any job, sign your name in the guild's ledger. This phone becomes your account.";
-    $("gName").value = rename ? state.name : ""; $("gHint").textContent = "";
-    $("gOk").textContent = rename ? "Change name" : "Sign the ledger";
-    $("gCancel").hidden = !rename;
+  function cloudConfigured() { var c = window.SIDEQUEST_FIREBASE; return !!(c && c.apiKey && !/PASTE/.test(c.apiKey) && c.databaseURL); }
+  function acctKey(n) {
+    var t = unescape(encodeURIComponent(cleanName(n).toLowerCase())), h = "", f = 2166136261;
+    for (var i = 0; i < t.length; i++) { var c = t.charCodeAt(i); h += (c < 16 ? "0" : "") + c.toString(16); f = Math.imul(f ^ c, 16777619) >>> 0; }
+    if (h.length > 56) h = h.slice(0, 44) + f.toString(16);
+    return "n" + h;
+  }
+  function acctEmail(n) { return acctKey(n) + "@sidequest-guild.app"; }
+  function acctPw(pin) { return "sq!" + pin + "#guild"; }
+  var GATE_TEXT = {
+    login: { lead: "Already in the guild? Write your name and your secret seal. Your progress comes with you.", ok: "Log in" },
+    "new": { lead: "New to the guild? Choose your name and a secret seal of 4 to 6 numbers. You'll need both to log in on Safari, the home-screen app or a new phone.", ok: "Join the guild" },
+    secure: { lead: "Protect your progress. Choose a secret seal of 4 to 6 numbers for “{n}”. With your name and seal you can log in on Safari, the home-screen app or a new phone, and your progress follows you.", ok: "Seal my account" },
+    relogin: { lead: "This browser needs your secret seal again to open “{n}”.", ok: "Log in" },
+    info: { lead: "You are signed in as “{n}”. To play on Safari, the home-screen app or a new phone, choose Log in there and use this name and your secret seal.", ok: "Close" },
+    local: { lead: "Before you take any job, sign your name in the guild's ledger.", ok: "Sign the ledger" }
+  };
+  function setGateMode(m) {
+    gate.mode = m;
+    var t = GATE_TEXT[m], isNew = m === "new" || m === "secure", named = m === "secure" || m === "relogin" || m === "info";
+    $("gTabs").hidden = !(m === "login" || m === "new");
+    $("gTabs").querySelectorAll("[data-gmode]").forEach(function (b) { b.setAttribute("aria-selected", String(b.dataset.gmode === m)); });
+    $("gLead").textContent = t.lead.replace("{n}", state.name || "");
+    $("gForm").hidden = m === "info";
+    $("gPinRow").hidden = m === "local"; $("gPin2Row").hidden = !isNew;
+    $("gName").readOnly = named; if (named) $("gName").value = state.name || "";
+    $("gPin").setAttribute("autocomplete", isNew ? "new-password" : "current-password");
+    $("gOk").textContent = t.ok; $("gHint").textContent = "";
+    $("gCancel").hidden = !(m === "secure" && gate.canLater);
+    $("gSwitch").hidden = m !== "secure"; $("gSwitch").textContent = "This name already has an account? Log in instead";
+    $("gNote").textContent = m === "info" ? "One account per device: this browser stays signed in to your account."
+      : m === "local" ? "Without an account your progress lives only on this device. Export a save file to move it."
+      : "Keep your seal secret. Anyone with your name and seal can open your account.";
+  }
+  function openGate(mode) {
+    var cfg = cloudConfigured();
+    if (mode === true) mode = state.acct ? "info" : cfg ? "secure" : "local";
+    if (!mode) mode = cfg ? "login" : "local";
+    gate.canLater = mode === "secure" && !!state.signed;
+    if (mode === "login" || mode === "new" || mode === "local") $("gName").value = mode === "local" && state.signed ? state.name : "";
+    $("gPin").value = ""; $("gPin2").value = ""; $("gLocal").hidden = true;
+    setGateMode(mode);
     $("gate").classList.add("show");
-    setTimeout(function () { $("gName").focus(); }, 80);
+    setTimeout(function () { var f = $("gName").readOnly ? $("gPin") : $("gName"); if (f && f.offsetParent && !(intro && intro.on)) f.focus(); }, 80);
+  }
+  function closeGate() { $("gate").classList.remove("show"); $("gName").blur(); $("gPin").blur(); $("gPin2").blur(); }
+  function gateBusy(on) { gate.busy = on; $("gOk").disabled = on; if (on) $("gOk").textContent = "Opening the ledger…"; else $("gOk").textContent = GATE_TEXT[gate.mode].ok; }
+  function whenAuth() {
+    if (!cloudConfigured()) return Promise.reject({ code: "sq/off" });
+    return Promise.race([cloud.authWait, new Promise(function (ok, bad) { setTimeout(function () { bad({ code: "auth/network-request-failed" }); }, 20000); })]);
+  }
+  function renderAll() { checkBadges(true); render(); renderLb(); renderJournal(); renderAch(); renderSound(); renderSave(); loadAllPhotos(); }
+  function adoptRemote(r, quiet) {
+    var sv; try { sv = JSON.parse(r.data); } catch (e) { return false; }
+    var keep = state.acct;
+    state = normalize(sv); if (keep) state.acct = keep;
+    state.signed = true; state.updatedAt = r.at || Date.now();
+    try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
+    renderAll();
+    if (!quiet) toast("Your progress was updated from your other device.");
+    return true;
+  }
+  function pushSave(now) {
+    clearTimeout(cloud.saveTimer);
+    if (!now) { cloud.saveTimer = setTimeout(function () { pushSave(true); }, 2500); return; }
+    if (!state.acct || !cloud.ready || cloud.anon || cloud.hold || !cloud.uid || !cloud.db) return;
+    var at = state.updatedAt || Date.now();
+    cloud.db.ref("saves/" + cloud.uid).set({ at: at, data: JSON.stringify(state) }).then(function () { cloud.saveErr = ""; })
+      .catch(function (e) {
+        var m = String(e && (e.code || e.message) || e); cloud.saveErr = m;
+        if (!cloud.saveWarned && /permission/i.test(m)) { cloud.saveWarned = true; toast("Your progress can't be backed up to your account yet. The new Firebase rules need to be published."); }
+      });
+  }
+  function watchSave(uid) {
+    if (cloud.saveRef) { try { cloud.saveRef.off(); } catch (e) {} }
+    cloud.saveRef = cloud.db.ref("saves/" + uid);
+    cloud.saveRef.on("value", function (sn) {
+      if (cloud.hold || cloud.uid !== uid) return;
+      var r = sn.val();
+      if (!r || !r.data) { pushSave(true); return; }
+      if ((r.at || 0) > (state.updatedAt || 0) + 1000) adoptRemote(r);
+      else if ((r.at || 0) < (state.updatedAt || 0) - 1000) pushSave(true);
+    }, function (e) { cloud.saveErr = String(e && e.code || e); });
+  }
+  function gateError(e, n) {
+    var c = (e && e.code) || "";
+    if (/invalid-credential|invalid-login-credentials|wrong-password|user-not-found|invalid-email/.test(c)) return "Wrong name or secret seal. Check both and try again.";
+    if (/email-already-in-use|credential-already-in-use/.test(c)) return "“" + n + "” already has an account. Choose Log in and use its seal.";
+    if (/too-many-requests/.test(c)) return "Too many wrong tries. The ledger is locked for a few minutes; try again later.";
+    if (/network-request-failed/.test(c)) return "No connection. Connect to the internet to open the ledger.";
+    if (/operation-not-allowed|admin-restricted-operation/.test(c)) { $("gLocal").hidden = false; return "Accounts aren't switched on yet in Firebase (Email/Password sign-in)."; }
+    if (c === "sq/off") { $("gLocal").hidden = false; return "The guild's cloud isn't set up, so accounts can't be used yet."; }
+    return "Couldn't open the ledger (" + (c || e) + ").";
+  }
+  function doLogin(n, pin) {
+    var prev = firebase.auth().currentUser, drop = Promise.resolve();
+    cloud.hold = true;
+    // a separate anonymous record from this browser would be a duplicate in the rankings, so take it down first
+    if (prev && prev.isAnonymous && state.signed && cloud.db) drop = cloud.db.ref("players/" + prev.uid).remove().catch(function () {});
+    return drop.then(function () { return firebase.auth().signInWithEmailAndPassword(acctEmail(n), acctPw(pin)); })
+      .then(function (cred) {
+        var uid = cred.user.uid;
+        return Promise.all([
+          cloud.db.ref("saves/" + uid).once("value").then(function (x) { return x.val(); }, function () { return null; }),
+          cloud.db.ref("players/" + uid).once("value").then(function (x) { return x.val(); }, function () { return null; })
+        ]).then(function (v) { return { uid: uid, save: v[0], row: v[1] }; });
+      })
+      .then(function (o) {
+        var mine = state.acct && state.acct.key === acctKey(n);
+        if (!mine && ((state.total || 0) > 0 || (state.xp || 0) > 0)) { try { localStorage.setItem(UNDO_KEY, JSON.stringify(state)); } catch (e) {} }
+        var got = o.save && o.save.data && adoptRemote(o.save, true);
+        if (!got) {
+          if (!mine) { var f = fresh(); f.seed = state.seed; f.settings = state.settings; f.avatar = state.avatar; state = normalize(f); }
+          if (o.row) { state.xp = Math.max(state.xp || 0, +o.row.xp || 0); state.total = Math.max(state.total || 0, +o.row.done || 0); if (typeof o.row.avatar === "string" && o.row.avatar) state.avatar = o.row.avatar; }
+          state.name = (o.row && o.row.name) || n;
+        }
+        state.acct = { name: state.name, key: acctKey(n), since: Date.now() };
+        state.signed = true;
+        cloud.uid = o.uid; cloud.anon = false; cloud.ready = true; cloud.hold = false;
+        save(); renderAll(); pushNow(); pushSave(true); watchSave(o.uid);
+        return got ? "back" : "fresh";
+      })
+      .catch(function (e) { cloud.hold = false; if (state.signed) pushNow(); throw e; });
+  }
+  function doCreate(n, pin) {
+    var cred = firebase.auth.EmailAuthProvider.credential(acctEmail(n), acctPw(pin)), u = firebase.auth().currentUser;
+    var go = u && u.isAnonymous ? u.linkWithCredential(cred) : firebase.auth().createUserWithEmailAndPassword(acctEmail(n), acctPw(pin));
+    return go.then(function (res) {
+      var uid = (res && res.user && res.user.uid) || firebase.auth().currentUser.uid;
+      state.name = n; state.signed = true; state.acct = { name: n, key: acctKey(n), since: Date.now() };
+      cloud.uid = uid; cloud.anon = false; cloud.ready = true;
+      save(); renderAll(); pushNow(); pushSave(true); watchSave(uid);
+      return "made";
+    });
   }
   function submitGate() {
-    var n = cleanName($("gName").value), p = nameProblem(n);
-    if (gateRename && n.toLowerCase() === cleanName(state.name).toLowerCase() && n.length >= 2) p = "";
-    if (p) { $("gHint").textContent = p; return; }
-    var first = !state.signed;
-    state.name = n; state.signed = true; save(); render(); renderLb();
-    $("gate").classList.remove("show"); $("gName").blur();
-    sfx(first ? "fanfare" : "quill");
-    toast(first ? "Welcome to the guild, " + n + "." : "The ledger now reads " + n + ".");
-    pushNow();
+    if (gate.busy) return;
+    var m = gate.mode, n = cleanName($("gName").value), pin = $("gPin").value.trim();
+    if (m === "info") { closeGate(); return; }
+    if (m === "local") {
+      var lp = nameProblem(n); if (state.signed && n.toLowerCase() === cleanName(state.name).toLowerCase() && n.length >= 2) lp = "";
+      if (lp) { $("gHint").textContent = lp; return; }
+      var first = !state.signed;
+      state.name = n; state.signed = true; save(); render(); renderLb(); closeGate();
+      sfx(first ? "fanfare" : "quill"); toast(first ? "Welcome to the guild, " + n + "." : "The ledger now reads " + n + "."); pushNow();
+      return;
+    }
+    if (n.length < 2) { $("gHint").textContent = "Write your name first."; return; }
+    if (!/^\d{4,6}$/.test(pin)) { $("gHint").textContent = "Your secret seal is 4 to 6 numbers."; return; }
+    if (m === "new" || m === "secure") {
+      if ($("gPin2").value.trim() !== pin) { $("gHint").textContent = "The two seals don't match. Write the same numbers twice."; return; }
+      var p = nameProblem(n); if (m === "secure" && n.toLowerCase() === cleanName(state.name).toLowerCase()) p = "";
+      if (p) { $("gHint").textContent = p; return; }
+    }
+    gateBusy(true); $("gHint").textContent = "";
+    whenAuth().then(function () { return m === "login" || m === "relogin" ? doLogin(n, pin) : doCreate(n, pin); })
+      .then(function (how) {
+        gateBusy(false); closeGate(); sfx("fanfare");
+        toast(how === "back" ? "Welcome back, " + state.name + ". Your progress is here." : how === "fresh" ? "Welcome, " + state.name + ". You're logged in." : "Your account is sealed, " + state.name + ". Log in with it anywhere.");
+      })
+      .catch(function (e) { gateBusy(false); $("gHint").textContent = gateError(e, n); });
   }
   $("gOk").addEventListener("click", submitGate);
-  $("gName").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); submitGate(); } });
-  $("gName").addEventListener("input", function () { $("gHint").textContent = ""; });
-  $("gCancel").addEventListener("click", function () { if (state.signed) $("gate").classList.remove("show"); });
+  ["gName", "gPin", "gPin2"].forEach(function (id) {
+    $(id).addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); submitGate(); } });
+    $(id).addEventListener("input", function () { $("gHint").textContent = ""; if (id !== "gName") this.value = this.value.replace(/\D/g, "").slice(0, 6); });
+  });
+  $("gTabs").addEventListener("click", function (e) { var b = e.target.closest("[data-gmode]"); if (b && !gate.busy) { setGateMode(b.dataset.gmode); $("gName").focus(); } });
+  $("gSwitch").addEventListener("click", function () { if (!gate.busy) { $("gName").value = ""; setGateMode("login"); $("gName").focus(); } });
+  $("gLocal").addEventListener("click", function () { if (!gate.busy) setGateMode("local"); });
+  $("gCancel").addEventListener("click", function () { if (state.signed && !gate.busy) closeGate(); });
+  function bootGate() {
+    if (!state.signed) openGate(false);
+    else if (cloudConfigured() && !state.acct) openGate("secure");
+  }
 
   /* ---------- boot ---------- */
   function start(snap) {
@@ -2935,7 +3127,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
     checkBadges(true);
     render();
     renderLb();
-    if (!state.signed) openGate(false); renderJournal(); renderAch(); renderSound(); renderSave();
+    renderJournal(); renderAch(); renderSound(); renderSave();
     loadAllPhotos();
   }
   start({});
@@ -2943,7 +3135,7 @@ html.intro-lock, html.intro-lock body { overflow: hidden; }
   if ("serviceWorker" in navigator && location.protocol === "https:") {
     window.addEventListener("load", function () { navigator.serviceWorker.register("sw.js").catch(function () {}); });
   }
-  window.SIDEQUEST_BOOT = function () { cloudInit(); };
+  window.SIDEQUEST_BOOT = function () { cloudInit(); bootGate(); };
   setInterval(renderLb, 60000);
   setInterval(function () { if (state.today.d !== todayKey()) render(); }, 60000);
 })();
