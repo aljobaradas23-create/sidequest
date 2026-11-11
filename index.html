@@ -1861,6 +1861,23 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     boardCache = { k: dk, ids: ids };
     return ids;
   }
+  /* the order the notices hang in: shuffled by the day (same for everyone), ranks mixed so no two of a rank sit side by side when it can be helped */
+  function boardOrder(dk) {
+    dk = dk || boardDayKey();
+    if (boardCache.ok === dk) return boardCache.order;
+    var q0 = qotdId(dk), ids = boardIds(dk).filter(function (x) { return x !== q0; }), best = null, bestScore = 1e9;
+    function rk(id) { return findQ(id).rank; }
+    for (var t = 0; t < 80; t++) {
+      var o = ids.slice().sort(function (a, b) { return hash(dk + "#hang" + t + ":" + a) - hash(dk + "#hang" + t + ":" + b); }), sc = 0, i;
+      for (i = 0; i < o.length; i++) {
+        if (i + 1 < o.length && rk(o[i]) === rk(o[i + 1])) sc += i % 2 === 0 ? 3 : 1;   // side by side (two notices to a row on a phone)
+        if (i + 2 < o.length && rk(o[i]) === rk(o[i + 2])) sc += 2;                       // one above the other
+      }
+      if (sc < bestScore) { bestScore = sc; best = o; }
+    }
+    boardCache.ok = dk; boardCache.order = best;
+    return best;
+  }
   function onBoardToday(id) { return boardIds().indexOf(id) >= 0; }
   function qotdId(dk) { dk = dk || boardDayKey(); var ids = boardIds(dk); return ids[hash("qotd:" + dk) % ids.length]; }
   function isQOf(id) { var bt = state.boardTake && state.boardTake[id]; return bt ? !!bt.q : id === qotdId(); }
@@ -2444,7 +2461,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
         (r === "All" ? "Any rank" : RANK_HEAD[r]) + "</button>";
     }).join("");
     var QID = qotdId(), claims = boardClaims();
-    var onBoard = boardIds().filter(function (id) { return id !== QID; }).map(findQ).filter(Boolean);
+    var onBoard = boardOrder().filter(function (id) { return id !== QID; }).map(findQ).filter(Boolean);
     var shown = onBoard.filter(function (q) { return (filter === "All" || q.cat === filter) && (rankTab === "All" || q.rank === rankTab); });
     var what = (rankTab === "All" ? "" : RANK_NAME[rankTab] + " ") + (filter === "All" ? "" : filter + " ");
     var qq = findQ(QID);
