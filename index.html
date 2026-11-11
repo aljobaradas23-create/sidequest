@@ -1370,6 +1370,76 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 .pd-sw i { width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--a), var(--b)); border: 2px solid rgba(60,35,15,.5); box-shadow: inset 0 -3px 5px rgba(0,0,0,.3); }
 .pd-sw.on i { border-color: #8a1c10; box-shadow: 0 0 0 3px #f4c84a, inset 0 -3px 5px rgba(0,0,0,.3); }
 .pd-note { margin: 8px 0 0; font: 13px/1.4 Georgia, serif; color: #4a2a12; }
+
+/* ---------- rarity, hatching and the hatchery ---------- */
+.rar-tag { display: inline-block; padding: 1px 7px; border-radius: 9px; font: 700 10.5px/1.5 Georgia, serif; letter-spacing: .04em; font-style: normal; vertical-align: middle; }
+.rar-tag.rar-c { background: #e9dcc0; color: #5a4526; } .rar-tag.rar-u { background: #cdeec4; color: #1f5a1a; }
+.rar-tag.rar-r { background: linear-gradient(90deg,#bfeaff,#e8d8ff); color: #0f4a7a; } .rar-tag.rar-l { background: linear-gradient(90deg,#ffd23a,#ff7a1a); color: #4a1200; box-shadow: 0 0 8px rgba(255,140,30,.7); }
+.pet-svg .fl { transform-box: fill-box; transform-origin: 50% 100%; animation: flick .45s ease-in-out infinite alternate; }
+.pet-svg .f2 { animation-delay: .15s; } .pet-svg .f3 { animation-duration: .35s; } .pet-svg .f4 { animation-duration: .38s; animation-delay: .1s; }
+@keyframes flick { 0% { transform: scale(1, 1) skewX(0); } 100% { transform: scale(.92, 1.12) skewX(4deg); } }
+.pet-svg .em { animation: ember 2.2s linear infinite; } .pet-svg .e2 { animation-delay: .5s; } .pet-svg .e3 { animation-delay: 1s; } .pet-svg .e4 { animation-delay: 1.4s; } .pet-svg .e5 { animation-delay: 1.8s; }
+@keyframes ember { 0% { transform: translateY(0); opacity: 0; } 20% { opacity: 1; } 100% { transform: translateY(-26px); opacity: 0; } }
+.pet-svg .lava { animation: lava 1.6s ease-in-out infinite; } @keyframes lava { 50% { opacity: .55; } }
+.pet-svg .tw path { transform-box: fill-box; transform-origin: center; animation: twinkle 1.8s ease-in-out infinite; }
+.pet-svg .tw .tw2 { animation-delay: .6s; } .pet-svg .tw .tw3 { animation-delay: 1.2s; }
+@keyframes twinkle { 0%, 100% { transform: scale(.3); opacity: .2; } 50% { transform: scale(1.15); opacity: 1; } }
+.pet-card.ready { border-color: #f4c84a !important; box-shadow: 0 0 0 2px rgba(244,200,74,.6), 0 0 22px rgba(255,210,110,.55); animation: readyGlow 1.6s ease-in-out infinite; }
+@keyframes readyGlow { 50% { box-shadow: 0 0 0 2px rgba(244,200,74,.9), 0 0 34px rgba(255,220,130,.85); } }
+.pet-art.ready .pet-svg { animation: eggShake 1.4s ease-in-out infinite !important; }
+@keyframes eggShake { 0%, 70%, 100% { transform: rotate(0); } 75% { transform: rotate(-7deg); } 82% { transform: rotate(6deg); } 89% { transform: rotate(-4deg); } }
+.pet-next { color: #ffe08a; }
+.hatch-btn { display: block; width: 100%; margin: 10px 0 2px; padding: 11px; border: 0; border-radius: 10px; cursor: pointer; font: 700 16px Georgia, serif; color: #3a1a00;
+  background: linear-gradient(90deg, #ffe27a, #ffb43a, #ffe27a); background-size: 200% 100%; animation: shine 2s linear infinite; box-shadow: 0 0 16px rgba(255,190,60,.8); }
+@keyframes shine { to { background-position: -200% 0; } }
+.hatchery .hs-sub { margin: 14px 0 8px; font: 400 18px "IM Fell English SC", Georgia, serif; color: #f2dfb6; }
+.hatchery .hs-sub small { display: block; font: italic 12px Georgia, serif; color: #c9b38a; }
+.hatch-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(102px, 1fr)); gap: 10px; }
+.hp-card { position: relative; display: flex; flex-direction: column; align-items: center; gap: 4px; padding: 8px 6px 9px; border-radius: 8px; text-align: center;
+  background: rgba(0,0,0,.28); border: 1px solid rgba(214,162,74,.35); color: #f3dfb6; }
+.hp-card.active { border-color: #f4c84a; box-shadow: inset 0 0 0 1px rgba(244,200,74,.5); }
+.hp-card.rar-r { border-color: rgba(90,200,255,.6); } .hp-card.rar-l { border-color: rgba(255,150,40,.8); box-shadow: 0 0 14px rgba(255,120,20,.35); }
+.hp-card.ready { animation: readyGlow 1.6s ease-in-out infinite; }
+.hp-art { position: relative; width: 82px; height: 82px; padding: 0; border: 0; background: none; cursor: pointer; }
+.hp-art svg { width: 100%; height: 100%; }
+.hp-ready { position: absolute; right: -2px; top: -2px; font-size: 18px; animation: bubble 1.2s ease-in-out infinite; }
+.hp-card b { font: 700 14px Georgia, serif; } .hp-card small { font: 11.5px/1.25 Georgia, serif; color: #d7c39a; }
+.hp-on { font: italic 11.5px Georgia, serif; color: #f4c84a; }
+.hp-card .btn.small { padding: 4px 9px; font-size: 12px; min-width: 0; }
+.hatch-empty { margin: 0; font: italic 13.5px Georgia, serif; color: #d7c39a; grid-column: 1 / -1; }
+.hatch-taken { grid-column: 1 / -1; display: flex; flex-direction: column; gap: 2px; font: 12px Georgia, serif; color: #c9b38a; margin-top: 4px; }
+.found-egg { display: flex; gap: 12px; align-items: center; padding: 10px; border-radius: 10px; background: rgba(255,230,160,.08); border: 1px dashed rgba(244,200,74,.7); }
+.found-egg.rar-l { background: rgba(255,120,20,.12); border-color: #ff9a2e; }
+.fe-art { width: 86px; height: 86px; flex: none; } .fe-art svg { width: 100%; height: 100%; animation: eggShake 2s ease-in-out infinite; }
+.fe-txt { display: flex; flex-direction: column; gap: 4px; color: #f3dfb6; } .fe-txt b { font: 700 15px Georgia, serif; } .fe-txt small { font: 12px/1.3 Georgia, serif; color: #d7c39a; }
+.fe-acts { display: flex; gap: 6px; flex-wrap: wrap; } .fe-acts .btn.small { padding: 5px 10px; font-size: 12.5px; }
+.hatch-fx { position: fixed; inset: 0; z-index: 90; display: none; flex-direction: column; align-items: center; justify-content: center; padding: 20px; overflow: hidden;
+  background: radial-gradient(ellipse at 50% 42%, rgba(60,40,20,.92), rgba(5,3,2,.97) 70%); --rc: #ffe08a; }
+.hatch-fx.show { display: flex; }
+.hatch-fx.rar-u { --rc: #9fe08a; } .hatch-fx.rar-r { --rc: #8fdcff; } .hatch-fx.rar-l { --rc: #ff9a2e; }
+.hf-rays { position: absolute; left: 50%; top: 40%; width: 900px; height: 900px; margin: -450px 0 0 -450px; opacity: .55; pointer-events: none;
+  background: repeating-conic-gradient(from 0deg, var(--rc) 0 6deg, transparent 6deg 18deg); -webkit-mask: radial-gradient(circle, #000 8%, transparent 52%); mask: radial-gradient(circle, #000 8%, transparent 52%); animation: rays 14s linear infinite; }
+@keyframes rays { to { transform: rotate(360deg); } }
+.hf-glow { position: absolute; left: 50%; top: 40%; width: 320px; height: 320px; margin: -160px 0 0 -160px; border-radius: 50%; background: radial-gradient(circle, var(--rc), transparent 65%); opacity: .55; pointer-events: none; animation: bubble 2.2s ease-in-out infinite; }
+.hf-pet { position: relative; width: 210px; height: 210px; margin-top: -40px; }
+.hf-pet svg { width: 100%; height: 100%; }
+.hatch-fx.egg .hf-pet { animation: eggDrop 1s cubic-bezier(.3,1.4,.5,1) both; }
+@keyframes eggDrop { 0% { transform: translateY(-120vh) rotate(-20deg); } 70% { transform: translateY(8px) rotate(4deg) scale(1.05,.94); } 100% { transform: none; } }
+.hatch-fx.shake .hf-pet { animation: hatchShake .25s ease-in-out infinite; }
+.hatch-fx.shake .hf-rays { opacity: .2; }
+@keyframes hatchShake { 0%, 100% { transform: rotate(0); } 25% { transform: rotate(-6deg) translateX(-3px); } 75% { transform: rotate(6deg) translateX(3px); } }
+.hf-flash { position: absolute; inset: 0; background: #fffbe8; opacity: 0; pointer-events: none; }
+.hatch-fx.burst .hf-flash { animation: flash 1.1s ease-out; }
+@keyframes flash { 0% { opacity: 1; } 100% { opacity: 0; } }
+.hatch-fx.burst .hf-pet { animation: popIn .9s cubic-bezier(.3,1.6,.5,1); }
+@keyframes popIn { 0% { transform: scale(.3); } 100% { transform: scale(1); } }
+.hatch-fx.burst .hf-rays { opacity: .8; }
+.hf-box { position: relative; max-width: 360px; text-align: center; color: #f6e6c2; }
+.hf-kick { font: 400 30px "IM Fell English SC", Georgia, serif; color: var(--rc); text-shadow: 0 0 16px var(--rc); }
+.hf-txt { margin-top: 4px; font: 700 18px/1.3 Georgia, serif; }
+.hf-sub { margin-top: 6px; font: italic 14px/1.4 Georgia, serif; color: #d7c39a; }
+.hf-acts { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
+.hf-acts .btn.ghost { color: #f3dfb6; border-color: rgba(243,223,182,.5); }
 </style>
 </head>
 <body>
@@ -1431,6 +1501,15 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       <span class="pet-art" id="petArt" aria-hidden="true"></span>
       <span class="pet-txt"><small>Thy Companion</small><b id="petName">Corvin</b><span id="petStage"></span><span class="pet-mood" id="petMood"></span><span class="pet-next" id="petNext"></span><span class="pet-coins" id="petCoins"></span></span>
     </button>
+  </section>
+
+  <section class="hatchery iron stone-bg" aria-labelledby="hatchTitle">
+    <div class="sec-head"><h2 id="hatchTitle">The Hatchery</h2><span class="meta" id="hatchMeta"></span></div>
+    <div id="hatchFound"></div>
+    <div class="hs-sub">Thy Companions <small>tap one to make it thy companion</small></div>
+    <div class="hatch-grid" id="hatchMine"></div>
+    <div class="hs-sub">The Wild Nest <small>eggs the guild left behind · the first to take one keeps it</small></div>
+    <div class="hatch-grid" id="hatchWild"></div>
   </section>
 
   <section class="chron iron stone-bg" aria-labelledby="chronTitle">
@@ -1680,6 +1759,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 </div>
 <div class="crow-fly" id="crowFly" aria-hidden="true"><img id="crowImg" alt=""></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="hatch-fx" id="hatchFx" role="dialog" aria-modal="true" aria-labelledby="hfTxt"><div class="hf-rays"></div><div class="hf-glow"></div><div class="hf-pet" id="hfPet"></div><div class="hf-flash"></div><div class="hf-box"><div class="hf-kick" id="hfKick"></div><div class="hf-txt" id="hfTxt"></div><div class="hf-sub" id="hfSub"></div><div class="hf-acts" id="hfActs"></div></div></div>
 <button class="bm-tab" id="bmTab" type="button" aria-label="Open bookmarks" aria-controls="bmDrawer" aria-expanded="false">Bookmarks</button>
 <div class="bm-shade" id="bmShade" aria-hidden="true"></div>
 <nav class="bm-drawer" id="bmDrawer" aria-labelledby="bmTitle" aria-hidden="true">
@@ -1774,7 +1854,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   function fresh() {
     return { name: "Adventurer", xp: 0, total: 0, active: [], today: { d: todayKey(), ids: [] }, log: [], days: [], custom: [], posted: [], postedAt: {},
       stats: { cats: {}, ranks: {}, ids: {}, qotd: 0, boss: 0, best: 0 }, badges: {}, honor: "", journal: [], boss: null,
-      settings: { sfx: true, music: false }, avatar: "p:hunter", seed: newSeed(), qotdShown: "", takenAt: {}, forfeit: { n: 0, xp: 0 }, mainCustom: [], mainBonus: "", mainChecks: { d: "", c: {} }, mainHidden: [], acct: null, boardTake: {}, boardLocal: { d: "", c: {} }, boardMine: [], boardBan: { d: "", ids: [] }, updatedAt: 0 };
+      settings: { sfx: true, music: false }, avatar: "p:hunter", seed: newSeed(), qotdShown: "", takenAt: {}, forfeit: { n: 0, xp: 0 }, mainCustom: [], mainBonus: "", mainChecks: { d: "", c: {} }, mainHidden: [], acct: null, boardTake: {}, boardLocal: { d: "", c: {} }, boardMine: [], boardBan: { d: "", ids: [] }, pets: [], found: null, eggDay: "", eggIntro: false, updatedAt: 0 };
   }
   function newSeed() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
   function todayKey(dt) { var d = dt || new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
@@ -1860,6 +1940,10 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     if (s.posted.length) s.posted = [];
     if (!Array.isArray(s.boardMine)) s.boardMine = [];
     if (!s.boardBan || typeof s.boardBan !== "object" || !Array.isArray(s.boardBan.ids)) s.boardBan = { d: "", ids: [] };
+    if (!Array.isArray(s.pets)) s.pets = [];
+    s.pets = s.pets.filter(function (x) { return x && typeof x === "object" && typeof x.id === "string"; }).slice(0, 7);
+    if (s.found && (typeof s.found !== "object" || !s.found.eid)) s.found = null;
+    if (s.pet && typeof s.pet === "object") { if (!s.pet.id) s.pet.id = "p0"; if (!s.pet.rar) s.pet.rar = "c"; }
     return s;
   }
   var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -3104,7 +3188,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       .then(function () {
         if (!firebase.apps.length) firebase.initializeApp(cfg);
         cloud.db = firebase.database();
-        watchSeasons(); watchTavern(); watchParties(); watchDeeds(); watchBoard();
+        watchSeasons(); watchTavern(); watchParties(); watchDeeds(); watchBoard(); watchEggs();
         cloud.db.ref("players").orderByChild("xp").limitToLast(200).on("value", function (snap) {
           var arr = []; snap.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(decodePlayer(v)); });
           cloud.players = arr; try { localStorage.setItem("sidequest-lb", JSON.stringify(arr)); } catch (e) {}
@@ -3134,7 +3218,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
           if (state.acct && u.isAnonymous) { openGate("relogin"); return; }
           if (!u.isAnonymous && state.acct) watchSave(u.uid);
           pushNow();
-          try { claimCrown(); claimParties(); renderTavern(); renderParty(); renderChron(); watchGifts(); watchBoard(); render(); setTimeout(function () { tidy(true); }, 3000); } catch (e) {}
+          try { claimCrown(); claimParties(); renderTavern(); renderParty(); renderChron(); watchGifts(); watchBoard(); watchEggs(); render(); setTimeout(function () { tidy(true); }, 3000); setTimeout(maybeEgg, 2500); } catch (e) {}
         });
       })
       .catch(authFail);
@@ -3683,7 +3767,11 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     caw: function (t) { tone(560, t, 0.22, "sawtooth", 0.07, 360); noise(t, 0.2, 0.08, "bandpass", 1100, 1.2); tone(520, t + 0.28, 0.2, "sawtooth", 0.06, 330); noise(t + 0.28, 0.18, 0.07, "bandpass", 1000, 1.2); },
     knock: function (t) { tone(190, t, 0.09, "sine", 0.35, 120); noise(t, 0.05, 0.2, "lowpass", 600); tone(190, t + 0.16, 0.09, "sine", 0.3, 120); noise(t + 0.16, 0.05, 0.18, "lowpass", 600); },
     purr: function (t) { noise(t, 0.45, 0.06, "lowpass", 260, 0.6); tone(70, t, 0.45, "triangle", 0.05, 62); },
-    flap: function (t) { for (var i = 0; i < 5; i++) noise(t + i * 0.12, 0.09, 0.12 + i * 0.02, "lowpass", 600 + i * 60, 0.8); }
+    flap: function (t) { for (var i = 0; i < 5; i++) noise(t + i * 0.12, 0.09, 0.12 + i * 0.02, "lowpass", 600 + i * 60, 0.8); },
+    crack: function (t) { [0, 0.07, 0.11].forEach(function (d, i) { noise(t + d, 0.05, 0.35 - i * 0.07, "highpass", 2200 + i * 500, 0.7); tone(900 - i * 120, t + d, 0.05, "square", 0.04, 300); }); },
+    hatch: function (t) { noise(t, 0.5, 0.18, "highpass", 5000, 0.5); [74, 78, 81, 86, 90, 93].forEach(function (m, i) { pluck(m, t + 0.05 + i * 0.07, 0.24); }); tone(1568, t + 0.5, 1.4, "sine", 0.08); tone(2349, t + 0.55, 1.2, "sine", 0.05); [62, 69, 74].forEach(function (m) { pluck(m, t + 0.55, 0.3); }); },
+    eggdrop: function (t) { noise(t, 0.35, 0.06, "bandpass", 1600, 0.6); tone(220, t + 0.38, 0.18, "sine", 0.4, 110); noise(t + 0.38, 0.08, 0.25, "lowpass", 700); tone(330, t + 0.62, 0.12, "sine", 0.18, 180); },
+    legend: function (t) { noise(t, 0.9, 0.12, "bandpass", 900, 0.4); [62, 66, 69, 74, 78, 81, 86].forEach(function (m, i) { pluck(m, t + 0.15 + i * 0.09, 0.3); }); tone(98, t, 1.2, "sawtooth", 0.05, 196); }
   };
   function sfx(name) { if (!state.settings.sfx) return; if (!audioCtx()) return; try { SFX[name](AU.ctx.currentTime + 0.01); } catch (e) {} }
   // a warm, cheerful 6/8 jig in D major: tin-whistle tune over a plucked lute and a soft hand drum
@@ -3909,7 +3997,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       '<h3 id="pmTitle" class="pm-name">' + esc(r.name || "Adventurer") + "</h3>" +
       (r.honor ? '<div class="pm-honor">' + esc(r.honor) + "</div>" : "") +
       (function () { var c = crowns().map[me ? cloud.uid : id]; return c ? '<div class="pm-crown">' + crownSvg(c) + "Crowned " + PLACE[c] + " of the " + esc(monthName(prevMonthKey())) + " season</div>" : ""; })() +
-      (function () { var k = petStage(r.level || 1), kk = me ? petKind() : kindOfPlayer(p, id); return '<div class="pm-pet">' + petSvg(k, "pm-petart", kk, me ? myGear() : (p && p.petGear) || {}, me ? myColor() : p && typeof p.petColor === "number" ? p.petColor : -1) + "<span>Companion: <b>" + (me ? esc(petName()) + " the " : "") + esc(petTitle(k, kk)) + "</b></span></div>"; })() +
+      (function () { var k = me ? shownStage(state.pet) : p && typeof p.petShown === "number" ? p.petShown : petStage(r.level || 1), kk = me ? petKind() : kindOfPlayer(p, id), rk = me ? state.pet.rar || "c" : p && p.petRar || "c"; return '<div class="pm-pet">' + petSvg(k, "pm-petart", kk, me ? myGear() : (p && p.petGear) || {}, me ? myColor() : p && typeof p.petColor === "number" ? p.petColor : -1, rk) + "<span>Companion: <b>" + (me ? esc(petName()) + " the " : "") + esc((rk === "l" ? "Phoenix" : PET_KINDS[kk].name) + " " + PET_STAGES[k].name) + "</b> <em class=\"rar-tag rar-" + rk + "\">" + RARITY[rk].name + "</em></span></div>"; })() +
       '<div class="pm-lv">Level ' + r.level + " · " + esc(r.title) + (rank ? " · Rank " + rank + " in the guild" : "") + "</div>" +
       '<dl class="pm-stats"><div><dt>Total XP</dt><dd>' + r.xp + "</dd></div><div><dt>This day</dt><dd>" + r.today + "</dd></div><div><dt>Streak</dt><dd>" + r.streak + "d</dd></div><div><dt>Deeds</dt><dd>" + r.done + "</dd></div></dl>" +
       '<div class="pm-sub">Honors</div>' + medals + recentDeedsHtml(me ? cloud.uid : id) +
@@ -3926,7 +4014,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var av = (state.avatar || "").indexOf("p:") === 0 ? state.avatar.slice(2) : "x";
     var mask = 0; ACH.forEach(function (a, i) { if (state.badges[a.id]) mask += Math.pow(2, i); });
     var h = -1; ACH.forEach(function (a, i) { if (a.id === state.honor && state.badges[a.id]) h = i; });
-    return ("~" + av + "." + mask.toString(36) + "." + (h >= 0 ? h.toString(36) : "") + "." + (state.forfeit.n || 0).toString(36) + "." + petKind().toString(36) + "." + gearCode(myGear()) + "." + (myColor() >= 0 ? myColor().toString(36) : "")).slice(0, 40);
+    return ("~" + av + "." + mask.toString(36) + "." + (h >= 0 ? h.toString(36) : "") + "." + (state.forfeit.n || 0).toString(36) + "." + petKind().toString(36) + "." + gearCode(myGear()) + "." + (myColor() >= 0 ? myColor().toString(36) : "") + "." + shownStage(state.pet) + (state.pet.rar || "c")).slice(0, 40);
   }
   function decodePlayer(v) {
     if (typeof v.title !== "string" || v.title.charAt(0) !== "~") return v;
@@ -3941,6 +4029,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var pk = parseInt(parts[4], 36); if (!isNaN(pk)) v.petKind = pk;
     if (parts[5]) v.petGear = gearDecode(parts[5]);
     var pcol = parseInt(parts[6], 36); if (!isNaN(pcol) && PET_COLORS[pcol]) v.petColor = pcol;
+    if (parts[7] && /^[0-6][curl]$/.test(parts[7])) { v.petShown = +parts[7].charAt(0); v.petRar = parts[7].charAt(1); }
     return v;
   }
   /* ---------- accounts: a name + secret seal, the same on Safari, the home-screen app and any new phone ---------- */
@@ -4340,7 +4429,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   }
   var wd = { armed: null };
   function wardrobeHtml() {
-    var lv = levelInfo(state.xp).lv, i = petStage(lv), own = state.pet.owned || [], g = myGear();
+    var i = shownStage(state.pet), own = state.pet.owned || [], g = myGear();
     return '<div class="wardrobe"><div class="wd-head">Wardrobe <small>🪙 ' + (state.coins || 0) + " coins</small></div>" + SLOTS.map(function (sl) {
       return '<div class="wd-slot"><span class="wd-lab">' + SLOT_NAME[sl] + '</span><div class="wd-row">' + slotItems(sl).map(function (it) {
         var has = own.indexOf(it.id) >= 0, worn = g[sl] === it.id, try_ = {}; Object.keys(g).forEach(function (k) { try_[k] = g[k]; }); try_[sl] = it.id;
@@ -4398,9 +4487,9 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   function openGift(uid) {
     var pl = playerOf(uid); if (!pl) return;
     gift.to = uid; gift.name = pl.name || "Adventurer";
-    var k = petStage(pl.level || 1), kk = kindOfPlayer(pl, uid);
+    var k = typeof pl.petShown === "number" ? pl.petShown : petStage(pl.level || 1), kk = kindOfPlayer(pl, uid);
     $("giftPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-gclose aria-label="Close">&times;</button>' +
-      '<div class="qm-kicker">A Gift</div><div class="gf-pet">' + petSvg(k, "gf-art", kk, pl.petGear || {}, typeof pl.petColor === "number" ? pl.petColor : -1) + "</div>" +
+      '<div class="qm-kicker">A Gift</div><div class="gf-pet">' + petSvg(k, "gf-art", kk, pl.petGear || {}, typeof pl.petColor === "number" ? pl.petColor : -1, pl.petRar || "c") + "</div>" +
       '<h3 id="giftTitle">For ' + esc(gift.name) + "</h3>" +
       '<p class="gf-lead">Send coins to ' + esc(gift.name) + ', or food for their ' + esc(petTitle(k, kk)) + '. It comes out of thy own purse: 🪙 <b>' + (state.coins || 0) + "</b> coins.</p>" +
       '<div class="gf-sec">Coins</div><div class="gf-row">' + GIFT_COINS.map(function (n) { return '<button type="button" class="gf-btn" data-gcoins="' + n + '"' + ((state.coins || 0) < n ? " disabled" : "") + '>🪙 <b>' + n + "</b><small>coins</small></button>"; }).join("") + "</div>" +
@@ -4577,9 +4666,55 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     { name: "Ash", body: ["#9a948d", "#24211e"], egg: ["#6f6a64", "#e2ddd6"] },
     { name: "Copper", body: ["#c46e40", "#2e1206"], egg: ["#9a4e26", "#ffcf9a"] }
   ];
+  var RARITY = { c: { name: "Common", col: "#c9b48a" }, u: { name: "Uncommon", col: "#6fd06a" }, r: { name: "Rare", col: "#5ac8ff" }, l: { name: "Legendary", col: "#ff9a2e" } };
+  var PHOENIX = { name: "Phoenix", egg: ["#ffd84a", "#ff5a1a"], body: ["#ffb03a", "#6a1004"], band: "#ffe08a", pat: "flames" };
+  function petXpOf(p) { return Math.max(0, (state.xp || 0) - (+(p && p.base) || 0)); }
+  function petLvOf(p) { return levelInfo(petXpOf(p)).lv; }
+  function targetStage(p) { return petStage(petLvOf(p)); }
+  function shownStage(p) { var t = targetStage(p); return typeof p.seen === "number" ? Math.min(p.seen, t) : t; }
+  function readyToHatch(p) { return typeof p.seen === "number" && targetStage(p) > p.seen; }
+  function kindName(p) { return p && p.rar === "l" ? "Phoenix" : PET_KINDS[typeof p.kind === "number" && PET_KINDS[p.kind] ? p.kind : 0].name; }
+  function petTitleOf(p, i) { return kindName(p) + " " + PET_STAGES[i].name; }
   function myColor() { var c = state.pet && state.pet.color; return typeof c === "number" && PET_COLORS[c] ? c : -1; }
-  function petSvg(i, cls, kind, gear, color) {
-    var kd0 = PET_KINDS[typeof kind === "number" && PET_KINDS[kind] ? kind : petKind()], kd = kd0;
+  function eggArt(rr, kd, u, nest, E) {
+    var clip = 'clip-path="url(#' + u + 'c)"', egg = '<ellipse cx="60" cy="66" rx="21" ry="27" fill="' + E + '"/>', sheen = '<ellipse cx="52" cy="54" rx="5" ry="9" fill="#fff" opacity=".22" transform="rotate(-20 52 54)"/>';
+    if (rr === "u") return nest + egg + eggPattern(kd, u) + '<g ' + clip + '><path d="M36 60Q60 70 84 60L84 67Q60 77 36 67Z" fill="#e6c25a"/><path d="M36 60Q60 70 84 60" stroke="#fff3c0" stroke-width="1" fill="none" opacity=".7"/><circle cx="60" cy="67.5" r="2.6" fill="#b3202a" stroke="#fff3c0" stroke-width=".8"/></g>' + sheen;
+    if (rr === "r") return '<circle cx="60" cy="64" r="40" fill="url(#' + u + 'ra)"/>' + nest + '<ellipse cx="60" cy="66" rx="21" ry="27" fill="url(#' + u + 'rg)"/>' +
+      '<g ' + clip + ' stroke="#fff" stroke-opacity=".5" stroke-width="1.1" fill="none"><path d="M60 38L45 58L52 94M60 38L75 58L68 94M45 58L60 66L75 58M60 66L60 94M38 72L45 58M82 72L75 58"/></g>' +
+      '<g ' + clip + '><path d="M60 38L45 58L60 66Z" fill="#fff" opacity=".22"/><path d="M75 58L60 66L68 94L82 74Z" fill="#000" opacity=".16"/></g>' + sheen +
+      '<g class="tw" fill="#eaf8ff"><path d="M30 44l1.6 4 4 1.6-4 1.6-1.6 4-1.6-4-4-1.6 4-1.6z"/><path class="tw2" d="M90 50l1.3 3.2 3.2 1.3-3.2 1.3-1.3 3.2-1.3-3.2-3.2-1.3 3.2-1.3z"/><path class="tw3" d="M84 30l1 2.6 2.6 1-2.6 1-1 2.6-1-2.6-2.6-1 2.6-1z"/></g>';
+    if (rr === "l") return '<circle cx="60" cy="62" r="54" fill="url(#' + u + 'fa)"/>' + flames(u) +
+      '<ellipse cx="60" cy="98" rx="42" ry="12" fill="#6a3a08"/><path d="M20 94q20 10 40 4t42-2M24 101q18-8 36-2t38 2" stroke="#e0a030" stroke-width="3" fill="none" stroke-linecap="round"/>' +
+      '<ellipse cx="60" cy="66" rx="21" ry="27" fill="url(#' + u + 'g)"/>' +
+      '<g ' + clip + ' fill="none" stroke-linecap="round" stroke-linejoin="round"><path class="lava" d="M50 42L56 54L49 64L58 75L53 92M68 40L63 53L71 62L64 74L69 90M40 70L49 64M80 66L71 62" stroke="#ffd23a" stroke-width="5" opacity=".45"/><path class="lava" d="M50 42L56 54L49 64L58 75L53 92M68 40L63 53L71 62L64 74L69 90M40 70L49 64M80 66L71 62" stroke="#ff5a00" stroke-width="2"/></g>' +
+      '<ellipse cx="52" cy="52" rx="5" ry="9" fill="#fff" opacity=".45" transform="rotate(-20 52 52)"/>' + embers();
+    return nest + egg + eggPattern(kd, u) + sheen;
+  }
+  function flames(u) {
+    return '<g class="fls"><path class="fl" d="M30 96Q22 70 34 54Q34 70 42 76Q40 60 50 46Q50 66 58 74Z" fill="#ff7a1a" opacity=".9"/><path class="fl f2" d="M90 96Q98 70 86 54Q86 70 78 76Q80 60 70 46Q70 66 62 74Z" fill="#ff7a1a" opacity=".9"/>' +
+      '<path class="fl f3" d="M38 96Q34 78 42 66Q44 78 50 82Q50 70 56 62Q58 78 62 84Z" fill="#ffd23a"/><path class="fl f4" d="M82 96Q86 78 78 66Q76 78 70 82Q70 70 64 62Q62 78 58 84Z" fill="#ffd23a"/></g>';
+  }
+  function embers() { return '<g fill="#ffd23a"><circle class="em" cx="34" cy="70" r="1.6"/><circle class="em e2" cx="86" cy="64" r="1.3"/><circle class="em e3" cx="60" cy="34" r="1.5"/><circle class="em e4" cx="44" cy="40" r="1.1"/><circle class="em e5" cx="78" cy="38" r="1.2"/></g>'; }
+  function rarUnder(rr, i, kd, u) {
+    var defs = '<defs><radialGradient id="' + u + 'ra" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#9fe6ff" stop-opacity=".75"/><stop offset=".6" stop-color="#3a9fe0" stop-opacity=".25"/><stop offset="1" stop-color="#3a9fe0" stop-opacity="0"/></radialGradient>' +
+      '<radialGradient id="' + u + 'fa" cx="50%" cy="55%" r="50%"><stop offset="0" stop-color="#ffe27a" stop-opacity=".9"/><stop offset=".45" stop-color="#ff7a1a" stop-opacity=".45"/><stop offset="1" stop-color="#c02a00" stop-opacity="0"/></radialGradient>' +
+      '<radialGradient id="' + u + 'rg" cx="36%" cy="28%" r="85%"><stop offset="0" stop-color="#f2fbff"/><stop offset=".35" stop-color="#8fd6ff"/><stop offset=".75" stop-color="#5a6fe0"/><stop offset="1" stop-color="#2a1f7a"/></radialGradient>' +
+      '<radialGradient id="' + u + 'g" cx="38%" cy="30%" r="80%"><stop offset="0" stop-color="#fff6c0"/><stop offset=".45" stop-color="#f2b02a"/><stop offset="1" stop-color="#8a3a06"/></radialGradient></defs>';
+    if (i === 0) return defs;
+    if (rr === "r") return defs + '<circle cx="60" cy="60" r="56" fill="url(#' + u + 'ra)"/>';
+    if (rr === "l") return defs + '<circle cx="60" cy="60" r="58" fill="url(#' + u + 'fa)"/>' + flames(u);
+    if (rr === "u") return defs + '<circle cx="60" cy="62" r="46" fill="#9fe08a" opacity=".12"/>';
+    return defs;
+  }
+  function rarOver(rr, i) {
+    if (i === 0) return "";
+    if (rr === "r") return '<g class="tw" fill="#eaf8ff"><path d="M20 30l2 5 5 2-5 2-2 5-2-5-5-2 5-2z"/><path class="tw2" d="M104 66l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5z"/><path class="tw3" d="M98 18l1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5z"/></g>';
+    if (rr === "l") return embers();
+    return "";
+  }
+  function petSvg(i, cls, kind, gear, color, rar) {
+    var rr = kind === undefined ? (state.pet && state.pet.rar) || "c" : rar || "c";
+    var kd0 = rr === "l" ? PHOENIX : PET_KINDS[typeof kind === "number" && PET_KINDS[kind] ? kind : petKind()], kd = kd0;
     var cIdx = color !== undefined ? color : (kind === undefined ? (pt && pt.preview != null ? pt.preview : myColor()) : -1);
     if (typeof cIdx === "number" && PET_COLORS[cIdx]) { var pc = PET_COLORS[cIdx]; kd = { name: kd0.name, egg: pc.egg, body: pc.body, band: kd0.band, pat: kd0.pat }; }
     var gr = gear === undefined ? myGear() : (gear || {});
@@ -4608,7 +4743,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
         (o.sparks ? '<path d="M18 30l2 5 5 2-5 2-2 5-2-5-5-2 5-2zM104 70l1.5 4 4 1.5-4 1.5-1.5 4-1.5-4-4-1.5 4-1.5zM96 22l1.5 3.5 3.5 1.5-3.5 1.5-1.5 3.5-1.5-3.5-3.5-1.5 3.5-1.5z" fill="#e6d2ff"/>' : "");
     };
     var art;
-    if (i === 0) art = nest + '<ellipse cx="60" cy="66" rx="21" ry="27" fill="' + E + '"/>' + eggPattern(kd, u) + '<ellipse cx="52" cy="54" rx="5" ry="9" fill="#fff" opacity=".2" transform="rotate(-20 52 54)"/>';
+    if (i === 0) art = eggArt(rr, kd, u, nest, E);
     else if (i === 1) art = nest + '<circle cx="60" cy="58" r="21" fill="' + B + '"/><path d="M50 40l3-10 4 8 3-11 3 11 4-8 3 10Z" fill="#2a2532"/>' + eye(52, 54, 5.5) + eye(68, 54, 5.5) +
       '<path d="M53 63L60 70L67 63Z" fill="#f2b33a"/><path d="M53 63Q60 66 67 63" stroke="#c9802a" stroke-width="1.4" fill="none"/>' +
       '<path d="M36 70L43 63L49 71L55 63L61 71L67 63L73 71L79 63L84 70L82 88Q60 98 38 88Z" fill="' + kd.egg[0] + '"/><circle cx="48" cy="80" r="2.2" fill="' + kd.egg[1] + '"/><circle cx="70" cy="84" r="2.6" fill="' + kd.egg[1] + '"/><circle cx="60" cy="78" r="1.6" fill="' + kd.egg[1] + '"/>';
@@ -4620,37 +4755,39 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     else if (i === 5) art = side({ hackles: true, collar: true, wings: true, big: true, eye: "#f7c25a" });
     else art = side({ hackles: true, collar: true, wings: true, big: true, crown: true, aura: true, sparks: true, eye: "#d9a6ff" });
     art = gearBack(gr.back, i) + art + gearNeck(gr.neck, i) + gearHead(gr.head || seasonHat(), i);
-    return '<svg class="pet-svg s' + i + (cls ? " " + cls : "") + '" viewBox="0 0 120 120" aria-hidden="true">' + defs + '<g class="pet-all">' + art + "</g></svg>";
+    art = rarUnder(rr, i, kd, u) + art + rarOver(rr, i, kd, u);
+    return '<svg class="pet-svg s' + i + " rar-" + rr + (cls ? " " + cls : "") + '" viewBox="0 0 120 120" aria-hidden="true">' + defs + '<g class="pet-all">' + art + "</g></svg>";
   }
   function renderPet() {
-    var lv = levelInfo(state.xp).lv, i = petStage(lv), st = PET_STAGES[i], nx = PET_STAGES[i + 1];
-    if (!state.pet || typeof state.pet !== "object") state.pet = { name: "Corvin" };
-    if (typeof state.pet.seen !== "number") state.pet.seen = i;
-    else if (i > state.pet.seen) {
-      state.pet.seen = i;
-      try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
-      celebrate({ head: "Thy Companion Evolved", big: petName() + " became " + (/^[AEIOU]/.test(PET_KINDS[petKind()].name) ? "an " : "a ") + petTitle(i, petKind()), msg: st.line, sound: "fanfare" });
-    } else if (i < state.pet.seen) state.pet.seen = i;
+    if (!state.pet || typeof state.pet !== "object") state.pet = { name: "Corvin", id: "p0", rar: "c" };
+    petKind();
+    var tg = targetStage(state.pet);
+    if (typeof state.pet.seen !== "number") state.pet.seen = tg;
+    else if (tg < state.pet.seen) state.pet.seen = tg;
+    var i = shownStage(state.pet), st = PET_STAGES[i], nx = PET_STAGES[i + 1], lv = petLvOf(state.pet), ready = readyToHatch(state.pet);
     var md = petMood();
-    $("petArt").innerHTML = petSvg(i, moodClass()) + '<span class="pet-bubble" aria-hidden="true">' + md.icon + "</span>";
-    $("petArt").className = "pet-art " + moodClass();
+    $("petArt").innerHTML = petSvg(i, moodClass()) + '<span class="pet-bubble" aria-hidden="true">' + (ready ? "\u2728" : md.icon) + "</span>";
+    $("petArt").className = "pet-art " + moodClass() + (ready ? " ready" : "");
+    $("petBtn").classList.toggle("ready", ready);
     $("petMood").textContent = "Mood: " + md.name + " · Fullness " + Math.round(petFood()) + "%";
     $("petCoins").textContent = "🪙 " + (state.coins || 0) + " coins";
     $("petName").textContent = petName();
-    $("petStage").textContent = petTitle(i, petKind());
-    $("petNext").textContent = nx ? "Grows into a " + nx.name + " at Level " + nx.lv : "Its final, mightiest form";
+    $("petStage").textContent = RARITY[state.pet.rar || "c"].name + " " + petTitleOf(state.pet, i);
+    $("petNext").textContent = ready ? "\u2728 Ready to hatch! Tap to hatch it" : nx ? "Grows into a " + nx.name + " at its Level " + nx.lv + " (now " + lv + ")" : "Its final, mightiest form";
+    try { renderHatch(); } catch (e) {}
     if ($("petModal").classList.contains("show") && Date.now() > pt.busy) openPet(true);
   }
   function openPet(keep) {
-    var lv = levelInfo(state.xp).lv, i = petStage(lv), st = PET_STAGES[i], nx = PET_STAGES[i + 1];
+    var lv = petLvOf(state.pet), i = shownStage(state.pet), st = PET_STAGES[i], nx = PET_STAGES[i + 1], ready = readyToHatch(state.pet);
     var nameVal = keep && $("petNameIn") ? $("petNameIn").value : petName();
     $("petPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-petclose aria-label="Close">&times;</button>' +
       '<div class="qm-kicker">Thy Companion</div>' +
 '<div class="pet-big ' + moodClass() + '" id="petLive" title="Tap or stroke thy companion"><span class="pet-body">' + petSvg(i, "big") + '</span><span class="pet-bubble" aria-hidden="true">' + petMood().icon + '</span><span class="pet-say" id="petSay" aria-live="polite"></span></div>' +
       '<div class="pet-acts"><button type="button" data-pact="pet">&#129306; Pet</button><button type="button" data-pact="play">&#129718; Play</button><button type="button" data-pact="talk">&#128172; Talk</button></div>' +
+      (ready ? '<button type="button" class="hatch-btn" data-hatchme>\u2728 Ready to hatch! Tap to hatch ' + esc(petName()) + "</button>" : "") +
       '<p class="pet-hint">Tap it, or stroke it with thy finger. Its eyes follow thee.</p>' +
-      '<h3 id="petTitle">' + esc(petName()) + ' <small>the ' + esc(petTitle(i, petKind())) + "</small></h3>" +
-      '<p class="pet-kind">Thine egg was of the <b>' + esc(PET_KINDS[petKind()].name) + "</b> kind. Every adventurer in the guild hatches a different one.</p>" +
+      '<h3 id="petTitle">' + esc(petName()) + ' <small>the ' + esc(petTitleOf(state.pet, i)) + "</small></h3>" +
+      '<p class="pet-kind"><span class="rar-tag rar-' + (state.pet.rar || "c") + '">' + RARITY[state.pet.rar || "c"].name + "</span> Its egg was of the <b>" + esc(kindName(state.pet)) + "</b> kind. It grows with every XP thou earn.</p>" +
       '<p class="pet-line">' + esc(st.line) + "</p>" +
       (function () {
         var md = petMood(), fd = Math.round(petFood());
@@ -4661,7 +4798,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
             return '<button type="button" class="pc-food" data-feed="' + f.id + '"' + ((state.coins || 0) < f.cost ? " disabled" : "") + '><span class="pf-i">' + f.icon + "</span><span>" + esc(f.name) + "</span><small>🪙 " + f.cost + (f.joy ? " · makes it joyful" : " · +" + f.fill + "% full") + "</small></button>";
           }).join("") + "</div></div>";
       })() +
-      (nx ? '<p class="pet-prog">Grows into a <b>' + esc(nx.name) + "</b> at Level " + nx.lv + " · thou art Level " + lv + "</p>" +
+      (nx ? '<p class="pet-prog">Grows into a <b>' + esc(nx.name) + "</b> at its Level " + nx.lv + " · it is Level " + lv + "</p>" +
             '<div class="pet-bar"><i style="width:' + Math.round(Math.max(0, Math.min(1, (lv - st.lv) / (nx.lv - st.lv))) * 100) + '%"></i></div>' : '<p class="pet-prog">Its final, mightiest form. Few companions ever reach it.</p>') +
       '<div class="pet-gallery">' + PET_STAGES.map(function (x, k) {
         var got = k <= i;
@@ -4687,7 +4824,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   var pt = { preview: null, busy: 0, love: 0, down: null, rub: 0, idle: null };
   function petEl() { return $("petLive"); }
   function petAwake() { return petMood().id !== "asleep"; }
-  function petIsEgg() { return petStage(levelInfo(state.xp).lv) === 0; }
+  function petIsEgg() { return shownStage(state.pet) === 0; }
   function petSay(txt, ms) {
     var b = $("petSay"); if (!b) return;
     b.textContent = txt; b.classList.remove("show"); void b.offsetWidth; b.classList.add("show");
@@ -4719,6 +4856,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     }
   }
   function petTap() {
+    if (readyToHatch(state.pet)) { hatchPet(state.pet); return; }
     if (petIsEgg()) { petAct("act-wobble", 900); sfx("knock"); petSay(["*knock knock*", "Something inside knocks back!", "*tap tap*", "The egg feels warm."][Math.floor(Math.random() * 4)], 2000); return; }
     if (!petAwake()) { petAct("act-grumble", 900); sfx("purr"); petSay(["Zzz…", "*mumbles in its sleep*", "Five more minutes…"][Math.floor(Math.random() * 3)], 2000); return; }
     var acts = ["act-hop", "act-spin", "act-flap", "act-wiggle"], a = acts[Math.floor(Math.random() * acts.length)];
@@ -4751,7 +4889,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     return ["Hail, " + n + "!", "Caw! Welcome back, " + n + ".", "Ready for a quest, " + n + "?"][Math.floor(Math.random() * 3)];
   }
   function petTalk() {
-    if (petIsEgg()) { sfx("knock"); petSay(["*muffled chirp from inside*", "Grow to Level " + PET_STAGES[1].lv + " and I shall hatch!", "*knock knock* Is it time yet?"][Math.floor(Math.random() * 3)], 2800); petAct("act-wobble", 800); return; }
+    if (petIsEgg()) { sfx("knock"); petSay(["*muffled chirp from inside*", "Earn XP and I shall hatch!", "*knock knock* Is it time yet?"][Math.floor(Math.random() * 3)], 2800); petAct("act-wobble", 800); return; }
     if (!petAwake()) { petSay("Zzz… (it is dreaming of thy deeds)", 2400); return; }
     var li = levelInfo(state.xp), lines = [], md = petMood();
     lines.push(md.line);
@@ -4810,6 +4948,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     if (e.target === this) { this.classList.remove("show"); if (pt.preview != null) { pt.preview = null; renderPet(); } return; }
     var t = e.target.closest("button"); if (!t) return;
     if (t.hasAttribute("data-petclose")) { this.classList.remove("show"); if (pt.preview != null) { pt.preview = null; renderPet(); } }
+    else if (t.hasAttribute("data-hatchme")) hatchPet(state.pet);
     else if (t.dataset.pact) { var pa = t.dataset.pact; if (pa === "pet") { petStroke(); setTimeout(petStroke, 450); } else if (pa === "play") petPlay(); else petTalk(); }
     else if (t.dataset.dye) {
       var dk = +t.dataset.dye; if (state.pet.dyed || !PET_COLORS[dk]) return;
@@ -4825,6 +4964,157 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       if (!n) { toast("Give thy companion a name first."); return; }
       state.pet.name = n; save(); renderPet(); openPet(true); sfx("quill"); toast("Thy companion answers to " + n + " now.");
     }
+  });
+
+
+  /* ======================================================================= HATCHERY & EGGS */
+  var EGG_NAMES = { c: ["Pip", "Soot", "Nib", "Rook", "Bramble", "Flint", "Pebble"], u: ["Quill", "Sable", "Wisp", "Thistle", "Moss"], r: ["Echo", "Glimmer", "Azure", "Prism", "Frostbeak"], l: ["Ignis", "Pyra", "Aurum", "Solace", "Cinder"] };
+  var MAX_PETS = 8, EGG_LIFE = 3 * 864e5;
+  function allPets() { return [state.pet].concat(state.pets || []); }
+  function petCard(p, active) {
+    var i = shownStage(p), rd = readyToHatch(p), rr = p.rar || "c";
+    return '<div class="hp-card rar-' + rr + (active ? " active" : "") + (rd ? " ready" : "") + '">' +
+      '<button type="button" class="hp-art" data-hpet="' + esc(p.id) + '" aria-label="' + esc(p.name || "Companion") + '">' + petSvg(i, "", typeof p.kind === "number" ? p.kind : 0, p.gear || {}, typeof p.color === "number" ? p.color : -1, rr) + (rd ? '<span class="hp-ready">\\u2728</span>' : "") + "</button>" +
+      '<b>' + esc(p.name || "Unnamed") + '</b><span class="rar-tag rar-' + rr + '">' + RARITY[rr].name + "</span>" +
+      "<small>" + esc(petTitleOf(p, i)) + " · Lv " + petLvOf(p) + "</small>" +
+      (rd ? '<button type="button" class="btn gold small" data-hhatch="' + esc(p.id) + '">Hatch!</button>' : active ? '<span class="hp-on">Thy companion</span>' : '<button type="button" class="btn ghost small" data-hpet="' + esc(p.id) + '">Make companion</button>') + "</div>";
+  }
+  function eggOnly(rr, k, cls) { return petSvg(0, cls || "", k, {}, -1, rr); }
+  function renderHatch() {
+    if (!$("hatchMine")) return;
+    var pets = allPets();
+    $("hatchMeta").textContent = pets.length + " of " + MAX_PETS + " companions";
+    $("hatchMine").innerHTML = pets.map(function (p, n) { return petCard(p, n === 0); }).join("");
+    var f = state.found, fh = "";
+    if (f && (cloud.eggs || []).some(function (e) { return e.id === f.eid && e.taken && e.taken !== cloud.uid; })) { state.found = null; f = null; save(); }
+    if (f) fh = '<div class="found-egg rar-' + f.r + '"><div class="fe-art">' + eggOnly(f.r, f.k, "fe-svg") + '</div><div class="fe-txt"><b>An egg awaits thy choice</b><span class="rar-tag rar-' + f.r + '">' + RARITY[f.r].name + " Egg</span><small>Found " + shortAgo(f.at) + ". Others in the guild may take it from the Wild Nest while thou wait.</small>" +
+      '<div class="fe-acts"><button type="button" class="btn gold small" data-eadopt="' + esc(f.eid) + '">Take it home</button><button type="button" class="btn ghost small" data-etoss>Throw it away</button></div></div></div>';
+    $("hatchFound").innerHTML = fh;
+    var now = Date.now(), wild = (cloud.eggs || []).filter(function (e) { return !e.taken && now - (+e.at || 0) < EGG_LIFE && !(f && f.eid === e.id); });
+    var taken = (cloud.eggs || []).filter(function (e) { return e.taken && now - (+e.takenAt || +e.at || 0) < 864e5; });
+    $("hatchWild").innerHTML = (wild.length ? wild.map(function (e) {
+      var mine = e.by === cloud.uid, left = Math.max(1, Math.round((EGG_LIFE - (now - e.at)) / 3600000));
+      return '<div class="hp-card wild rar-' + e.r + '"><div class="hp-art">' + eggOnly(e.r, e.k) + '</div><span class="rar-tag rar-' + e.r + '">' + RARITY[e.r].name + " Egg</span><small>" + (mine ? "Found by thee" : "Left by " + esc(e.byName || "someone")) + " · " + left + "h left</small>" +
+        '<button type="button" class="btn gold small" data-eadopt="' + esc(e.id) + '">Adopt</button></div>';
+    }).join("") : '<p class="hatch-empty">' + (cloud.eggErr ? "The Wild Nest could not be reached. Publish the newest Firebase rules." : !cloud.db ? "The Wild Nest opens when the guild is reached." : "No eggs in the Wild Nest. Eggs turn up on random days. Keep questing!") + "</p>") +
+      (taken.length ? '<div class="hatch-taken">' + taken.slice(-4).map(function (e) { return "<span>" + RARITY[e.r].name + " egg adopted by <b>" + esc(e.takenName || "someone") + "</b></span>"; }).join("") + "</div>" : "");
+  }
+  function findPet(id) { var r = null; allPets().forEach(function (p) { if (p.id === id) r = p; }); return r; }
+  function makeCompanion(id) {
+    var at = -1; state.pets.forEach(function (p, k) { if (p.id === id) at = k; }); if (at < 0) return;
+    var cur = state.pet, nxt = state.pets[at];
+    cur.food = petFood(); cur.fedAt = Date.now();
+    nxt.owned = cur.owned || []; delete cur.owned;
+    nxt.fedAt = Date.now(); if (typeof nxt.food !== "number") nxt.food = 70;
+    state.pets[at] = cur; state.pet = nxt;
+    pt.preview = null; save(); renderPet(); pushNow(); sfx("chirp");
+    toast((nxt.name || "Thy new friend") + " is now thy companion.");
+  }
+  function newPetFrom(e) {
+    var names = EGG_NAMES[e.r] || EGG_NAMES.c;
+    return { id: "e" + (e.id || Date.now().toString(36)), name: names[Math.floor(Math.random() * names.length)], kind: +e.k || 0, rar: e.r, base: state.xp || 0, seen: 0, food: 70, fedAt: Date.now() };
+  }
+  function adoptEgg(eid) {
+    if (allPets().length >= MAX_PETS) { toast("Thy hatchery is full (" + MAX_PETS + " companions)."); return; }
+    var f = state.found && state.found.eid === eid ? state.found : null;
+    var src = f ? { id: f.eid, r: f.r, k: f.k } : null;
+    (cloud.eggs || []).forEach(function (e) { if (e.id === eid) src = src || { id: e.id, r: e.r, k: e.k }; });
+    if (!src) { toast("That egg is gone."); return; }
+    function keep() {
+      var p = newPetFrom(src); state.pets.push(p); if (f) state.found = null;
+      save(); renderPet(); closeFx(); sfx(src.r === "l" ? "legend" : "fanfare");
+      toast("Thou took home a " + RARITY[src.r].name + " egg. Name it and make it thy companion in the Hatchery!");
+    }
+    if (/^local-/.test(eid) || !boardOnline()) { keep(); return; }
+    var me = { uid: cloud.uid, name: (state.name || "Adventurer").slice(0, 24) };
+    cloud.db.ref("eggs/" + eid).transaction(function (cur) { if (!cur || cur.taken) return; cur.taken = me.uid; cur.takenName = me.name; cur.takenAt = Date.now(); return cur; })
+      .then(function (r) { if (r && r.committed) keep(); else { if (f) { state.found = null; save(); renderHatch(); } closeFx(); toast("Too late! Someone else took that egg."); } })
+      .catch(function () { if (f) keep(); else toast("The Wild Nest could not be reached."); });
+  }
+  function tossEgg() {
+    var f = state.found; if (!f) return;
+    state.found = null; save(); renderHatch(); closeFx(); sfx("paper");
+    toast(/^local-/.test(f.eid) ? "Thou set the egg down by the road." : "The egg goes to the Wild Nest. Another adventurer may take it.");
+  }
+  function watchEggs() {
+    if (!cloud.db || cloud.eRef) return;
+    var ref = cloud.eRef = cloud.db.ref("eggs").orderByChild("at").limitToLast(40);
+    ref.on("value", function (sn) {
+      var arr = []; sn.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(v); });
+      cloud.eggs = arr; cloud.eggErr = ""; renderHatch();
+    }, function (e) { cloud.eggErr = String(e && e.code || e); cloud.eRef = null; renderHatch(); });
+  }
+  // an egg turns up on random days (always on the first day, so thou may meet the hatchery)
+  function rollEgg(dk) {
+    var a = hash((state.seed || "") + ":egg:" + dk) % 100, b = hash((state.seed || "") + ":rar:" + dk) % 100;
+    return { hit: !state.eggIntro || a < 30, r: b < 5 ? "l" : b < 20 ? "r" : b < 50 ? "u" : "c", k: hash((state.seed || "") + ":kind:" + dk) % PET_KINDS.length };
+  }
+  function maybeEgg() {
+    var dk = todayKey();
+    if (state.eggDay === dk || !state.signed) return;
+    if (document.documentElement.classList.contains("intro-lock") || document.querySelector(".gate.show, #gate.show")) { setTimeout(maybeEgg, 4000); return; }
+    if (cloud.db && !cloud.ready) { setTimeout(maybeEgg, 3000); return; }
+    var roll = rollEgg(dk); state.eggDay = dk;
+    if (!roll.hit) { save(); return; }
+    state.eggIntro = true;
+    var e = { by: cloud.uid || "me", byName: (state.name || "Adventurer").slice(0, 24), r: roll.r, k: roll.k, at: Date.now() };
+    function show(eid) { state.found = { eid: eid, r: e.r, k: e.k, at: e.at }; save(); renderHatch(); showEggFx(); }
+    if (boardOnline()) {
+      var key = newKey();
+      cloud.db.ref("eggs/" + key).set(e).then(function () { show(key); }).catch(function () { show("local-" + key); });
+    } else show("local-" + Date.now().toString(36));
+  }
+  setTimeout(maybeEgg, 6000);
+  setInterval(maybeEgg, 10 * 60000);
+
+  /* ---------- the glowing stage for hatching and found eggs ---------- */
+  var fx = { busy: false };
+  function closeFx() { $("hatchFx").className = "hatch-fx"; fx.busy = false; }
+  function showEggFx() {
+    var f = state.found; if (!f || fx.busy) return;
+    fx.busy = true;
+    var R = RARITY[f.r];
+    $("hatchFx").className = "hatch-fx show egg rar-" + f.r;
+    $("hfPet").innerHTML = eggOnly(f.r, f.k, "hf-svg");
+    $("hfKick").textContent = "A " + R.name + " Egg!";
+    $("hfTxt").textContent = f.r === "l" ? "A blazing egg falls from the sky!" : f.r === "r" ? "A shimmering egg lies at the guild door!" : f.r === "u" ? "A banded egg rolls out of the hedge!" : "Thou found an egg by the road!";
+    $("hfSub").textContent = "Take it home and care for it, or leave it. Eggs thou do not take go to the Wild Nest, where anyone in the guild may adopt them.";
+    $("hfActs").innerHTML = '<button type="button" class="btn gold" data-eadopt="' + esc(f.eid) + '">Take it home</button><button type="button" class="btn ghost" data-eleave>Leave it for now</button><button type="button" class="btn ghost" data-etoss>Throw it away</button>';
+    sfx("eggdrop"); if (f.r === "l") setTimeout(function () { sfx("legend"); }, 600); else if (f.r === "r") setTimeout(function () { sfx("hatch"); }, 650);
+  }
+  function hatchPet(p) {
+    if (!p || !readyToHatch(p) || fx.busy) return;
+    fx.busy = true; $("petModal").classList.remove("show");
+    var from = shownStage(p), to = targetStage(p), rr = p.rar || "c", k = typeof p.kind === "number" ? p.kind : 0, col = typeof p.color === "number" ? p.color : -1;
+    var art = function (i) { return petSvg(i, "hf-svg", k, p.gear || {}, col, rr); };
+    $("hatchFx").className = "hatch-fx show shake rar-" + rr;
+    $("hfPet").innerHTML = art(from);
+    $("hfKick").textContent = from === 0 ? "It is hatching!" : "It is changing!";
+    $("hfTxt").textContent = (p.name || "Thy companion") + "\\u2026"; $("hfSub").textContent = ""; $("hfActs").innerHTML = "";
+    sfx("crack"); setTimeout(function () { sfx("crack"); }, 500); setTimeout(function () { sfx("crack"); }, 900);
+    setTimeout(function () {
+      p.seen = to; save();
+      $("hatchFx").className = "hatch-fx show burst rar-" + rr;
+      $("hfPet").innerHTML = art(to);
+      sfx("hatch"); if (rr === "l") sfx("legend");
+      $("hfKick").textContent = from === 0 ? "Hatched!" : "Evolved!";
+      $("hfTxt").textContent = (p.name || "Thy companion") + " became " + (/^[AEIOU]/.test(petTitleOf(p, to)) ? "an " : "a ") + petTitleOf(p, to) + "!";
+      $("hfSub").textContent = PET_STAGES[to].line;
+      $("hfActs").innerHTML = '<button type="button" class="btn gold" data-fxok>Wondrous!</button>';
+      renderPet(); pushNow();
+    }, 1500);
+  }
+  $("hatchFx").addEventListener("click", function (e) {
+    var t = e.target.closest("button"); if (!t) return;
+    if (t.hasAttribute("data-fxok")) closeFx();
+    else if (t.hasAttribute("data-eleave")) { closeFx(); toast("The egg waits in thy Hatchery. Others may take it from the Wild Nest."); }
+  });
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest && e.target.closest("button"); if (!t) return;
+    if (t.dataset.eadopt) { adoptEgg(t.dataset.eadopt); return; }
+    if (t.hasAttribute("data-etoss")) { tossEgg(); return; }
+    if (t.dataset.hhatch) { hatchPet(findPet(t.dataset.hhatch)); return; }
+    if (t.dataset.hpet && t.closest("#hatchMine")) { if (t.dataset.hpet === state.pet.id) openPet(false); else makeCompanion(t.dataset.hpet); return; }
   });
 
   /* ======================================================================= TAVERN BOARD */
@@ -5129,6 +5419,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   /* ---------- bookmarks: tap any empty space (or the ribbon) to jump to a section ---------- */
   var BOOKMARKS = [
     ["sheet", "Character Sheet", "thy level, XP and companion", ".sheet"],
+    ["hatchTitle", "The Hatchery", "thy companions and found eggs"],
     ["chronTitle", "Guild Chronicle", "what thy companions have done"],
     ["lbTitle", "Guild Rankings", "who leads the guild"],
     ["chapelTitle", "The Chapel", "the chapel film"],
@@ -5240,6 +5531,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       else still.push(m);
     });
     if (still.length !== state.boardMine.length) { state.boardMine = still; save(); }
+    (cloud.eggs || []).forEach(function (e) { if (Date.now() - (+e.at || 0) > EGG_LIFE + 864e5) cloud.db.ref("eggs/" + e.id).remove().catch(function () {}); });
     var tcut = Date.now() - 30 * 864e5, gm = cloud.master && cloud.master === cloud.uid;
     try { cloud.db.ref("tavern").orderByChild("at").endAt(tcut).limitToFirst(100).once("value").then(function (sn) {
       sn.forEach(function (c) { var v = c.val() || {}; if ((+v.at || 0) < tcut && (v.uid === cloud.uid || gm)) cloud.db.ref("tavern/" + c.key).remove().catch(function () {}); });
