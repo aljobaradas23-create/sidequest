@@ -1320,9 +1320,56 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 @keyframes qtPulse { 50% { opacity: .55; } }
 
 /* the job paper grows with its words; the dark backdrop scrolls instead, so the parchment never ends early */
-#qmodal { overflow-y: auto; -webkit-overflow-scrolling: touch; }
-#qmodal.show { display: flex; flex-direction: column; }
-#qmodal .qm-paper { margin: auto; flex: none; max-height: none; overflow: visible; }
+#qmodal, #petModal, #giftModal { overflow-y: auto; -webkit-overflow-scrolling: touch; }
+#qmodal.show, #petModal.show, #giftModal.show { display: flex; flex-direction: column; }
+#qmodal .qm-paper, #petModal .qm-paper, #giftModal .qm-paper { margin: auto; flex: none; max-height: none; overflow: visible; }
+
+/* ---------- the living companion ---------- */
+.pet-svg .pe { transform-box: fill-box; transform-origin: center; animation: petBlink 5.2s infinite; }
+.pet-svg .pp { transition: transform .12s ease-out; }
+@keyframes petBlink { 0%, 92%, 100% { transform: scaleY(1); } 94% { transform: scaleY(.08); } 96% { transform: scaleY(1); } }
+.mood-asleep .pet-svg .pe { animation: none; transform: scaleY(.1); }
+#petLive { cursor: grab; touch-action: none; user-select: none; -webkit-user-select: none; -webkit-tap-highlight-color: transparent; }
+#petLive:active { cursor: grabbing; }
+.pet-body { display: block; width: 100%; height: 100%; transform-origin: 50% 85%; }
+.pet-body.act-hop { animation: actHop .85s cubic-bezier(.3,.7,.4,1); }
+@keyframes actHop { 0%, 100% { transform: none; } 25% { transform: translateY(4px) scale(1.06,.92); } 50% { transform: translateY(-26px) scale(.96,1.05); } 75% { transform: translateY(2px) scale(1.04,.95); } }
+.pet-body.act-spin { animation: actSpin 1s ease-in-out; }
+@keyframes actSpin { 0% { transform: none; } 40% { transform: translateY(-18px) rotateY(180deg); } 80% { transform: translateY(0) rotateY(360deg); } 100% { transform: none; } }
+.pet-body.act-flap { animation: actFlap .85s ease-in-out; }
+@keyframes actFlap { 0%, 100% { transform: none; } 20%, 60% { transform: translateY(-10px) scale(1.08,.96); } 40%, 80% { transform: translateY(-4px) scale(.95,1.04); } }
+.pet-body.act-wiggle { animation: actWiggle .85s ease-in-out; }
+@keyframes actWiggle { 0%, 100% { transform: none; } 20% { transform: rotate(-9deg); } 40% { transform: rotate(8deg); } 60% { transform: rotate(-6deg); } 80% { transform: rotate(4deg); } }
+.pet-body.act-lean { animation: actLean .7s ease-in-out; }
+@keyframes actLean { 0%, 100% { transform: none; } 50% { transform: rotate(7deg) scale(1.04,.97); } }
+.pet-body.act-grumble { animation: actGrumble .9s ease-in-out; }
+@keyframes actGrumble { 0%, 100% { transform: none; } 30% { transform: scale(1.03,.96); } 60% { transform: translateX(-3px); } }
+.pet-body.act-wobble { animation: actWobble .9s ease-in-out; }
+@keyframes actWobble { 0%, 100% { transform: none; } 15% { transform: rotate(-10deg); } 35% { transform: rotate(9deg); } 55% { transform: rotate(-6deg); } 75% { transform: rotate(3deg); } }
+.pet-body.act-roll { animation: actRoll 1.2s ease-in-out; }
+@keyframes actRoll { 0%, 100% { transform: none; } 30% { transform: translateX(-24px) rotate(-40deg); } 70% { transform: translateX(24px) rotate(40deg); } }
+.pet-body.act-fly { animation: actFly 1.9s ease-in-out; }
+@keyframes actFly { 0% { transform: none; } 15% { transform: translate(0,-20px) scale(1.05); } 40% { transform: translate(120px,-80px) scale(.55) rotate(15deg); opacity: .9; } 60% { transform: translate(-120px,-70px) scale(.55) scaleX(-1); opacity: .9; } 85% { transform: translate(0,-16px) scale(1.04); } 100% { transform: none; } }
+.pet-say { position: absolute; left: 50%; top: -6px; z-index: 3; max-width: 230px; width: max-content; padding: 6px 11px; border-radius: 14px; background: #fff8e8; color: #2a1a0c;
+  border: 1.5px solid #6b4422; font: italic 600 14px/1.25 Georgia, serif; text-align: center; box-shadow: 0 3px 8px rgba(0,0,0,.35);
+  transform: translate(-50%, -100%) scale(.6); opacity: 0; pointer-events: none; transition: opacity .2s, transform .25s cubic-bezier(.3,1.6,.5,1); }
+.pet-say::after { content: ""; position: absolute; left: 50%; bottom: -7px; width: 10px; height: 10px; margin-left: -5px; background: #fff8e8; border-right: 1.5px solid #6b4422; border-bottom: 1.5px solid #6b4422; transform: rotate(45deg); }
+.pet-say.show { opacity: 1; transform: translate(-50%, -100%) scale(1); }
+.pet-big { margin-top: 42px !important; }
+.pet-heart { position: absolute; bottom: 30%; z-index: 4; font-size: 22px; pointer-events: none; animation: petHeart 1.25s ease-out forwards; }
+@keyframes petHeart { 0% { transform: translate(0,0) scale(.4); opacity: 0; } 20% { opacity: 1; transform: translate(0,-14px) scale(1.1); } 100% { transform: translate(var(--dx), -90px) scale(.8); opacity: 0; } }
+.pet-acts { display: flex; gap: 8px; justify-content: center; margin: 6px 0 2px; }
+.pet-acts button { padding: 7px 12px; border-radius: 18px; border: 1px solid rgba(60,35,15,.55); background: linear-gradient(#fff6e2, #ead3a4); color: #3b2412; font: 700 14px Georgia, serif; cursor: pointer; box-shadow: 0 2px 0 rgba(60,35,15,.35); }
+.pet-acts button:active { transform: translateY(2px); box-shadow: none; }
+.pet-hint { margin: 4px 0 10px; font: italic 12.5px Georgia, serif; color: #6b4a2a; }
+.pet-dye { margin: 0 0 14px; padding: 10px; border: 1px solid rgba(43,27,16,.35); border-radius: 3px; background: rgba(255,248,225,.35); }
+.pd-head { font: 400 18px "IM Fell English SC", Georgia, serif; color: #6e0f0a; margin-bottom: 8px; }
+.pd-head small { font: italic 12px Georgia, serif; color: #6b4a2a; margin-left: 6px; }
+.pd-row { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px 4px; }
+.pd-sw { display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 0; border: 0; background: none; cursor: pointer; color: #3b2412; font: 600 10.5px/1.1 Georgia, serif; }
+.pd-sw i { width: 34px; height: 34px; border-radius: 50%; background: radial-gradient(circle at 35% 30%, var(--a), var(--b)); border: 2px solid rgba(60,35,15,.5); box-shadow: inset 0 -3px 5px rgba(0,0,0,.3); }
+.pd-sw.on i { border-color: #8a1c10; box-shadow: 0 0 0 3px #f4c84a, inset 0 -3px 5px rgba(0,0,0,.3); }
+.pd-note { margin: 8px 0 0; font: 13px/1.4 Georgia, serif; color: #4a2a12; }
 </style>
 </head>
 <body>
@@ -1887,9 +1934,11 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   function allQuests() { return BASE.concat(state.custom); }
   function findQ(id) { var a = allQuests().concat(MAIN, state.mainCustom || [], BOUNTY); for (var i = 0; i < a.length; i++) if (a[i].id === id) return a[i]; return null; }
 
+  // each level asks more than the last, and the climb steepens as thou rise
+  function levelNeed(lv) { var k = lv - 1; return 100 + k * 50 + 12 * k * k; }
   function levelInfo(xp) {
     var lv = 1, need = 100, rem = xp;
-    while (rem >= need) { rem -= need; lv++; need = 100 + (lv - 1) * 50; }
+    while (rem >= need) { rem -= need; lv++; need = levelNeed(lv); }
     return { lv: lv, rem: rem, need: need };
   }
   function titleFor(lv) { var t = TITLES[0][1]; TITLES.forEach(function (p) { if (lv >= p[0]) t = p[1]; }); return t; }
@@ -3629,7 +3678,12 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     coin: function (t) { [0, 0.085, 0.2].forEach(function (dd, i) { tone(2093 + i * 150, t + dd, 0.4, "sine", 0.13); tone(3150 + i * 220, t + dd, 0.25, "sine", 0.05); }); },
     hit: function (t) { tone(120, t, 0.35, "sine", 0.55, 42); noise(t, 0.14, 0.4, "lowpass", 700); },
     fanfare: function (t) { [62, 66, 69, 74].forEach(function (m, i) { pluck(m, t + i * 0.11, 0.35); }); pluck(78, t + 0.5, 0.3); pluck(74, t + 0.5, 0.25); },
-    quill: function (t) { for (var i = 0; i < 5; i++) noise(t + i * 0.06 + Math.random() * 0.02, 0.045, 0.07, "highpass", 4200); }
+    quill: function (t) { for (var i = 0; i < 5; i++) noise(t + i * 0.06 + Math.random() * 0.02, 0.045, 0.07, "highpass", 4200); },
+    chirp: function (t) { var b = 2300 + Math.random() * 500; tone(b, t, 0.09, "sine", 0.12, b * 1.35); tone(b * 1.1, t + 0.12, 0.11, "sine", 0.1, b * 1.5); },
+    caw: function (t) { tone(560, t, 0.22, "sawtooth", 0.07, 360); noise(t, 0.2, 0.08, "bandpass", 1100, 1.2); tone(520, t + 0.28, 0.2, "sawtooth", 0.06, 330); noise(t + 0.28, 0.18, 0.07, "bandpass", 1000, 1.2); },
+    knock: function (t) { tone(190, t, 0.09, "sine", 0.35, 120); noise(t, 0.05, 0.2, "lowpass", 600); tone(190, t + 0.16, 0.09, "sine", 0.3, 120); noise(t + 0.16, 0.05, 0.18, "lowpass", 600); },
+    purr: function (t) { noise(t, 0.45, 0.06, "lowpass", 260, 0.6); tone(70, t, 0.45, "triangle", 0.05, 62); },
+    flap: function (t) { for (var i = 0; i < 5; i++) noise(t + i * 0.12, 0.09, 0.12 + i * 0.02, "lowpass", 600 + i * 60, 0.8); }
   };
   function sfx(name) { if (!state.settings.sfx) return; if (!audioCtx()) return; try { SFX[name](AU.ctx.currentTime + 0.01); } catch (e) {} }
   // a warm, cheerful 6/8 jig in D major: tin-whistle tune over a plucked lute and a soft hand drum
@@ -3855,7 +3909,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       '<h3 id="pmTitle" class="pm-name">' + esc(r.name || "Adventurer") + "</h3>" +
       (r.honor ? '<div class="pm-honor">' + esc(r.honor) + "</div>" : "") +
       (function () { var c = crowns().map[me ? cloud.uid : id]; return c ? '<div class="pm-crown">' + crownSvg(c) + "Crowned " + PLACE[c] + " of the " + esc(monthName(prevMonthKey())) + " season</div>" : ""; })() +
-      (function () { var k = petStage(r.level || 1), kk = me ? petKind() : kindOfPlayer(p, id); return '<div class="pm-pet">' + petSvg(k, "pm-petart", kk, me ? myGear() : (p && p.petGear) || {}) + "<span>Companion: <b>" + (me ? esc(petName()) + " the " : "") + esc(petTitle(k, kk)) + "</b></span></div>"; })() +
+      (function () { var k = petStage(r.level || 1), kk = me ? petKind() : kindOfPlayer(p, id); return '<div class="pm-pet">' + petSvg(k, "pm-petart", kk, me ? myGear() : (p && p.petGear) || {}, me ? myColor() : p && typeof p.petColor === "number" ? p.petColor : -1) + "<span>Companion: <b>" + (me ? esc(petName()) + " the " : "") + esc(petTitle(k, kk)) + "</b></span></div>"; })() +
       '<div class="pm-lv">Level ' + r.level + " · " + esc(r.title) + (rank ? " · Rank " + rank + " in the guild" : "") + "</div>" +
       '<dl class="pm-stats"><div><dt>Total XP</dt><dd>' + r.xp + "</dd></div><div><dt>This day</dt><dd>" + r.today + "</dd></div><div><dt>Streak</dt><dd>" + r.streak + "d</dd></div><div><dt>Deeds</dt><dd>" + r.done + "</dd></div></dl>" +
       '<div class="pm-sub">Honors</div>' + medals + recentDeedsHtml(me ? cloud.uid : id) +
@@ -3872,7 +3926,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var av = (state.avatar || "").indexOf("p:") === 0 ? state.avatar.slice(2) : "x";
     var mask = 0; ACH.forEach(function (a, i) { if (state.badges[a.id]) mask += Math.pow(2, i); });
     var h = -1; ACH.forEach(function (a, i) { if (a.id === state.honor && state.badges[a.id]) h = i; });
-    return ("~" + av + "." + mask.toString(36) + "." + (h >= 0 ? h.toString(36) : "") + "." + (state.forfeit.n || 0).toString(36) + "." + petKind().toString(36) + "." + gearCode(myGear())).slice(0, 40);
+    return ("~" + av + "." + mask.toString(36) + "." + (h >= 0 ? h.toString(36) : "") + "." + (state.forfeit.n || 0).toString(36) + "." + petKind().toString(36) + "." + gearCode(myGear()) + "." + (myColor() >= 0 ? myColor().toString(36) : "")).slice(0, 40);
   }
   function decodePlayer(v) {
     if (typeof v.title !== "string" || v.title.charAt(0) !== "~") return v;
@@ -3886,6 +3940,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     v.forfeits = parseInt(parts[3] || "0", 36) || 0;
     var pk = parseInt(parts[4], 36); if (!isNaN(pk)) v.petKind = pk;
     if (parts[5]) v.petGear = gearDecode(parts[5]);
+    var pcol = parseInt(parts[6], 36); if (!isNaN(pcol) && PET_COLORS[pcol]) v.petColor = pcol;
     return v;
   }
   /* ---------- accounts: a name + secret seal, the same on Safari, the home-screen app and any new phone ---------- */
@@ -4291,7 +4346,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
         var has = own.indexOf(it.id) >= 0, worn = g[sl] === it.id, try_ = {}; Object.keys(g).forEach(function (k) { try_[k] = g[k]; }); try_[sl] = it.id;
         var lab = worn ? "Worn · take off" : has ? "Wear it" : wd.armed === it.id ? "Tap again: buy" : "🪙 " + it.cost;
         return '<button type="button" class="wd-item' + (worn ? " worn" : "") + (has ? " has" : "") + (!has && (state.coins || 0) < it.cost ? " poor" : "") + '" data-gear="' + it.id + '">' +
-          petSvg(i, "wd-art", petKind(), try_) + "<b>" + esc(it.name) + "</b><small>" + lab + "</small></button>";
+          petSvg(i, "wd-art", petKind(), try_, myColor()) + "<b>" + esc(it.name) + "</b><small>" + lab + "</small></button>";
       }).join("") + "</div></div>";
     }).join("") + "</div>";
   }
@@ -4345,7 +4400,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     gift.to = uid; gift.name = pl.name || "Adventurer";
     var k = petStage(pl.level || 1), kk = kindOfPlayer(pl, uid);
     $("giftPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-gclose aria-label="Close">&times;</button>' +
-      '<div class="qm-kicker">A Gift</div><div class="gf-pet">' + petSvg(k, "gf-art", kk, pl.petGear || {}) + "</div>" +
+      '<div class="qm-kicker">A Gift</div><div class="gf-pet">' + petSvg(k, "gf-art", kk, pl.petGear || {}, typeof pl.petColor === "number" ? pl.petColor : -1) + "</div>" +
       '<h3 id="giftTitle">For ' + esc(gift.name) + "</h3>" +
       '<p class="gf-lead">Send coins to ' + esc(gift.name) + ', or food for their ' + esc(petTitle(k, kk)) + '. It comes out of thy own purse: 🪙 <b>' + (state.coins || 0) + "</b> coins.</p>" +
       '<div class="gf-sec">Coins</div><div class="gf-row">' + GIFT_COINS.map(function (n) { return '<button type="button" class="gf-btn" data-gcoins="' + n + '"' + ((state.coins || 0) < n ? " disabled" : "") + '>🪙 <b>' + n + "</b><small>coins</small></button>"; }).join("") + "</div>" +
@@ -4510,15 +4565,30 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     else g += '<circle cx="60" cy="66" r="7" fill="none" stroke="' + c + '" stroke-width="2.5"/><circle cx="60" cy="66" r="14" fill="none" stroke="' + c + '" stroke-width="2"/><circle cx="60" cy="66" r="21" fill="none" stroke="' + c + '" stroke-width="1.6"/>';
     return g + "</g>";
   }
-  function petSvg(i, cls, kind, gear) {
-    var kd = PET_KINDS[typeof kind === "number" && PET_KINDS[kind] ? kind : petKind()];
+  var PET_COLORS = [
+    { name: "Midnight", body: ["#4a5088", "#0d0f26"], egg: ["#3a3f6b", "#9aa6ff"] },
+    { name: "Crimson", body: ["#a33a34", "#2a0606"], egg: ["#7a1d18", "#ff9a7a"] },
+    { name: "Snow", body: ["#eef2f5", "#7f8e9c"], egg: ["#e6edf2", "#9fb4c6"] },
+    { name: "Forest", body: ["#4f8a46", "#0f220d"], egg: ["#355f2f", "#c8e88a"] },
+    { name: "Sunlit Gold", body: ["#e0b84e", "#4a3008"], egg: ["#c99a2e", "#fff1b8"] },
+    { name: "Violet", body: ["#8a55c4", "#1e0b38"], egg: ["#5a2f8a", "#e8ccff"] },
+    { name: "Ocean", body: ["#3a8cae", "#06202a"], egg: ["#22607a", "#a8ecff"] },
+    { name: "Rose", body: ["#d47a98", "#3a0f1f"], egg: ["#b25a78", "#ffd6e4"] },
+    { name: "Ash", body: ["#9a948d", "#24211e"], egg: ["#6f6a64", "#e2ddd6"] },
+    { name: "Copper", body: ["#c46e40", "#2e1206"], egg: ["#9a4e26", "#ffcf9a"] }
+  ];
+  function myColor() { var c = state.pet && state.pet.color; return typeof c === "number" && PET_COLORS[c] ? c : -1; }
+  function petSvg(i, cls, kind, gear, color) {
+    var kd0 = PET_KINDS[typeof kind === "number" && PET_KINDS[kind] ? kind : petKind()], kd = kd0;
+    var cIdx = color !== undefined ? color : (kind === undefined ? (pt && pt.preview != null ? pt.preview : myColor()) : -1);
+    if (typeof cIdx === "number" && PET_COLORS[cIdx]) { var pc = PET_COLORS[cIdx]; kd = { name: kd0.name, egg: pc.egg, body: pc.body, band: kd0.band, pat: kd0.pat }; }
     var gr = gear === undefined ? myGear() : (gear || {});
     var u = "pt" + (++petN), B = "url(#" + u + "b)", E = "url(#" + u + "e)";
     var defs = '<defs><radialGradient id="' + u + 'b" cx="38%" cy="32%" r="80%"><stop offset="0" stop-color="' + kd.body[0] + '"/><stop offset="1" stop-color="' + kd.body[1] + '"/></radialGradient>' +
       '<radialGradient id="' + u + 'e" cx="38%" cy="30%" r="80%"><stop offset="0" stop-color="' + kd.egg[0] + '"/><stop offset="1" stop-color="' + kd.body[1] + '"/></radialGradient>' +
       '<clipPath id="' + u + 'c"><ellipse cx="60" cy="66" rx="21" ry="27"/></clipPath>' +
       '<radialGradient id="' + u + 'a" cx="50%" cy="50%" r="50%"><stop offset="0" stop-color="#c79bff" stop-opacity=".8"/><stop offset=".6" stop-color="#7a3ae0" stop-opacity=".35"/><stop offset="1" stop-color="#4a1aa0" stop-opacity="0"/></radialGradient></defs>';
-    var eye = function (x, y, r, col) { return '<circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + (col || "#fff") + '"/><circle cx="' + (x + r * 0.22) + '" cy="' + y + '" r="' + (r * 0.55) + '" fill="#120f16"/><circle cx="' + (x + r * 0.42) + '" cy="' + (y - r * 0.36) + '" r="' + (r * 0.24) + '" fill="#fff"/>'; };
+    var eye = function (x, y, r, col) { return '<g class="pe"><circle cx="' + x + '" cy="' + y + '" r="' + r + '" fill="' + (col || "#fff") + '"/><g class="pp" data-r="' + r + '"><circle cx="' + (x + r * 0.22) + '" cy="' + y + '" r="' + (r * 0.55) + '" fill="#120f16"/><circle cx="' + (x + r * 0.42) + '" cy="' + (y - r * 0.36) + '" r="' + (r * 0.24) + '" fill="#fff"/></g></g>'; };
     var nest = '<ellipse cx="60" cy="98" rx="42" ry="12" fill="#5a3818"/><path d="M20 94q20 10 40 4t42-2M24 101q18-8 36-2t38 2M30 90q14 4 30 2" stroke="#8a5a2e" stroke-width="3" fill="none" stroke-linecap="round"/>';
     var branch = '<path d="M6 102Q60 95 114 103" stroke="#6b4422" stroke-width="7" stroke-linecap="round" fill="none"/><path d="M88 100l12-10" stroke="#6b4422" stroke-width="3" stroke-linecap="round"/><ellipse cx="101" cy="88" rx="7" ry="3.5" fill="#6f9a40" transform="rotate(-35 101 88)"/>';
     var legs = '<path d="M54 88L52 101M66 88L68 101" stroke="#c49a3c" stroke-width="3.2" stroke-linecap="round"/><path d="M46 101h11M63 101h11" stroke="#c49a3c" stroke-width="2.6" stroke-linecap="round"/>';
@@ -4550,7 +4620,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     else if (i === 5) art = side({ hackles: true, collar: true, wings: true, big: true, eye: "#f7c25a" });
     else art = side({ hackles: true, collar: true, wings: true, big: true, crown: true, aura: true, sparks: true, eye: "#d9a6ff" });
     art = gearBack(gr.back, i) + art + gearNeck(gr.neck, i) + gearHead(gr.head || seasonHat(), i);
-    return '<svg class="pet-svg s' + i + (cls ? " " + cls : "") + '" viewBox="0 0 120 120" aria-hidden="true">' + defs + art + "</svg>";
+    return '<svg class="pet-svg s' + i + (cls ? " " + cls : "") + '" viewBox="0 0 120 120" aria-hidden="true">' + defs + '<g class="pet-all">' + art + "</g></svg>";
   }
   function renderPet() {
     var lv = levelInfo(state.xp).lv, i = petStage(lv), st = PET_STAGES[i], nx = PET_STAGES[i + 1];
@@ -4569,14 +4639,16 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     $("petName").textContent = petName();
     $("petStage").textContent = petTitle(i, petKind());
     $("petNext").textContent = nx ? "Grows into a " + nx.name + " at Level " + nx.lv : "Its final, mightiest form";
-    if ($("petModal").classList.contains("show")) openPet(true);
+    if ($("petModal").classList.contains("show") && Date.now() > pt.busy) openPet(true);
   }
   function openPet(keep) {
     var lv = levelInfo(state.xp).lv, i = petStage(lv), st = PET_STAGES[i], nx = PET_STAGES[i + 1];
     var nameVal = keep && $("petNameIn") ? $("petNameIn").value : petName();
     $("petPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-petclose aria-label="Close">&times;</button>' +
       '<div class="qm-kicker">Thy Companion</div>' +
-'<div class="pet-big ' + moodClass() + '">' + petSvg(i, "big") + '<span class="pet-bubble" aria-hidden="true">' + petMood().icon + "</span></div>" +
+'<div class="pet-big ' + moodClass() + '" id="petLive" title="Tap or stroke thy companion"><span class="pet-body">' + petSvg(i, "big") + '</span><span class="pet-bubble" aria-hidden="true">' + petMood().icon + '</span><span class="pet-say" id="petSay" aria-live="polite"></span></div>' +
+      '<div class="pet-acts"><button type="button" data-pact="pet">&#129306; Pet</button><button type="button" data-pact="play">&#129718; Play</button><button type="button" data-pact="talk">&#128172; Talk</button></div>' +
+      '<p class="pet-hint">Tap it, or stroke it with thy finger. Its eyes follow thee.</p>' +
       '<h3 id="petTitle">' + esc(petName()) + ' <small>the ' + esc(petTitle(i, petKind())) + "</small></h3>" +
       '<p class="pet-kind">Thine egg was of the <b>' + esc(PET_KINDS[petKind()].name) + "</b> kind. Every adventurer in the guild hatches a different one.</p>" +
       '<p class="pet-line">' + esc(st.line) + "</p>" +
@@ -4595,16 +4667,157 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
         var got = k <= i;
         return '<div class="pg-cell' + (got ? "" : " locked") + (k === i ? " now" : "") + '">' + petSvg(k) + "<span>" + (got ? esc(x.name) : "Level " + x.lv) + "</span></div>";
       }).join("") + "</div>" +
+      dyeHtml() +
       wardrobeHtml() +
       '<label class="jm-lab" for="petNameIn">Name thy companion</label><div class="pet-namerow"><input id="petNameIn" maxlength="16" autocomplete="off"><button class="btn gold small" type="button" data-petname>Name it</button></div>';
     $("petNameIn").value = nameVal;
-    if (!keep) { $("petModal").classList.add("show"); sfx("paper"); }
+    if (!keep) { $("petModal").classList.add("show"); $("petModal").scrollTop = 0; sfx("paper"); pt.love = 0; setTimeout(function () { petSay(greetLine(), 2600); }, 450); }
   }
+  function dyeHtml() {
+    var cur = myColor(), used = !!state.pet.dyed;
+    return '<div class="pet-dye"><div class="pd-head">Feather Dye <small>' + (used ? "already used" : "once only, choose well") + "</small></div>" +
+      (used ? '<p class="pd-note">Thou dyed ' + esc(petName()) + " " + (cur >= 0 ? "<b>" + esc(PET_COLORS[cur].name) + "</b>" : "its own colour") + ". The dye pot is empty now; its colour stays forever.</p>"
+        : '<div class="pd-row">' + PET_COLORS.map(function (c, k) {
+            return '<button type="button" class="pd-sw' + (pt.preview === k ? " on" : "") + '" data-dye="' + k + '" style="--a:' + c.body[0] + ";--b:" + c.body[1] + '" aria-label="' + esc(c.name) + '"><i></i><span>' + esc(c.name) + "</span></button>";
+          }).join("") + "</div>" +
+          '<p class="pd-note">' + (pt.preview != null ? "Behold " + esc(petName()) + " in <b>" + esc(PET_COLORS[pt.preview].name) + "</b>. Tap it again to dye it for good. This can be done <b>only once</b>." : "Tap a colour to see " + esc(petName()) + " wear it. Thou may dye its feathers only once.") + "</p>") + "</div>";
+  }
+
+  /* ---------- the companion lives: tap, stroke, play and talk ---------- */
+  var pt = { preview: null, busy: 0, love: 0, down: null, rub: 0, idle: null };
+  function petEl() { return $("petLive"); }
+  function petAwake() { return petMood().id !== "asleep"; }
+  function petIsEgg() { return petStage(levelInfo(state.xp).lv) === 0; }
+  function petSay(txt, ms) {
+    var b = $("petSay"); if (!b) return;
+    b.textContent = txt; b.classList.remove("show"); void b.offsetWidth; b.classList.add("show");
+    clearTimeout(pt.sayT); pt.sayT = setTimeout(function () { b.classList.remove("show"); }, ms || 2400);
+  }
+  function petAct(cls, ms) {
+    var el = petEl(); if (!el) return; var body = el.querySelector(".pet-body"); if (!body) return;
+    pt.busy = Date.now() + (ms || 900);
+    body.className = "pet-body"; void body.offsetWidth; body.className = "pet-body " + cls;
+    clearTimeout(pt.actT); pt.actT = setTimeout(function () { body.className = "pet-body"; }, ms || 900);
+  }
+  function petHearts(n, sym) {
+    var el = petEl(); if (!el) return;
+    for (var k = 0; k < (n || 1); k++) (function (k) {
+      setTimeout(function () {
+        var h = document.createElement("span"); h.className = "pet-heart"; h.textContent = sym || "\u2764";
+        h.style.left = (30 + Math.random() * 40) + "%"; h.style.setProperty("--dx", (Math.random() * 40 - 20) + "px");
+        el.appendChild(h); setTimeout(function () { h.remove(); }, 1300);
+      }, k * 110);
+    })(k);
+  }
+  function petLove(n) {
+    if (!petAwake() || petIsEgg()) return;
+    pt.love += n;
+    var tk = todayKey();
+    if (pt.love >= 6 && state.pet.loveDay !== tk && petMood().id !== "hungry") {
+      state.pet.loveDay = tk; state.pet.joyUntil = Math.max(state.pet.joyUntil || 0, Date.now() + 2 * 3600000); save();
+      setTimeout(function () { petSay("I love thee too!", 2600); petHearts(6); try { renderPet(); } catch (e) {} toast(petName() + " is overjoyed by thy care. Joyful for two hours!"); }, 300);
+    }
+  }
+  function petTap() {
+    if (petIsEgg()) { petAct("act-wobble", 900); sfx("knock"); petSay(["*knock knock*", "Something inside knocks back!", "*tap tap*", "The egg feels warm."][Math.floor(Math.random() * 4)], 2000); return; }
+    if (!petAwake()) { petAct("act-grumble", 900); sfx("purr"); petSay(["Zzz…", "*mumbles in its sleep*", "Five more minutes…"][Math.floor(Math.random() * 3)], 2000); return; }
+    var acts = ["act-hop", "act-spin", "act-flap", "act-wiggle"], a = acts[Math.floor(Math.random() * acts.length)];
+    petAct(a, a === "act-spin" ? 1000 : 850); sfx(Math.random() < 0.5 ? "chirp" : "caw");
+    if (a === "act-flap") sfx("flap");
+    var m = petMood().id;
+    petSay(m === "hungry" ? ["Feed me!", "So… hungry…", "Is that grain I smell?"][Math.floor(Math.random() * 3)] : ["Caw!", "Kraa!", "Hehe!", "Again! Again!", "*happy hop*", "Croak!"][Math.floor(Math.random() * 6)], 1500);
+    petHearts(1, m === "hungry" ? "\uD83C\uDF56" : "\u2764"); petLove(1);
+  }
+  function petStroke() {
+    if (petIsEgg()) { petAct("act-wobble", 700); petHearts(1, "\u2728"); petSay("The egg hums softly.", 1500); return; }
+    if (!petAwake()) { petAct("act-grumble", 700); petHearts(1, "\uD83D\uDCA4"); return; }
+    petAct("act-lean", 700); sfx("purr"); petHearts(1); petLove(1);
+    if (Math.random() < 0.35) petSay(["Mmm, right there!", "*fluffs its feathers*", "Purr… wait, crows don't purr.", "*leans into thy hand*"][Math.floor(Math.random() * 4)], 1500);
+  }
+  function petPlay() {
+    if (petIsEgg()) { petAct("act-roll", 1200); sfx("knock"); petSay("The egg rolls about. It wants to hatch and play!", 2200); return; }
+    if (!petAwake()) { petSay("It is asleep. Let it rest till morning.", 2000); return; }
+    if (petMood().id === "hungry") { petSay("Too hungry to play… feed me first!", 2000); petAct("act-grumble", 800); return; }
+    petAct("act-fly", 1900); sfx("flap"); setTimeout(function () { sfx("caw"); }, 900);
+    setTimeout(function () { petSay(["Again! Throw it again!", "I caught it!", "Look at me fly!", "That was a fine game!"][Math.floor(Math.random() * 4)], 2000); petHearts(3, "\u2728"); }, 1700);
+    petLove(2);
+  }
+  function greetLine() {
+    var m = petMood().id, n = state.name && !/^adventurer$/i.test(state.name) ? state.name : "friend";
+    if (petIsEgg()) return "*the egg wobbles happily*";
+    if (m === "asleep") return "Zzz…";
+    if (m === "hungry") return "Thou art back! Hast thou brought food?";
+    if (m === "sad") return "There thou art, " + n + "! I missed thee.";
+    return ["Hail, " + n + "!", "Caw! Welcome back, " + n + ".", "Ready for a quest, " + n + "?"][Math.floor(Math.random() * 3)];
+  }
+  function petTalk() {
+    if (petIsEgg()) { sfx("knock"); petSay(["*muffled chirp from inside*", "Grow to Level " + PET_STAGES[1].lv + " and I shall hatch!", "*knock knock* Is it time yet?"][Math.floor(Math.random() * 3)], 2800); petAct("act-wobble", 800); return; }
+    if (!petAwake()) { petSay("Zzz… (it is dreaming of thy deeds)", 2400); return; }
+    var li = levelInfo(state.xp), lines = [], md = petMood();
+    lines.push(md.line);
+    lines.push("Only " + (li.need - li.rem) + " XP more to Level " + (li.lv + 1) + "!");
+    var act = state.active.map(findQ).filter(Boolean);
+    if (act.length) {
+      var due = null; state.active.forEach(function (id) { var bt = state.boardTake[id]; if (bt && bt.due && (!due || bt.due < due)) due = bt.due; });
+      lines.push("Thou carriest " + act.length + (act.length === 1 ? " quest" : " quests") + "." + (due ? " The nearest is due by " + clockAt(due) + "!" : " Let us see it through!"));
+    } else lines.push("Thy hands are empty. The guild board has notices waiting!");
+    var left = mainQuests().filter(function (m) { return !mainIsDone(m.id); }).length;
+    if (left) lines.push(left + (left === 1 ? " decree" : " decrees") + " from the Crown remain this day.");
+    lines.push("I have " + Math.round(petFood()) + "% in my belly. " + (petFood() < 50 ? "A snack would be nice…" : "I am well fed!"));
+    sfx("chirp"); petAct("act-hop", 800);
+    petSay(lines[Math.floor(Math.random() * lines.length)], 3400);
+  }
+  function petLook(x, y) {
+    var el = petEl(); if (!el) return;
+    el.querySelectorAll(".pp").forEach(function (g) {
+      var r = +g.getAttribute("data-r") || 3, b = g.parentNode.getBoundingClientRect();
+      var cx = b.left + b.width / 2, cy = b.top + b.height / 2, dx = x - cx, dy = y - cy, d = Math.sqrt(dx * dx + dy * dy) || 1, k = Math.min(1, d / 120) * r * 0.32;
+      g.setAttribute("transform", "translate(" + (dx / d * k).toFixed(2) + " " + (dy / d * k).toFixed(2) + ")");
+    });
+  }
+  document.addEventListener("pointermove", function (e) {
+    if (!$("petModal").classList.contains("show")) return;
+    petLook(e.clientX, e.clientY);
+    if (pt.down) {
+      var dx = e.clientX - pt.down.x, dy = e.clientY - pt.down.y, d = Math.sqrt(dx * dx + dy * dy);
+      if (d > 6) pt.down.moved = true;
+      pt.rub += d; pt.down.x = e.clientX; pt.down.y = e.clientY;
+      if (pt.rub > 90) { pt.rub = 0; petStroke(); }
+    }
+  });
+  $("petModal").addEventListener("pointerdown", function (e) {
+    var st = e.target.closest && e.target.closest("#petLive"); if (!st) return;
+    pt.down = { x: e.clientX, y: e.clientY, moved: false }; pt.rub = 0; pt.busy = Date.now() + 1500;
+    try { st.setPointerCapture(e.pointerId); } catch (x) {}
+  });
+  document.addEventListener("pointerup", function (e) {
+    if (!pt.down) return; var was = pt.down; pt.down = null;
+    if (!was.moved && e.target.closest && e.target.closest("#petLive")) petTap();
+  });
+  document.addEventListener("pointercancel", function () { pt.down = null; });
+  // idle life: now and then it looks about or hops on its own
+  setInterval(function () {
+    if (!$("petModal").classList.contains("show") || Date.now() < pt.busy || pt.down) return;
+    if (Math.random() < 0.5) return;
+    var el = petEl(); if (!el) return;
+    if (petIsEgg()) { petAct("act-wobble", 800); return; }
+    if (!petAwake()) return;
+    var r = el.getBoundingClientRect(); petLook(r.left + Math.random() * r.width * 2 - r.width / 2, r.top + Math.random() * r.height);
+    if (Math.random() < 0.4) petAct(Math.random() < 0.5 ? "act-hop" : "act-wiggle", 850);
+  }, 3500);
   $("petBtn").addEventListener("click", function () { openPet(false); });
   $("petModal").addEventListener("click", function (e) {
-    if (e.target === this) { this.classList.remove("show"); return; }
+    if (e.target === this) { this.classList.remove("show"); if (pt.preview != null) { pt.preview = null; renderPet(); } return; }
     var t = e.target.closest("button"); if (!t) return;
-    if (t.hasAttribute("data-petclose")) this.classList.remove("show");
+    if (t.hasAttribute("data-petclose")) { this.classList.remove("show"); if (pt.preview != null) { pt.preview = null; renderPet(); } }
+    else if (t.dataset.pact) { var pa = t.dataset.pact; if (pa === "pet") { petStroke(); setTimeout(petStroke, 450); } else if (pa === "play") petPlay(); else petTalk(); }
+    else if (t.dataset.dye) {
+      var dk = +t.dataset.dye; if (state.pet.dyed || !PET_COLORS[dk]) return;
+      if (pt.preview !== dk) { pt.preview = dk; pt.busy = 0; openPet(true); sfx("paper"); setTimeout(function () { petSay("Ooh, " + PET_COLORS[dk].name + "!", 1600); petAct("act-spin", 1000); }, 50); return; }
+      state.pet.color = dk; state.pet.dyed = true; pt.preview = null; save(); pt.busy = 0; renderPet(); openPet(true); pushNow(); sfx("fanfare");
+      setTimeout(function () { petSay("I love my new feathers!", 2600); petHearts(5, "\u2728"); petAct("act-spin", 1000); }, 60);
+      toast(petName() + " is dyed " + PET_COLORS[dk].name + " for good.");
+    }
     else if (t.dataset.feed) { feedPet(t.dataset.feed); openPet(true); }
     else if (t.dataset.gear) gearTap(t.dataset.gear);
     else if (t.hasAttribute("data-petname")) {
