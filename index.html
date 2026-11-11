@@ -619,9 +619,279 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
 #gName:focus { outline: none; border-bottom-color: #7e1712; }
 .gate .jm-lab { text-align: center; }
 .g-note { margin: 14px 0 0; font-size: 14px; font-style: italic; color: #5a3f25; }
+/* ---------- notice-board papers (modelled on a tavern notice board) ---------- */
+.boards { display: grid; gap: 24px; min-width: 0; }
+.board-sign { background: linear-gradient(rgba(214,160,100,.42), rgba(160,105,55,.42)), var(--wood-img) -10px -517px / 1024px auto; }
+.board-sign h2 { color: #2a1408; text-shadow: 0 1px 0 rgba(255,225,180,.45), 0 -1px 0 rgba(0,0,0,.5); font-size: clamp(34px, 7vw, 48px); }
+.board-sign .meta { color: #2e1a0b; text-shadow: 0 1px 0 rgba(255,225,180,.35); }
+.main-board .plank { min-height: 0; }
+.notes { grid-template-columns: repeat(auto-fill, minmax(140px, 1fr)); gap: 26px 14px; }
+.note { min-height: 168px; padding: 16px 12px 12px; gap: 3px; color: #1e1006; }
+.note::before {
+  background:
+    radial-gradient(ellipse at 50% 45%, transparent 58%, rgba(90,40,8,.5) 100%),
+    linear-gradient(var(--tint, #f6e6c2), var(--tint, #f6e6c2)),
+    var(--parch-img) var(--px, 0) var(--py, 0) / 300px;
+  background-blend-mode: normal, multiply, normal;
+}
+.note.t-tan { --tint: #fff1d2; }
+.note.t-orange { --tint: #f7b465; }
+.note.t-ember { --tint: #ef8a3e; }
+.note.t-violet { --tint: #c6a8f2; }
+.note.t-yellow { --tint: #ffd85c; }
+.note.t-gold { --tint: #ffcf6a; }
+/* rolled scrolls: rectangular paper with wooden-looking rolls top and bottom */
+.note.p-scroll::before { clip-path: none; inset: 4px 0; }
+.note.p-scroll::after { display: none; }
+.note .roll { position: absolute; left: -7px; right: -7px; height: 16px; border-radius: 9px; z-index: 0;
+  background: linear-gradient(180deg, rgba(0,0,0,.25), transparent 35%, rgba(255,255,255,.35) 50%, transparent 65%, rgba(0,0,0,.35)), linear-gradient(var(--tint), var(--tint)), var(--parch-img) 0 0 / 200px;
+  background-blend-mode: normal, multiply, normal; box-shadow: 0 2px 3px rgba(0,0,0,.5); }
+.note .roll.rt { top: -4px; } .note .roll.rb { bottom: -4px; }
+.note.p-scroll { padding-top: 20px; padding-bottom: 16px; }
+/* headline like a real notice */
+.note .nhead { font-family: "IM Fell English SC", Georgia, serif; font-size: 19px; line-height: 1; color: #2a1408; letter-spacing: .02em; text-align: center; margin: 2px 0 3px; }
+.note.t-ember .nhead, .note.t-gold .nhead { font-family: var(--black); font-size: 30px; color: #7a0f08; text-shadow: 0 1px 0 rgba(255,220,170,.4); letter-spacing: 0; }
+.note.t-orange .nhead { font-size: 20px; letter-spacing: .05em; color: #3a1608; }
+.note.t-yellow .nhead { font-family: "IM Fell English", Georgia, serif; font-size: 22px; color: #2a1a06; }
+.note.t-yellow .nhead::first-letter { font-family: var(--black); font-size: 30px; color: #6a0d07; }
+.note.t-tan .nhead { font-family: "IM Fell English", Georgia, serif; font-style: italic; font-size: 21px; }
+.note.t-violet .nhead { font-family: "IM Fell English", Georgia, serif; font-style: italic; font-size: 22px; color: #2c1446; }
+.note .ncat { text-align: center; font-size: 12px; color: #4a2508; }
+.note .nt { text-align: center; font-size: 17px; line-height: 1.15; color: #170b03; }
+.note .ndate { text-align: center; font-size: 12.5px; color: #4a2508; }
+.note .nfoot { margin-top: auto; display: flex; justify-content: space-between; align-items: flex-end; gap: 6px; padding-top: 6px; }
+.note .nxp { margin: 0; padding: 0; font-size: 15px; color: #6a0d07; }
+.note .nxp s { color: #5a3a1a; font-size: 12px; }
+/* the seal now carries the difficulty: green Normal, red S-Class, purple SS-Class */
+.r-N { --seal: #4f8a33; --seal-dk: #1b3510; }
+.r-S { --seal: #b3281c; --seal-dk: #460806; }
+.r-SS { --seal: #7a3aa0; --seal-dk: #24082f; }
+.note .sealbox { position: relative; display: grid; justify-items: center; flex: none; }
+.note .wax { position: relative; right: auto; bottom: auto; top: auto; width: 40px; height: 39px; font-size: 14px; color: rgba(0,0,0,.42); text-shadow: 0 1px 0 rgba(255,255,255,.3); transform: rotate(-10deg); z-index: 2; }
+.note .wax.star { color: #fff3d0; text-shadow: 0 1px 1px rgba(0,0,0,.5); background: radial-gradient(circle at 36% 30%, rgba(255,255,255,.45), transparent 40%), radial-gradient(circle at 50% 50%, #d4a12f 35%, #7a1410 100%); }
+.note .nrib { margin-top: 1px; position: relative; z-index: 2; padding: 1px 6px 2px; font-family: "IM Fell English SC", Georgia, serif; font-size: 10.5px; letter-spacing: .04em; color: #fff4dc; white-space: nowrap;
+  background: linear-gradient(var(--seal), var(--seal-dk)); clip-path: polygon(0 0, 100% 0, 92% 50%, 100% 100%, 0 100%, 8% 50%); padding-left: 9px; padding-right: 9px; z-index: 1; }
+.note.qotd { width: min(100%, 300px); }
+.note.qotd .nt { font-size: 21px; }
+.note.done .stamp, .note.taken .stamp { z-index: 4; }
+.note.taken .stamp { right: 6px; top: 34px; }
+.qm-seal { color: rgba(0,0,0,.45); }
+.chk { display: flex !important; grid-auto-flow: column; align-items: center; gap: 8px; text-transform: none !important; letter-spacing: 0 !important; font-family: var(--body) !important; font-size: 15px !important; color: var(--text) !important; }
+.chk input { width: 18px; height: 18px; accent-color: #b98431; }
+@media (max-width: 380px) { .notes { grid-template-columns: repeat(2, 1fr); } }
+@media (max-width: 340px) { .notes { grid-template-columns: 1fr; } }
+
+.note.qotd.t-gold::before { background: radial-gradient(ellipse at 50% 45%, transparent 58%, rgba(90,40,8,.5) 100%), linear-gradient(var(--tint), var(--tint)), var(--parch-img) -100px -60px / 300px; background-blend-mode: normal, multiply, normal; }
+.notes { grid-template-columns: repeat(auto-fill, minmax(128px, 1fr)); }
+@media (max-width: 480px) {
+  .note { min-height: 176px; padding-left: 9px; padding-right: 9px; }
+  .note .nhead { font-size: 16px; }
+  .note.t-ember .nhead, .note.t-gold .nhead { font-size: 25px; }
+  .note.t-yellow .nhead, .note.t-violet .nhead, .note.t-tan .nhead { font-size: 18px; }
+  .note.t-yellow .nhead::first-letter { font-size: 24px; }
+  .note .nt { font-size: 15.5px; }
+  .note .ndate { font-size: 11.5px; }
+  .note .nxp { font-size: 13.5px; }
+  .note .wax { width: 34px; height: 33px; font-size: 12px; }
+  .note .nrib { font-size: 9.5px; padding-left: 7px; padding-right: 7px; }
+  .note.qotd .nt { font-size: 19px; }
+}
+@media (max-width: 480px) { .notes { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 10px; } }
+@media (max-width: 300px) { .notes { grid-template-columns: 1fr; } }
+
+/* ---------- aged paper: stains, foxing, folds, burnt edges, deeper shadow ---------- */
+:root { --age-img: url("data:image/jpeg;base64,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"); }
+.note { filter: drop-shadow(0 7px 5px rgba(0,0,0,.72)) drop-shadow(0 2px 1px rgba(0,0,0,.55)) drop-shadow(2px 12px 14px rgba(0,0,0,.35)); }
+.note.taken { filter: drop-shadow(0 0 3px rgba(240,200,110,.85)) drop-shadow(0 7px 5px rgba(0,0,0,.72)) drop-shadow(2px 12px 14px rgba(0,0,0,.35)); }
+.note.done { filter: drop-shadow(0 7px 5px rgba(0,0,0,.7)) grayscale(.6) brightness(.68); }
+.note.qotd { filter: drop-shadow(0 0 10px rgba(255,200,90,.4)) drop-shadow(0 8px 6px rgba(0,0,0,.75)) drop-shadow(2px 14px 16px rgba(0,0,0,.35)); }
+.note::before, .note.qotd.t-gold::before {
+  background:
+    radial-gradient(ellipse at 50% 45%, transparent 48%, rgba(80,36,6,.38) 82%, rgba(45,18,2,.72) 100%),
+    var(--age-img) var(--py, 0) var(--px, 0) / 320px,
+    linear-gradient(var(--tint, #f6e6c2), var(--tint, #f6e6c2)),
+    var(--parch-img) var(--px, 0) var(--py, 0) / 300px;
+  background-blend-mode: normal, multiply, multiply, normal;
+}
+.note.t-tan { --tint: #f1dcb2; }
+.note.t-orange { --tint: #e9a85c; }
+.note.t-ember { --tint: #e08139; }
+.note.t-violet { --tint: #bba0dc; }
+.note.t-yellow { --tint: #f0cc62; }
+.note.t-gold { --tint: #f2c468; }
+/* fold creases + pin hole stain */
+.note::after {
+  background:
+    radial-gradient(circle at 50% 13px, rgba(60,35,15,.45) 0 6px, transparent 11px),
+    linear-gradient(var(--age, 0deg), transparent 49.2%, rgba(70,35,8,.22) 49.6%, rgba(255,240,210,.22) 50.4%, transparent 50.9%),
+    linear-gradient(calc(var(--age, 0deg) + 90deg), transparent 63.5%, rgba(70,35,8,.14) 64%, rgba(255,240,210,.14) 64.6%, transparent 65%);
+}
+.note.p-scroll::after { display: block; inset: 4px 0; clip-path: none;
+  background: linear-gradient(90deg, rgba(60,25,4,.28), transparent 9%, transparent 91%, rgba(60,25,4,.28)),
+    linear-gradient(calc(var(--age, 0deg) + 90deg), transparent 49.3%, rgba(70,35,8,.18) 49.7%, rgba(255,240,210,.18) 50.3%, transparent 50.8%); }
+.note .roll { background: linear-gradient(180deg, rgba(0,0,0,.3), transparent 35%, rgba(255,255,255,.28) 50%, transparent 65%, rgba(0,0,0,.42)), var(--age-img) 0 0 / 320px, linear-gradient(var(--tint), var(--tint)), var(--parch-img) 0 0 / 200px;
+  background-blend-mode: normal, multiply, multiply, normal; }
+.note .nt, .note .nhead { text-shadow: 0 0 .5px rgba(30,15,5,.6); }
+.qm-paper::before { background: radial-gradient(ellipse at 50% 45%, transparent 50%, rgba(80,36,6,.5) 100%), var(--age-img) 0 0 / 320px, var(--parch-img) 0 0 / 360px; background-blend-mode: normal, multiply, normal; }
+
+/* step progress on the board */
+.note .nsteps { display: flex; justify-content: center; align-items: center; gap: 4px; margin-top: 3px; }
+.note .nsteps i { width: 11px; height: 11px; border: 1.5px solid rgba(60,30,8,.75); border-radius: 2px; background: rgba(255,245,220,.35); position: relative; }
+.note .nsteps i.on { background: #6a0d07; border-color: #6a0d07; }
+.note .nsteps i.on::after { content: ""; position: absolute; left: 2.5px; top: -1px; width: 3px; height: 6px; border: solid #ffe9c0; border-width: 0 1.6px 1.6px 0; transform: rotate(45deg); }
+.note .nsteps b { font-weight: 400; font-family: "IM Fell English SC", Georgia, serif; font-size: 12px; color: #4a2508; margin-left: 2px; }
+
+/* checklist in the popup */
+.qm-steps { margin: 0 0 14px; padding: 10px 12px 10px; border: 1px dashed rgba(43,27,16,.45); border-radius: 2px; background: rgba(255,248,225,.25); text-align: left; }
+.qm-steps > span { display: block; font-family: "IM Fell English SC", Georgia, serif; font-size: 13px; letter-spacing: .1em; color: #6b4a2a; margin-bottom: 4px; text-align: center; }
+.qm-steps ul { list-style: none; margin: 0; padding: 0; }
+.qm-steps li { border-bottom: 1px dotted rgba(43,27,16,.3); }
+.qm-steps li:last-child { border-bottom: 0; }
+.qm-steps label { display: flex; align-items: center; gap: 10px; padding: 8px 2px; cursor: pointer; font-size: 18px; color: #22160c; }
+.qm-steps input { position: absolute; opacity: 0; width: 1px; height: 1px; }
+.qm-steps em { flex: none; width: 22px; height: 22px; border: 2px solid #4a2f16; border-radius: 3px; background: rgba(255,250,235,.55); position: relative; }
+.qm-steps li.on em { background: #8c1712; border-color: #5a0c08; }
+.qm-steps li.on em::after { content: ""; position: absolute; left: 6px; top: 1px; width: 6px; height: 12px; border: solid #fff1d0; border-width: 0 2.5px 2.5px 0; transform: rotate(45deg); }
+.qm-steps li.on span { text-decoration: line-through; text-decoration-color: rgba(140,23,18,.7); color: #5a3f25; }
+.qm-steps input:focus-visible + em { outline: 2px solid #b98431; outline-offset: 2px; }
+.qm-steps input:disabled + em { opacity: .7; }
+.qm-lock { margin: 8px 0 0; text-align: center; font-size: 15px; font-style: italic; color: #7a1410; }
+.qm-acts .btn:disabled { opacity: .45; filter: grayscale(.5); cursor: not-allowed; }
+.qm-two { display: flex; justify-content: center; gap: 18px; flex-wrap: wrap; }
+
+/* main quest decree form */
+.add-main { display: block; margin: 14px auto 2px; }
+.me-lead { margin: 0 0 12px; font-size: 16px; font-style: italic; color: #4e3620; }
+.me-form { display: grid; gap: 10px; text-align: left; }
+.me-form label { display: grid; gap: 4px; font-family: "IM Fell English SC", Georgia, serif; font-size: 14px; letter-spacing: .06em; color: #4a2f16; }
+.me-form input, .me-form textarea, .me-form select { font: 17px "IM Fell English", Georgia, serif; color: #1e1006; background: rgba(255,250,235,.55); border: 1px solid rgba(43,27,16,.45); border-radius: 2px; padding: 7px 9px; width: 100%; box-sizing: border-box; }
+.me-form input:focus, .me-form textarea:focus, .me-form select:focus { outline: 2px solid #b98431; outline-offset: 0; }
+.me-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+.me-steps-lab { font-family: "IM Fell English SC", Georgia, serif; font-size: 14px; letter-spacing: .06em; color: #4a2f16; margin-top: 2px; }
+#meSteps { display: grid; gap: 6px; }
+.me-step { display: flex; align-items: center; gap: 8px; }
+.me-dot { flex: none; width: 8px; height: 8px; border-radius: 50%; background: #6a0d07; }
+.me-x { flex: none; width: 34px; height: 34px; border: 1px solid rgba(43,27,16,.4); border-radius: 2px; background: rgba(140,23,18,.08); color: #8c1712; font-size: 22px; line-height: 1; }
+.me-add { justify-self: start; background: none; border: 1px dashed rgba(43,27,16,.55); border-radius: 2px; padding: 6px 12px; font: 16px "IM Fell English SC", Georgia, serif; color: #4a2f16; }
+.me-form .qm-acts { margin-top: 6px; }
+.restore-main { display: block; margin: 8px auto 0; background: none; border: 0; font: 15px "IM Fell English SC", Georgia, serif; letter-spacing: .04em; color: #f0d9a6; text-decoration: underline; }
+
+/* ---------- achievements list: buttons + Hall of Honors ---------- */
+button.ach { width: 100%; text-align: left; font: inherit; color: inherit; cursor: pointer; transition: border-color .15s, background .15s; }
+button.ach:hover, button.ach:focus-visible { border-color: rgba(214,162,74,.8); background: rgba(214,162,74,.12); }
+.ach.gen .medal { box-shadow: 0 0 0 2px rgba(80,120,200,.5); }
+.ach-btns { display: flex; gap: 8px; flex-wrap: wrap; margin-top: 10px; }
+.ach-btns .btn { flex: 1 1 auto; }
+.ach-btns [hidden] { display: none; }
+
+.hall-modal { background: rgba(18,22,38,.62); z-index: 16; }
+.hall { position: relative; width: 100%; max-width: 760px; max-height: calc(100vh - 28px); overflow-y: auto; padding: 22px 16px 28px; border-radius: 4px; color: #1f2a44;
+  background:
+    radial-gradient(ellipse at 50% -10%, rgba(255,255,255,.95), rgba(255,255,255,0) 55%),
+    repeating-linear-gradient(45deg, rgba(201,162,74,.07) 0 1px, transparent 1px 22px),
+    repeating-linear-gradient(-45deg, rgba(201,162,74,.07) 0 1px, transparent 1px 22px),
+    linear-gradient(#fbf7ec, #efe6cf);
+  border: 3px solid #c9a24a; box-shadow: inset 0 0 0 5px #fbf7ec, inset 0 0 0 6px rgba(201,162,74,.8), 0 26px 60px rgba(0,0,0,.6);
+  animation: unroll .28s ease-out; }
+.hall-x { position: absolute; right: 10px; top: 6px; z-index: 3; background: none; border: 0; font-size: 34px; line-height: 1; color: #1d2f5e; cursor: pointer; }
+.hall-crown { width: 76px; margin: 2px auto 0; filter: drop-shadow(0 2px 2px rgba(120,90,20,.35)); }
+.hall-crown.sm { width: 54px; margin: 6px auto 4px; }
+.hall-crown svg { display: block; width: 100%; height: auto; }
+.hall h2 { margin: 2px 0 2px; text-align: center; border: 0; padding: 0; font-family: "IM Fell English SC", Georgia, serif; font-weight: 400; font-size: clamp(30px, 7vw, 42px); letter-spacing: .04em; color: #1d2f5e; text-shadow: 0 1px 0 #fff; }
+.hall-sub { margin: 0 0 6px; text-align: center; font-style: italic; font-size: 16px; color: #6a5730; }
+.hall-sec { display: flex; align-items: center; gap: 12px; margin: 18px 0 12px; font-family: "IM Fell English SC", Georgia, serif; font-size: 15px; letter-spacing: .14em; color: #8a6416; }
+.hall-sec::before, .hall-sec::after { content: ""; flex: 1; height: 1px; background: linear-gradient(90deg, transparent, #c9a24a, transparent); }
+.hall-note { margin: -6px 0 12px; text-align: center; font-size: 14px; font-style: italic; color: #6b6a80; }
+.hall-empty { text-align: center; font-style: italic; color: #6a5730; font-size: 16px; }
+.hall-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(156px, 1fr)); gap: 22px 14px; padding-top: 6px; }
+.rp { position: relative; display: grid; justify-items: center; align-content: start; gap: 4px; padding: 24px 10px 14px; text-align: center; cursor: pointer;
+  font-family: "IM Fell English", Georgia, serif; color: #1f2a44; border: 1px solid #d9c38e; border-radius: 2px;
+  background: radial-gradient(ellipse at 50% 0%, #fff, rgba(255,255,255,0) 70%), linear-gradient(#fffdf8, #f7eedb);
+  box-shadow: inset 0 0 0 3px #fffdf8, inset 0 0 0 4px rgba(201,162,74,.65), 0 6px 14px rgba(60,45,10,.16);
+  transition: transform .15s, box-shadow .15s; }
+.rp:hover, .rp:focus-visible { transform: translateY(-3px); box-shadow: inset 0 0 0 3px #fffdf8, inset 0 0 0 4px rgba(201,162,74,.9), 0 10px 20px rgba(60,45,10,.22); outline: none; }
+.rp-rib { position: absolute; top: -9px; left: 50%; transform: translateX(-50%); white-space: nowrap; padding: 3px 14px 4px; font: 11px "IM Fell English SC", Georgia, serif; letter-spacing: .1em; color: #f6e3a4;
+  background: linear-gradient(#3a5ea8, #1d2f5e); clip-path: polygon(0 0, 100% 0, 94% 50%, 100% 100%, 0 100%, 6% 50%); }
+.rp-pic, .rp-bigpic { position: relative; display: grid; place-items: center; overflow: hidden; border-radius: 50%; border: 3px solid #c9a24a;
+  box-shadow: 0 0 0 3px #fffdf8, 0 0 0 4px #c9a24a, 0 5px 10px rgba(0,0,0,.18);
+  background: radial-gradient(circle at 35% 30%, #fff6d8, #e7c66e 45%, #a87a22 100%); }
+.rp-pic { width: 92px; height: 92px; margin: 6px 0 6px; }
+.rp-bigpic { width: min(240px, 70vw); height: min(240px, 70vw); margin: 4px auto 6px; }
+.rp-bigpic:not(.nopic) { width: 100%; max-width: 380px; height: auto; aspect-ratio: 4 / 3; border-radius: 3px; border: 4px double #c9a24a; box-shadow: 0 0 0 3px #fffdf8, 0 6px 16px rgba(0,0,0,.22); background: #efe6cf; }
+.rp-job { font-size: 13.5px; line-height: 1.2; color: #3b4462; font-style: italic; }
+.rp-pic img, .rp-bigpic img { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; }
+.rp-pic em, .rp-bigpic em { font: normal 40px "IM Fell English SC", Georgia, serif; color: #5a3d08; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
+.rp-bigpic em { font-size: 84px; }
+.rp-pic:not(.nopic) em, .rp-bigpic:not(.nopic) em { visibility: hidden; }
+.rp-name { font-weight: 400; font-size: 18px; line-height: 1.15; color: #1d2f5e; }
+.rp-title { font-size: 14.5px; color: #8a6416; }
+.rp-date { font-size: 12.5px; line-height: 1.25; color: #6b6a80; }
+.rp-bar { display: block; width: 86%; height: 7px; margin: 4px auto 0; border-radius: 4px; background: #e8dfc8; border: 1px solid #d3c294; overflow: hidden; }
+.rp-bar i { display: block; height: 100%; background: linear-gradient(90deg, #c9a24a, #f0d48a); }
+.rp-bar.big { width: 70%; height: 10px; }
+.rp.locked { background: linear-gradient(#f7f4ec, #ebe5d6); }
+.rp.locked .rp-pic { filter: grayscale(.9) brightness(1.08); opacity: .7; }
+.rp.locked .rp-rib { background: linear-gradient(#8a93a8, #5c6478); color: #f2f2f2; }
+.rp.locked .rp-name { color: #4a5068; }
+.hall-back { display: block; margin: 0 0 14px; background: none; border: 0; font: 16px "IM Fell English SC", Georgia, serif; letter-spacing: .05em; color: #1d2f5e; text-decoration: underline; cursor: pointer; }
+.rp-big { position: relative; max-width: 470px; margin: 8px auto 0; padding: 26px 18px 22px; text-align: center; border: 1px solid #d9c38e; border-radius: 2px;
+  background: radial-gradient(ellipse at 50% 0%, #fff, rgba(255,255,255,0) 70%), linear-gradient(#fffdf8, #f6ecd6);
+  box-shadow: inset 0 0 0 4px #fffdf8, inset 0 0 0 5px rgba(201,162,74,.75), 0 10px 26px rgba(60,45,10,.2); }
+.rp-big .rp-rib { top: -10px; font-size: 12.5px; padding: 4px 18px 5px; }
+.rp-big h3 { margin: 6px 0 2px; font-family: "IM Fell English", Georgia, serif; font-weight: 400; font-size: 27px; line-height: 1.15; color: #1d2f5e; }
+.rp-ttl { display: inline-block; margin: 2px 0 8px; padding: 3px 16px 4px; font: italic 16px "IM Fell English", Georgia, serif; color: #f6e3a4; background: linear-gradient(#3a5ea8, #1d2f5e); clip-path: polygon(0 0, 100% 0, 96% 50%, 100% 100%, 0 100%, 4% 50%); }
+.rp-desc { margin: 0 0 12px; font-size: 16px; color: #3b4462; }
+.rp-cap { margin: 0 0 4px; font-size: 13.5px; font-style: italic; color: #6b6a80; }
+.hall-tale { margin: 0 0 14px; padding: 12px 14px; text-align: left; border-left: 3px solid #c9a24a; background: rgba(255,255,255,.65); box-shadow: 0 1px 3px rgba(60,45,10,.08); }
+.hall-tale span { display: block; margin-bottom: 4px; font: 13px "IM Fell English SC", Georgia, serif; letter-spacing: .12em; color: #8a6416; }
+.hall-tale p { margin: 0; font-style: italic; font-size: 17px; line-height: 1.4; color: #2b3350; }
+.rp-big.locked .hall-tale p { color: #6b6a80; }
+.rp-big.locked .rp-bigpic { filter: grayscale(.9) brightness(1.08); opacity: .7; }
+.rp-when { margin: 6px 0 10px; font-size: 14.5px; color: #6b6a80; font-style: italic; }
+.rp-bear { margin: 0; font: 16px "IM Fell English SC", Georgia, serif; letter-spacing: .06em; color: #8a6416; }
+.hall-btn { padding: 9px 22px; font: 17px "IM Fell English SC", Georgia, serif; letter-spacing: .05em; color: #f7e3a6; cursor: pointer;
+  background: linear-gradient(#3a5ea8, #1d2f5e); border: 1px solid #c9a24a; border-radius: 3px; box-shadow: 0 3px 8px rgba(29,47,94,.35); }
+@media (max-width: 480px) {
+  .hall { padding: 18px 10px 22px; }
+  .hall-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 20px 10px; }
+  .rp-pic { width: 78px; height: 78px; }
+  .rp-name { font-size: 16px; }
+}
+
+/* ---------- intro film ---------- */
+html.intro-lock, html.intro-lock body { overflow: hidden; }
+.intro { position: fixed; inset: 0; z-index: 200; overflow: hidden; background: radial-gradient(ellipse at 50% 50%, #1a120b, #000 70%); transition: opacity .6s ease; }
+.intro.out { opacity: 0; pointer-events: none; }
+.intro-stage { position: absolute; left: 50%; top: 50%; transform: translate(-50%, -50%); width: min(175vw, 177.78vh); aspect-ratio: 16 / 9; }
+.intro-stage video { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: #000; }
+.intro-title { position: absolute; inset: 0; display: grid; place-content: center; justify-items: center; gap: .6vmin; text-align: center; opacity: 0; transform: scale(.94); transition: opacity 1.1s ease, transform 1.6s ease; pointer-events: none;
+  --u: calc(min(175vw, 177.78vh) / 100); }
+.intro-title.show { opacity: 1; transform: none; }
+.it-emb { width: calc(var(--u) * 13); height: calc(var(--u) * 13); border-radius: 50%; box-shadow: 0 0 0 calc(var(--u) * .5) rgba(201,162,74,.85), 0 calc(var(--u) * 1) calc(var(--u) * 3) rgba(30,20,10,.45); }
+.it-name { margin-top: calc(var(--u) * 1.4); font-family: "IM Fell English SC", Georgia, serif; font-size: calc(var(--u) * 6.4); line-height: 1; letter-spacing: .04em; color: #2a1a0c; text-shadow: 0 1px 0 rgba(255,255,255,.6); }
+.it-sub { font-family: "IM Fell English", Georgia, serif; font-style: italic; font-size: calc(var(--u) * 2.4); color: #5a4026; }
+.intro-skip, .intro-sound, .intro-play { position: absolute; z-index: 2; font-family: "IM Fell English SC", Georgia, serif; letter-spacing: .06em; cursor: pointer; border-radius: 3px; }
+.intro-skip { right: max(14px, env(safe-area-inset-right)); bottom: max(18px, env(safe-area-inset-bottom)); padding: 9px 18px; font-size: 18px; color: #f3e2b8; background: rgba(20,14,8,.55); border: 1px solid rgba(214,162,74,.7); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+.intro-sound { left: max(14px, env(safe-area-inset-left)); bottom: max(18px, env(safe-area-inset-bottom)); padding: 9px 16px; font-size: 17px; color: #f3e2b8; background: rgba(20,14,8,.55); border: 1px solid rgba(214,162,74,.45); animation: introPulse 1.8s ease-in-out infinite; }
+.intro-sound[hidden], .intro-play[hidden] { display: none; }
+.intro-play { left: 50%; top: 50%; transform: translate(-50%, -50%); padding: 14px 26px; font-size: 22px; color: #2a1a0c; background: linear-gradient(#f3d48a, #c9a24a); border: 1px solid #8a6416; box-shadow: 0 6px 20px rgba(0,0,0,.6); }
+@keyframes introPulse { 50% { box-shadow: 0 0 0 6px rgba(214,162,74,.18); } }
 </style>
 </head>
 <body>
+<div class="intro" id="intro" role="dialog" aria-label="Intro">
+  <div class="intro-stage">
+    <video id="introVid" src="intro.mp4" playsinline webkit-playsinline muted autoplay preload="auto"></video>
+    <div class="intro-title" id="introTitle" aria-hidden="true">
+      <img class="it-emb" id="introEmb" alt="">
+      <div class="it-name">Sidequest Board</div>
+      <div class="it-sub">The guild awaits, adventurer</div>
+    </div>
+  </div>
+  <button class="intro-sound" id="introSound" type="button">&#128264; Tap for sound</button>
+  <button class="intro-play" id="introPlay" type="button" hidden>&#9654; Play the intro</button>
+  <button class="intro-skip" id="introSkip" type="button">Skip &rsaquo;</button>
+</div>
 <div class="backdrop" aria-hidden="true"></div><div class="fog" aria-hidden="true"></div>
 <div class="wrap">
 
@@ -680,9 +950,19 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
   </section>
 
   <div class="main">
+   <div class="boards">
+    <section class="board main-board iron stone-bg" aria-labelledby="mainTitle">
+      <div class="board-sign">
+        <h2 id="mainTitle">Main Quests</h2>
+        <div class="meta" id="mainMeta"></div>
+      </div>
+      <div class="plank" id="mainQuests"></div>
+      <button class="btn wax give add-main" type="button" data-mnew>+ Add a main quest</button>
+    </section>
+
     <section class="board iron stone-bg" aria-labelledby="boardTitle">
       <div class="board-sign">
-        <h2 id="boardTitle">Job Request Board</h2>
+        <h2 id="boardTitle">Side Quests</h2>
         <div class="meta" id="boardMeta">Tap a request to read it.</div>
       </div>
       <div class="board-tools tear3">
@@ -694,6 +974,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
       </div>
       <div class="plank" id="quests"></div>
     </section>
+   </div>
 
     <aside class="side">
       <section class="scroll iron stone-bg" aria-labelledby="partyTitle">
@@ -724,7 +1005,10 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
           <select id="honorSel"></select>
         </label>
         <div class="ach-grid" id="achGrid"></div>
-        <button class="btn small ghost" id="achAll" type="button" style="margin-top:10px"></button>
+        <div class="ach-btns">
+          <button class="btn small ghost" id="achAll" type="button"></button>
+          <button class="btn small gold" id="hallBtn" type="button">Open the Hall of Honors</button>
+        </div>
       </section>
 
       <section class="scroll iron stone-bg" aria-labelledby="addTitle">
@@ -802,6 +1086,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     <div class="qm-acts"><button class="btn gold" id="cmOk" type="button" disabled>Seal it</button><button class="btn ghost" type="button" data-cclose>Not yet</button></div>
   </div>
 </div>
+<div class="qmodal hall-modal" id="hmodal" role="dialog" aria-modal="true" aria-labelledby="hallTitle"><div class="hall" id="hall"></div></div>
 <div class="qmodal" id="pmodal" role="dialog" aria-modal="true" aria-labelledby="pmTitle"><div class="qm-paper pm-paper" id="pmPaper"></div></div>
 <div class="qmodal" id="amodal" role="dialog" aria-modal="true" aria-labelledby="amTitle">
   <div class="qm-paper am-paper">
@@ -925,7 +1210,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
   function fresh() {
     return { name: "Adventurer", xp: 0, total: 0, active: [], today: { d: todayKey(), ids: [] }, log: [], days: [], custom: [], posted: [], postedAt: {},
       stats: { cats: {}, ranks: {}, ids: {}, qotd: 0, boss: 0, best: 0 }, badges: {}, honor: "", journal: [], boss: null,
-      settings: { sfx: true, music: false }, avatar: "p:hunter", seed: newSeed(), qotdShown: "", takenAt: {}, forfeit: { n: 0, xp: 0 }, updatedAt: 0 };
+      settings: { sfx: true, music: false }, avatar: "p:hunter", seed: newSeed(), qotdShown: "", takenAt: {}, forfeit: { n: 0, xp: 0 }, mainCustom: [], mainBonus: "", mainChecks: { d: "", c: {} }, mainHidden: [], updatedAt: 0 };
   }
   function newSeed() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
   function todayKey(dt) { var d = dt || new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
@@ -955,6 +1240,18 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     if (typeof s.qotdShown !== "string") s.qotdShown = "";
     if (!s.takenAt || typeof s.takenAt !== "object" || Array.isArray(s.takenAt)) s.takenAt = {};
     if (!s.forfeit || typeof s.forfeit !== "object") s.forfeit = { n: 0, xp: 0 };
+    if (!Array.isArray(s.mainCustom)) s.mainCustom = [];
+    s.mainCustom = s.mainCustom.filter(function (m) { return m && typeof m.id === "string" && typeof m.title === "string"; });
+    s.mainCustom.forEach(function (m) {
+      m.main = true; m.custom = true;
+      if (CATS.indexOf(m.cat) < 0) m.cat = "Spirit";
+      if (!XP[m.rank]) m.rank = "N";
+      m.steps = Array.isArray(m.steps) ? m.steps.filter(function (x) { return typeof x === "string" && x.trim(); }).slice(0, 10) : [];
+    });
+    if (!s.mainChecks || typeof s.mainChecks !== "object" || typeof s.mainChecks.c !== "object" || !s.mainChecks.c) s.mainChecks = { d: "", c: {} };
+    if (!Array.isArray(s.mainHidden)) s.mainHidden = [];
+    if (typeof s.mainBonus !== "string") s.mainBonus = "";
+    if (typeof s.stats.mainDays !== "number") s.stats.mainDays = 0;
     s.log.forEach(function (l, i) { if (!l.k) l.k = "o" + i + "-" + (l.d || "") ; });
     s.custom.forEach(function (q) {
       if (OLD_CAT[q.cat]) q.cat = OLD_CAT[q.cat];
@@ -983,8 +1280,57 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     var ago = days === 0 ? "this very day" : days === 1 ? "since yesterday" : days === 7 ? "a week past" : days === 14 ? "a fortnight past" : days + " days past";
     return { date: date, full: full, days: days, ago: ago };
   }
+  var MAIN = [
+    { id: "mq-train", main: true, title: "Train the body", cat: "Body", rank: "S",
+      desc: "Work out for at least 30 minutes: gym, home workout, a run, or a sport.",
+      steps: ["Warm up", "Workout, 30 minutes or more", "Stretch and cool down"],
+      story: "The captain of the watch inspects the ranks at dusk. Soft arms don't hold a shield wall, so every soldier of the guild trains, every single day." },
+    { id: "mq-meals", main: true, title: "Eat three proper meals", cat: "Body", rank: "N",
+      desc: "Breakfast, lunch and dinner. Real food, not just snacks or coffee. Check each meal after you eat it.",
+      steps: ["1st meal (breakfast)", "2nd meal (lunch)", "3rd meal (dinner)"],
+      story: "The guild cook has seen too many adventurers faint on the road. By her order, no one leaves the hall without three square meals in their belly." },
+    { id: "mq-rest", main: true, title: "Rest by 22:00", cat: "Spirit", rank: "S", after: 20,
+      desc: "Be in bed with the lights out by 10 PM, phone away. Seal it when you head to bed.",
+      steps: ["Phone away", "Lights out, in bed by 22:00"],
+      story: "By royal decree the town gates close at the tenth bell. Those who rest well ride out strongest at dawn; those who don't, the road remembers." }
+  ];
+  var MAIN_BONUS = 20;
+  function mainQuests() { var h = state.mainHidden || []; return MAIN.filter(function (m) { return h.indexOf(m.id) < 0; }).concat(state.mainCustom || []); }
+  function askRemoveMain(id) {
+    var q = findQ(id); if (!q || !q.main) return;
+    cm.mode = "mremove"; cm.word = "remove"; cm.id = id;
+    $("cmKick").textContent = "Remove a Main Quest"; $("cmTitle").textContent = q.title;
+    $("cmLead").innerHTML = "This takes the decree off your Main Quests board. Type <b>remove</b> to confirm.";
+    $("cmWarn").hidden = false;
+    $("cmWarn").textContent = q.custom ? "Your own main quest will be gone for good, steps included. XP you already earned stays." : "You can bring it back anytime with “Bring back removed main quests” under the board. XP you already earned stays.";
+    $("cmOk").textContent = "Remove it"; $("cmOk").className = "btn wax";
+    $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type remove to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
+    $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
+  }
+  function removeMain(id) {
+    var q = findQ(id); if (!q || !q.main) return;
+    if (state.mainChecks && state.mainChecks.c) delete state.mainChecks.c[id];
+    if (q.custom) state.mainCustom = state.mainCustom.filter(function (m) { return m.id !== id; });
+    else if (state.mainHidden.indexOf(id) < 0) state.mainHidden.push(id);
+    save(); render(); sfx("paper"); toast("“" + q.title + "” is off the board.");
+  }
+  function checksFor(id) {
+    if (!state.mainChecks || state.mainChecks.d !== todayKey()) state.mainChecks = { d: todayKey(), c: {} };
+    return state.mainChecks.c[id] || [];
+  }
+  function stepsLeft(q) {
+    if (!q.steps || !q.steps.length) return 0;
+    var c = checksFor(q.id); return q.steps.filter(function (s, i) { return c.indexOf(i) < 0; }).length;
+  }
+  function toggleStep(id, i) {
+    var q = findQ(id); if (!q || !q.steps || state.today.ids.indexOf(id) >= 0) return;
+    var c = checksFor(id).slice(), at = c.indexOf(i);
+    if (at >= 0) c.splice(at, 1); else c.push(i);
+    state.mainChecks.c[id] = c; save(); render();
+    if (at < 0) { sfx("pin"); if (!stepsLeft(q)) toast("Every step is checked. You may seal it now."); }
+  }
   function allQuests() { return BASE.concat(state.custom); }
-  function findQ(id) { var a = allQuests(); for (var i = 0; i < a.length; i++) if (a[i].id === id) return a[i]; return null; }
+  function findQ(id) { var a = allQuests().concat(MAIN, state.mainCustom || []); for (var i = 0; i < a.length; i++) if (a[i].id === id) return a[i]; return null; }
 
   function levelInfo(xp) {
     var lv = 1, need = 100, rem = xp;
@@ -1066,18 +1412,138 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     { id: "warlord", name: "Warlord", title: "the Warlord", goal: 5, desc: "Defeat 5 weekly bosses.", get: function () { return state.stats.boss || 0; } },
     { id: "chronicler", name: "Chronicler", title: "the Chronicler", goal: 10, desc: "Write 10 pages in your journal.", get: journalCount },
     { id: "centurion", name: "Centurion", title: "the Centurion", goal: 100, desc: "Complete 100 jobs.", get: function () { return state.total; } },
-    { id: "honest", name: "Honest Soul", title: "the Honest", goal: 1, desc: "Forfeit XP from a deed you didn't truly finish.", get: function () { return state.forfeit.n; } }
+    { id: "honest", name: "Honest Soul", title: "the Honest", goal: 1, desc: "Forfeit XP from a deed you didn't truly finish.", get: function () { return state.forfeit.n; } },
+    { id: "loyal", name: "Loyal Subject", title: "the Loyal", goal: 7, desc: "Finish every main quest on 7 different days.", get: function () { return state.stats.mainDays || 0; } }
   ];
+  var ACH_TALE = {
+    initiate: "Every legend in the guild hall began the same way: one job, one seal, one nervous signature in the ledger. Yours is written now, and the ink is dry.",
+    wayfarer: "Five roads walked by your own choice. The innkeepers along the way have started to nod when you pass, as if they expect you back.",
+    pathfinder: "Twenty journeys, and the map-makers now ask you which paths are worth drawing. Where you go, others follow.",
+    riser: "Three dawns watched from three new places. The night watch swears you rise before the sun just to judge whether it's doing its job.",
+    fartraveler: "The long ride, the solo day trip and the hill. Few adventurers finish all three; fewer still come back smiling.",
+    ironwill: "Seven days without a broken link. The blacksmith says a chain is only as strong as its weakest day, and you had none.",
+    unbroken: "Thirty days. The bards stopped counting and started composing. Even the rain gave up trying to stop you.",
+    ironhide: "Fifteen trials of the body. The drill sergeant no longer shouts your name; he simply points at you when he needs an example.",
+    sage: "Fifteen lessons learned. The old librarian now leaves the good books on the front shelf, just for you.",
+    hearth: "Fifteen chores turned into deeds. Your hearth is warm, your floor is swept, and the house spirits finally approve.",
+    friend: "Fifteen kindnesses. The baker saves you the crusty end, the children wave, and the village knows your name for good reasons.",
+    artisan: "Fifteen things made by your own hands. The guild hung one of them by the door, where every visitor can see it.",
+    monk: "Fifteen quiet victories of the spirit. The shrine keeper says your candle burns steadier than most.",
+    proven: "Ten S-Class contracts done. The guild master stamped your card twice, just to be sure everyone notices.",
+    dragonheart: "Ten SS-Class bounties. Somewhere a dragon heard your name and decided to nap a little longer.",
+    chosen: "Seven times the board chose you, and seven times you answered. Fortune favours the one who shows up.",
+    slayer: "The weekly beast fell to your hand. Its head would hang over the tavern fire, if the cook allowed it.",
+    warlord: "Five beasts brought low. The townsfolk sleep easier, and the beasts, wherever they hide, sleep worse.",
+    chronicler: "Ten pages written in your own hand. A hundred years from now, someone will read them and wish they'd known you.",
+    centurion: "One hundred deeds. They gave you a red cloak and a seat near the fire. You earned both.",
+    honest: "You gave back what wasn't truly yours. In a guild that runs on honor, that is worth more than any bounty.",
+    loyal: "Seven days of every royal order done. The Crown has added your name to the short list of subjects it never worries about."
+  };
+  var ACH_PIC = { wayfarer: { cat: "Adventure" }, pathfinder: { cat: "Adventure" }, riser: { qids: ["ja05"] }, fartraveler: { qids: ["ja08", "ja09", "ja10"] },
+    ironhide: { cat: "Body" }, sage: { cat: "Mind" }, hearth: { cat: "Home" }, friend: { cat: "Social" }, artisan: { cat: "Creative" }, monk: { cat: "Spirit" },
+    proven: { rank: "S" }, dragonheart: { rank: "SS" }, loyal: { main: true } };
+  ACH.forEach(function (a) { a.tale = ACH_TALE[a.id] || ""; a.kind = "Royal Honor"; var pc = ACH_PIC[a.id]; if (pc) for (var k in pc) a[k] = pc[k]; });
   var ACHMAP = {}; ACH.forEach(function (a) { ACHMAP[a.id] = a; });
-  function badgeCount() { return ACH.filter(function (a) { return state.badges[a.id]; }).length; }
-  function honorText() { var a = ACHMAP[state.honor]; return a && state.badges[a.id] ? a.title : ""; }
+
+  /* ---------- endless honors: new ones appear as old ones are won, and from the jobs you keep doing ---------- */
+  function roman(n) { var r = "", v = [[10, "X"], [9, "IX"], [5, "V"], [4, "IV"], [1, "I"]]; v.forEach(function (p) { while (n >= p[0]) { r += p[1]; n -= p[0]; } }); return r; }
+  var CAT_HONOR = {
+    Adventure: { after: "pathfinder", base: "Pathfinder", title: "the Pathfinder", line: "The roads have learned your footsteps, and the horizon keeps moving back to make room for you." },
+    Body: { after: "ironhide", base: "Ironhide", title: "Ironhide", line: "The training yard has worn a groove where you stand. Shields dent; you don't." },
+    Mind: { after: "sage", base: "Sage", title: "the Sage", line: "The scribes have run out of shelf space for the things you've learned." },
+    Home: { after: "hearth", base: "Hearthkeeper", title: "the Hearthkeeper", line: "Your hall is the cleanest in the realm. Even the royal steward came to take notes." },
+    Social: { after: "friend", base: "Friend of the Village", title: "Friend of the Village", line: "Half the village owes you a favour, and the other half wishes it did." },
+    Creative: { after: "artisan", base: "Artisan", title: "the Artisan", line: "The craft guild has asked, politely, whether you'd like to teach." },
+    Spirit: { after: "monk", base: "Monk of the Shrine", title: "of the Shrine", line: "The shrine bell rings a little softer when you pass, as if it knows you." }
+  };
+  var TIER_LINE = ["The heralds read it aloud in the square.", "A banner bearing your mark now hangs in the guild hall.", "Minstrels have started a song about it. It has far too many verses.", "Word has reached the Crown itself."];
+  var CHAINS = [
+    { k: "total", after: "centurion", goals: [250, 500, 1000, 2000], step: 1000, names: ["Legate", "Champion of the Realm", "Paragon", "Living Legend"], titles: ["the Legate", "Champion of the Realm", "the Paragon", "the Living Legend"],
+      get: function () { return state.total; }, desc: "Complete {g} jobs.", tale: "{g} deeds sealed in the ledger. The guild hall had to start a second book just for you." },
+    { k: "streak", after: "unbroken", goals: [60, 100, 180, 365], step: 365, names: ["Steadfast", "Evergreen", "The Undying", "Year-Bound"], titles: ["the Steadfast", "the Evergreen", "the Undying", "the Year-Bound"],
+      get: function () { return state.stats.best || 0; }, desc: "Reach a {g}-day streak.", tale: "{g} days without a missing link. The sun rises, and so do you, every single time." },
+    { k: "S", after: "proven", goals: [25, 50, 100, 200], step: 100, base: "Proven", title: "the Proven", rank: "S",
+      get: function () { return state.stats.ranks.S || 0; }, desc: "Complete {g} S-Class jobs.", tale: "{g} S-Class contracts. The guild master keeps a special stamp just for your card." },
+    { k: "SS", after: "dragonheart", goals: [25, 50, 100, 200], step: 100, base: "Dragonheart", title: "Dragonheart", rank: "SS",
+      get: function () { return state.stats.ranks.SS || 0; }, desc: "Complete {g} SS-Class jobs.", tale: "{g} SS-Class bounties. The dragons have held a meeting about you. It did not go well for them." },
+    { k: "qotd", after: "chosen", goals: [30, 100, 200], step: 100, base: "The Chosen", title: "the Chosen",
+      get: function () { return state.stats.qotd || 0; }, desc: "Complete {g} Quests of the Day.", tale: "{g} times the board picked you, and {g} times you answered. Fortune has started picking you on purpose." },
+    { k: "boss", after: "warlord", goals: [15, 30, 52, 100], step: 52, base: "Warlord", title: "the Warlord",
+      get: function () { return state.stats.boss || 0; }, desc: "Defeat {g} weekly bosses.", tale: "{g} beasts brought low. The monster-hunters' guild sent you a polite letter asking you to leave some for them." },
+    { k: "journal", after: "chronicler", goals: [30, 75, 150, 300], step: 150, base: "Chronicler", title: "the Chronicler",
+      get: journalCount, desc: "Write {g} pages in your journal.", tale: "{g} pages in your own hand. The royal archive has asked to keep a copy." },
+    { k: "main", after: "loyal", goals: [30, 100, 200, 365], step: 365, base: "Loyal Subject", title: "the Loyal", main: true,
+      get: function () { return state.stats.mainDays || 0; }, desc: "Finish every main quest on {g} different days.", tale: "{g} days of every royal order done. The Crown sends you a fruit basket every midwinter now." }
+  ];
+  CATS.forEach(function (c) {
+    var h = CAT_HONOR[c];
+    CHAINS.push({ k: "cat-" + c, after: h.after, goals: [40, 75, 125, 200, 300], step: 150, base: h.base, title: h.title, cat: c,
+      get: function () { return catCount(c); }, desc: "Complete {g} " + c + " jobs.", tale: "{g} " + c + " deeds now stand in the ledger. " + h.line });
+  });
+  var MASTERY = ["Apprentice", "Journeyman", "Adept", "Master", "Grandmaster", "Legend"], MASTERY_GOALS = [3, 7, 15, 30, 50, 100];
+  var MASTERY_LINE = {
+    Apprentice: "You've stopped asking how; now you only ask when.",
+    Journeyman: "The guild sends newcomers to watch you do it.",
+    Adept: "What was once a chore is now a craft.",
+    Master: "No one in the realm does it quite like you.",
+    Grandmaster: "They're thinking of naming the job after you.",
+    Legend: "Some say this job was made for you. Some say you made it."
+  };
+  var CAT_OF = { Adventure: "the Road", Body: "the Body", Mind: "the Mind", Home: "the Hearth", Social: "the Village", Creative: "the Craft", Spirit: "the Spirit" };
+  function chainGoal(c, i) { return i < c.goals.length ? c.goals[i] : c.goals[c.goals.length - 1] + c.step * (i - c.goals.length + 1); }
+  function chainName(c, i) {
+    if (c.names) return i < c.names.length ? c.names[i] : c.names[c.names.length - 1] + " " + roman(i - c.names.length + 2);
+    return c.base + " " + roman(i + 2);
+  }
+  function chainTitle(c, i) {
+    if (c.titles) return i < c.titles.length ? c.titles[i] : c.titles[c.titles.length - 1] + " " + roman(i - c.titles.length + 2);
+    return c.title + " " + roman(i + 2);
+  }
+  function walkChain(id0, unlocked, make, out) {
+    if (!unlocked && !state.badges[id0(0)]) return;
+    for (var i = 0; i < 60; i++) { var a = make(i); out.push(a); if (!state.badges[a.id]) break; }
+  }
+  function genAch() {
+    var out = [];
+    CHAINS.forEach(function (c) {
+      var id = function (i) { return "g." + c.k + "." + i; };
+      walkChain(id, !!state.badges[c.after], function (i) {
+        var g = chainGoal(c, i);
+        return { id: id(i), gen: true, kind: "New Honor", name: chainName(c, i), title: chainTitle(c, i), goal: g, desc: c.desc.replace(/\{g\}/g, g),
+          tale: c.tale.replace(/\{g\}/g, g) + " " + TIER_LINE[i % TIER_LINE.length], get: c.get, cat: c.cat, rank: c.rank, main: c.main };
+      }, out);
+    });
+    var jobs = {};
+    Object.keys(state.stats.ids || {}).forEach(function (q) { if (state.stats.ids[q] >= 2) jobs[q] = 1; });
+    Object.keys(state.badges).forEach(function (b) { var m = /^g\.job\.(.+)\.\d+$/.exec(b); if (m) jobs[m[1]] = 1; });
+    Object.keys(jobs).forEach(function (qid) {
+      var q = findQ(qid); if (!q) return;
+      var id = function (i) { return "g.job." + qid + "." + i; };
+      walkChain(id, idCount(qid) >= 2, function (i) {
+        var g = i < MASTERY_GOALS.length ? MASTERY_GOALS[i] : 100 + 50 * (i - MASTERY_GOALS.length + 1);
+        var w = i < MASTERY.length ? MASTERY[i] : "Legend " + roman(i - MASTERY.length + 2), base = w.split(" ")[0];
+        return { id: id(i), gen: true, kind: "Mastery", job: qid, word: w, jobTitle: q.title, name: w + ": " + q.title, title: w + " of " + (CAT_OF[q.cat] || "the Guild"), goal: g,
+          desc: "Complete “" + q.title + "” " + g + " times.",
+          tale: "“" + q.title + "”. You answered this same call " + g + " times. " + (MASTERY_LINE[base] || MASTERY_LINE.Legend),
+          get: function () { return idCount(qid); }, qids: [qid] };
+      }, out);
+    });
+    return out;
+  }
+  function allAch() { return ACH.concat(genAch()); }
+  function achById(id) { if (ACHMAP[id]) return ACHMAP[id]; var g = genAch(); for (var i = 0; i < g.length; i++) if (g[i].id === id) return g[i]; return null; }
+  function badgeCount() { return allAch().filter(function (a) { return state.badges[a.id]; }).length; }
+  function honorText() { var a = achById(state.honor); return a && state.badges[a.id] ? a.title : ""; }
   function checkBadges(silent) {
-    var got = [];
-    ACH.forEach(function (a) { if (!state.badges[a.id] && a.get() >= a.goal) { state.badges[a.id] = Date.now(); got.push(a); } });
+    var got = [], more = true, guard = 0;
+    while (more && guard++ < 80) {
+      more = false;
+      allAch().forEach(function (a) { if (!state.badges[a.id] && a.get() >= a.goal) { state.badges[a.id] = Date.now(); got.push(a); more = true; } });
+    }
     if (got.length) {
       save(); renderAch();
-      if (!silent) got.forEach(function (a) {
-        celebrate({ head: "Achievement Unlocked", big: a.name, msg: a.desc + " You may now be called “" + a.title + "”. Choose it under Achievements.", sound: "fanfare" });
+      if (!silent) got.slice(0, 6).forEach(function (a) {
+        celebrate({ head: a.gen ? "A New Honor" : "Achievement Unlocked", big: a.name, msg: a.desc + " You may now be called “" + a.title + "”. Its tale hangs in your Hall of Honors.", sound: "fanfare" });
       });
     }
   }
@@ -1101,7 +1567,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     return best;
   }
   function forfeitDeed(k) {
-    var e = null; state.log.forEach(function (l) { if (l.k === k) e = l; }); if (!e || e.bounty) return;
+    var e = null; state.log.forEach(function (l) { if (l.k === k) e = l; }); if (!e || e.bounty || e.mainBonus) return;
     var q = e.id ? findQ(e.id) : null;
     if (!q) BASE.forEach(function (b) { if (!q && e.t.indexOf(b.title) === 0) q = b; });
     var cat = e.cat || (q && q.cat), rank = e.rank || (q && q.rank), qid = e.id || (q && q.id);
@@ -1123,7 +1589,13 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
         notes.push("the bounty on " + cb.b.name + " is revoked");
       }
     }
-    var revoked = ACH.filter(function (a) { return state.badges[a.id] && a.get() < a.goal; });
+    if (e.main && state.mainBonus === e.d) {
+      state.mainBonus = ""; if (S.mainDays) S.mainDays--;
+      state.xp = Math.max(0, state.xp - MAIN_BONUS); lost += MAIN_BONUS;
+      state.log = state.log.filter(function (l) { return !(l.mainBonus && l.d === e.d); });
+      notes.push("the day-conquered bonus is returned");
+    }
+    var revoked = allAch().filter(function (a) { return state.badges[a.id] && a.get() < a.goal; });
     revoked.forEach(function (a) { delete state.badges[a.id]; if (state.honor === a.id) state.honor = ""; });
     if (revoked.length) notes.push((revoked.length === 1 ? "badge " : "badges ") + revoked.map(function (a) { return a.name; }).join(", ") + " returned");
     state.forfeit.n++; state.forfeit.xp += lost;
@@ -1183,7 +1655,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     state.today.ids.push(id);
     var tk = todayKey(); if (state.days.indexOf(tk) < 0) state.days.push(tk);
     if (state.days.length > 400) state.days = state.days.slice(-400);
-    var entry = { k: id + "-" + Date.now().toString(36), id: id, cat: q.cat, rank: q.rank, q: isQ, t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
+    var entry = { k: id + "-" + Date.now().toString(36), id: id, cat: q.cat, rank: q.rank, q: isQ, main: !!q.main, t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
     state.log.unshift(entry); delete state.takenAt[id];
     var S = state.stats;
     S.cats[q.cat] = (S.cats[q.cat] || 0) + 1; S.ranks[q.rank] = (S.ranks[q.rank] || 0) + 1; S.ids[id] = (S.ids[id] || 0) + 1;
@@ -1194,9 +1666,15 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
       cb.st.hits++; hit = true; entry.bw = cb.w.key;
       if (cb.st.hits >= cb.b.hp) { cb.st.won = true; slain = true; S.boss++; state.xp += BOSS_XP; state.log.unshift({ k: "b-" + cb.w.key, bounty: true, bw: cb.w.key, t: "Bounty: " + cb.b.name + " slain", xp: BOSS_XP, d: tk, at: Date.now() }); }
     }
+    var conquered = false;
+    if (q.main && state.mainBonus !== tk && mainQuests().every(function (m) { return state.today.ids.indexOf(m.id) >= 0; })) {
+      conquered = true; state.mainBonus = tk; S.mainDays = (S.mainDays || 0) + 1; state.xp += MAIN_BONUS;
+      state.log.unshift({ k: "mb-" + tk, mainBonus: true, t: "Day conquered: every main quest done", xp: MAIN_BONUS, d: tk, at: Date.now() });
+    }
     if (state.log.length > 150) state.log.length = 150;
     save(); render();
     sfx("coin");
+    if (conquered) celebrate({ head: "Day Conquered", big: "+" + MAIN_BONUS + " XP", msg: "Every main quest is done today. The Crown is pleased.", sound: "fanfare" });
     toast("+" + gain + " XP · " + q.title + (isQ ? " (double reward!)" : ""));
     if (hit && !slain) setTimeout(function () { sfx("hit"); toast("You strike " + cb.b.name + "! " + cb.st.hits + " of " + cb.b.hp + " blows."); }, 1300);
     if (slain) celebrate({ head: "Bounty Claimed", big: cb.b.name + " is slain", msg: "+" + BOSS_XP + " XP. The whole guild will hear of this.", sound: "hit" });
@@ -1239,6 +1717,47 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
   }
   function seal(rank) { return '<span class="seal"><i></i>' + RANK_NAME[rank] + "</span>"; }
 
+  var PAPER = {
+    N: { v: "torn", tone: "tan", head: "Help Needed" },
+    S: { v: "scroll", tone: "orange", head: "Call to Arms" },
+    SS: { v: "torn", tone: "ember", head: "Bounty" },
+    custom: { v: "torn", tone: "violet", head: "Attention" },
+    main: { v: "scroll", tone: "yellow", head: "Royal Decree" },
+    qotd: { v: "torn", tone: "gold", head: "Reward" }
+  };
+  function noteHtml(q, kind) {
+    var done = state.today.ids.indexOf(q.id) >= 0, taken = state.active.indexOf(q.id) >= 0;
+    var P = kind === "main" ? PAPER.main : kind === "qotd" ? PAPER.qotd : q.custom ? PAPER.custom : PAPER[q.rank];
+    var tear = 1; for (var k = 0; k < q.id.length; k++) tear += q.id.charCodeAt(k); tear = tear % 5 + 1;
+    var pi = kind === "side" ? postedInfo(q.id) : null, xp = (XP[q.rank] || 10) * (kind === "qotd" ? 2 : 1);
+    var sub = kind === "main" ? "Returns every dawn" + (q.after != null ? " · seal after " + q.after + ":00" : "") : pi ? "Pinned " + pi.date + " · " + pi.ago : kind === "qotd" ? "Today only · double reward" : "";
+    return '<button class="note p-' + P.v + " t-" + P.tone + " tear" + tear + " r-" + q.rank + (done ? " done" : "") + (taken ? " taken" : "") +
+      (pi && pi.days >= 3 ? " old" : "") + (q.id === freshId ? " fresh" : "") + (kind === "qotd" ? " qotd" : "") +
+      '" data-open="' + q.id + '" aria-label="' + esc(P.head + ", " + RANK_NAME[q.rank] + ": " + q.title) + '">' +
+      (P.v === "scroll" ? '<span class="roll rt" aria-hidden="true"></span><span class="roll rb" aria-hidden="true"></span>' : '<span class="pin" aria-hidden="true"></span>') +
+      '<span class="nhead">' + P.head + "</span>" +
+      '<span class="ncat">' + esc(q.cat) + (q.custom ? " · yours" : "") + "</span>" +
+      '<span class="nt">' + esc(q.title) + "</span>" +
+      (sub ? '<span class="ndate">' + sub + "</span>" : "") +
+      (kind === "main" && q.steps && q.steps.length ? (function () {
+        var c = done ? q.steps.map(function (s, i) { return i; }) : checksFor(q.id), n = q.steps.filter(function (s, i) { return c.indexOf(i) >= 0; }).length;
+        return '<span class="nsteps" aria-label="' + n + " of " + q.steps.length + ' steps checked">' +
+          q.steps.map(function (s, i) { return '<i class="' + (c.indexOf(i) >= 0 ? "on" : "") + '"></i>'; }).join("") + "<b>" + n + "/" + q.steps.length + "</b></span>";
+      })() : "") +
+      '<span class="nfoot"><span class="nxp">+' + xp + " XP" + (kind === "qotd" ? " <s>+" + XP[q.rank] + "</s>" : "") + "</span>" +
+      '<span class="sealbox" aria-hidden="true"><span class="wax' + (kind === "qotd" ? " star" : "") + '">' + (kind === "qotd" ? "★" : q.rank) + '</span><span class="nrib">' + RANK_NAME[q.rank] + "</span></span></span>" +
+      (done ? '<span class="stamp">Done</span>' : taken ? '<span class="stamp">Taken</span>' : "") + "</button>";
+  }
+  function renderMain() {
+    var list = mainQuests(), tk = todayKey();
+    var n = list.filter(function (m) { return state.today.ids.indexOf(m.id) >= 0; }).length;
+    var hid = (state.mainHidden || []).length;
+    $("mainQuests").innerHTML = (list.length ? '<div class="notes">' + list.map(function (q) { return noteHtml(q, "main"); }).join("") + "</div>" +
+      '<div class="board-count">' + (state.mainBonus === tk ? "Day conquered! +" + MAIN_BONUS + " XP earned." : n + " of " + list.length + " done today · finish them all for +" + MAIN_BONUS + " XP") + "</div>"
+      : '<div class="board-count">No main quests on the board. Add one below.</div>') +
+      (hid ? '<button class="restore-main" type="button" data-mrestore>Bring back removed main quests (' + hid + ")</button>" : "");
+    $("mainMeta").textContent = "Daily orders from the Crown. They return every dawn.";
+  }
   function render() {
     if (state.today.d !== todayKey()) state.today = { d: todayKey(), ids: [] };
     var li = levelInfo(state.xp);
@@ -1264,18 +1783,6 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
       return '<button class="tab' + (r === "All" ? "" : " r-" + r) + '" data-rank="' + r + '" aria-pressed="' + (rankTab === r) + '">' +
         (r === "All" ? "Any class" : RANK_HEAD[r]) + "</button>";
     }).join("");
-    function note(q) {
-      var taken = state.active.indexOf(q.id) >= 0;
-      var tear = 1; for (var k = 0; k < q.id.length; k++) tear += q.id.charCodeAt(k); tear = tear % 5 + 1;
-      var pi = postedInfo(q.id);
-      return '<button class="note tear' + tear + ' r-' + q.rank + (taken ? " taken" : "") + (pi && pi.days >= 3 ? " old" : "") + (q.id === freshId ? " fresh" : "") + '" data-open="' + q.id + '" aria-label="' + esc(RANK_NAME[q.rank] + " job: " + q.title) + '">' +
-        '<span class="pin" aria-hidden="true"></span><span class="wax" aria-hidden="true">' + q.rank + "</span>" +
-        '<span class="ncat">' + esc(q.cat) + (q.custom ? " · yours" : "") + "</span>" +
-        '<span class="nt">' + esc(q.title) + "</span>" +
-        (pi ? '<span class="ndate">Pinned ' + pi.date + " · " + pi.ago + "</span>" : "") +
-        '<span class="nxp">+' + (XP[q.rank] || 10) + " XP</span>" +
-        (taken ? '<span class="stamp">Taken</span>' : "") + "</button>";
-    }
     var ids = state.posted.concat(state.active.filter(function (id) { return state.posted.indexOf(id) < 0; }));
     var QID = qotdId();
     var onBoard = ids.filter(function (id) { return id !== QID; }).map(findQ).filter(Boolean);
@@ -1285,14 +1792,9 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     var qShown = state.qotdShown === todayKey() || qDone || qTaken;
     $("qotdBtn").hidden = qShown;
     var qotdHtml = !qShown ? "" : '<div class="qotd-wrap"><div class="qotd-head">Quest of the Day <small>yours alone · double reward · changes at midnight</small></div>' +
-      '<button class="note qotd tear2 r-' + qq.rank + (qDone ? " done" : "") + (qTaken ? " taken" : "") + '" data-open="' + QID + '" aria-label="Quest of the Day: ' + esc(qq.title) + '">' +
-      '<span class="pin" aria-hidden="true"></span><span class="wax star" aria-hidden="true">★</span>' +
-      '<span class="ncat">' + esc(qq.cat) + " · " + RANK_NAME[qq.rank] + "</span>" +
-      '<span class="nt">' + esc(qq.title) + "</span>" +
-      '<span class="nxp">+' + (XP[qq.rank] * 2) + " XP <s>+" + XP[qq.rank] + "</s></span>" +
-      (qDone ? '<span class="stamp">Done</span>' : qTaken ? '<span class="stamp">Taken</span>' : "") + "</button></div>";
+      noteHtml(qq, "qotd") + "</div>";
     $("quests").innerHTML = qotdHtml + (shown.length
-      ? '<div class="notes">' + shown.map(note).join("") + '</div><div class="board-count">' +
+      ? '<div class="notes">' + shown.map(function (q) { return noteHtml(q, "side"); }).join("") + '</div><div class="board-count">' +
         (shown.length < onBoard.length ? "Showing " + shown.length + " of " + onBoard.length + " requests · " : "") + onBoard.length + " of " + MAX_BOARD + " spaces used</div>"
       : onBoard.length
         ? '<p class="board-empty">No ' + esc(what) + 'requests on the board.<small>Tap “Give me a job” to ask for one, or pick another type above.</small></p>'
@@ -1300,6 +1802,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     var open = state.posted.length;
     $("boardMeta").textContent = onBoard.length ? (open + (open === 1 ? " request" : " requests") + " waiting. Tap one to read it.") : "No requests posted yet.";
     $("askLab").textContent = "Show and ask the guild for";
+    renderMain();
     $("giveBtn").disabled = onBoard.length >= MAX_BOARD;
     if (openId) showJob(openId, true);
 
@@ -1341,7 +1844,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
         html += '<li class="ledger-day">The ' + ordinal(dt.getDate()) + " of " + MONTHS[dt.getMonth()] + "</li>";
       }
       html += '<li class="ledger-row"><span class="lt">' + esc(l.t) + '</span><span class="xp">+' + l.xp + " XP</span>" +
-        (l.bounty ? '<span class="lf-none">bounty</span>' : '<button class="lf" type="button" data-forfeit="' + esc(l.k) + '">Forfeit</button>') + "</li>";
+        (l.bounty ? '<span class="lf-none">bounty</span>' : l.mainBonus ? '<span class="lf-none">bonus</span>' : '<button class="lf" type="button" data-forfeit="' + esc(l.k) + '">Forfeit</button>') + "</li>";
     });
     $("log").innerHTML = html;
   }
@@ -1362,26 +1865,94 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     else if (taken) { status = '<p class="qm-status" style="color:#2f5a2f">In progress</p>'; acts = '<button class="btn gold" data-complete="' + id + '">Complete</button><button class="btn ghost" data-abandon="' + id + '">Abandon</button>'; }
     else if (full) { status = '<p class="qm-status" style="color:#6b5134">Your hands are full (3 of 3). Finish a job first.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
     else acts = '<button class="btn wax" data-accept="' + id + '">Take this job</button><button class="btn ghost" data-close>Not now</button>';
-    var isQ = id === qotdId();
-    var canDown = !isQ && !q.custom && !taken && !done && state.posted.indexOf(id) >= 0;
+    var isQ = id === qotdId(), isMain = !!q.main;
+    var left = isMain ? stepsLeft(q) : 0;
+    if (isMain && !done) acts = '<button class="btn gold" data-complete="' + id + '"' + (left ? " disabled" : "") + ">Complete</button><button class=\"btn ghost\" data-close>Not now</button>";
+    var stepsHtml = "";
+    if (isMain && q.steps && q.steps.length) {
+      var ck = done ? q.steps.map(function (s, i) { return i; }) : checksFor(id);
+      stepsHtml = '<div class="qm-steps"><span>' + (done ? "Steps done" : "Check each step as you finish it") + "</span><ul>" +
+        q.steps.map(function (s, i) {
+          var on = ck.indexOf(i) >= 0;
+          return '<li class="' + (on ? "on" : "") + '"><label><input type="checkbox" data-step="' + i + '"' + (on ? " checked" : "") + (done ? " disabled" : "") + "><em></em><span>" + esc(s) + "</span></label></li>";
+        }).join("") + "</ul>" +
+        (!done ? '<p class="qm-lock">' + (left ? "&#128274; " + left + " of " + q.steps.length + " steps left before you can seal it" : "All steps checked. Seal it!") + "</p>" : "") + "</div>";
+    }
+    if (isMain) status = done ? '<p class="qm-status" style="color:#8f1f1c">Done today. It returns at dawn.</p>' : "";
+    var canDown = !isQ && !isMain && !q.custom && !taken && !done && state.posted.indexOf(id) >= 0;
     $("qmPaper").className = "qm-paper r-" + q.rank;
     $("qmPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" data-close aria-label="Close">×</button>' +
-      '<div class="qm-kicker">' + (isQ ? "Quest of the Day" : "Job Request") + "</div>" +
-      (isQ ? '<div class="qm-ribbon">Double reward · today only</div>' : "") +
+      '<div class="qm-kicker">' + (isMain ? "Royal Decree" : isQ ? "Quest of the Day" : "Job Request") + "</div>" +
+      (isQ ? '<div class="qm-ribbon">Double reward · today only</div>' : isMain ? '<div class="qm-ribbon">Main quest · returns every dawn</div>' : "") +
       '<div class="qm-seal" aria-hidden="true">' + q.rank + "</div>" +
-      '<div class="qm-rank">' + RANK_NAME[q.rank] + " Job</div>" +
+      '<div class="qm-rank">' + RANK_NAME[q.rank] + (isMain ? " Main Quest" : " Job") + "</div>" +
       '<h3 id="qmTitle">' + esc(q.title) + "</h3>" +
       (q.desc ? '<p class="qm-desc">' + esc(q.desc) + "</p>" : "") +
+      stepsHtml +
       '<div class="qm-story"><span>' + (q.story ? "The tale" : "Word from the guild") + '</span><p>' + esc(q.story || FLAVOR[q.rank]) + "</p></div>" +
-      (function () { var pi = isQ ? null : postedInfo(id); return pi ? '<p class="qm-posted">Pinned upon <b>' + pi.full + "</b><br>Waiting on the board " + pi.ago + "</p>" : ""; })() +
-      '<dl class="qm-meta"><div><dt>Client</dt><dd>' + esc(q.custom ? "Yourself" : (CLIENT[q.cat] || "The Guild")) + '</dd></div><div><dt>Type</dt><dd>' + esc(q.cat) +
+      (function () { var pi = (isQ || isMain) ? null : postedInfo(id); return pi ? '<p class="qm-posted">Pinned upon <b>' + pi.full + "</b><br>Waiting on the board " + pi.ago + "</p>" : ""; })() +
+      '<dl class="qm-meta"><div><dt>Client</dt><dd>' + esc(isMain && !q.custom ? "The Crown" : q.custom ? "Yourself" : (CLIENT[q.cat] || "The Guild")) + '</dd></div><div><dt>Type</dt><dd>' + esc(q.cat) +
       '</dd></div><div><dt>Reward</dt><dd class="rw">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP</dd></div></dl>" +
       status + '<div class="qm-acts">' + acts + "</div>" +
-      (q.custom ? '<button class="qm-del" data-remove="' + id + '">Delete this request</button>' :
+      (isMain ? '<div class="qm-two">' + (q.custom ? '<button class="qm-del" data-medit="' + id + '">Edit this main quest</button>' : "") + '<button class="qm-del" data-mremove="' + id + '">Remove this main quest</button></div>' :
+       q.custom ? '<button class="qm-del" data-remove="' + id + '">Delete this request</button>' :
        canDown ? '<button class="qm-del" data-down="' + id + '">Take this request down</button>' : "");
     if (!keep) { $("qmodal").classList.add("show"); sfx("paper"); var b = $("qmPaper").querySelector(".qm-acts .btn"); if (b) b.focus(); }
   }
   function closeJob() { openId = null; $("qmodal").classList.remove("show"); }
+  function numberSteps() { var ins = $("meSteps").querySelectorAll("input"); for (var i = 0; i < ins.length; i++) ins[i].setAttribute("aria-label", "Step " + (i + 1)); $("meSteps").setAttribute("data-n", ins.length); }
+  function addStepRow(v) {
+    if ($("meSteps").children.length >= 10) { toast("Ten steps at most."); return; }
+    var row = document.createElement("div"); row.className = "me-step";
+    row.innerHTML = '<span class="me-dot" aria-hidden="true"></span><input maxlength="60"><button type="button" class="me-x" data-delstep aria-label="Remove this step">&times;</button>';
+    row.querySelector("input").value = v; $("meSteps").appendChild(row); numberSteps();
+  }
+  function openMainEditor(id) {
+    var q = id ? findQ(id) : null; if (id && !q) return;
+    openId = null;
+    $("qmPaper").className = "qm-paper r-" + (q ? q.rank : "N");
+    $("qmPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" data-close aria-label="Close">&times;</button>' +
+      '<div class="qm-kicker">Royal Decree</div><h3>' + (q ? "Amend this main quest" : "Decree a main quest") + "</h3>" +
+      '<p class="me-lead">A daily order that returns every dawn. Add steps and each one must be checked before you can seal it.</p>' +
+      '<form class="me-form" id="meForm" autocomplete="off">' +
+      '<label>Quest<input id="meTitle" required maxlength="80"></label>' +
+      '<label>Details (optional)<textarea id="meDesc" rows="2" maxlength="240"></textarea></label>' +
+      '<div class="me-row"><label>Category<select id="meCat">' + CATS.map(function (c) { return "<option>" + c + "</option>"; }).join("") + "</select></label>" +
+      '<label>Class<select id="meRank"><option value="N">Normal · 10 XP</option><option value="S">S-Class · 25 XP</option><option value="SS">SS-Class · 50 XP</option></select></label></div>' +
+      '<div class="me-steps-lab">Steps (bullet points)</div><div id="meSteps"></div>' +
+      '<button type="button" class="me-add" data-addstep>+ Add a step</button>' +
+      '<div class="qm-acts"><button class="btn gold" type="submit">' + (q ? "Save the decree" : "Post the decree") + '</button><button class="btn ghost" type="button" data-close>Not now</button></div>' +
+      "</form>";
+    $("meTitle").value = q ? q.title : ""; $("meDesc").value = q ? (q.desc || "") : "";
+    $("meCat").value = q ? q.cat : "Body"; $("meRank").value = q ? q.rank : "N";
+    (q && q.steps && q.steps.length ? q.steps : ["", ""]).forEach(addStepRow);
+    $("meForm").setAttribute("data-edit", id || "");
+    $("qmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("meTitle").focus(); }, 60);
+  }
+  document.addEventListener("submit", function (e) {
+    if (e.target.id !== "meForm") return;
+    e.preventDefault();
+    var title = $("meTitle").value.trim(); if (!title) return;
+    var steps = [].map.call($("meSteps").querySelectorAll("input"), function (i) { return i.value.trim(); }).filter(Boolean).slice(0, 10);
+    var data = { title: title, desc: $("meDesc").value.trim(), cat: $("meCat").value, rank: $("meRank").value, steps: steps };
+    var edit = e.target.getAttribute("data-edit");
+    if (edit) {
+      state.mainCustom.forEach(function (m) {
+        if (m.id !== edit) return;
+        if (JSON.stringify(m.steps || []) !== JSON.stringify(steps) && state.mainChecks && state.mainChecks.c) delete state.mainChecks.c[edit];
+        m.title = data.title; m.desc = data.desc; m.cat = data.cat; m.rank = data.rank; m.steps = data.steps;
+      });
+      save(); render(); closeJob(); toast("The decree is amended.");
+    } else {
+      var mid = "mx" + Date.now().toString(36);
+      state.mainCustom.push({ id: mid, main: true, custom: true, title: data.title, cat: data.cat, rank: data.rank, desc: data.desc, steps: data.steps });
+      freshId = mid; save(); render(); freshId = null; closeJob(); sfx("pin"); toast("A new daily main quest: " + title);
+    }
+  });
+  document.addEventListener("change", function (e) {
+    var t = e.target; if (!t.matches || !t.matches("#qmPaper input[data-step]") || !openId) return;
+    toggleStep(openId, +t.getAttribute("data-step"));
+  });
   $("qmodal").addEventListener("click", function (e) { if (e.target === this) closeJob(); });
 
   /* ---------- events ---------- */
@@ -1397,6 +1968,17 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     if (t.hasAttribute("data-cclose")) { closeConfirm(); return; }
     if (t.dataset.player) { openProfile(t.dataset.player); return; }
     if (t.dataset.forfeit) { askForfeit(t.dataset.forfeit); return; }
+    if (t.dataset.ach) { openHall(t.dataset.ach); return; }
+    if (t.dataset.hach) { hallView = t.dataset.hach; renderHall(); sfx("paper"); return; }
+    if (t.hasAttribute("data-hback")) { hallView = null; renderHall(); return; }
+    if (t.hasAttribute("data-hclose")) { closeHall(); return; }
+    if (t.dataset.hhonor) { state.honor = t.dataset.hhonor; save(); render(); renderAch(); renderHall(); sfx("fanfare"); toast("You are now known as " + state.name + " " + honorText() + "."); return; }
+    if (t.hasAttribute("data-mnew")) { openMainEditor(null); return; }
+    if (t.dataset.medit) { openMainEditor(t.dataset.medit); return; }
+    if (t.hasAttribute("data-addstep")) { addStepRow(""); var ins = $("meSteps").querySelectorAll("input"); ins[ins.length - 1].focus(); return; }
+    if (t.hasAttribute("data-delstep")) { t.parentNode.remove(); numberSteps(); return; }
+    if (t.dataset.mremove) { var mr = t.dataset.mremove; closeJob(); askRemoveMain(mr); return; }
+    if (t.hasAttribute("data-mrestore")) { state.mainHidden = []; save(); render(); sfx("pin"); toast("The Crown's main quests are back on the board."); return; }
     if (t.dataset.exile) { askExile(t.dataset.exile); return; }
     if (t.dataset.pardon) { pardonPlayer(t.dataset.pardon); return; }
     if (t.hasAttribute("data-claim")) { claimMaster(); return; }
@@ -1426,18 +2008,24 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     if ($("cmodal").classList.contains("show")) { closeConfirm(); return; }
     if ($("amodal").classList.contains("show")) { $("amodal").classList.remove("show"); return; }
     if ($("pmodal").classList.contains("show")) { $("pmodal").classList.remove("show"); return; }
+    if ($("hmodal").classList.contains("show")) { if (hallView) { hallView = null; renderHall(); } else closeHall(); return; }
     $("lightbox").classList.remove("show"); closeJob(); closeJournal();
   });
   $("lightbox").addEventListener("click", function (e) { if (e.target === this) this.classList.remove("show"); });
   var cm = { id: null };
   function askComplete(id) {
     var q = findQ(id); if (!q) return;
+    var hr = new Date().getHours(), mn = new Date().getMinutes();
+    var left = q.main ? stepsLeft(q) : 0;
+    if (left) { toast("Check every step first. " + left + (left === 1 ? " step is" : " steps are") + " still unchecked."); return; }
+    if (q.after != null && hr < q.after) { toast("Seal this one when you head to bed, after " + q.after + ":00."); return; }
     cm.mode = "complete"; cm.word = "complete"; cm.id = id;
     var t = state.takenAt[id], mins = t ? Math.floor((Date.now() - t) / 60000) : null, fast = mins !== null && mins < 5;
+    var late = q.id === "mq-rest" && (hr > 22 || (hr === 22 && mn > 15));
     $("cmKick").textContent = "Seal the Deed"; $("cmTitle").textContent = q.title;
     $("cmLead").innerHTML = "Did you truly finish this job? Type <b>complete</b> below to seal it.";
-    $("cmWarn").hidden = !fast;
-    $("cmWarn").textContent = fast ? "You took this job " + (mins < 1 ? "less than a minute" : mins + (mins === 1 ? " minute" : " minutes")) + " ago. Only seal it if it's truly done; the guild runs on honor." : "";
+    $("cmWarn").hidden = !fast && !late;
+    $("cmWarn").textContent = late ? "It's past the tenth bell. Only seal it if you were truly in bed by 22:00." : fast ? "You took this job " + (mins < 1 ? "less than a minute" : mins + (mins === 1 ? " minute" : " minutes")) + " ago. Only seal it if it's truly done; the guild runs on honor." : "";
     $("cmOk").textContent = "Seal it"; $("cmOk").className = "btn gold";
     $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type complete to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
     $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
@@ -1471,7 +2059,7 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     if (!cm.id) return;
     if (!cmValid()) { $("cmHint").textContent = "Type the word " + cm.word + " exactly to confirm."; return; }
     var id = cm.id, mode = cm.mode, bar = $("cmBar").checked; closeConfirm(); $("cmInput").blur();
-    if (mode === "forfeit") forfeitDeed(id); else if (mode === "exile") exilePlayer(id, bar); else complete(id);
+    if (mode === "forfeit") forfeitDeed(id); else if (mode === "mremove") removeMain(id); else if (mode === "exile") exilePlayer(id, bar); else complete(id);
   }
   $("cmInput").addEventListener("input", function () { $("cmOk").disabled = !cmValid(); $("cmHint").textContent = ""; });
   $("cmInput").addEventListener("keydown", function (e) { if (e.key === "Enter") { e.preventDefault(); cmSubmit(); } });
@@ -1489,6 +2077,8 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
   });
   ["pmodal", "amodal"].forEach(function (m) { $(m).addEventListener("click", function (e) { if (e.target === this) this.classList.remove("show"); }); });
   $("achAll").addEventListener("click", function () { achAll = !achAll; renderAch(); });
+  $("hallBtn").addEventListener("click", function () { openHall(null); });
+  $("hmodal").addEventListener("click", function (e) { if (e.target === this) closeHall(); });
   $("jMore").addEventListener("click", function () { jShow += 10; renderJournal(); });
   $("jmSave").addEventListener("click", saveJournal);
   $("jmFile").addEventListener("change", function () {
@@ -1819,32 +2409,106 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
 
   /* ---------- achievements ---------- */
   var achAll = false;
+  function achProgress(a) { return Math.min(a.get(), a.goal) / a.goal; }
   function renderAch() {
-    var n = badgeCount();
-    $("achMeta").textContent = n + " of " + ACH.length + " earned";
-    var opts = '<option value="">None</option>' + ACH.filter(function (a) { return state.badges[a.id]; }).map(function (a) {
-      return '<option value="' + a.id + '"' + (state.honor === a.id ? " selected" : "") + ">" + esc(a.title) + "</option>";
+    var all = allAch(), n = 0, seen = {};
+    var earned = all.filter(function (a) { return state.badges[a.id]; }).sort(function (x, y) { return state.badges[y.id] - state.badges[x.id]; });
+    var next = all.filter(function (a) { return !state.badges[a.id]; }).sort(function (x, y) { return achProgress(y) - achProgress(x); });
+    n = earned.length;
+    $("achMeta").textContent = n + " earned · " + next.length + " to win";
+    var opts = '<option value="">None</option>' + earned.filter(function (a) { if (seen[a.title]) return false; seen[a.title] = 1; return true; }).map(function (a) {
+      return '<option value="' + esc(a.id) + '"' + (state.honor === a.id ? " selected" : "") + ">" + esc(a.title) + "</option>";
     }).join("");
     $("honorSel").innerHTML = opts; $("honorSel").disabled = n === 0;
-    var list = ACH.slice();
-    if (!achAll) {
-      var earned = list.filter(function (a) { return state.badges[a.id]; });
-      var next = list.filter(function (a) { return !state.badges[a.id]; })
-        .sort(function (x, y) { return (y.get() / y.goal) - (x.get() / x.goal); }).slice(0, 4);
-      list = earned.concat(next);
+    var list;
+    if (achAll) list = earned.concat(next);
+    else {
+      var e = earned.slice(0, Math.max(2, 5 - next.length)), rest = next.slice(0, 5 - e.length);
+      list = e.concat(rest);
+      if (list.length < 5) list = list.concat(earned.slice(e.length, e.length + 5 - list.length));
     }
-    $("achAll").textContent = achAll ? "Show fewer" : "Show all " + ACH.length + " achievements";
+    var total = earned.length + next.length;
+    $("achAll").hidden = total <= 5;
+    $("achAll").textContent = achAll ? "Show fewer" : "Show all " + total;
     $("achGrid").innerHTML = list.map(function (a) {
       var have = !!state.badges[a.id], v = Math.min(a.get(), a.goal);
-      return '<div class="ach' + (have ? " earned" : "") + '">' +
+      return '<button type="button" class="ach' + (have ? " earned" : "") + (a.gen ? " gen" : "") + '" data-ach="' + esc(a.id) + '">' +
         '<span class="medal" aria-hidden="true">' + esc(a.name.replace(/^The /, "").charAt(0)) + "</span>" +
         '<span class="ach-txt"><b>' + esc(a.name) + "</b><small>" + esc(a.desc) + "</small>" +
         (have ? '<small class="ach-done">Earned · title “' + esc(a.title) + "”</small>"
               : '<span class="ach-bar"><i style="width:' + Math.round(v / a.goal * 100) + '%"></i></span><small>' + v + " / " + a.goal + "</small>") +
-        "</span></div>";
+        "</span></button>";
     }).join("");
   }
 
+  /* ---------- Hall of Honors: a bright royal board of everything you've won ---------- */
+  var CROWN_SVG = '<svg viewBox="0 0 64 40" aria-hidden="true"><path d="M4 34 L8 10 L20 22 L32 4 L44 22 L56 10 L60 34 Z" fill="url(#cg)" stroke="#8a6416" stroke-width="2" stroke-linejoin="round"/><rect x="4" y="33" width="56" height="5" rx="1.5" fill="#b8892a" stroke="#8a6416" stroke-width="1.5"/><circle cx="8" cy="9" r="3" fill="#f6e3a4" stroke="#8a6416"/><circle cx="32" cy="4" r="3.2" fill="#f6e3a4" stroke="#8a6416"/><circle cx="56" cy="9" r="3" fill="#f6e3a4" stroke="#8a6416"/><circle cx="32" cy="25" r="3.4" fill="#2b4a8b"/><circle cx="19" cy="28" r="2.4" fill="#a3202a"/><circle cx="45" cy="28" r="2.4" fill="#a3202a"/><defs><linearGradient id="cg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#fbe7a6"/><stop offset="1" stop-color="#d4a640"/></linearGradient></defs></svg>';
+  function honorDate(t) { var d = new Date(t); return "the " + ordinal(d.getDate()) + " of " + MONTHS[d.getMonth()] + ", " + d.getFullYear(); }
+  function achPhoto(a) {
+    var at = state.badges[a.id]; if (!at) return null;
+    var list = state.journal.filter(function (e) { return e.photo; });
+    var f = a.qids ? function (e) { return a.qids.indexOf(e.qid) >= 0; } : a.cat ? function (e) { return e.cat === a.cat; } : a.rank ? function (e) { return e.rank === a.rank; } :
+      a.main ? function (e) { return /^m[qx]/.test(e.qid || ""); } : null;
+    if (f) list = list.filter(f);
+    else list = list.filter(function (e) { return e.at <= at + 864e5 && e.at >= at - 7 * 864e5; });
+    return list[0] || null;
+  }
+  function hallPic(a, big) {
+    var ph = achPhoto(a), letter = esc(a.name.replace(/^The /, "").charAt(0));
+    return '<span class="' + (big ? "rp-bigpic" : "rp-pic") + (ph ? "" : " nopic") + '">' + (ph ? '<img data-hp="' + ph.id + '" alt="Picture from your journal: ' + esc(ph.title) + '">' : "") + "<em>" + letter + "</em></span>";
+  }
+  var hallView = null;
+  function openHall(id) { hallView = id || null; renderHall(); $("hmodal").classList.add("show"); sfx("paper"); loadAllPhotos().then(function () { if ($("hmodal").classList.contains("show")) fillHallPics(); }).catch(function () {}); }
+  function closeHall() { $("hmodal").classList.remove("show"); hallView = null; }
+  function fillHallPics() {
+    $("hall").querySelectorAll("img[data-hp]").forEach(function (img) {
+      getPhoto(img.getAttribute("data-hp")).then(function (src) { var box = img.parentNode; if (src) { img.src = src; box.classList.remove("nopic"); } else { img.remove(); box.classList.add("nopic"); } })
+        .catch(function () { img.parentNode.classList.add("nopic"); img.remove(); });
+    });
+  }
+  function renderHall() {
+    var all = allAch();
+    var earned = all.filter(function (a) { return state.badges[a.id]; }).sort(function (x, y) { return state.badges[y.id] - state.badges[x.id]; });
+    var next = all.filter(function (a) { return !state.badges[a.id]; }).sort(function (x, y) { return achProgress(y) - achProgress(x); });
+    var a = hallView ? achById(hallView) : null, h;
+    if (a) {
+      var have = !!state.badges[a.id], v = Math.min(a.get(), a.goal), ph = have ? achPhoto(a) : null;
+      h = '<button class="hall-x" type="button" data-hclose aria-label="Close">&times;</button>' +
+        '<button class="hall-back" type="button" data-hback>&larr; Back to the Hall</button>' +
+        '<article class="rp-big' + (have ? "" : " locked") + '">' +
+        '<span class="rp-rib">' + esc(a.kind || "Royal Honor") + "</span>" +
+        '<div class="hall-crown sm">' + CROWN_SVG + "</div>" +
+        hallPic(a, true) +
+        (ph ? '<p class="rp-cap">From your journal: ' + esc(ph.title) + "</p>" : "") +
+        '<h3 id="hallTitle">' + esc(a.name) + "</h3>" +
+        '<div class="rp-ttl">“' + esc(a.title) + "”</div>" +
+        '<p class="rp-desc">' + esc(a.desc) + "</p>" +
+        '<div class="hall-tale"><span>' + (have ? "The tale" : "The tale is sealed") + "</span><p>" + (have ? esc(a.tale || "The guild scribes wrote this one in gold.") : "Win this honor and the scribes will unseal its tale.") + "</p></div>" +
+        (have ? '<p class="rp-when">Won upon ' + honorDate(state.badges[a.id]) + "</p>" +
+                (state.honor === a.id ? '<p class="rp-bear">You bear this title</p>' : '<button class="hall-btn" type="button" data-hhonor="' + esc(a.id) + '">Bear this title</button>')
+              : '<div class="rp-bar big"><i style="width:' + Math.round(v / a.goal * 100) + '%"></i></div><p class="rp-when">' + v + " of " + a.goal + "</p>") +
+        "</article>";
+    } else {
+      var card = function (x) {
+        var have = !!state.badges[x.id], v = Math.min(x.get(), x.goal);
+        return '<button type="button" class="rp' + (have ? "" : " locked") + '" data-hach="' + esc(x.id) + '">' +
+          '<span class="rp-rib">' + esc(x.kind || "Royal Honor") + "</span>" + (have ? hallPic(x) : '<span class="rp-pic nopic"><em>' + esc(x.name.replace(/^The /, "").charAt(0)) + "</em></span>") +
+          '<b class="rp-name">' + esc(x.word || x.name) + "</b>" + (x.jobTitle ? '<small class="rp-job">' + esc(x.jobTitle) + "</small>" : "") +
+          (have ? '<i class="rp-title">“' + esc(x.title) + '”</i><small class="rp-date">Won ' + honorDate(state.badges[x.id]).replace(/, \d+$/, "") + "</small>"
+                : '<small class="rp-date">' + esc(x.desc) + '</small><span class="rp-bar"><i style="width:' + Math.round(v / x.goal * 100) + '%"></i></span><small class="rp-date">' + v + " / " + x.goal + "</small>") +
+          "</button>";
+      };
+      h = '<button class="hall-x" type="button" data-hclose aria-label="Close">&times;</button>' +
+        '<div class="hall-crown">' + CROWN_SVG + "</div>" +
+        '<h2 id="hallTitle">Hall of Honors</h2>' +
+        '<p class="hall-sub">' + esc(state.name || "Adventurer") + (honorText() ? " " + esc(honorText()) : "") + " · " + earned.length + (earned.length === 1 ? " honor" : " honors") + " won</p>" +
+        '<div class="hall-sec"><span>Honors won</span></div>' +
+        (earned.length ? '<div class="hall-grid">' + earned.map(card).join("") + "</div>" : '<p class="hall-empty">No honors yet. Finish your first job and the first banner goes up.</p>') +
+        (next.length ? '<div class="hall-sec"><span>Yet to be won</span></div><p class="hall-note">New honors appear as you win the old ones and as you repeat the jobs you love.</p><div class="hall-grid">' + next.map(card).join("") + "</div>" : "");
+    }
+    $("hall").innerHTML = h; $("hall").scrollTop = 0;
+    fillHallPics();
+  }
   /* ---------- adventurer's journal (photos kept in this browser's IndexedDB) ---------- */
   var idb = { db: null };
   function idbOpen() {
@@ -2079,10 +2743,42 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     if (document.hidden) AU.ctx.suspend(); else if (state.settings.music || state.settings.sfx) AU.ctx.resume();
   });
   // browsers only allow sound after a tap, so a saved "music on" starts at the first tap
+  var intro = { on: false, music: false, done: false };
   document.addEventListener("pointerdown", function once() {
     document.removeEventListener("pointerdown", once, true);
+    if (intro.on) { if (state.settings.music) { audioCtx(); intro.music = true; } return; }
     if (state.settings.music) startMusic();
   }, true);
+
+  /* ---------- intro film: plays each time the site opens, skippable ---------- */
+  (function () {
+    var box = $("intro"), v = $("introVid"), titleShown = false, endTimer = null;
+    if (!box || !v) return;
+    intro.on = true; document.documentElement.classList.add("intro-lock");
+    $("introEmb").src = document.querySelector("img.emblem").getAttribute("src");
+    function finish(fast) {
+      if (intro.done) return; intro.done = true; clearTimeout(endTimer);
+      box.classList.add("out"); try { v.pause(); } catch (e) {}
+      setTimeout(function () {
+        box.remove(); intro.on = false; document.documentElement.classList.remove("intro-lock");
+        if (intro.music && state.settings.music) startMusic();
+        var g = document.querySelector("#gName"); if (g && g.offsetParent) g.focus();
+      }, fast ? 380 : 700);
+    }
+    function unmute() { if (!v.muted) return; v.muted = false; v.volume = 1; $("introSound").hidden = true; if (v.paused) v.play().catch(function () {}); }
+    var p = v.play();
+    if (p && p.catch) p.catch(function () { $("introPlay").hidden = false; $("introSound").hidden = true; });
+    $("introPlay").addEventListener("click", function () { this.hidden = true; v.muted = false; $("introSound").hidden = true; v.play().catch(function () { finish(true); }); });
+    $("introSound").addEventListener("click", function (e) { e.stopPropagation(); unmute(); });
+    $("introSkip").addEventListener("click", function (e) { e.stopPropagation(); finish(true); });
+    box.addEventListener("click", function (e) { if (e.target === v || e.target === box || e.target.closest(".intro-stage")) unmute(); });
+    v.addEventListener("timeupdate", function () { if (!titleShown && v.currentTime >= 19.5) { titleShown = true; $("introTitle").classList.add("show"); } });
+    v.addEventListener("ended", function () { if (!titleShown) $("introTitle").classList.add("show"); endTimer = setTimeout(function () { finish(false); }, 1600); });
+    v.addEventListener("error", function () { finish(true); });
+    document.addEventListener("keydown", function (e) { if (intro.on && (e.key === "Escape" || e.key === "Enter" || e.key === " ")) { e.preventDefault(); finish(true); } }, true);
+    // if the film never starts (offline, blocked), don't keep anyone waiting
+    setTimeout(function () { if (!intro.done && v.readyState < 2 && $("introPlay").hidden) finish(true); }, 8000);
+  })();
 
   /* ---------- avatars: drawn presets, the hooded hunter, or your own photo ---------- */
   function svgAv(c1, c2, body) {
@@ -2145,13 +2841,13 @@ span.pm-img { display: grid; place-items: center; font-family: "IM Fell English 
     var li = levelInfo(state.xp), tk = todayKey();
     var r = me
       ? { name: state.name, honor: honorText(), avatar: state.avatar, level: li.lv, title: titleFor(li.lv), xp: state.xp, today: todayXp(), streak: streak(), done: state.total,
-          badges: ACH.filter(function (a) { return state.badges[a.id]; }).map(function (a) { return a.id; }), badgeN: badgeCount(), at: 0, forfeits: state.forfeit.n }
+          badges: allAch().filter(function (a) { return state.badges[a.id]; }).map(function (a) { return a.id; }), badgeN: badgeCount(), at: 0, forfeits: state.forfeit.n }
       : { name: p.name, honor: typeof p.honor === "string" ? p.honor : "", avatar: p.avatar, level: p.level || 1, title: p.title || "", xp: +p.xp || 0,
           today: p.day === tk ? (+p.today || 0) : 0, streak: +p.streak || 0, done: +p.done || 0,
           badges: typeof p.badgeList === "string" && p.badgeList ? p.badgeList.split(",").filter(function (b) { return ACHMAP[b]; }) : [], badgeN: +p.badges || 0, at: p.updatedAt, forfeits: +p.forfeits || 0 };
     var rank = 0; cloud.players.slice().sort(function (a, b) { return (+b.xp || 0) - (+a.xp || 0); }).forEach(function (x, i) { if ((me && x.id === cloud.uid) || (!me && x.id === id)) rank = i + 1; });
     var medals = r.badges.length
-      ? '<div class="pm-badges">' + r.badges.map(function (b) { var a = ACHMAP[b]; return '<span class="pm-badge" title="' + esc(a.desc) + '"><i>' + esc(a.name.replace(/^The /, "").charAt(0)) + "</i>" + esc(a.name) + "</span>"; }).join("") + "</div>"
+      ? '<div class="pm-badges">' + r.badges.map(function (b) { var a = achById(b); return '<span class="pm-badge" title="' + esc(a.desc) + '"><i>' + esc(a.name.replace(/^The /, "").charAt(0)) + "</i>" + esc(a.name) + "</span>"; }).join("") + "</div>"
       : '<p class="pm-none">' + (r.badgeN ? r.badgeN + (r.badgeN === 1 ? " badge earned." : " badges earned.") : "No badges earned yet.") + "</p>";
     $("pmPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" data-pclose aria-label="Close">×</button>' +
       '<div class="qm-kicker">Guild Record</div>' +
