@@ -1,7 +1,7 @@
 // Sidequest Board offline support.
 // The page itself is fetched fresh when online (so your updates show up right away)
 // and served from this cache when you're offline.
-const CACHE = "sidequest-v3";
+const CACHE = "sidequest-v4";
 const CORE = ["./", "./index.html", "./firebase-config.js", "./apple-touch-icon.png", "./icon-512.png", "./manifest.json", "./tavern.mp3"];
 
 self.addEventListener("install", (e) => {
@@ -35,6 +35,9 @@ self.addEventListener("fetch", (e) => {
 
   // Live data and sign-in always go straight to Firebase.
   if (/firebaseio\.com|firebasedatabase\.app|identitytoolkit|securetoken/.test(url.hostname + url.pathname)) return;
+
+  // The intro film streams straight from the network (videos need range requests).
+  if (/\.mp4$/i.test(url.pathname) || req.headers.has("range")) return;
 
   // This site's own files: network first, cache when offline.
   if (url.origin === self.location.origin) {
