@@ -329,6 +329,14 @@ h1 { font-family: var(--black); font-weight: 400; font-size: clamp(40px, 7vw, 66
 .note.done { filter: drop-shadow(0 5px 4px rgba(0,0,0,.65)) grayscale(.6) brightness(.68); }
 .note.done .stamp { color: #8c1712; }
 .note.taken .stamp { color: #2c4f1f; }
+.note.claimed { filter: grayscale(.6) brightness(.74) drop-shadow(0 5px 4px rgba(0,0,0,.65)); }
+.note.claimed .stamp { color: #8a1c10; z-index: 4; top: 66%; left: 44%; text-align: center; line-height: 1.1; padding: 2px 8px 3px; opacity: 1; mix-blend-mode: normal; background: rgba(238,214,168,.88); box-shadow: 0 1px 3px rgba(0,0,0,.4); font-weight: 700; }
+.note.claimed .stamp small { display: block; font-family: Georgia, serif; font-size: 11px; letter-spacing: .02em; font-weight: 700; max-width: 110px; overflow: hidden; text-overflow: ellipsis; }
+.note .nby { display: block; font-weight: 700; color: #6a2a12; }
+.note.taken .nby { color: #2c4f1f; }
+.board-reset { margin: 2px 0 10px; text-align: center; font-size: 12.5px; color: #f2dfb6; text-shadow: 0 1px 2px #000; }
+.board-reset b { color: #ffd77a; }
+.board-warn { margin: 0 0 10px; padding: 7px 10px; border-radius: 8px; background: rgba(120,30,20,.55); color: #ffe3c9; font-size: 12.5px; text-align: center; }
 .note.taken::before { box-shadow: none; }
 .note.taken { filter: drop-shadow(0 0 3px rgba(240,200,110,.85)) drop-shadow(0 5px 4px rgba(0,0,0,.65)); }
 .r-N { --seal: #3f3a33; --seal-dk: #151210; --ink-rk: #3b3229; }
@@ -1384,13 +1392,11 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
         <div class="meta" id="boardMeta">Tap a notice to read it.</div>
       </div>
       <div class="board-tools tear3">
-        <div class="ask-lab" id="askLab">Ask the guild for</div>
-        <div class="row" role="group" aria-label="Job class to ask for" id="classTabs"></div>
-        <div class="filters" role="group" aria-label="Job type to ask for" id="filters"></div>
-        <button class="btn wax give" id="giveBtn" type="button">Grant me a quest</button>
-        <button class="qotd-btn" id="qotdBtn" type="button">★ Unseal this day’s Quest of the Day <small>twice the reward</small></button>
+        <div class="ask-lab" id="askLab">Show the notices for</div>
+        <div class="row" role="group" aria-label="Job class to show" id="classTabs"></div>
+        <div class="filters" role="group" aria-label="Job type to show" id="filters"></div>
       </div>
-      <div class="plank" id="quests"></div>
+      <div class="board-reset" id="boardReset"></div><div class="board-warn" id="boardWarn" hidden></div><div class="plank" id="quests"></div>
     </section>
 
     <section class="board party-board iron stone-bg" aria-labelledby="partyQTitle">
@@ -1662,7 +1668,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   function fresh() {
     return { name: "Adventurer", xp: 0, total: 0, active: [], today: { d: todayKey(), ids: [] }, log: [], days: [], custom: [], posted: [], postedAt: {},
       stats: { cats: {}, ranks: {}, ids: {}, qotd: 0, boss: 0, best: 0 }, badges: {}, honor: "", journal: [], boss: null,
-      settings: { sfx: true, music: false }, avatar: "p:hunter", seed: newSeed(), qotdShown: "", takenAt: {}, forfeit: { n: 0, xp: 0 }, mainCustom: [], mainBonus: "", mainChecks: { d: "", c: {} }, mainHidden: [], acct: null, updatedAt: 0 };
+      settings: { sfx: true, music: false }, avatar: "p:hunter", seed: newSeed(), qotdShown: "", takenAt: {}, forfeit: { n: 0, xp: 0 }, mainCustom: [], mainBonus: "", mainChecks: { d: "", c: {} }, mainHidden: [], acct: null, boardTake: {}, boardLocal: { d: "", c: {} }, updatedAt: 0 };
   }
   function newSeed() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 10); }
   function todayKey(dt) { var d = dt || new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1) + "-" + pad(d.getDate()); }
@@ -1710,7 +1716,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       (s.log || []).forEach(function (l) {
         if (!l || typeof l.d !== "string") return;
         var o = s.dayStats[l.d] || (s.dayStats[l.d] = { n: 0, xp: 0 });
-        o.xp += +l.xp || 0; if (!l.mainBonus && !l.bounty && !l.crown) o.n += 1;
+        o.xp += +l.xp || 0; if (!l.mainBonus && !l.bounty && !l.crown && !l.take) o.n += 1;
       });
       (s.days || []).forEach(function (d) { if (!s.dayStats[d]) s.dayStats[d] = { n: 1, xp: 0 }; });
     }
@@ -1742,6 +1748,10 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     s.posted.concat(s.active).forEach(function (id) { keep[id] = typeof s.postedAt[id] === "number" ? s.postedAt[id] : Date.now(); });
     s.postedAt = keep;
     if (!s.today || s.today.d !== todayKey()) s.today = { d: todayKey(), ids: [] };
+    if (!s.boardTake || typeof s.boardTake !== "object" || Array.isArray(s.boardTake)) s.boardTake = {};
+    for (var bk in s.boardTake) if (s.active.indexOf(bk) < 0) delete s.boardTake[bk];
+    if (!s.boardLocal || typeof s.boardLocal !== "object" || !s.boardLocal.c || typeof s.boardLocal.c !== "object") s.boardLocal = { d: "", c: {} };
+    if (s.posted.length) s.posted = [];
     return s;
   }
   var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -1832,14 +1842,69 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 
   /* ---------- progress records, achievements, quest of the day, weekly boss ---------- */
   function hash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
-  function qotdId(dk) {
-    dk = dk || todayKey();
-    var n = BASE.length, i = hash("qotd:" + dk) % n, p = dk.split("-");
-    var prev = todayKey(new Date(+p[0], +p[1] - 1, +p[2] - 1)), j = hash("qotd:" + prev) % n;
-    if (i === j) i = (i + 1) % n;
-    return BASE[i].id;
+  /* ---------- the guild board: the same notices for everyone, renewed each morn at 6 ---------- */
+  var BOARD_HOUR = 6, BOARD_SIZE = { N: 4, S: 3, SS: 2 }, TAKE_XP = 5, boardCache = { k: "", ids: [] }, accepting = {};
+  function boardDayKey(dt) { var d = dt || new Date(); return todayKey(new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours() - BOARD_HOUR, d.getMinutes())); }
+  function boardIds(dk) {
+    dk = dk || boardDayKey();
+    if (boardCache.k === dk) return boardCache.ids;
+    var ids = [];
+    RANKS.forEach(function (r) {
+      var pool = BASE.filter(function (q) { return q.rank === r; }).map(function (q) { return q.id; });
+      pool.sort(function (a, b) { return hash(dk + ":" + a) - hash(dk + ":" + b); });
+      var used = {}; ids.forEach(function (x) { used[findQ(x).cat] = 1; });
+      var pick = [];
+      pool.forEach(function (x) { if (pick.length < BOARD_SIZE[r] && !used[findQ(x).cat]) { pick.push(x); used[findQ(x).cat] = 1; } });
+      pool.forEach(function (x) { if (pick.length < BOARD_SIZE[r] && pick.indexOf(x) < 0) pick.push(x); });
+      ids = ids.concat(pick);
+    });
+    boardCache = { k: dk, ids: ids };
+    return ids;
   }
-  function qotdDateLabel() { var d = new Date(); return "the " + ordinal(d.getDate()) + " of " + MONTHS[d.getMonth()]; }
+  function onBoardToday(id) { return boardIds().indexOf(id) >= 0; }
+  function qotdId(dk) { dk = dk || boardDayKey(); var ids = boardIds(dk); return ids[hash("qotd:" + dk) % ids.length]; }
+  function isQOf(id) { var bt = state.boardTake && state.boardTake[id]; return bt ? !!bt.q : id === qotdId(); }
+  function qotdDateLabel() { var p = boardDayKey().split("-"), d = new Date(+p[0], +p[1] - 1, +p[2]); return "the " + ordinal(d.getDate()) + " of " + MONTHS[d.getMonth()]; }
+  function boardResetIn() {
+    var n = new Date(), r = new Date(n.getFullYear(), n.getMonth(), n.getDate(), BOARD_HOUR, 0, 0);
+    if (r <= n) r.setDate(r.getDate() + 1);
+    var m = Math.max(1, Math.round((r - n) / 60000)), h = Math.floor(m / 60); m = m % 60;
+    return (h ? h + "h " : "") + m + "m";
+  }
+  function boardOnline() { return !!(cloud.ready && cloud.db && cloud.uid && state.signed && !cloud.hold && !cloud.exiled && !(state.acct && cloud.anon)); }
+  function localClaims() { var dk = boardDayKey(); if (state.boardLocal.d !== dk) state.boardLocal = { d: dk, c: {} }; return state.boardLocal.c; }
+  function boardClaims() {
+    var dk = boardDayKey(), loc = localClaims(), out = {}, k;
+    if (cloud.claims && cloud.bDay === dk) { for (k in cloud.claims) out[k] = cloud.claims[k]; for (k in loc) if (!out[k] && (loc[k].pend || state.active.indexOf(k) >= 0)) out[k] = loc[k]; return out; }
+    for (k in loc) out[k] = loc[k];
+    return out;
+  }
+  function claimOf(id) { return boardClaims()[id] || null; }
+  function isMine(c) { return !!c && (c.uid === "me" || (cloud.uid && c.uid === cloud.uid) || (c.pend && state.active.indexOf(c.qid) >= 0)); }
+  function setLocalClaim(dk, id, c) { if (state.boardLocal.d !== dk) state.boardLocal = { d: dk, c: {} }; if (c) state.boardLocal.c[id] = c; else delete state.boardLocal.c[id]; }
+  function watchBoard() {
+    if (!cloud.db) return;
+    var dk = boardDayKey();
+    if (cloud.bRef && cloud.bDay === dk) return;
+    if (cloud.bRef) { try { cloud.bRef.off(); } catch (e) {} }
+    cloud.bDay = dk; cloud.claims = null;
+    var ref = cloud.bRef = cloud.db.ref("board/" + dk);
+    ref.on("value", function (sn) {
+      if (cloud.bRef !== ref) return;
+      var c = {}; if (sn && sn.forEach) sn.forEach(function (x) { var v = x.val(); if (v && typeof v === "object") { v.qid = x.key; c[x.key] = v; } });
+      cloud.claims = c; cloud.bErr = ""; render();
+    }, function (e) {
+      if (cloud.bRef !== ref) return;
+      cloud.bErr = String(e && e.code || e); cloud.claims = null; cloud.bRef = null; render();
+    });
+  }
+  var lastBoardDay = boardDayKey();
+  function boardTick() { var dk = boardDayKey(); if (dk !== lastBoardDay) { lastBoardDay = dk; watchBoard(); render(); } else if (document.getElementById("boardReset")) renderBoardReset(); }
+  setInterval(boardTick, 30000);
+  document.addEventListener("visibilitychange", function () { if (!document.hidden) boardTick(); });
+  function renderBoardReset() {
+    $("boardReset").innerHTML = "Shared by the whole guild · each notice may be taken by <b>one</b> only · <b>+" + TAKE_XP + " XP</b> for taking one · fresh notices in <b>" + boardResetIn() + "</b> (6 in the morn)";
+  }
   function weekInfo(d) {
     d = d || new Date();
     var back = (d.getDay() + 6) % 7;
@@ -2088,7 +2153,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     return best;
   }
   function forfeitDeed(k) {
-    var e = null; state.log.forEach(function (l) { if (l.k === k) e = l; }); if (!e || e.bounty || e.mainBonus || e.crown) return;
+    var e = null; state.log.forEach(function (l) { if (l.k === k) e = l; }); if (!e || e.bounty || e.mainBonus || e.crown || e.take) return;
     var q = e.id ? findQ(e.id) : null;
     if (!q) BASE.forEach(function (b) { if (!q && e.t.indexOf(b.title) === 0) q = b; });
     var cat = e.cat || (q && q.cat), rank = e.rank || (q && q.rank), qid = e.id || (q && q.id);
@@ -2156,12 +2221,47 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   }
   /* ---------- actions ---------- */
   function accept(id) {
+    var q = findQ(id); if (!q) return;
     if (state.active.length >= MAX_SLOTS) { toast("Thy hands are full. See a quest through first."); return; }
-    if (state.active.indexOf(id) >= 0 || state.today.ids.indexOf(id) >= 0) return;
+    if (state.active.indexOf(id) >= 0) return;
+    var dk = boardDayKey();
+    if (boardIds(dk).indexOf(id) < 0) { toast("That notice is no longer upon the board."); render(); return; }
+    var c = claimOf(id);
+    if (c && !isMine(c)) { toast("Too late! " + (c.name || "Another adventurer") + " already took this quest."); return; }
+    if (c && c.done) return;
+    if (accepting[id]) return;
+    accepting[id] = 1;
+    var me = { uid: cloud.uid || "me", name: (state.name || "Adventurer").slice(0, 24), at: Date.now() };
+    function finish(note) { delete accepting[id]; takeUp(q, dk, me, note); }
+    if (!boardOnline()) { finish(cloud.db ? " (Offline: the guild will not see thy claim.)" : ""); return; }
+    setLocalClaim(dk, id, { uid: me.uid, name: me.name, at: me.at, pend: 1, qid: id }); render();
+    cloud.db.ref("board/" + dk + "/" + id).transaction(function (cur) { if (cur) return; return me; })
+      .then(function (r) {
+        if (r && r.committed) { finish(""); return; }
+        delete accepting[id]; setLocalClaim(dk, id, null);
+        var o = cloud.claims && cloud.claims[id];
+        save(); render(); sfx("paper");
+        toast("Too late! " + (o && o.name ? o.name : "Another adventurer") + " took this quest first.");
+      })
+      .catch(function (e) {
+        var code = String(e && e.code || e && e.message || e);
+        if (/permission/i.test(code)) { delete accepting[id]; setLocalClaim(dk, id, null); render(); toast("The guild board refused thee. Mayhap another took it, or the board's rules are not yet published."); return; }
+        finish(" (The guild board could not be reached; taken on this device only.)");
+      });
+  }
+  function takeUp(q, dk, me, note) {
+    var id = q.id, before = levelInfo(state.xp).lv, tk = todayKey();
+    if (state.active.indexOf(id) >= 0 || state.active.length >= MAX_SLOTS) { setLocalClaim(dk, id, null); render(); return; }
     state.active.push(id); state.takenAt[id] = Date.now();
     state.posted = state.posted.filter(function (x) { return x !== id; });
+    setLocalClaim(dk, id, { uid: me.uid, name: me.name, at: me.at, qid: id });
+    var e = { k: "tk-" + id + "-" + Date.now().toString(36), take: true, id: id, t: "Took from the board: " + q.title, xp: TAKE_XP, d: tk, at: Date.now() };
+    state.log.unshift(e); if (state.log.length > 150) state.log.length = 150;
+    state.xp += TAKE_XP; bumpDay(tk, 0, TAKE_XP);
+    state.boardTake[id] = { d: dk, q: id === qotdId(dk), k: e.k };
     save(); render(); sfx("take"); crowFly();
-    var q = findQ(id); if (q) toast("Quest accepted: " + q.title);
+    toast("Quest taken: " + q.title + " · +" + TAKE_XP + " XP for taking it" + (note || ""));
+    var after = levelInfo(state.xp).lv; if (after > before) levelUp(after);
   }
   /* ---------- a crow flies past the screen whenever a quest is accepted ---------- */
   var crow = { blob: null, timer: null, url: null };
@@ -2177,9 +2277,16 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   }
   function abandon(id) {
     state.active = state.active.filter(function (x) { return x !== id; });
-    if (state.posted.indexOf(id) < 0 && findQ(id)) state.posted.push(id);
-    if (typeof state.postedAt[id] !== "number") state.postedAt[id] = Date.now();
-    save(); render(); toast("The notice goes back upon the board.");
+    delete state.postedAt[id];
+    var bt = state.boardTake[id];
+    if (!bt) { save(); render(); toast("Thou hast set the quest down."); return; }
+    delete state.boardTake[id];
+    if (boardOnline()) cloud.db.ref("board/" + bt.d + "/" + id).remove().catch(function () {});
+    if (state.boardLocal.d === bt.d) delete state.boardLocal.c[id];
+    var e = null; state.log.forEach(function (l) { if (l.k === bt.k) e = l; });
+    if (e) { state.xp = Math.max(0, state.xp - e.xp); bumpDay(e.d, 0, -e.xp); state.log = state.log.filter(function (l) { return l.k !== bt.k; }); }
+    save(); render();
+    toast(bt.d === boardDayKey() ? "The notice goes back upon the board for another to take. The " + TAKE_XP + " free XP are returned." : "Thou hast set it down. The " + TAKE_XP + " free XP are returned.");
   }
   function takeDown(id) {
     state.posted = state.posted.filter(function (x) { return x !== id; });
@@ -2189,7 +2296,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   function complete(id, opts) {
     opts = opts || {};
     var q = findQ(id); if (!q) { abandon(id); return; }
-    var before = levelInfo(state.xp).lv, isQ = id === qotdId();
+    var before = levelInfo(state.xp).lv, isQ = isQOf(id), bt = state.boardTake[id];
     var gain = (XP[q.rank] || 10) * (isQ ? 2 : 1), coins = (COIN[q.rank] || 2) * (isQ ? 2 : 1);
     state.xp += gain; state.total += 1; state.coins = (state.coins || 0) + coins;
     state.active = state.active.filter(function (x) { return x !== id; });
@@ -2203,6 +2310,11 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     if (q.main) { if (!mainIsDone(id)) mainDoneIds().push(id); if (q.once) q.doneOn = mk; }
     var entry = { k: id + "-" + Date.now().toString(36), id: id, cat: q.cat, rank: q.rank, q: isQ, main: !!q.main, md: q.main ? mk : "", coins: coins, t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
     state.log.unshift(entry); delete state.takenAt[id];
+    if (bt) {
+      delete state.boardTake[id];
+      if (state.boardLocal.d === bt.d && state.boardLocal.c[id]) state.boardLocal.c[id].done = true;
+      if (boardOnline()) cloud.db.ref("board/" + bt.d + "/" + id).transaction(function (cur) { if (!cur || cur.uid !== cloud.uid) return; cur.done = true; cur.doneAt = Date.now(); return cur; }).catch(function () {});
+    }
     recordDeed(entry, q.main ? "main" : isQ ? "qotd" : "side");
     bumpDay(tk, 1, gain);
     var S = state.stats;
@@ -2273,12 +2385,16 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     qotd: { v: "torn", tone: "gold", head: "Reward" }
   };
   function noteHtml(q, kind) {
-    var done = kind === "main" ? mainIsDone(q.id) : state.today.ids.indexOf(q.id) >= 0, taken = state.active.indexOf(q.id) >= 0;
+    var bc = kind !== "main" ? claimOf(q.id) : null, mine = bc && isMine(bc), other = bc && !mine;
+    var done = kind === "main" ? mainIsDone(q.id) : bc ? !!bc.done : state.today.ids.indexOf(q.id) >= 0, taken = state.active.indexOf(q.id) >= 0;
     var P = kind === "main" ? PAPER.main : kind === "qotd" ? PAPER.qotd : q.custom ? PAPER.custom : PAPER[q.rank];
     var tear = 1; for (var k = 0; k < q.id.length; k++) tear += q.id.charCodeAt(k); tear = tear % 5 + 1;
-    var pi = kind === "side" ? postedInfo(q.id) : null, xp = (XP[q.rank] || 10) * (kind === "qotd" ? 2 : 1);
-    var sub = kind === "main" ? (q.once ? "Once and no more" : "Renewed each morn at 7") + (q.after != null ? " · seal after " + q.after + ":00" : "") : pi ? "Pinned " + pi.date + " · " + pi.ago : kind === "qotd" ? "Quest for " + qotdDateLabel() + " · twice the reward" : "";
-    return '<button class="note p-' + P.v + " t-" + P.tone + " tear" + tear + " r-" + q.rank + (done ? " done" : "") + (taken ? " taken" : "") +
+    var pi = null, xp = (XP[q.rank] || 10) * (kind === "qotd" ? 2 : 1);
+    var who = bc ? (mine ? "thee" : esc(bc.name || "an adventurer")) : "";
+    var sub = kind === "main" ? (q.once ? "Once and no more" : "Renewed each morn at 7") + (q.after != null ? " · seal after " + q.after + ":00" : "")
+      : (kind === "qotd" ? "Quest for " + qotdDateLabel() + " · twice the reward" : "Free to take · +" + TAKE_XP + " XP for taking it");
+    if (bc) sub = mine ? '<span class="nby">' + (bc.done ? "Done by " : "Taken by ") + who + "</span>" : "";
+    return '<button class="note p-' + P.v + " t-" + P.tone + " tear" + tear + " r-" + q.rank + (done ? " done" : "") + (taken ? " taken" : "") + (other && !done ? " claimed" : "") + (other && done ? " claimed" : "") +
       (pi && pi.days >= 3 ? " old" : "") + (q.id === freshId ? " fresh" : "") + (kind === "qotd" ? " qotd" : "") +
       '" data-open="' + q.id + '" aria-label="' + esc(P.head + ", " + RANK_NAME[q.rank] + ": " + q.title) + '">' +
       (P.v === "scroll" ? '<span class="roll rt" aria-hidden="true"></span><span class="roll rb" aria-hidden="true"></span>' : '<span class="pin" aria-hidden="true"></span>') +
@@ -2293,7 +2409,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       })() : "") +
       '<span class="nfoot"><span class="nxp">+' + xp + " XP" + (kind === "qotd" ? " <s>+" + XP[q.rank] + "</s>" : "") + "</span>" +
       '<span class="sealbox" aria-hidden="true"><span class="wax' + (kind === "qotd" ? " star" : "") + '">' + (kind === "qotd" ? "★" : q.rank) + '</span><span class="nrib">' + RANK_NAME[q.rank] + "</span></span></span>" +
-      (done ? '<span class="stamp">Done</span>' : taken ? '<span class="stamp">Taken</span>' : "") + "</button>";
+      (other ? '<span class="stamp">' + (bc.done ? "Done" : "Taken") + "<small>by " + who + "</small></span>" : done ? '<span class="stamp">Done</span>' : taken || bc ? '<span class="stamp">Taken</span>' : "") + "</button>";
   }
   function renderMain() {
     var list = mainQuests(), tk = todayKey();
@@ -2323,42 +2439,34 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       return '<button class="chip" data-filter="' + c + '" aria-pressed="' + (c === filter) + '">' + c + "</button>";
     }).join("");
 
-    var full = state.active.length >= MAX_SLOTS;
-    var avail = allQuests().filter(function (q) {
-      return (filter === "All" || q.cat === filter) && state.today.ids.indexOf(q.id) < 0 && state.posted.indexOf(q.id) < 0 && state.active.indexOf(q.id) < 0;
-    });
     $("classTabs").innerHTML = ["All"].concat(RANKS).map(function (r) {
       return '<button class="tab' + (r === "All" ? "" : " r-" + r) + '" data-rank="' + r + '" aria-pressed="' + (rankTab === r) + '">' +
         (r === "All" ? "Any rank" : RANK_HEAD[r]) + "</button>";
     }).join("");
-    var ids = state.posted.concat(state.active.filter(function (id) { return state.posted.indexOf(id) < 0; }));
-    var QID = qotdId();
-    var onBoard = ids.filter(function (id) { return id !== QID; }).map(findQ).filter(Boolean);
+    var QID = qotdId(), claims = boardClaims();
+    var onBoard = boardIds().filter(function (id) { return id !== QID; }).map(findQ).filter(Boolean);
     var shown = onBoard.filter(function (q) { return (filter === "All" || q.cat === filter) && (rankTab === "All" || q.rank === rankTab); });
     var what = (rankTab === "All" ? "" : RANK_NAME[rankTab] + " ") + (filter === "All" ? "" : filter + " ");
-    var qq = findQ(QID), qDone = state.today.ids.indexOf(QID) >= 0, qTaken = state.active.indexOf(QID) >= 0;
-    var qShown = state.qotdShown === todayKey() || qDone || qTaken;
-    $("qotdBtn").hidden = qShown;
-    var qotdHtml = !qShown ? "" : '<div class="qotd-wrap"><div class="qotd-head">Quest of the Day <small>' + esc(qotdDateLabel()) + ' · the same for the whole guild · twice the reward · a new one at the midnight bell</small></div>' +
-      noteHtml(qq, "qotd") + "</div>";
+    var qq = findQ(QID);
+    var qotdHtml = '<div class="qotd-wrap"><div class="qotd-head">Quest of the Day <small>' + esc(qotdDateLabel()) + ' · twice the reward · only one adventurer may take it</small></div>' + noteHtml(qq, "qotd") + "</div>";
+    var nTaken = boardIds().filter(function (id) { return claims[id]; }).length, nAll = boardIds().length;
     $("quests").innerHTML = qotdHtml + (shown.length
       ? '<div class="notes">' + shown.map(function (q) { return noteHtml(q, "side"); }).join("") + '</div><div class="board-count">' +
-        (shown.length < onBoard.length ? "Showing " + shown.length + " of " + onBoard.length + " notices · " : "") + onBoard.length + " of " + MAX_BOARD + " places taken</div>"
-      : onBoard.length
-        ? '<p class="board-empty">No ' + esc(what) + 'notices on the board.<small>Tap “Grant me a quest” to ask for one, or choose another kind above.</small></p>'
-        : '<p class="board-empty">' + (qShown ? "The rest of the board is bare." : "The board is bare.") + '<small>Tap “Grant me a quest” and the guild will nail a notice here' + (qShown ? "" : ", or reveal today\u2019s Quest of the Day") + ".</small></p>");
-    var open = state.posted.length;
-    $("boardMeta").textContent = onBoard.length ? (open + (open === 1 ? " notice" : " notices") + " waiting. Tap one to read it.") : "No notices nailed up yet.";
-    $("askLab").textContent = "Ask the guild for";
+        (shown.length < onBoard.length ? "Showing " + shown.length + " of " + onBoard.length + " notices · " : "") + nTaken + " of " + nAll + " notices taken this day</div>"
+      : '<p class="board-empty">No ' + esc(what) + 'notices on this day\u2019s board.<small>Choose another kind above, or return at 6 in the morn for fresh notices.</small></p>');
+    var free = nAll - nTaken;
+    $("boardMeta").textContent = free ? free + (free === 1 ? " notice" : " notices") + " still free to take. First come, first served." : "Every notice is taken. Fresh ones arrive at 6 in the morn.";
+    renderBoardReset();
+    var warn = cloud.ready && cloud.bErr ? "The guild board could not be read (" + cloud.bErr + "). Publish the newest Firebase rules so all may share it." : !cloud.db ? "The guild board is not connected. Claims are kept on this device only." : "";
+    $("boardWarn").hidden = !warn; $("boardWarn").textContent = warn;
     renderMain();
-    $("giveBtn").disabled = onBoard.length >= MAX_BOARD;
     if (openId) showJob(openId, true);
 
     var slotsHtml = "";
     for (var i = 0; i < MAX_SLOTS; i++) {
       var id = state.active[i], q = id && findQ(id);
       if (q) {
-        var isQ = q.id === QID;
+        var isQ = isQOf(q.id);
         slotsHtml += '<div class="slot filled r-' + q.rank + (isQ ? " qslot" : "") + '"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span class="cat">' + esc(q.cat) + (isQ ? " · Quest of the Day" : "") + '</span><span class="xp">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP</span></div>" +
           '<div class="t">' + esc(q.title) + "</div>" +
           '<div class="acts"><button class="btn gold small" data-complete="' + q.id + '">Complete</button><button class="btn ghost small" data-abandon="' + q.id + '">Abandon</button></div></div>';
@@ -2392,7 +2500,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
         html += '<li class="ledger-day">The ' + ordinal(dt.getDate()) + " of " + MONTHS[dt.getMonth()] + "</li>";
       }
       html += '<li class="ledger-row"><span class="lt">' + esc(l.t) + '</span><span class="xp">+' + l.xp + " XP</span>" +
-        (l.bounty ? '<span class="lf-none">bounty</span>' : l.mainBonus ? '<span class="lf-none">bonus</span>' : l.crown ? '<span class="lf-none">crown</span>' : '<button class="lf" type="button" data-forfeit="' + esc(l.k) + '">Forfeit</button>') + "</li>";
+        (l.bounty ? '<span class="lf-none">bounty</span>' : l.mainBonus ? '<span class="lf-none">bonus</span>' : l.crown ? '<span class="lf-none">crown</span>' : l.take ? '<span class="lf-none">taken</span>' : '<button class="lf" type="button" data-forfeit="' + esc(l.k) + '">Forfeit</button>') + "</li>";
     });
     $("log").innerHTML = html;
   }
@@ -2407,13 +2515,17 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   function showJob(id, keep) {
     var q = findQ(id); if (!q) { closeJob(); return; }
     openId = id;
-    var done = q.main ? mainIsDone(id) : state.today.ids.indexOf(id) >= 0, taken = state.active.indexOf(id) >= 0, full = state.active.length >= MAX_SLOTS;
+    var bc = q.main ? null : claimOf(id), other = bc && !isMine(bc);
+    var done = q.main ? mainIsDone(id) : bc ? !!bc.done && !other : state.today.ids.indexOf(id) >= 0, taken = state.active.indexOf(id) >= 0, full = state.active.length >= MAX_SLOTS;
+    var gone = !q.main && !taken && !bc && !onBoardToday(id);
     var acts, status = "";
-    if (done) { status = '<p class="qm-status" style="color:#8f1f1c">Done this day. It returns at dawn.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
+    if (other) { status = '<p class="qm-status" style="color:#7a1f14">' + (bc.done ? "Done by " : "Taken by ") + esc(bc.name || "another adventurer") + ". None else may take it this day.</p>"; acts = '<button class="btn ghost" data-close>Close</button>'; }
+    else if (gone) { status = '<p class="qm-status" style="color:#6b5134">This notice has left the board.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
+    else if (done) { status = '<p class="qm-status" style="color:#8f1f1c">Done this day. It returns at dawn.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
     else if (taken) { status = '<p class="qm-status" style="color:#2f5a2f">Underway</p>'; acts = '<button class="btn gold" data-complete="' + id + '">Complete</button><button class="btn ghost" data-abandon="' + id + '">Abandon</button>'; }
     else if (full) { status = '<p class="qm-status" style="color:#6b5134">Thy hands are full (3 of 3). See a quest through first.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
-    else acts = '<button class="btn wax" data-accept="' + id + '">Accept this quest</button><button class="btn ghost" data-close>Not now</button>';
-    var isQ = id === qotdId(), isMain = !!q.main;
+    else acts = '<button class="btn wax" data-accept="' + id + '">Take this quest (+' + TAKE_XP + ' XP)</button><button class="btn ghost" data-close>Not now</button>';
+    var isQ = isQOf(id), isMain = !!q.main;
     var left = isMain ? stepsLeft(q) : 0;
     if (isMain && !done) acts = '<button class="btn gold" data-complete="' + id + '"' + (left ? " disabled" : "") + ">Complete</button><button class=\"btn ghost\" data-close>Not now</button>";
     var stepsHtml = "";
@@ -2438,7 +2550,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       (q.desc ? '<p class="qm-desc">' + esc(q.desc) + "</p>" : "") +
       stepsHtml +
       '<div class="qm-story"><span>' + (q.story ? "The tale" : "Word from the guild") + '</span><p>' + esc(q.story || FLAVOR[q.rank]) + "</p></div>" +
-      (function () { var pi = (isQ || isMain) ? null : postedInfo(id); return pi ? '<p class="qm-posted">Nailed up upon <b>' + pi.full + "</b><br>Waiting on the board " + pi.ago + "</p>" : ""; })() +
+      (function () { return isMain || q.custom ? "" : '<p class="qm-posted">Upon the guild board for <b>' + esc(qotdDateLabel()) + "</b> only.<br>If none takes it, it vanishes at 6 in the morn.</p>"; })() +
       '<dl class="qm-meta"><div><dt>Patron</dt><dd>' + esc(isMain && !q.custom ? "The Crown" : q.custom ? "Yourself" : (CLIENT[q.cat] || "The Guild")) + '</dd></div><div><dt>Kind</dt><dd>' + esc(q.cat) +
       '</dd></div><div><dt>Reward</dt><dd class="rw">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP</dd></div></dl>" +
       status + '<div class="qm-acts">' + acts + "</div>" +
@@ -2549,11 +2661,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     if (t.dataset.jdel) { deleteEntry(t.dataset.jdel, t); return; }
     if (t.dataset.photo) { var im = t.querySelector("img"); if (im && im.src) { $("lbImg").src = im.src; $("lbImg").alt = im.alt; $("lightbox").classList.add("show"); } return; }
   });
-  $("giveBtn").addEventListener("click", drawJob);
-  $("qotdBtn").addEventListener("click", function () {
-    state.qotdShown = todayKey(); save(); render(); sfx("pin");
-    toast("This day’s Quest of the Day is nailed to the board.");
-  });
+
   $("luClose").addEventListener("click", function () { $("levelup").classList.remove("show"); setTimeout(nextCelebration, 180); });
   document.addEventListener("keydown", function (e) {
     if (e.key !== "Escape") return;
@@ -2810,7 +2918,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       .then(function () {
         if (!firebase.apps.length) firebase.initializeApp(cfg);
         cloud.db = firebase.database();
-        watchSeasons(); watchTavern(); watchParties(); watchDeeds();
+        watchSeasons(); watchTavern(); watchParties(); watchDeeds(); watchBoard();
         cloud.db.ref("players").orderByChild("xp").limitToLast(200).on("value", function (snap) {
           var arr = []; snap.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(decodePlayer(v)); });
           cloud.players = arr; try { localStorage.setItem("sidequest-lb", JSON.stringify(arr)); } catch (e) {}
@@ -2840,7 +2948,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
           if (state.acct && u.isAnonymous) { openGate("relogin"); return; }
           if (!u.isAnonymous && state.acct) watchSave(u.uid);
           pushNow();
-          try { claimCrown(); claimParties(); renderTavern(); renderParty(); renderChron(); watchGifts(); } catch (e) {}
+          try { claimCrown(); claimParties(); renderTavern(); renderParty(); renderChron(); watchGifts(); watchBoard(); render(); } catch (e) {}
         });
       })
       .catch(authFail);
@@ -3777,7 +3885,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
         state.signed = true;
         cloud.uid = o.uid; cloud.anon = false; cloud.ready = true; cloud.hold = false;
         save(); renderAll(); pushNow(); pushSave(true); watchSave(o.uid);
-        try { claimCrown(); claimParties(); renderTavern(); renderParty(); watchGifts(); } catch (e) {}
+        try { claimCrown(); claimParties(); renderTavern(); renderParty(); watchGifts(); watchBoard(); render(); } catch (e) {}
         return got ? "back" : "fresh";
       })
       .catch(function (e) { cloud.hold = false; if (state.signed) pushNow(); throw e; });
@@ -3790,7 +3898,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       state.name = n; state.signed = true; state.acct = { name: n, key: acctKey(n), since: Date.now() };
       cloud.uid = uid; cloud.anon = false; cloud.ready = true;
       save(); renderAll(); pushNow(); pushSave(true); watchSave(uid);
-      try { renderTavern(); renderParty(); watchGifts(); } catch (e) {}
+      try { renderTavern(); renderParty(); watchGifts(); watchBoard(); render(); } catch (e) {}
       return "made";
     });
   }
