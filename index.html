@@ -1440,6 +1440,14 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 .hf-sub { margin-top: 6px; font: italic 14px/1.4 Georgia, serif; color: #d7c39a; }
 .hf-acts { margin-top: 14px; display: flex; flex-wrap: wrap; gap: 8px; justify-content: center; }
 .hf-acts .btn.ghost { color: #f3dfb6; border-color: rgba(243,223,182,.5); }
+
+/* ---------- the full guild board ---------- */
+.see-all { display: block; width: 100%; margin: 14px 0 4px; padding: 12px; font-size: 16px; }
+.see-all small { display: block; margin-top: 2px; font: italic 12px Georgia, serif; opacity: .85; }
+.fboard { position: fixed; inset: 0; z-index: 14; display: none; overflow-y: auto; -webkit-overflow-scrolling: touch; padding: max(12px, env(safe-area-inset-top)) 10px 24px; background: rgba(5,4,3,.82); backdrop-filter: blur(3px); -webkit-backdrop-filter: blur(3px); }
+.fboard.show { display: block; }
+.fb-wrap { position: relative; max-width: 1100px; margin: 0 auto; }
+.fb-x { position: absolute; right: 10px; top: 10px; z-index: 5; width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(214,162,74,.7); background: rgba(20,12,6,.85); color: #f3dfb6; font-size: 24px; line-height: 1; cursor: pointer; }
 </style>
 </head>
 <body>
@@ -1568,11 +1576,6 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       <div class="board-sign">
         <h2 id="boardTitle">Side Quests</h2>
         <div class="meta" id="boardMeta">Tap a notice to read it.</div>
-      </div>
-      <div class="board-tools tear3">
-        <div class="ask-lab" id="askLab">Show the notices for</div>
-        <div class="row" role="group" aria-label="Job class to show" id="classTabs"></div>
-        <div class="filters" role="group" aria-label="Job type to show" id="filters"></div>
       </div>
       <div class="board-reset" id="boardReset"></div><div class="board-warn" id="boardWarn" hidden></div><div class="plank" id="quests"></div>
     </section>
@@ -1759,6 +1762,19 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 </div>
 <div class="crow-fly" id="crowFly" aria-hidden="true"><img id="crowImg" alt=""></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="fboard" id="fbModal" role="dialog" aria-modal="true" aria-labelledby="fbTitle">
+  <section class="board fb-wrap iron stone-bg">
+    <button class="fb-x" type="button" data-fbclose aria-label="Close the board">&times;</button>
+    <div class="board-sign"><h2 id="fbTitle">The Guild Board</h2><div class="meta" id="fbMeta"></div></div>
+    <div class="board-tools tear3">
+      <div class="ask-lab" id="askLab">Show the notices for</div>
+      <div class="row" role="group" aria-label="Job class to show" id="classTabs"></div>
+      <div class="filters" role="group" aria-label="Job type to show" id="filters"></div>
+    </div>
+    <div class="board-reset" id="fbReset"></div>
+    <div class="plank" id="fbQuests"></div>
+  </section>
+</div>
 <div class="hatch-fx" id="hatchFx" role="dialog" aria-modal="true" aria-labelledby="hfTxt"><div class="hf-rays"></div><div class="hf-glow"></div><div class="hf-pet" id="hfPet"></div><div class="hf-flash"></div><div class="hf-box"><div class="hf-kick" id="hfKick"></div><div class="hf-txt" id="hfTxt"></div><div class="hf-sub" id="hfSub"></div><div class="hf-acts" id="hfActs"></div></div></div>
 <button class="bm-tab" id="bmTab" type="button" aria-label="Open bookmarks" aria-controls="bmDrawer" aria-expanded="false">Bookmarks</button>
 <div class="bm-shade" id="bmShade" aria-hidden="true"></div>
@@ -1792,55 +1808,103 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   var OLD_CAT = { Katawan: "Body", Utak: "Mind", Bahay: "Home", Social: "Social", Creative: "Creative", Mindset: "Spirit" };
   var TITLES = [[1, "Peasant"], [3, "Squire"], [5, "Knight"], [8, "Champion"], [12, "Hero of the Realm"], [20, "Living Legend"]];
   var BASE = [
-    ["ja01", "Take a new route home", "Adventure", "N", "Walk, bike, or commute home using streets you've never taken. Spot one place you'd like to come back to.", "The guild's mapmakers say every road a traveler skips is a story left unread. They want your eyes on a path no one has charted yet."],
-    ["ja02", "Sunset walk with no earphones", "Adventure", "N", "Walk for 20 minutes around sunset without music or podcasts. Just take in the sounds and the sky.", "An old ranger once said the land only speaks to those who stop filling their ears. The guild asks you to hear what your town sounds like at dusk."],
-    ["ja03", "Eat a vegetable you usually avoid", "Adventure", "N", "At home or at the carinderia, eat a full serving of a gulay you normally push aside. Give it an honest rating out of 10.", "The guild cook swears every adventurer who conquered the ampalaya came back twice as brave."],
-    ["jb01", "Walk 5,000 steps", "Body", "N", "Reach 5,000 steps today by any route you like. Errands count.", "The guild's messengers never ride on short errands. Their legs are their pride, and they're wondering about yours."],
-    ["jb02", "Drink 8 glasses of water", "Body", "N", "Keep a bottle with you and finish 8 glasses before bed.", "The village healer swears half the guild's complaints are just thirst. Prove her right."],
-    ["jb03", "Stretch for 10 minutes", "Body", "N", "Neck, shoulders, back, hips, legs. Go slow and breathe through each stretch.", "Stiff archers miss. The master of arms wants your body loose before the next hunt."],
-    ["jm01", "Learn 5 new English words", "Mind", "N", "Pick 5 words you don't know, write them down, and use each one in a sentence today.", "The scribes' hall pays well for anyone who can say exactly what they mean."],
-    ["jm02", "Read 15 pages of a book", "Mind", "N", "Any book that isn't required for school. Fiction, self-help, comics with lots of words, all fine.", "The library tower keeps its lamps lit for anyone willing to turn a page."],
-    ["jh01", "Make your bed right after waking up", "Home", "N", "Within 5 minutes of getting up. It's the first win of the day.", "Every knight's day starts with one small order kept. The rest follows."],
-    ["jh02", "Reset your desk", "Home", "N", "Clear everything off, wipe it down, and put back only what you actually need.", "A smith with a cluttered anvil forges crooked blades. Clear yours."],
-    ["jh03", "Wash every dish you used today", "Home", "N", "No leaving them for later. Wash, dry, put away.", "The innkeeper won't rent a room to guests who leave their bowls behind."],
-    ["js01", "Message a friend you miss", "Social", "N", "Send a real message, not just a reaction, to someone you haven't talked to in a while.", "Bonds forged in old campaigns rust if left alone. The guild asks you to polish one."],
-    ["js02", "Thank someone in person", "Social", "N", "Tell someone exactly what they did for you and why it mattered.", "The chronicler says gratitude spoken aloud is worth twice the gratitude kept in the heart."],
-    ["jc01", "Write down 5 content ideas", "Creative", "N", "Five quick ideas for videos, edits, posts, or any project. Rough is fine; just get them on paper.", "The bards never run out of songs because they never stop collecting them. Start your collection."],
-    ["jc02", "Take 3 good photos outside", "Creative", "N", "Look for good light, framing, and an interesting subject. Keep your best three.", "The court painter is getting old. The guild is quietly looking for new eyes."],
-    ["jp01", "Write 3 things you're grateful for", "Spirit", "N", "Write them down by hand or in your notes app. Be specific.", "The monks of the old shrine count their blessings every night. They say it keeps the dark at bay."],
-    ["jp02", "Plan tomorrow before you sleep", "Spirit", "N", "Write your top 3 tasks for tomorrow and the time you'll do each one.", "Generals win their battles the night before. Draw up your battle plan."],
-    ["jp03", "10 minutes with no phone", "Spirit", "N", "Sit, walk, or lie down for 10 minutes with your phone in another room. Let your mind wander.", "The witch's mirror steals hours from everyone who stares into it. Steal ten minutes back."],
-    ["ja04", "Walk around your barangay for 30 minutes", "Adventure", "S", "Thirty minutes on foot around your neighborhood, early morning or late afternoon. Notice one thing you never saw before.", "The watch needs fresh eyes on the village streets. Walk them and report what has changed."],
-    ["ja05", "Watch the sunrise", "Adventure", "S", "Wake up before dawn and watch the sky change from your window, rooftop, yard or the street outside. Stay until the sun is up.", "The watchtower guard says dawn looks different every single day. He wants a report from yours."],
-    ["ja06", "Spend 30 minutes at a free spot in town", "Adventure", "S", "Walk to a nearby park, plaza, chapel, court or library and stay at least 30 minutes. No buying needed.", "There's a blank corner on the guild map, close to home. Go and fill it in."],
-    ["ja07", "Cook something new from what's in the kitchen", "Adventure", "S", "No shopping needed: look at what you already have at home and make a dish you've never cooked before. Ask permission first and clean up after.", "A traveling cook once said the best recipes are born from an almost-empty pantry. Prove him right."],
-    ["jb04", "Do 50 push-ups today", "Body", "S", "Any number of sets. Knee push-ups count if you're building up.", "The new recruits are betting you can't. Prove them wrong."],
-    ["jb05", "Run or jog for 20 minutes", "Body", "S", "Easy pace is fine. Walk breaks are allowed; just keep moving for 20 minutes.", "When the war horn sounds, the guild needs runners. Train your lungs while the roads are quiet."],
-    ["jb06", "Play a sport with other people", "Body", "S", "Basketball, badminton, volleyball, football, anything. At least 30 minutes of actual play.", "The garrison holds games every week. Those who play together fight well together."],
-    ["jm03", "Two focused study sessions", "Mind", "S", "Two 25-minute sessions on school or a skill, with a 5-minute break between. Phone in another room during each.", "The archmage's apprentices train their focus like a muscle. Two rounds today."],
-    ["jm04", "Learn it from a tutorial, then do it", "Mind", "S", "Watch a tutorial (coding, editing, cooking, anything) and try it yourself right after. Finish one small result.", "Reading about swordplay never saved anyone. The master wants to see you swing."],
-    ["jm05", "Practice a skill for 1 hour", "Mind", "S", "Drawing, editing, an instrument, a sport move, coding, a language: one full hour of real practice on something you want to get better at.", "The guild's tinkerers say masters are just apprentices who never stopped practicing. One more hour."],
-    ["jh04", "Do your laundry from wash to fold", "Home", "S", "Wash, dry, fold, and put everything away. No pile on the chair.", "A clean cloak marks a disciplined traveler. Yours has seen better days."],
-    ["jh05", "Cook a full meal for your family", "Home", "S", "Plan it, cook it, serve it, and clean up after.", "The longhouse is hungry tonight and the cook is down with fever. Someone has to feed the hall."],
-    ["js03", "Start a real conversation with someone new", "Social", "S", "A classmate, neighbor, or shop owner. Go past small talk for at least 5 minutes and learn one real thing about them.", "The guild grows one stranger at a time. Bring back a name and a story."],
-    ["js04", "Eat with your family, phones away", "Social", "S", "Whole meal, phones face down or in another room. Ask everyone about their day.", "The lord of the keep has one rule at the feast table: no scrying stones."],
-    ["jc03", "Edit and post one short video", "Creative", "S", "Finish one short edit from start to end and post it.", "The bards perform tonight and your piece is on the program. Don't leave the stage empty."],
-    ["jc04", "Write one full page of a story", "Creative", "S", "Any genre. Write a full page without deleting anything; you can fix it tomorrow.", "The chronicler's quill has grown slow. The guild wants new tales for the long nights."],
-    ["jp04", "No social media for 3 hours", "Spirit", "S", "Log out or delete the apps for 3 hours. Do something with your hands or go outside instead.", "The witch's mirror has a hold on the whole village. Break it, if only for an afternoon."],
-    ["jp05", "Finish the task you've been avoiding", "Spirit", "S", "You know the one. Do it today, even if it's ugly.", "Every guild member has a beast they keep running from. Today you turn around and face yours."],
-    ["ja08", "Walk or jog 5 km", "Adventure", "SS", "Around your area, school or a park. Walking counts; just finish the full 5 km. A free map or step app can measure it. Bring water.", "Bandits blocked the river road and the guild needs someone who can cover real distance on their own two feet."],
-    ["ja09", "Map your whole barangay", "Adventure", "SS", "Walk every street of your barangay and draw a simple map by hand: your house, the chapel, the court, the stores, your favorite spot.", "The guild's mapmakers have never charted your village. They're offering a bounty for the first true map."],
-    ["ja10", "Go on a 1-hour walk or bike ride with a friend", "Adventure", "SS", "Pick a route around your town, go together, and stay out for a full hour. Tell your family where you're going.", "Every adventurer's best roads are walked with a companion. Find yours and take the long way."],
-    ["jb07", "Sleep before 11 PM and wake before 6 AM", "Body", "SS", "Lights out by 11, up by 6. No phone in bed.", "The night watch is over. Rest like a soldier and rise before the sun."],
-    ["jb08", "Home workout for 45 minutes", "Body", "SS", "No gym needed: push-ups, squats, lunges, planks, jumping jacks, or a free workout video. 45 minutes of real effort.", "The tournament is coming. Train like your name is already on the list."],
-    ["jm06", "Study 2 hours with your phone in another room", "Mind", "SS", "Two hours of focused study. Short breaks are fine; your phone stays away the whole time.", "The tower exam is near. Lock the door, light the candle, and don't come out until it's done."],
-    ["jm07", "Submit a requirement a day early", "Mind", "SS", "Pick a school or work requirement and finish and submit it at least one day before the deadline.", "The council rewards those who deliver before the bell rings, not after."],
-    ["jh06", "Deep clean your whole room", "Home", "SS", "Floor, shelves, under the bed, closet. Throw out or give away anything you don't use.", "Rumor has it something has been living under your bed. Evict it."],
-    ["js05", "Meet a friend in person", "Social", "SS", "Plan a meetup, actually go, and keep your phone in your pocket for most of it.", "Letters are fine, but some alliances need a handshake and a shared meal."],
-    ["js06", "Do something kind for someone outside your family", "Social", "SS", "Help a classmate, carry something for an elder, help a neighbor with a chore, or volunteer for an hour. Expect nothing back.", "The guild's founders were once strangers helped on the road. Pay it forward."],
-    ["jc05", "Finish and publish a full project", "Creative", "SS", "A complete video, drawing, song, or write-up, posted online or shown to someone whose opinion you trust.", "The grand exhibition opens at dawn. Your work deserves a place on the wall."],
-    ["jp06", "A whole day without social media", "Spirit", "SS", "From waking up to bedtime. Messaging friends directly is allowed; scrolling feeds is not.", "The witch's mirror is said to lose its power over anyone who resists it for a full day. Test the legend."],
-    ["jp07", "Go a whole day without complaining", "Spirit", "SS", "If you catch yourself complaining, turn it into a solution or let it go.", "The cursed amulet tightens every time its wearer grumbles. Wear it for a day and see if you can take it off."]
+    ["ja20", "Read the barangay hall bulletin board", "Adventure", "N", "Walk to your barangay hall and read every notice: scholarships, job openings, free trainings, events. Write down one thing that could help you or your family.", "The town crier posts the realm's news on the hall door. Wise adventurers read it before anyone else does."],
+    ["ja21", "Learn the prices at the palengke", "Adventure", "N", "Go with a parent or on an errand and note the price of rice, eggs, one vegetable and one fish or meat. Knowing prices is the first step to handling money.", "The guild treasurer says a hero who doesn't know the price of bread will be robbed by every merchant on the road."],
+    ["ja22", "Read outside for 30 minutes", "Adventure", "N", "Bring a book or notes to the plaza, the church grounds, a park bench or your own yard and read for 30 minutes with your phone away.", "Scholars of old studied under trees. The guild swears the words stick better in the open air."],
+    ["ja23", "Walk a street you've never taken", "Adventure", "N", "In daylight and within your area, walk a street or path you've never used. Spot one store, landmark or shortcut you didn't know about.", "The mapmakers pay a copper for every road no one in the guild has walked yet."],
+    ["ja24", "Watch the sunset without your phone", "Adventure", "N", "Find a spot outside and watch the sky until the sun is down. No photos, no scrolling. Just think about your day.", "An old ranger says the land only speaks to those who stop long enough to listen."],
+    ["ja25", "Find out what services your barangay offers", "Adventure", "N", "Ask at the barangay hall or check their page: clearance, health center hours, free vaccines, livelihood programs. Write down two you or your family might need.", "Every keep has a quartermaster. Learn what yours gives out before thou need it."],
+    ["ja26", "Visit the public library or reading center", "Adventure", "S", "Go to your town or school library, find a section that interests you and borrow or read something for at least 30 minutes.", "The library tower is the guild's greatest treasury, and the gold inside is free to anyone who climbs the stairs."],
+    ["ja27", "Learn a new commute route", "Adventure", "S", "With your family's permission, take the jeep or tricycle to a part of town you rarely visit (a market, a school, the munisipyo) and find your way back on your own.", "A scout who knows only one road is lost the day that road floods."],
+    ["ja28", "Attend a free community event", "Adventure", "S", "A fiesta program, a seminar, a clean-up drive, a sportsfest, a mass or a youth meeting. Go, stay for the whole thing and talk to at least one person there.", "The village gathers in the square tonight. The guild wants its members seen among the people."],
+    ["ja29", "Learn the story of a place in your town", "Adventure", "S", "Visit an old church, a historical marker, a monument or a museum nearby. Read or ask about its history and tell someone at home what you learned.", "Every stone in the old town remembers something. The chronicler wants those memories written down."],
+    ["ja30", "Spend an hour outdoors moving", "Adventure", "S", "Walk or bike to a park, a field or the seaside and stay active for an hour: walk, play, explore. Tell your family where you're going.", "Adventurers who stay indoors too long grow pale and slow. Go and earn some sun."],
+    ["ja31", "Plan and lead a low-cost outing", "Adventure", "SS", "Plan a half-day outing with friends or family: the place, the route, the fare, the food and a budget. Get permission, then make it happen.", "The guild needs leaders, not just followers. Draw the map, count the coins and bring everyone home safe."],
+    ["ja32", "Walk or bike 5 km exploring your town", "Adventure", "SS", "In daylight, cover 5 km on foot or by bike through your area. Bring water, tell someone your route and note three places you discovered.", "Bandits once ruled the far roads. Now they're just roads, waiting for someone brave enough to walk them."],
+    ["ja33", "Visit a TESDA, LGU or school office about a program", "Adventure", "SS", "Go in person (with a parent if needed) to ask about a scholarship, a free training course, or a youth program. Bring home the requirements written down.", "The guild's best adventurers didn't wait for opportunity. They walked to its door and knocked."],
+    ["jb20", "Drink 8 glasses of water", "Body", "N", "Keep a bottle or glass nearby and finish 8 glasses before bed. Count them as you go.", "The village healer swears half the guild's complaints are just thirst. Prove her right."],
+    ["jb21", "Walk briskly for 20 minutes", "Body", "N", "Around your area, your yard or even back and forth inside the house. Keep a pace where talking feels a little hard.", "The guild's messengers never ride on short errands. Their legs are their pride."],
+    ["jb22", "Stretch for 10 minutes after waking up", "Body", "N", "Neck, shoulders, back, hips and legs. Go slow and breathe through each one.", "Stiff archers miss. The master of arms wants your body loose before the day's first task."],
+    ["jb23", "Eat a fruit and a vegetable today", "Body", "N", "At least one serving of each: banana, papaya, mango, kangkong, malunggay, sitaw, anything real.", "The guild cook says a stew without greens makes soldiers who tire by noon."],
+    ["jb24", "Do 50 squats today", "Body", "N", "Split them however you like: 5 sets of 10 is fine. Keep your back straight and heels down.", "The castle stairs are long. Strong legs carry the shield wall up them."],
+    ["jb25", "No soft drinks or milk tea today", "Body", "N", "Water, plain coffee or tea, or fresh juice only. Notice how you feel by evening.", "The alchemist warns that sweet potions bought at the market drain more than coin."],
+    ["jb26", "30-minute home workout", "Body", "S", "No gym needed: push-ups, squats, lunges, planks, jumping jacks, or a free workout video. 30 minutes of real effort.", "The tournament is coming. Train like your name will be announced."],
+    ["jb27", "Jog or brisk walk for 30 minutes", "Body", "S", "Easy pace is fine. Walk breaks are allowed; just keep moving for 30 minutes. Go early morning or late afternoon.", "When the war horn sounds, the guild needs runners. Train your lungs while the roads are quiet."],
+    ["jb28", "Learn a 15-minute mobility routine", "Body", "S", "Follow a free yoga or stretching video from start to end, then write down the moves you want to keep doing.", "The old monk can still touch his toes at ninety. He says the secret is simply doing it every day."],
+    ["jb29", "Play a sport for 45 minutes", "Body", "S", "Basketball, volleyball, badminton, football, anything with other people. At least 45 minutes of actual play.", "The garrison holds games every week. Those who play together fight well together."],
+    ["jb30", "Eat only home-cooked meals today", "Body", "S", "No instant noodles, no fast food, no chips. Real food made at home for every meal.", "The guild cook has seen too many adventurers fall sick on the road from tavern scraps."],
+    ["jb31", "100 push-ups across the day", "Body", "SS", "Any number of sets. Knee push-ups count if you're still building up.", "The new recruits are betting you can't. Prove them wrong."],
+    ["jb32", "A full day with no junk food", "Body", "SS", "No soft drinks, milk tea, chips, candy or instant food from waking up to bedtime. Plan your snacks ahead.", "The cursed sweets of the night market have claimed many heroes. Resist them for one whole day."],
+    ["jb33", "Sleep before 10 PM and wake before 6 AM", "Body", "SS", "Lights out by 10, up by 6, phone away from the bed. Notice your energy the next day.", "The night watch is over. Rest like a soldier and rise before the sun."],
+    ["jm20", "Learn 5 new English words", "Mind", "N", "Pick 5 words you don't know, write their meanings, and use each one in a sentence today.", "The scribes' hall pays well for anyone who can say exactly what they mean."],
+    ["jm21", "Read 15 pages of a book", "Mind", "N", "Any book that isn't required for school: fiction, biography, self-help, history. Write one line about what you read.", "The library tower keeps its lamps lit for anyone willing to turn the pages."],
+    ["jm22", "Watch a lesson video and write 3 takeaways", "Mind", "N", "A 10 to 20 minute educational video on anything: science, money, history, a skill. Write down three things you learned.", "The travelling scholar left his lessons in the crystal ball. Watch, and take notes as he would."],
+    ["jm23", "Review today's lessons for 20 minutes", "Mind", "N", "Go over your notes from school today and write a short summary of each subject, from memory first.", "A blade sharpened once a week dulls. Sharpen yours daily."],
+    ["jm24", "Track every peso you spend today", "Mind", "N", "Write down every expense today, even small ones. At night, total it and circle what you didn't really need.", "The guild treasurer says coins leak away quietly unless someone counts them."],
+    ["jm25", "Learn one practical life skill", "Mind", "N", "Learn how to read an electric or water bill, check a tire, use a fire extinguisher, or do basic first aid, and explain it to someone.", "A true adventurer can mend, measure and manage, not just fight."],
+    ["jm26", "Two focused study sessions", "Mind", "S", "Two 25-minute sessions on school or a skill, with a 5-minute break between. Phone in another room during each.", "The archmage's apprentices train their focus like soldiers train their arms."],
+    ["jm27", "Practice a skill for 1 hour", "Mind", "S", "Coding, editing, drawing, an instrument, a language, typing: one full hour of real practice on something you want to get better at.", "The guild's master craftsmen were all clumsy once. They simply practiced longer than everyone else."],
+    ["jm28", "Finish a free online lesson", "Mind", "S", "Complete one full lesson or module on a free site (Khan Academy, a YouTube course, Coursera audit, Duolingo) and save proof of it.", "The far academies have opened their doors to anyone with the will to learn. Walk in."],
+    ["jm29", "Learn a basic home repair", "Mind", "S", "With an adult's help, learn to fix a faucet leak, change a bulb safely, unclog a drain, or clean an electric fan. Then do it.", "The castle's tinkerer is old. The guild needs new hands that know how things work."],
+    ["jm30", "Make a monthly budget", "Mind", "S", "List your allowance or income and your usual expenses for a month. Decide how much to save, and write the plan down.", "The treasurer's ledger keeps the guild alive through winter. Start thine own."],
+    ["jm31", "Study 2 hours with your phone in another room", "Mind", "SS", "Two hours of focused study. Short breaks are fine; your phone stays away the whole time.", "The tower exam is near. Lock the door, light the candle and study until the wax runs low."],
+    ["jm32", "Submit a requirement a day early", "Mind", "SS", "Pick a school or work requirement and finish and submit it at least one day before the deadline.", "The council rewards those who deliver before the bell rings, not as it rings."],
+    ["jm33", "Write your 3-month goals plan", "Mind", "SS", "One page: three goals for the next three months (study, health, skills, money), why each matters, and the first step for each this week.", "Every great campaign began with a map on the war table. Draw thine."],
+    ["jh20", "Make your bed right after waking up", "Home", "N", "Within 5 minutes of getting up. It's the first win of the day.", "Every knight's day starts with one small order kept. The rest follows."],
+    ["jh21", "Wash every dish you used today", "Home", "N", "No leaving them for later. Wash, dry, put away.", "The innkeeper won't rent a room to guests who leave their bowls behind."],
+    ["jh22", "Sweep and mop one room", "Home", "N", "Pick the room that needs it most. Move the chairs, get the corners, then mop.", "The castle steward inspects the halls at dusk. Let him find nothing."],
+    ["jh23", "Fold and put away the dry laundry", "Home", "N", "Take in the clothes, fold them neatly and put them where they belong, yours and your family's.", "A clean cloak marks a disciplined traveler."],
+    ["jh24", "Take out and sort the trash", "Home", "N", "Separate biodegradable, recyclable and residual waste, tie the bags and bring them out on time.", "The village keeps its streets clean because every household keeps its own."],
+    ["jh25", "Water the plants and tidy the yard", "Home", "N", "Water the plants, sweep the yard or doorstep, and pick up anything lying around.", "The guild garden feeds the hall. Tend it as if supper depends on it, because it does."],
+    ["jh26", "Cook a full meal for your family", "Home", "S", "Rice and at least one ulam, made by you. Plan it, cook it, serve it, and clean up after.", "The longhouse is hungry tonight and the cook is down with fever. Someone has to feed the hall."],
+    ["jh27", "Deep clean the bathroom", "Home", "S", "Scrub the floor, the tiles, the toilet and the sink. Restock soap and tissue.", "Even the bravest knight fears the dungeon below the keep. Clean it anyway."],
+    ["jh28", "Do laundry from wash to fold", "Home", "S", "Wash, rinse, hang, fold and put everything away. No pile on the chair.", "The washerwomen are on strike. The guild must clean its own cloaks."],
+    ["jh29", "Fix or mend something broken", "Home", "S", "Sew a button or a torn shirt, glue a slipper, tighten a loose chair. Fix it instead of throwing it away.", "A good blacksmith mends before he forges anew."],
+    ["jh30", "Organize your closet and give away what you don't use", "Home", "S", "Take everything out, fold what you keep, and set aside clothes you no longer wear to give to someone who needs them.", "The quartermaster's store is overflowing with gear no one uses. Clear it for those in need."],
+    ["jh31", "Deep clean your whole room", "Home", "SS", "Floor, shelves, under the bed, the closet, the windows. Throw out or give away anything you don't use.", "Rumor has it something has been living under your bed. Evict it."],
+    ["jh32", "Run the house for a day so a parent can rest", "Home", "SS", "Take over the cooking, dishes, sweeping and errands for a whole day. Let your parent or guardian rest.", "The lord and lady of the keep have served for years without rest. Today, the keep is yours to run."],
+    ["jh33", "Plan and cook the family's meals on a budget", "Home", "SS", "Plan breakfast, lunch and dinner for the family within a set budget, buy what you need, and cook them all.", "The steward hands thee the purse and the kitchen keys. Feed everyone, and bring back change."],
+    ["js20", "Message a friend you miss", "Social", "N", "Send a real message, not just a reaction, to someone you haven't talked to in a while. Ask how they really are.", "Bonds forged in old campaigns rust if left alone. The guild asks you to polish one."],
+    ["js21", "Thank someone in person", "Social", "N", "Tell someone exactly what they did for you and why it mattered.", "The chronicler says gratitude spoken aloud is worth twice the gratitude kept in the heart."],
+    ["js22", "Help at home without being asked", "Social", "N", "Notice something your family needs (carrying, cleaning, an errand) and just do it before anyone asks.", "The best squires are never told twice. The very best are never told at all."],
+    ["js23", "Ask an elder about their life", "Social", "N", "Ask a parent, lolo or lola about when they were your age: their dreams, their struggles. Listen without your phone.", "The oldest members of the guild carry maps no scroll has recorded. Ask to see them."],
+    ["js24", "Give 3 sincere compliments", "Social", "N", "To three different people, about something real: their effort, their kindness, their work. Not just looks.", "A kind word costs nothing and is remembered for years. The guild spends them freely."],
+    ["js25", "Do a small favor for a neighbor", "Social", "N", "Carry groceries, help with a gate, watch a store for a minute, run a quick errand. Expect nothing back.", "The village is only as strong as its neighbors are to each other."],
+    ["js26", "Eat with your family, phones away", "Social", "S", "A whole meal with phones face down or in another room. Ask everyone about their day.", "The lord of the keep has one rule at the feast table: no scrying stones."],
+    ["js27", "Tutor someone for 30 minutes", "Social", "S", "Help a younger sibling, cousin or classmate with schoolwork or a skill you know, patiently, for at least 30 minutes.", "Teaching is how the guild's knowledge survives. Pass yours on."],
+    ["js28", "Call or visit a relative", "Social", "S", "Call, video call or visit a lolo, lola, tito, tita or cousin you haven't talked to in a while. Talk for at least 15 minutes.", "The family banners hang in many halls. Visit one of them today."],
+    ["js29", "Start a real conversation with someone new", "Social", "S", "A classmate, neighbor or shop owner. Go past small talk for at least 5 minutes and learn one real thing about them.", "The guild grows one stranger at a time."],
+    ["js30", "Make peace with someone", "Social", "S", "Apologize for something you did, or reach out to fix a misunderstanding. Say it clearly and listen to their side.", "Old feuds poison the well for everyone. Be the one who mends it."],
+    ["js31", "Volunteer for an hour", "Social", "SS", "Help at a church, barangay, school or community activity: a clean-up, feeding program, event setup. One full hour of real help.", "The guild's founders were once strangers helped on the road. Pay it forward."],
+    ["js32", "Do something kind for someone outside your family", "Social", "SS", "Help an elder carry something, help a classmate who is struggling, donate something useful, or help a neighbor with a chore. Expect nothing back.", "A quiet deed for a stranger echoes further than a loud one for a friend."],
+    ["js33", "Organize a study group or helpful gathering", "Social", "SS", "Gather at least 3 people for a study session, a skills share, or a community help activity. Plan it, invite them, and run it.", "A single sword is easily broken. The guild's strength has always been its gatherings."],
+    ["jc20", "Write down 5 content or project ideas", "Creative", "N", "Five quick ideas for videos, edits, drawings, posts or any project. Rough is fine; just get them on paper.", "The bards never run out of songs because they never stop collecting ideas."],
+    ["jc21", "Take 3 good photos", "Creative", "N", "Look for good light, framing and an interesting subject, at home or outside. Keep your best three.", "The court painter is getting old. The guild is quietly looking for new eyes."],
+    ["jc22", "Draw or sketch for 20 minutes", "Creative", "N", "Anything: an object on your table, a person, a place, a character. Don't erase too much; just keep drawing.", "Every map in the guild hall was once a careless sketch on the back of a letter."],
+    ["jc23", "Write a journal page about today", "Creative", "N", "Write at least half a page about what happened today, how you felt and one thing you'd do differently.", "The chronicler says a life not written down is easily forgotten, even by the one who lived it."],
+    ["jc24", "Learn part of a song or a new chord", "Creative", "N", "On guitar, ukulele, keyboard or voice: learn one new chord, a melody line, or one section of a song.", "The tavern minstrel needs someone to cover for him on feast nights."],
+    ["jc25", "Make something useful from recycled materials", "Creative", "N", "Turn bottles, cans, boxes or old clothes into something useful: a pen holder, a plant pot, a bag, a rag.", "The tinkerers say nothing is trash, only treasure waiting for clever hands."],
+    ["jc26", "Edit and post one short video", "Creative", "S", "Finish one short edit from start to end and post it, or show it to someone whose opinion you trust.", "The bards perform tonight and your piece is on the program."],
+    ["jc27", "Write one full page of a story or poem", "Creative", "S", "Any genre. Write a full page without deleting anything; you can fix it tomorrow.", "The chronicler's quill has grown slow. The guild wants new tales for the long nights."],
+    ["jc28", "Cook a recipe you've never tried", "Creative", "S", "Pick a recipe online, check what's at home, cook it carefully and let your family rate it.", "The guild cook is bored of the same stew. Surprise her."],
+    ["jc29", "Design a poster for a good cause", "Creative", "S", "On paper or an app: a poster about saving water, proper waste disposal, a barangay event, or a study tip. Share it with someone.", "The town crier's voice is hoarse. Let thy art speak for him."],
+    ["jc30", "Finish and publish a full project", "Creative", "SS", "A complete video, drawing, song, story or design, posted online or shown to someone whose opinion you trust.", "The grand exhibition opens at dawn. Your work deserves a place on the wall."],
+    ["jc31", "Make a handmade gift for someone", "Creative", "SS", "A card, a drawing, a small craft, a cooked treat or a letter, made by you for someone who deserves it. Give it in person.", "The finest treasures in the guild vault were never bought. They were made."],
+    ["jc32", "Learn and record a full song or performance", "Creative", "SS", "Learn a whole song, a dance, a poem or a speech, practice it, and record or perform it from start to end.", "The feast hall falls silent when a true performer takes the stage. Become one."],
+    ["jp20", "Write 3 things you're grateful for", "Spirit", "N", "Write them down by hand or in your notes app. Be specific: not just 'family' but what someone did.", "The monks of the old shrine count their blessings every night. They say it keeps the dark away."],
+    ["jp21", "Plan tomorrow before you sleep", "Spirit", "N", "Write your top 3 tasks for tomorrow and the time you'll do each one.", "Generals win their battles the night before. Draw up your battle plan."],
+    ["jp22", "10 quiet minutes with no phone", "Spirit", "N", "Sit, walk or lie down for 10 minutes with your phone in another room. Let your mind settle.", "The witch's mirror steals hours from everyone who stares into it. Steal ten back."],
+    ["jp23", "Pray, reflect or meditate for 10 minutes", "Spirit", "N", "In whatever way fits your beliefs: prayer, quiet reflection, or slow breathing. Ten unhurried minutes.", "The old shrine is open to all who seek stillness. Its bell rings for thee."],
+    ["jp24", "Write down a mistake and the lesson", "Spirit", "N", "Think of one mistake you made recently. Write what happened, what you learned, and what you'll do next time.", "Every scar in the guild tells a lesson. The wise ones write theirs down."],
+    ["jp25", "Get up at the first alarm", "Spirit", "N", "No snooze. Feet on the floor the moment it rings, then drink a glass of water.", "The first battle of every day is fought against the blanket. Win it."],
+    ["jp26", "No social media for 3 hours", "Spirit", "S", "Log out or put the phone away for 3 hours. Do something with your hands or go outside instead.", "The witch's mirror has a hold on the whole village. Break it, if only for an afternoon."],
+    ["jp27", "Finish the task you've been avoiding", "Spirit", "S", "You know the one. Do it today, even if it's not perfect.", "Every guild member has a beast they keep running from. Today you turn around and face yours."],
+    ["jp28", "Spend nothing you don't need today", "Spirit", "S", "No impulse buys, no extra snacks, no load you don't need. Put what you saved in a jar or savings.", "The miser is a fool, but so is the spendthrift. Learn the road between them."],
+    ["jp29", "Write a letter to your future self", "Spirit", "S", "A full page to yourself one year from now: who you are, what you hope for, what you're struggling with. Seal it and keep it.", "The guild buries a time chest every winter. Add thy letter to it."],
+    ["jp30", "Keep your word on one promise", "Spirit", "S", "Pick something you promised someone (or yourself) and do it completely today, without being reminded.", "A knight's word is worth more than his sword. Keep thine sharp."],
+    ["jp31", "A whole day without social media", "Spirit", "SS", "From waking up to bedtime. Messaging friends directly is allowed; scrolling feeds is not.", "The witch's mirror is said to lose its power over anyone who resists it for a full day."],
+    ["jp32", "Go a whole day without complaining", "Spirit", "SS", "If you catch yourself complaining, turn it into a solution or let it go. Keep count of your slips.", "The cursed amulet tightens every time its wearer grumbles. Wear it for a day and see."],
+    ["jp33", "Follow a full-day schedule you set", "Spirit", "SS", "Write a schedule for the whole day the night before, then follow it: study, chores, rest, hobbies, sleep.", "Discipline is the quietest of all magic, and the most powerful."]
   ].map(function (r) { return { id: r[0], title: r[1], cat: r[2], rank: r[3], desc: r[4], story: r[5] }; });
 
   var LS_KEY = "sidequest-board-v1";
@@ -2037,7 +2101,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   /* ---------- progress records, achievements, quest of the day, weekly boss ---------- */
   function hash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
   /* ---------- the guild board: the same notices for everyone, renewed each morn at 6 ---------- */
-  var BOARD_HOUR = 6, BOARD_SIZE = { N: 4, S: 3, SS: 2 }, TAKE_XP = 5, boardCache = { k: "", ids: [] }, accepting = {};
+  var BOARD_HOUR = 6, BOARD_SIZE = { N: 10, S: 7, SS: 4 }, BOARD_PREVIEW = 6, TAKE_XP = 5, boardCache = { k: "", ids: [] }, accepting = {};
   function boardDayKey(dt) { var d = dt || new Date(); return todayKey(new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours() - BOARD_HOUR, d.getMinutes())); }
   function boardIds(dk) {
     dk = dk || boardDayKey();
@@ -2046,10 +2110,14 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     RANKS.forEach(function (r) {
       var pool = BASE.filter(function (q) { return q.rank === r; }).map(function (q) { return q.id; });
       pool.sort(function (a, b) { return hash(dk + ":" + a) - hash(dk + ":" + b); });
-      var used = {}; ids.forEach(function (x) { used[findQ(x).cat] = 1; });
+      // keep every kind of quest on the board: always take from the kind with the fewest notices so far
+      var cnt = {}; ids.forEach(function (x) { var c = findQ(x).cat; cnt[c] = (cnt[c] || 0) + 1; });
       var pick = [];
-      pool.forEach(function (x) { if (pick.length < BOARD_SIZE[r] && !used[findQ(x).cat]) { pick.push(x); used[findQ(x).cat] = 1; } });
-      pool.forEach(function (x) { if (pick.length < BOARD_SIZE[r] && pick.indexOf(x) < 0) pick.push(x); });
+      while (pick.length < BOARD_SIZE[r] && pool.length) {
+        var best = 0;
+        for (var j = 1; j < pool.length; j++) if ((cnt[findQ(pool[j]).cat] || 0) < (cnt[findQ(pool[best]).cat] || 0)) best = j;
+        var x = pool.splice(best, 1)[0]; pick.push(x); cnt[findQ(x).cat] = (cnt[findQ(x).cat] || 0) + 1;
+      }
       ids = ids.concat(pick);
     });
     boardCache = { k: dk, ids: ids };
@@ -2119,7 +2187,19 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   function boardTick() { var dk = boardDayKey(); if (dk !== lastBoardDay) { lastBoardDay = dk; watchBoard(); render(); } else if (document.getElementById("boardReset")) renderBoardReset(); }
   setInterval(boardTick, 30000);
   document.addEventListener("visibilitychange", function () { if (!document.hidden) boardTick(); });
+  var fbWant = false;
+  function fbOpenNow() { return fbWant; }
+  function openFullBoard() { fbWant = true; $("fbModal").classList.add("show"); $("fbModal").scrollTop = 0; render(); sfx("paper"); }
+  function closeFullBoard() { fbWant = false; $("fbModal").classList.remove("show"); }
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest && e.target.closest("button");
+    if (t && t.hasAttribute("data-seeall")) { openFullBoard(); return; }
+    if (t && t.hasAttribute("data-fbclose")) { closeFullBoard(); return; }
+    if (e.target && e.target.id === "fbModal") closeFullBoard();
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && $("fbModal").classList.contains("show") && !$("qmodal").classList.contains("show")) closeFullBoard(); });
   function renderBoardReset() {
+    if ($("fbReset")) $("fbReset").innerHTML = "Each notice may be taken by <b>one</b> only · fresh notices in <b>" + boardResetIn() + "</b> (6 in the morn)";
     $("boardReset").innerHTML = "Shared by the whole guild · each notice may be taken by <b>one</b> only · XP is earned only when the quest is <b>completed</b> (+" + TAKE_XP + " board bonus) · fresh notices in <b>" + boardResetIn() + "</b> (6 in the morn)";
   }
   function weekInfo(d) {
@@ -2695,11 +2775,15 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var qq = findQ(QID);
     var qotdHtml = '<div class="qotd-wrap"><div class="qotd-head">Quest of the Day <small>' + esc(qotdDateLabel()) + ' · twice the reward · only one adventurer may take it</small></div>' + noteHtml(qq, "qotd") + "</div>";
     var nTaken = boardIds().filter(function (id) { return claims[id]; }).length, nAll = boardIds().length;
-    $("quests").innerHTML = qotdHtml + (shown.length
+    var free = nAll - nTaken;
+    var prev = onBoard.filter(function (q) { return !claims[q.id]; }).concat(onBoard.filter(function (q) { return claims[q.id]; })).slice(0, BOARD_PREVIEW);
+    $("quests").innerHTML = qotdHtml + '<div class="notes">' + prev.map(function (q) { return noteHtml(q, "side"); }).join("") + "</div>" +
+      '<button class="btn wax give see-all" type="button" data-seeall>See all ' + onBoard.length + " notices <small>" + onBoard.filter(function (q) { return !claims[q.id]; }).length + " still free · plus the Quest of the Day</small></button>";
+    $("fbQuests").innerHTML = (fbOpenNow() || $("fbModal").classList.contains("show")) ? ((rankTab === "All" && filter === "All") || (qq && (filter === "All" || qq.cat === filter) && (rankTab === "All" || qq.rank === rankTab)) ? qotdHtml : "") + (shown.length
       ? '<div class="notes">' + shown.map(function (q) { return noteHtml(q, "side"); }).join("") + '</div><div class="board-count">' +
         (shown.length < onBoard.length ? "Showing " + shown.length + " of " + onBoard.length + " notices · " : "") + nTaken + " of " + nAll + " notices taken this day</div>"
-      : '<p class="board-empty">No ' + esc(what) + 'notices on this day\u2019s board.<small>Choose another kind above, or return at 6 in the morn for fresh notices.</small></p>');
-    var free = nAll - nTaken;
+      : '<p class="board-empty">No ' + esc(what) + 'notices on this day\u2019s board.<small>Choose another kind above, or return at 6 in the morn for fresh notices.</small></p>') : "";
+    $("fbMeta").textContent = nAll + " notices this day · " + free + " still free to take";
     $("boardMeta").textContent = free ? free + (free === 1 ? " notice" : " notices") + " still free to take. First come, first served." : "Every notice is taken. Fresh ones arrive at 6 in the morn.";
     renderBoardReset();
     var warn = cloud.ready && cloud.bErr ? "The guild board could not be read (" + cloud.bErr + "). Publish the newest Firebase rules so all may share it." : !cloud.db ? "The guild board is not connected. Claims are kept on this device only." : "";
