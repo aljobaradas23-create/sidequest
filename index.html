@@ -1715,6 +1715,10 @@ textarea.cq-in { resize: vertical; }
 .chapel-play .cp-seal { width: 48px !important; height: 48px !important; }
 .chapel-play .cp-seal::after { left: 19px !important; top: 14px !important; border-width: 10px 0 10px 15px !important; }
 .chapel-play .cp-txt { font-size: 14px !important; }
+
+/* intro: the whole painting, always; the space around it is filled by the same painting, blurred */
+.intro2 .i2-back { display: block !important; object-fit: cover !important; filter: blur(16px) brightness(.85) saturate(.8); transform: scale(1.25); }
+.intro2 .i2-main { object-fit: contain !important; object-position: 50% 50% !important; filter: drop-shadow(0 0 24px rgba(0,0,0,.85)); }
 </style>
 </head>
 <body>
