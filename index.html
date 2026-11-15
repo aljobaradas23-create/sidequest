@@ -1496,6 +1496,105 @@ textarea.cq-in { resize: vertical; }
 .qm-land .qm-meta dd { text-align: right; font-size: 13px; }
 .qm-land .qm-status, .qm-land .qm-time { margin-top: 10px; }
 @media (max-width: 380px) { .qm-land h3 { font-size: 18px; } .qm-land .qm-desc, .qm-land .qm-story p { font-size: 12.5px; } .ql-grid { gap: 10px; } }
+
+/* ---------- compact sections: a door on the page, the room in a popup ---------- */
+.flow .compact > :not(.sec-head):not(.board-sign):not(.enter-row) { display: none !important; }
+#secSlot .compact .enter-row { display: none; }
+.enter-row { display: flex; align-items: center; justify-content: space-between; gap: 10px; flex-wrap: wrap; margin-top: 4px; }
+.enter-meta { font: italic 13.5px Georgia, serif; color: #d7c39a; }
+.enter-btn { min-width: 170px; }
+.board.compact .enter-row { justify-content: center; flex-direction: column; padding: 4px 0 2px; }
+.add-side { display: block; margin: 10px auto 0; }
+.add-side small { display: block; font: italic 12px Georgia, serif; opacity: .85; margin-top: 2px; }
+/* ---------- main quest checklist on the paper ---------- */
+.note.mnote { cursor: pointer; }
+.nchecks { display: flex; flex-direction: column; gap: 3px; margin: 4px 0 2px; position: relative; z-index: 2; }
+.nck { display: flex; align-items: flex-start; gap: 6px; width: 100%; padding: 3px 4px; border: 0; border-radius: 4px; background: rgba(255,250,235,.35); color: #2a1709; font: 600 12.5px/1.25 Georgia, serif; text-align: left; cursor: pointer; }
+.nck i { flex: none; width: 15px; height: 15px; margin-top: 1px; border: 1.6px solid #5a3818; border-radius: 3px; background: #fff8e6; position: relative; }
+.nck.on i { background: #2f6a2f; border-color: #1f4a1f; }
+.nck.on i::after { content: ""; position: absolute; left: 4px; top: 0; width: 4px; height: 9px; border: solid #fff; border-width: 0 2px 2px 0; transform: rotate(45deg); }
+.nck.on span { text-decoration: line-through; opacity: .65; }
+.nck:disabled { cursor: default; }
+.nleft { font: italic 11.5px Georgia, serif; color: #6b3a1a; text-align: center; position: relative; z-index: 2; }
+.nseal { margin: 4px auto 0; padding: 5px 12px; border-radius: 14px; border: 1px solid #5a1a10; background: linear-gradient(#b8322a, #7a1610); color: #fbe6bd; font: 700 13px Georgia, serif; cursor: pointer; position: relative; z-index: 2; box-shadow: 0 2px 0 rgba(0,0,0,.35); animation: readySeal 1.6s ease-in-out infinite; }
+@keyframes readySeal { 50% { box-shadow: 0 0 0 3px rgba(255,210,110,.6), 0 2px 0 rgba(0,0,0,.35); } }
+/* ---------- day tally ---------- */
+#tallyModal { overflow-y: auto; } #tallyModal.show { display: flex; flex-direction: column; } #tallyModal .qm-paper { margin: auto; flex: none; max-height: none; overflow: visible; }
+.tl-tiles { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; margin: 6px 0 8px; }
+.tl-tiles.small { grid-template-columns: repeat(auto-fit, minmax(80px, 1fr)); }
+.tl-tile { padding: 8px 4px; border-radius: 8px; border: 1px solid rgba(60,35,15,.35); background: rgba(255,248,225,.45); text-align: center; }
+.tl-tile b { display: block; font: 700 22px Georgia, serif; color: #3b2412; } .tl-tiles.small .tl-tile b { font-size: 18px; }
+.tl-tile span { font: 11.5px/1.2 Georgia, serif; color: #6b4a2a; }
+.tl-tile.gold b { color: #9a6a10; } .tl-tile.bad b { color: #a3261b; }
+.tl-sec { margin: 12px 0 6px; font: 400 16px "IM Fell English SC", Georgia, serif; color: #6e0f0a; text-align: left; border-bottom: 1px dashed rgba(60,35,15,.35); }
+.tl-bar { display: grid; grid-template-columns: 82px 1fr 26px; gap: 8px; align-items: center; margin: 4px 0; font: 13px Georgia, serif; color: #3b2412; text-align: left; }
+.tl-bar i { height: 10px; border-radius: 6px; background: rgba(60,35,15,.15); overflow: hidden; }
+.tl-bar em { display: block; height: 100%; background: linear-gradient(90deg, #c9902a, #f2c45a); }
+.tl-bar em.rN { background: #3f8a3f; } .tl-bar em.rS { background: #b8322a; } .tl-bar em.rSS { background: #6b3fb0; }
+.tl-bar b { text-align: right; }
+.tl-list { list-style: none; margin: 0 0 10px; padding: 0; text-align: left; }
+.tl-list li { display: grid; grid-template-columns: 58px 1fr auto; gap: 8px; align-items: baseline; padding: 5px 0; border-bottom: 1px solid rgba(60,35,15,.15); font: 13.5px/1.3 Georgia, serif; color: #2a1a0c; }
+.tl-list small { color: #7a5a3a; } .tl-list b { color: #9a6a10; } .tl-list b.bad { color: #a3261b; }
+.tl-none { font: italic 13px Georgia, serif; color: #6b4a2a; }
+
+.note.t-teal { --tint: #8fd3c8; }
+.note.t-teal .nhead { font-family: "IM Fell English", Georgia, serif; font-style: italic; font-size: 18px; color: #0f3a36; }
+.rest-day { margin: 0 0 14px; padding: 14px 12px; border-radius: 10px; text-align: center; border: 1px dashed rgba(214,162,74,.6); background: rgba(0,0,0,.28); color: #f3dfb6; }
+.rest-day b { display: block; font: 400 22px "IM Fell English SC", Georgia, serif; color: #ffd77a; margin-bottom: 4px; }
+.rest-day span { font: italic 13.5px/1.4 Georgia, serif; color: #d7c39a; }
+.nguide { display: flex; flex-direction: column; gap: 1px; margin: 3px 0 2px; font: italic 11.5px/1.3 Georgia, serif; color: #4a2a12; position: relative; z-index: 2; text-align: left; }
+.nck.ndone { margin-top: 4px; padding: 6px 6px; background: rgba(255,250,235,.6); border: 1px solid rgba(90,56,24,.45); font-size: 13.5px; justify-content: center; align-items: center; }
+.nck.ndone i { width: 18px; height: 18px; margin-top: 0; }
+.nck.ndone.on i::after { left: 5px; top: 1px; width: 5px; height: 10px; }
+.nck.ndone.on span { text-decoration: none; opacity: 1; color: #1f4a1f; }
+
+/* ---------- fulfilled quests roll up into sealed scrolls ---------- */
+.note.sealed { display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 3px; padding: 14px 4px 10px; cursor: pointer; background: none !important; filter: drop-shadow(0 6px 5px rgba(0,0,0,.6)); text-align: center; animation: sealIn .5s ease-out; }
+.note.sealed::before, .note.sealed::after { display: none !important; }
+@keyframes sealIn { from { transform: scaleY(1.6); opacity: .3; } to { transform: none; opacity: 1; } }
+.sc-scroll { position: relative; display: flex; align-items: center; width: 92%; height: 52px; margin-bottom: 4px; }
+.sc-end { flex: none; width: 13px; height: 54px; border-radius: 6px; background: linear-gradient(90deg, #2e1a0a, #7a4a22 45%, #a8703a 55%, #2e1a0a); box-shadow: 0 2px 3px rgba(0,0,0,.5); }
+.sc-band { flex: 1; height: 42px; margin: 0 -2px; border-radius: 3px; background: linear-gradient(180deg, #8f6c38 0%, #e8cf98 22%, #fff3d2 48%, #e3c78c 74%, #8a6630 100%); box-shadow: inset 0 0 6px rgba(80,50,15,.5); position: relative; }
+.sc-band::after { content: ""; position: absolute; left: 50%; top: -3px; bottom: -3px; width: 14px; margin-left: -7px; background: linear-gradient(90deg, #5e0e09, #a3241b 50%, #5e0e09); }
+.sc-wax { position: absolute; left: 50%; top: 50%; width: 42px; height: 42px; transform: translate(-50%, -50%) rotate(-8deg); border-radius: 47% 53% 50% 46% / 52% 46% 54% 48%;
+  background: radial-gradient(circle at 36% 30%, #ee5a48, #a3201a 55%, #5c0a06); box-shadow: 0 3px 5px rgba(0,0,0,.55), inset 0 -3px 5px rgba(0,0,0,.45), inset 0 2px 3px rgba(255,190,170,.35); display: grid; place-items: center; }
+.sc-wax b { width: 28px; height: 28px; border-radius: 50%; display: grid; place-items: center; border: 1.5px solid rgba(255,200,180,.45); font: 700 14px Georgia, serif; color: #ffd9c4; text-shadow: 0 -1px 0 rgba(0,0,0,.5); }
+.note.sealed.qotd .sc-wax { background: radial-gradient(circle at 36% 30%, #ffe27a, #c98a1a 55%, #6a3a06); } .note.sealed.qotd .sc-wax b { color: #fff3c0; border-color: rgba(255,240,180,.6); }
+.note.sealed.own .sc-band::after { background: linear-gradient(90deg, #0d3a35, #2a8a7a 50%, #0d3a35); }
+.note.sealed.others .sc-wax { filter: saturate(.55) brightness(.85); }
+.sc-rib { font: 400 17px "IM Fell English SC", Georgia, serif; letter-spacing: .08em; color: #f2c45a; text-shadow: 0 1px 2px #000; }
+.sc-title { font: 600 13px/1.25 Georgia, serif; color: #f3dfb6; text-shadow: 0 1px 2px #000; padding: 0 4px; }
+.sc-by { font: italic 11px Georgia, serif; color: #cdb48a; }
+.qm-paper.unroll { transform-origin: 50% 0; animation: unroll .6s cubic-bezier(.3,.8,.3,1); }
+@keyframes unroll { 0% { transform: scaleY(.06); opacity: .5; } 60% { transform: scaleY(1.03); opacity: 1; } 100% { transform: none; } }
+.qm-fulfilled { position: absolute; right: 10px; top: 128px; z-index: 3; display: flex; flex-direction: column; align-items: center; transform: rotate(10deg); pointer-events: none; }
+.qf-wax { width: 58px; height: 58px; display: grid; place-items: center; border-radius: 47% 53% 50% 46% / 52% 46% 54% 48%; background: radial-gradient(circle at 36% 30%, #ee5a48, #a3201a 55%, #5c0a06); color: #ffd9c4; font-size: 26px; box-shadow: 0 3px 6px rgba(0,0,0,.5), inset 0 -3px 6px rgba(0,0,0,.45); }
+.qf-txt { margin-top: 2px; font: 400 16px "IM Fell English SC", Georgia, serif; color: #8a1c10; letter-spacing: .06em; }
+.qm-fulfilled small { font: italic 10.5px Georgia, serif; color: #6b3a1a; max-width: 110px; text-align: center; }
+/* ---------- no companion on the sheet any more ---------- */
+#petBtn, .pm-pet, [data-giftto] { display: none !important; }
+/* ---------- tally: tap a deed ---------- */
+.tl-tip { margin: -2px 0 6px; font: italic 12px Georgia, serif; color: #7a5a3a; text-align: left; }
+.tl-row { cursor: pointer; }
+.tl-row > span::after { content: " \25BE"; color: #9a7a4a; font-size: 11px; }
+.tl-row.open > span::after { content: " \25B4"; }
+.tl-desc { display: none; grid-column: 1 / -1; margin: 6px 0 2px; padding: 8px 10px; border-radius: 6px; background: rgba(255,248,225,.55); border: 1px solid rgba(60,35,15,.2); }
+.tl-row.open .tl-desc { display: block; }
+.tl-desc p { margin: 0 0 6px; font: 13.5px/1.4 Georgia, serif; color: #2a1a0c; }
+.tl-desc .tl-story { font-style: italic; color: #5a3d22; margin: 4px 0 0; }
+.tl-tags { display: flex; flex-wrap: wrap; gap: 4px; margin-bottom: 6px; }
+.tl-tags span { padding: 1px 7px; border-radius: 9px; background: #e9dcc0; color: #5a4526; font: 700 10.5px/1.6 Georgia, serif; }
+.tl-steps { margin: 0 0 4px 18px; padding: 0; font: 13px/1.35 Georgia, serif; color: #3b2412; }
+
+.tl-list .tl-steps li { display: list-item; grid-template-columns: none; border: 0; padding: 1px 0; font-size: 13px; }
+
+.note.sealed .sc-scroll { display: block; width: 100%; height: auto; margin: 0 0 2px; }
+.sc-svg { display: block; width: 100%; max-width: 150px; margin: 0 auto; filter: drop-shadow(0 3px 3px rgba(0,0,0,.45)); }
+.note.sealed:hover .sc-svg, .note.sealed:focus-visible .sc-svg { transform: rotate(-3deg) scale(1.04); transition: transform .2s; }
+.note.sealed.others .sc-svg { filter: saturate(.6) brightness(.85) drop-shadow(0 3px 3px rgba(0,0,0,.45)); }
+.qf-scroll { display: block; width: 84px; }
+.qf-scroll .sc-svg { filter: drop-shadow(0 2px 2px rgba(0,0,0,.35)); }
+.qm-fulfilled { top: 120px !important; right: 4px !important; transform: rotate(6deg) !important; }
 </style>
 </head>
 <body>
@@ -1581,6 +1680,7 @@ textarea.cq-in { resize: vertical; }
       </div>
       <div class="plank" id="mainQuests"></div>
       <button class="btn wax give add-main" type="button" data-mnew>+ Decree a main quest</button>
+      <button class="btn gold give add-side" type="button" data-cqnew>+ Decree a side quest <small>a quest for thee alone, on thy Side Quest board</small></button>
     </section>
     <section class="board iron stone-bg" aria-labelledby="boardTitle">
       <div class="board-sign">
@@ -1603,14 +1703,16 @@ textarea.cq-in { resize: vertical; }
         </div>
         <div class="slots" id="slots"></div>
       </section>
-    <section class="scroll iron stone-bg" aria-labelledby="logTitle">
+    <section class="compact scroll iron stone-bg" aria-labelledby="logTitle">
         <div class="sec-head"><h2 id="logTitle">Deed Ledger</h2><span class="meta" id="ffMeta"></span></div>
+        <div class="enter-row"><span class="enter-meta" id="ledgerMeta"></span><button class="btn gold enter-btn" type="button" data-secopen="ledger">Open the Deed Ledger</button></div>
         <div class="lb-tabs ledger-tabs" role="group" aria-label="Which deeds"><button class="chip" data-ledger="today" aria-pressed="true">This day</button><button class="chip" data-ledger="past" aria-pressed="false">Seven days past</button></div>
         <p class="ledger-note">Forfeit any deed not truly finished. The XP returns to the guild and thy name stays honest.</p>
         <ul class="log" id="log"></ul>
       </section>
-    <section class="scroll iron stone-bg journal-sec" aria-labelledby="jTitle">
+    <section class="compact scroll iron stone-bg journal-sec" aria-labelledby="jTitle">
         <div class="sec-head"><h2 id="jTitle">Adventurer's Journal</h2><span class="meta" id="jCount"></span></div>
+        <div class="enter-row"><span class="enter-meta" id="journalMeta"></span><button class="btn gold enter-btn" type="button" data-secopen="journal">Open the Journal</button></div>
         <button class="btn small ghost j-write" id="jWrite" type="button">Pen a page</button>
         <div class="jpages" id="jPages"></div>
         <button class="btn small ghost" id="jMore" type="button" hidden>Turn to older pages</button>
@@ -1641,10 +1743,11 @@ textarea.cq-in { resize: vertical; }
     <div class="gm-box" id="gmBox" hidden></div>
     <button class="btn small ghost lb-more" id="lbMore" type="button" hidden>Unroll the whole list</button>
   </section>
-    <section class="board tavern-board iron stone-bg" aria-labelledby="tavernTitle">
+    <section class="compact board tavern-board iron stone-bg" aria-labelledby="tavernTitle">
       <div class="board-sign">
         <h2 id="tavernTitle">The Tavern Board</h2>
         <div class="meta">Boasts, tidings and proof of thy deeds, for the whole guild</div>
+        <div class="enter-row"><span class="enter-meta" id="tavernMeta"></span><button class="btn gold enter-btn" type="button" data-secopen="tavern">Enter the Tavern</button></div>
       </div>
       <div class="tv-compose" id="tvCompose">
         <textarea id="tvText" rows="2" maxlength="240" aria-label="Thy message to the tavern" placeholder="Raise thy cup: what deed hast thou done?"></textarea>
@@ -1659,8 +1762,9 @@ textarea.cq-in { resize: vertical; }
       <div class="tv-feed" id="tvFeed"></div>
       <button class="btn small ghost tv-more" type="button" id="tvMore" hidden>Read older tidings</button>
     </section>
-    <section class="scroll iron stone-bg" aria-labelledby="achTitle">
+    <section class="compact scroll iron stone-bg" aria-labelledby="achTitle">
         <div class="sec-head"><h2 id="achTitle">Honors &amp; Feats</h2><span class="meta" id="achMeta"></span></div>
+        <div class="enter-row"><span class="enter-meta" id="honorMeta"></span><button class="btn gold enter-btn" type="button" data-hallopen>Enter the Hall of Honors</button></div>
         <label class="honor-pick" for="honorSel">Title the heralds call thee
           <select id="honorSel"></select>
         </label>
@@ -1778,17 +1882,18 @@ textarea.cq-in { resize: vertical; }
 </div>
 <div class="crow-fly" id="crowFly" aria-hidden="true"><img id="crowImg" alt=""></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="qmodal" id="tallyModal" role="dialog" aria-modal="true" aria-labelledby="tallyHead"><div class="qm-paper tally-paper" id="tallyPaper"></div></div>
 <div class="fboard" id="secModal" role="dialog" aria-modal="true" aria-label="See all"><div class="fb-wrap sec-holder"><button class="fb-x" type="button" data-secclose aria-label="Close">&times;</button><div id="secSlot"></div></div></div>
 <div class="qmodal" id="cqModal" role="dialog" aria-modal="true" aria-labelledby="cqHead"><div class="qm-paper cq-paper">
   <span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-cqclose aria-label="Close">&times;</button>
-  <div class="qm-kicker">Post a Notice</div><h3 id="cqHead">Create a Side Quest</h3>
-  <p class="cq-lead">Thy notice hangs on the guild board until 6 in the morn. Anyone may take it, thyself included.</p>
+  <div class="qm-kicker">Thine Own Decree</div><h3 id="cqHead">Decree a Side Quest</h3>
+  <p class="cq-lead">This quest is for thee alone. It hangs on thy Side Quest board in its own colour until 6 in the morn. It earns XP, but no coins.</p>
   <label class="jm-lab" for="cqTitle">The quest</label><input id="cqTitle" class="cq-in" maxlength="60" autocomplete="off" placeholder="e.g. Help clean the barangay chapel">
   <label class="jm-lab" for="cqDesc">What must be done</label><textarea id="cqDesc" class="cq-in" rows="3" maxlength="200" placeholder="Say clearly what counts as done."></textarea>
   <label class="jm-lab" for="cqCat">Kind</label><select id="cqCat" class="cq-in"><option>Adventure</option><option>Body</option><option>Mind</option><option>Home</option><option>Social</option><option>Creative</option><option selected>Spirit</option></select>
   <div class="jm-lab">Rank</div><div class="cq-ranks"><button type="button" data-cqrank="N" aria-pressed="true">Normal · 10 XP</button><button type="button" data-cqrank="S" aria-pressed="false">S-Class · 25 XP</button><button type="button" data-cqrank="SS" aria-pressed="false">SS-Class · 50 XP</button></div>
   <p class="cq-left" id="cqLeft"></p>
-  <div class="qm-acts"><button class="btn wax" id="cqOk" type="button">Nail it to the board</button><button class="btn ghost" type="button" data-cqclose>Not now</button></div>
+  <div class="qm-acts"><button class="btn wax" id="cqOk" type="button">Nail it to my board</button><button class="btn ghost" type="button" data-cqclose>Not now</button></div>
 </div></div>
 <div class="qmodal" id="qtModal" role="dialog" aria-modal="true" aria-labelledby="qtHead"><div class="qm-paper cq-paper">
   <span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-qtclose aria-label="Close">&times;</button>
@@ -1811,7 +1916,7 @@ textarea.cq-in { resize: vertical; }
     <div class="plank" id="fbQuests"></div>
   </section>
 </div>
-<div class="hatch-fx" id="hatchFx" role="dialog" aria-modal="true" aria-labelledby="hfTxt"><div class="hf-rays"></div><div class="hf-glow"></div><div class="hf-pet" id="hfPet"></div><div class="hf-flash"></div><div class="hf-box"><div class="hf-kick" id="hfKick"></div><div class="hf-txt" id="hfTxt"></div><div class="hf-sub" id="hfSub"></div><div class="hf-acts" id="hfActs"></div></div></div>
+
 <button class="bm-tab" id="bmTab" type="button" aria-label="Open bookmarks" aria-controls="bmDrawer" aria-expanded="false">Bookmarks</button>
 <div class="bm-shade" id="bmShade" aria-hidden="true"></div>
 <nav class="bm-drawer" id="bmDrawer" aria-labelledby="bmTitle" aria-hidden="true">
@@ -2044,7 +2149,8 @@ textarea.cq-in { resize: vertical; }
     if (!Array.isArray(s.pets)) s.pets = [];
     s.pets = s.pets.filter(function (x) { return x && typeof x === "object" && typeof x.id === "string"; }).slice(0, 7);
     if (s.found && (typeof s.found !== "object" || !s.found.eid)) s.found = null;
-    if (s.pet && typeof s.pet === "object") { if (!s.pet.id) s.pet.id = "p0"; if (!s.pet.rar) s.pet.rar = "c"; }
+    if (s.pet && typeof s.pet === "object") { if (!s.pet.id) s.pet.id = "p0"; s.pet.rar = "c"; }
+    s.pets = []; s.found = null;
     return s;
   }
   var MONTHS = ["January", "February", "March", "April", "May", "June", "July", "August", "September", "October", "November", "December"];
@@ -2094,6 +2200,12 @@ textarea.cq-in { resize: vertical; }
     $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type remove to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
     $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
   }
+  function markMainDone(id) {
+    var q = findQ(id); if (!q || !q.main || mainIsDone(id)) return;
+    var hr = new Date().getHours();
+    if (q.after != null && hr < q.after && hr >= MAIN_HOUR) { toast("Check this one when thou retire to bed, after " + q.after + ":00."); return; }
+    complete(id);
+  }
   function removeMain(id) {
     var q = findQ(id); if (!q || !q.main) return;
     if (state.mainChecks && state.mainChecks.c) delete state.mainChecks.c[id];
@@ -2106,6 +2218,7 @@ textarea.cq-in { resize: vertical; }
     return state.mainChecks.c[id] || [];
   }
   function stepsLeft(q) {
+    return 0; // the steps are a guide; the "done" box decides
     if (!q.steps || !q.steps.length) return 0;
     var c = checksFor(q.id); return q.steps.filter(function (s, i) { return c.indexOf(i) < 0; }).length;
   }
@@ -2148,9 +2261,11 @@ textarea.cq-in { resize: vertical; }
   /* ---------- the guild board: the same notices for everyone, renewed each morn at 6 ---------- */
   var BOARD_HOUR = 6, BOARD_SIZE = { N: 5, S: 3, SS: 2 }, BOARD_PREVIEW = 6, TAKE_XP = 5, boardCache = { k: "", ids: [] }, accepting = {};
   function boardDayKey(dt) { var d = dt || new Date(); return todayKey(new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours() - BOARD_HOUR, d.getMinutes())); }
+  function restDay(dk) { return hash("rest:" + (dk || boardDayKey())) % 100 < 12; }
   function boardIds(dk) {
     dk = dk || boardDayKey();
     if (boardCache.k === dk) return boardCache.ids;
+    if (restDay(dk)) { boardCache = { k: dk, ids: [] }; return []; }
     var ids = [];
     RANKS.forEach(function (r) {
       var pool = BASE.filter(function (q) { return q.rank === r; }).map(function (q) { return q.id; });
@@ -2172,7 +2287,7 @@ textarea.cq-in { resize: vertical; }
   function boardOrder(dk) {
     dk = dk || boardDayKey();
     if (boardCache.ok === dk) return boardCache.order;
-    var q0 = qotdId(dk), ids = boardIds(dk).filter(function (x) { return x !== q0; }), best = null, bestScore = 1e9;
+    var q0 = qotdId(dk), ids = boardIds(dk).filter(function (x) { return x !== q0; }), best = ids, bestScore = 1e9;
     function rk(id) { return findQ(id).rank; }
     for (var t = 0; t < 80; t++) {
       var o = ids.slice().sort(function (a, b) { return hash(dk + "#hang" + t + ":" + a) - hash(dk + "#hang" + t + ":" + b); }), sc = 0, i;
@@ -2186,7 +2301,7 @@ textarea.cq-in { resize: vertical; }
     return best;
   }
   function onBoardToday(id) { return boardIds().indexOf(id) >= 0 || customsToday().some(function (c) { return c.id === id; }); }
-  function qotdId(dk) { dk = dk || boardDayKey(); var ids = boardIds(dk); return ids[hash("qotd:" + dk) % ids.length]; }
+  function qotdId(dk) { dk = dk || boardDayKey(); var ids = boardIds(dk); return ids.length ? ids[hash("qotd:" + dk) % ids.length] : ""; }
   function isQOf(id) { var bt = state.boardTake && state.boardTake[id]; return bt ? !!bt.q : id === qotdId(); }
   function qotdDateLabel() { var p = boardDayKey().split("-"), d = new Date(+p[0], +p[1] - 1, +p[2]); return "the " + ordinal(d.getDate()) + " of " + MONTHS[d.getMonth()]; }
   function boardResetIn() {
@@ -2199,12 +2314,12 @@ textarea.cq-in { resize: vertical; }
   function localClaims() { var dk = boardDayKey(); if (state.boardLocal.d !== dk) state.boardLocal = { d: dk, c: {} }; return state.boardLocal.c; }
   function boardClaims() {
     var dk = boardDayKey(), loc = localClaims(), out = {}, k;
-    if (cloud.claims && cloud.bDay === dk) { for (k in cloud.claims) if (!(lapsed(cloud.claims[k]) && cloud.claims[k].uid !== cloud.uid)) out[k] = cloud.claims[k]; for (k in loc) if (!out[k] && (loc[k].pend || state.active.indexOf(k) >= 0)) out[k] = loc[k]; return out; }
+    if (cloud.claims && cloud.bDay === dk) { for (k in cloud.claims) if (!(lapsed(cloud.claims[k]) && cloud.claims[k].uid !== cloud.uid)) out[k] = cloud.claims[k]; for (k in loc) if (!out[k] && (loc[k].pend || state.active.indexOf(k) >= 0 || /^x/.test(k))) out[k] = loc[k]; return out; }
     for (k in loc) out[k] = loc[k];
     return out;
   }
   function claimOf(id) { return boardClaims()[id] || null; }
-  var FAIL_XP = { N: 5, S: 10, SS: 20 }, pickFor = null, pickMins = 60;
+  var FAIL_XP = { N: 20, S: 20, SS: 20 }, pickFor = null, pickMins = 60;
   function lapsed(c) { return !!c && !c.done && typeof c.due === "number" && c.due < Date.now(); }
   function bannedToday(id) { return state.boardBan.d === boardDayKey() && state.boardBan.ids.indexOf(id) >= 0; }
   function clockAt(t) { var d = new Date(t), h = d.getHours(), m = d.getMinutes(); return ((h % 12) || 12) + ":" + pad(m) + (h < 12 ? " AM" : " PM"); }
@@ -2577,6 +2692,7 @@ textarea.cq-in { resize: vertical; }
     accepting[id] = 1;
     var me = { uid: cloud.uid || "me", name: (state.name || "Adventurer").slice(0, 24), at: Date.now(), due: Date.now() + mins * 60000 };
     function finish(note) { delete accepting[id]; takeUp(q, dk, me, note); }
+    if (q.personal) { finish(""); return; }
     if (!boardOnline()) { finish(cloud.db ? " (Offline: the guild will not see thy claim.)" : ""); return; }
     setLocalClaim(dk, id, { uid: me.uid, name: me.name, at: me.at, due: me.due, pend: 1, qid: id }); render();
     cloud.db.ref("board/" + dk + "/" + id).transaction(function (cur) { if (cur && !lapsed(cur)) return; return me; })
@@ -2600,7 +2716,7 @@ textarea.cq-in { resize: vertical; }
     state.posted = state.posted.filter(function (x) { return x !== id; });
     setLocalClaim(dk, id, { uid: me.uid, name: me.name, at: me.at, due: me.due, qid: id });
     state.boardTake[id] = { d: dk, q: id === qotdId(dk), due: me.due };
-    if (q.gcustom) state.boardTake[id].cq = { id: q.id, title: q.title, desc: q.desc, cat: q.cat, rank: q.rank, custom: true, gcustom: true, by: q.by, byName: q.byName, story: "" };
+    if (q.gcustom) state.boardTake[id].cq = { id: q.id, title: q.title, desc: q.desc, cat: q.cat, rank: q.rank, custom: true, gcustom: true, personal: true, by: "me", byName: q.byName, story: "" };
     if (me.uid !== "me") { state.boardMine.push({ d: dk, id: id }); if (state.boardMine.length > 60) state.boardMine = state.boardMine.slice(-60); }
     save(); render(); sfx("take"); crowFly();
     toast("Quest taken: " + q.title + ". Finish it by " + clockAt(me.due) + " to earn the XP." + (note || ""));
@@ -2624,7 +2740,7 @@ textarea.cq-in { resize: vertical; }
     delete state.boardTake[id]; delete state.takenAt[id]; delete state.postedAt[id];
     if (bt.d === boardDayKey()) { if (state.boardBan.d !== bt.d) state.boardBan = { d: bt.d, ids: [] }; if (state.boardBan.ids.indexOf(id) < 0) state.boardBan.ids.push(id); }
     if (state.boardLocal.d === bt.d) delete state.boardLocal.c[id];
-    if (boardOnline()) cloud.db.ref("board/" + bt.d + "/" + id).transaction(function (cur) { if (cur && cur.uid === cloud.uid && !cur.done) return null; return; }).catch(function () {});
+    if (boardOnline() && !/^x/.test(id)) cloud.db.ref("board/" + bt.d + "/" + id).transaction(function (cur) { if (cur && cur.uid === cloud.uid && !cur.done) return null; return; }).catch(function () {});
     var rank = q ? q.rank : "N", lose = Math.min(FAIL_XP[rank] || 5, state.xp), tk = todayKey();
     state.xp -= lose; bumpDay(tk, 0, -lose);
     state.log.unshift({ k: "fl-" + id + "-" + Date.now().toString(36), fail: true, id: id, t: "Failed in time: " + (q ? q.title : "a quest"), xp: -lose, d: tk, at: Date.now() });
@@ -2650,7 +2766,7 @@ textarea.cq-in { resize: vertical; }
     var bt = state.boardTake[id];
     if (!bt) { save(); render(); toast("Thou hast set the quest down."); return; }
     delete state.boardTake[id];
-    if (boardOnline()) cloud.db.ref("board/" + bt.d + "/" + id).remove().catch(function () {});
+    if (boardOnline() && !/^x/.test(id)) cloud.db.ref("board/" + bt.d + "/" + id).remove().catch(function () {});
     if (state.boardLocal.d === bt.d) delete state.boardLocal.c[id];
     var e = null; state.log.forEach(function (l) { if (l.k === bt.k) e = l; });
     if (e) { state.xp = Math.max(0, state.xp - e.xp); bumpDay(e.d, 0, -e.xp); state.log = state.log.filter(function (l) { return l.k !== bt.k; }); }
@@ -2667,7 +2783,7 @@ textarea.cq-in { resize: vertical; }
     var q = findQ(id); if (!q) { abandon(id); return; }
     var bt0 = state.boardTake[id]; if (bt0 && typeof bt0.due === "number" && Date.now() > bt0.due) { failQuest(id); return; }
     var before = levelInfo(state.xp).lv, isQ = isQOf(id), bt = state.boardTake[id];
-    var gain = (XP[q.rank] || 10) * (isQ ? 2 : 1) + (bt ? TAKE_XP : 0), coins = (COIN[q.rank] || 2) * (isQ ? 2 : 1);
+    var gain = (XP[q.rank] || 10) * (isQ ? 2 : 1) + (bt && !q.personal ? TAKE_XP : 0), coins = q.personal ? 0 : (COIN[q.rank] || 2) * (isQ ? 2 : 1);
     state.xp += gain; state.total += 1; state.coins = (state.coins || 0) + coins;
     state.active = state.active.filter(function (x) { return x !== id; });
     state.posted = state.posted.filter(function (x) { return x !== id; });
@@ -2683,7 +2799,7 @@ textarea.cq-in { resize: vertical; }
     if (bt) {
       delete state.boardTake[id];
       if (state.boardLocal.d === bt.d && state.boardLocal.c[id]) state.boardLocal.c[id].done = true;
-      if (boardOnline()) cloud.db.ref("board/" + bt.d + "/" + id).transaction(function (cur) { if (!cur || cur.uid !== cloud.uid) return; cur.done = true; cur.doneAt = Date.now(); return cur; }).catch(function () {});
+      if (boardOnline() && !/^x/.test(id)) cloud.db.ref("board/" + bt.d + "/" + id).transaction(function (cur) { if (!cur || cur.uid !== cloud.uid) return; cur.done = true; cur.doneAt = Date.now(); return cur; }).catch(function () {});
     }
     recordDeed(entry, q.main ? "main" : isQ ? "qotd" : "side");
     bumpDay(tk, 1, gain);
@@ -2705,7 +2821,7 @@ textarea.cq-in { resize: vertical; }
     save(); render();
     sfx("coin");
     if (conquered) celebrate({ head: "Day Conquered", big: "+" + MAIN_BONUS + " XP", msg: "Every decree is fulfilled. The Crown is well pleased. New decrees arrive on the morrow at 7.", sound: "fanfare" });
-    toast("+" + gain + " XP · +" + coins + " coins · " + q.title + (isQ ? " (double reward!)" : "") + (bt ? " (+" + TAKE_XP + " board bonus)" : ""));
+    toast("+" + gain + " XP" + (coins ? " · +" + coins + " coins" : "") + " · " + q.title + (isQ ? " (double reward!)" : "") + (bt ? " (+" + TAKE_XP + " board bonus)" : ""));
     var after = levelInfo(state.xp).lv;
     if (after > before) levelUp(after);
     checkBadges();
@@ -2751,36 +2867,83 @@ textarea.cq-in { resize: vertical; }
     S: { v: "scroll", tone: "orange", head: "Call to Arms" },
     SS: { v: "torn", tone: "ember", head: "Bounty" },
     custom: { v: "torn", tone: "violet", head: "Attention" },
+    decree: { v: "torn", tone: "teal", head: "Thine Own Decree" },
     main: { v: "scroll", tone: "yellow", head: "Royal Decree" },
     qotd: { v: "torn", tone: "gold", head: "Reward" }
   };
+
+  /* ---------- a rolled parchment tied with rope: the mark of a fulfilled quest ---------- */
+  var scrollN = 0;
+  function scrollSvg(kind) {
+    var u = "sc" + (++scrollN);
+    var rope = kind === "gold" ? ["#fff0a8", "#d9a630", "#7a5208"] : kind === "teal" ? ["#bff0e4", "#3f9a8a", "#0f4a42"] : ["#e2b27a", "#a8683a", "#4e2a12"];
+    var coil = function (x) {
+      return '<path d="M' + x + ' 27C' + (x + 7) + ' 32 ' + (x + 7) + ' 58 ' + x + ' 63" stroke="url(#' + u + 'r)" stroke-width="6.4" fill="none" stroke-linecap="round"/>' +
+        '<path d="M' + x + ' 27C' + (x + 7) + ' 32 ' + (x + 7) + ' 58 ' + x + ' 63" stroke="' + rope[2] + '" stroke-width="6.4" fill="none" stroke-dasharray="1.6 2.6" opacity=".55"/>' +
+        '<path d="M' + (x - 1.4) + ' 28C' + (x + 5) + ' 33 ' + (x + 5) + ' 57 ' + (x - 1.4) + ' 62" stroke="#fff" stroke-width="1" fill="none" opacity=".28"/>';
+    };
+    return '<svg class="sc-svg" viewBox="0 0 120 92" aria-hidden="true"><defs>' +
+      '<linearGradient id="' + u + 'b" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#8c7550"/><stop offset=".18" stop-color="#d9c79e"/><stop offset=".42" stop-color="#f7efd8"/><stop offset=".66" stop-color="#e2d2a8"/><stop offset="1" stop-color="#7d6642"/></linearGradient>' +
+      '<linearGradient id="' + u + 'r" x1="0" y1="0" x2="1" y2="0"><stop offset="0" stop-color="' + rope[2] + '"/><stop offset=".45" stop-color="' + rope[0] + '"/><stop offset="1" stop-color="' + rope[1] + '"/></linearGradient>' +
+      '<radialGradient id="' + u + 'e" cx="45%" cy="45%" r="60%"><stop offset="0" stop-color="#f6edd2"/><stop offset="1" stop-color="#cdb98c"/></radialGradient></defs>' +
+      '<ellipse cx="60" cy="80" rx="44" ry="6" fill="#000" opacity=".28"/>' +
+      '<g transform="rotate(-27 60 46)">' +
+        // the far, ragged end
+        '<path d="M100 31q5 1 6 4q-3 2-1 5q3 3 0 6q-2 3 1 6q2 4-2 6q-3 1-4 0Z" fill="#cbb78a" stroke="#8a7450" stroke-width=".6"/>' +
+        // the roll itself
+        '<rect x="18" y="31.5" width="85" height="29" rx="3" fill="url(#' + u + 'b)"/>' +
+        // a loose outer sheet curling over the top
+        '<path d="M28 31.5q9-4.5 19-2.4t19-1.6 18-2.2 17 1.2l3 4.5H28Z" fill="#f3e8cb" stroke="#9a8458" stroke-width=".55"/>' +
+        '<path d="M34 59q14 3 28 .5t30 1.2" stroke="#7d6642" stroke-width=".7" fill="none" opacity=".6"/>' +
+        '<path d="M30 40h16M80 37h14M36 52h10M84 50h12" stroke="#a89068" stroke-width=".6" opacity=".55"/>' +
+        // the spiral end facing us
+        '<ellipse cx="18.5" cy="46" rx="7.6" ry="15" fill="url(#' + u + 'e)" stroke="#8a7450" stroke-width=".8"/>' +
+        '<path d="M18.5 46m-.8 0a1.4 2.8 0 1 1 2.8 0a2.9 5.8 0 1 1-5.8 0a4.4 8.8 0 1 1 8.8 0a5.8 11.6 0 1 1-11.6 0" stroke="#8a7450" stroke-width=".85" fill="none"/>' +
+        // the rope wound round the middle
+        coil(55) + coil(60.5) + coil(66) + coil(71.5) +
+      "</g>" +
+      // the knot and its hanging ends
+      '<circle cx="73" cy="56" r="4.2" fill="url(#' + u + 'r)" stroke="' + rope[2] + '" stroke-width=".6"/>' +
+      '<path d="M72 58q-3 10-1 21M75 58q4 9 6 18" stroke="url(#' + u + 'r)" stroke-width="3.8" fill="none" stroke-linecap="round"/>' +
+      '<path d="M72 58q-3 10-1 21M75 58q4 9 6 18" stroke="' + rope[2] + '" stroke-width="3.8" fill="none" stroke-dasharray="1.4 2.2" opacity=".5"/>' +
+      '<rect x="68.8" y="66" width="11" height="4.6" rx="2" fill="#e8c24a" stroke="#8a6416" stroke-width=".6" transform="rotate(8 74 68)"/>' +
+      '<path d="M69.5 79l-1.6 5M71 79.5l-.2 5.4M72.6 79l1.4 5M80 76l-.4 5.2M81.6 75.6l1.6 4.8M83 75l2.6 4" stroke="' + rope[1] + '" stroke-width=".9" stroke-linecap="round"/>' +
+      "</svg>";
+  }
   function noteHtml(q, kind) {
     var bc = kind !== "main" ? claimOf(q.id) : null, mine = bc && isMine(bc), other = bc && !mine;
     var done = kind === "main" ? mainIsDone(q.id) : bc ? !!bc.done : state.today.ids.indexOf(q.id) >= 0, taken = state.active.indexOf(q.id) >= 0;
-    var P = kind === "main" ? PAPER.main : kind === "qotd" ? PAPER.qotd : q.custom ? PAPER.custom : PAPER[q.rank];
+    var P = kind === "main" ? PAPER.main : kind === "qotd" ? PAPER.qotd : q.personal ? PAPER.decree : q.custom ? PAPER.custom : PAPER[q.rank];
     var tear = 1; for (var k = 0; k < q.id.length; k++) tear += q.id.charCodeAt(k); tear = tear % 5 + 1;
     var pi = null, xp = (XP[q.rank] || 10) * (kind === "qotd" ? 2 : 1);
     var who = bc ? (mine ? "thee" : esc(bc.name || "an adventurer")) : "";
     var sub = kind === "main" ? (q.once ? "Once and no more" : "Renewed each morn at 7") + (q.after != null ? " · seal after " + q.after + ":00" : "")
-      : (kind === "qotd" ? "Quest for " + qotdDateLabel() + " · twice the reward" : "Free to take · +" + TAKE_XP + " bonus XP when done");
+      : (kind === "qotd" ? "Quest for " + qotdDateLabel() + " · twice the reward" : q.personal ? "Thy decree · XP only, no coins" : "Free to take · +" + TAKE_XP + " bonus XP when done");
     if (mine && !bc.done && bc.due && kind !== "main") sub = '<span class="nby">Thine · finish by ' + clockAt(bc.due) + "</span>";
     if (bc) sub = mine ? '<span class="nby">' + (bc.done ? "Done by " : "Taken by ") + who + "</span>" : "";
-    return '<button class="note p-' + P.v + " t-" + P.tone + " tear" + tear + " r-" + q.rank + (done ? " done" : "") + (taken ? " taken" : "") + (other ? " claimed" : "") + (kind !== "main" && !bc && bannedToday(q.id) ? " claimed" : "") +
+    if (done) {
+      var sealBy = kind === "main" ? "thee" : bc ? (mine ? "thee" : esc(bc.name || "an adventurer")) : "thee", TGs = kind === "main" ? "div" : "button";
+      return "<" + TGs + ' class="note sealed r-' + q.rank + (kind === "main" ? " mnote" : "") + (kind === "qotd" ? " qotd" : "") + (other ? " others" : "") + (q.personal ? " own" : "") + '" data-open="' + q.id + '"' + (kind === "main" ? ' role="button" tabindex="0"' : "") + ' aria-label="Fulfilled: ' + esc(q.title) + '. Tap to unroll it.">' +
+        '<span class="sc-scroll" aria-hidden="true">' + scrollSvg(kind === "qotd" ? "gold" : q.personal ? "teal" : "") + "</span>" +
+        '<span class="sc-rib">Fulfilled</span><span class="sc-title">' + esc(q.title) + '</span><span class="sc-by">' + (kind === "main" ? "Royal Decree" : kind === "qotd" ? "Quest of the Day" : RANK_NAME[q.rank]) + " · sealed by " + sealBy + "</span></" + TGs + ">";
+    }
+    var TAG = kind === "main" ? "div" : "button";
+    return "<" + TAG + ' class="note p-' + P.v + (kind === "main" ? " mnote" : "") + " t-" + P.tone + " tear" + tear + " r-" + q.rank + (done ? " done" : "") + (taken ? " taken" : "") + (other ? " claimed" : "") + (kind !== "main" && !bc && bannedToday(q.id) ? " claimed" : "") +
       (pi && pi.days >= 3 ? " old" : "") + (q.id === freshId ? " fresh" : "") + (kind === "qotd" ? " qotd" : "") +
-      '" data-open="' + q.id + '" aria-label="' + esc(P.head + ", " + RANK_NAME[q.rank] + ": " + q.title) + '">' +
+      '" data-open="' + q.id + '"' + (kind === "main" ? ' role="group"' : "") + ' aria-label="' + esc(P.head + ", " + RANK_NAME[q.rank] + ": " + q.title) + '">' +
       (P.v === "scroll" ? '<span class="roll rt" aria-hidden="true"></span><span class="roll rb" aria-hidden="true"></span>' : '<span class="pin" aria-hidden="true"></span>') +
       '<span class="nhead">' + P.head + "</span>" +
-      '<span class="ncat">' + esc(q.cat) + (q.gcustom ? " · by " + esc(q.by === cloud.uid || q.by === "me" ? "thee" : q.byName || "a guildmate") : q.custom ? " · yours" : "") + "</span>" +
+      '<span class="ncat">' + esc(q.cat) + (q.personal ? " · only thou sees it" : q.custom ? " · yours" : "") + "</span>" +
       '<span class="nt">' + esc(q.title) + "</span>" +
       (sub ? '<span class="ndate">' + sub + "</span>" : "") +
-      (kind === "main" && q.steps && q.steps.length ? (function () {
-        var c = done ? q.steps.map(function (s, i) { return i; }) : checksFor(q.id), n = q.steps.filter(function (s, i) { return c.indexOf(i) >= 0; }).length;
-        return '<span class="nsteps" aria-label="' + n + " of " + q.steps.length + ' steps checked">' +
-          q.steps.map(function (s, i) { return '<i class="' + (c.indexOf(i) >= 0 ? "on" : "") + '"></i>'; }).join("") + "<b>" + n + "/" + q.steps.length + "</b></span>";
+      (kind === "main" ? (function () {
+        var steps = q.steps || [], c = done ? steps.map(function (s, i) { return i; }) : checksFor(q.id), left = steps.filter(function (s, i) { return c.indexOf(i) < 0; }).length;
+        return (steps.length ? '<span class="nguide">' + steps.map(function (st) { return "<span>\u2022 " + esc(st) + "</span>"; }).join("") + "</span>" : "") +
+          '<button type="button" class="nck ndone' + (done ? " on" : "") + '" data-mdone="' + q.id + '"' + (done ? " disabled" : "") + ' aria-pressed="' + done + '"><i aria-hidden="true"></i><span>' + (done ? "Fulfilled this day" : "Seal it as fulfilled") + "</span></button>";
       })() : "") +
       '<span class="nfoot"><span class="nxp">+' + xp + " XP" + (kind === "qotd" ? " <s>+" + XP[q.rank] + "</s>" : "") + "</span>" +
       '<span class="sealbox" aria-hidden="true"><span class="wax' + (kind === "qotd" ? " star" : "") + '">' + (kind === "qotd" ? "★" : q.rank) + '</span><span class="nrib">' + RANK_NAME[q.rank] + "</span></span></span>" +
-      (other ? '<span class="stamp">' + (bc.done ? "Done" : "Taken") + "<small>by " + who + "</small>" + (!bc.done && bc.due ? "<small>till " + clockAt(bc.due) + "</small>" : "") + "</span>" : kind !== "main" && !bc && bannedToday(q.id) ? '<span class="stamp">Failed<small>not for thee</small></span>' : done ? '<span class="stamp">Done</span>' : taken || bc ? '<span class="stamp">Taken</span>' : "") + "</button>";
+      (other ? '<span class="stamp">' + (bc.done ? "Done" : "Taken") + "<small>by " + who + "</small>" + (!bc.done && bc.due ? "<small>till " + clockAt(bc.due) + "</small>" : "") + "</span>" : kind !== "main" && !bc && bannedToday(q.id) ? '<span class="stamp">Failed<small>not for thee</small></span>' : done ? '<span class="stamp">Done</span>' : taken || bc ? '<span class="stamp">Taken</span>' : "") + "</" + TAG + ">";
   }
   function renderMain() {
     var list = mainQuests(), tk = todayKey();
@@ -2819,19 +2982,21 @@ textarea.cq-in { resize: vertical; }
     var shown = onBoard.filter(function (q) { return (filter === "All" || q.cat === filter) && (rankTab === "All" || q.rank === rankTab); });
     var what = (rankTab === "All" ? "" : RANK_NAME[rankTab] + " ") + (filter === "All" ? "" : filter + " ");
     var qq = findQ(QID);
-    var qotdHtml = '<div class="qotd-wrap"><div class="qotd-head">Quest of the Day <small>' + esc(qotdDateLabel()) + ' · twice the reward · only one adventurer may take it</small></div>' + noteHtml(qq, "qotd") + "</div>";
+    var qotdHtml = !qq ? "" : '<div class="qotd-wrap"><div class="qotd-head">Quest of the Day <small>' + esc(qotdDateLabel()) + ' · twice the reward · only one adventurer may take it</small></div>' + noteHtml(qq, "qotd") + "</div>";
     var nTaken = boardIds().filter(function (id) { return claims[id]; }).length, nAll = boardIds().length;
     var free = nAll - nTaken;
     var prev = onBoard.filter(function (q) { return !claims[q.id]; }).concat(onBoard.filter(function (q) { return claims[q.id]; })).slice(0, BOARD_PREVIEW);
-    $("quests").innerHTML = qotdHtml + '<div class="notes">' + prev.map(function (q) { return noteHtml(q, "side"); }).join("") + "</div>" +
+    var rest = restDay();
+    $("quests").innerHTML = (rest ? '<div class="rest-day"><b>No side quests today</b><span>The guild board rests this day. No notices were nailed up. Tend to thy Main Quests and thine own decrees, and return at 6 in the morn.</span></div>' : "") +
+      qotdHtml + (prev.length ? '<div class="notes">' + prev.map(function (q) { return noteHtml(q, "side"); }).join("") + "</div>" : "") +
       (onBoard.length > prev.length ? '<button class="btn wax give see-all" type="button" data-seeall>See all ' + onBoard.length + " notices <small>" + onBoard.filter(function (q) { return !claims[q.id]; }).length + " still free · plus the Quest of the Day</small></button>" : "") +
-      '<button class="btn gold create-q" type="button" data-cqnew>+ Create a side quest <small>post thine own notice for the guild this day</small></button>';
+      "";
     $("fbQuests").innerHTML = (fbOpenNow() || $("fbModal").classList.contains("show")) ? ((rankTab === "All" && filter === "All") || (qq && (filter === "All" || qq.cat === filter) && (rankTab === "All" || qq.rank === rankTab)) ? qotdHtml : "") + (shown.length
       ? '<div class="notes">' + shown.map(function (q) { return noteHtml(q, "side"); }).join("") + '</div><div class="board-count">' +
         (shown.length < onBoard.length ? "Showing " + shown.length + " of " + onBoard.length + " notices · " : "") + nTaken + " of " + nAll + " notices taken this day</div>"
       : '<p class="board-empty">No ' + esc(what) + 'notices on this day\u2019s board.<small>Choose another kind above, or return at 6 in the morn for fresh notices.</small></p>') : "";
     $("fbMeta").textContent = nAll + " notices this day · " + free + " still free to take";
-    $("boardMeta").textContent = free ? free + (free === 1 ? " notice" : " notices") + " still free to take. First come, first served." : "Every notice is taken. Fresh ones arrive at 6 in the morn.";
+    $("boardMeta").textContent = restDay() ? "No side quests today. The board rests." : free ? free + (free === 1 ? " notice" : " notices") + " still free to take. First come, first served." : "Every notice is taken. Fresh ones arrive at 6 in the morn.";
     renderBoardReset();
     var warn = cloud.ready && cloud.bErr ? "The guild board could not be read (" + cloud.bErr + "). Publish the newest Firebase rules so all may share it." : !cloud.db ? "The guild board is not connected. Claims are kept on this device only." : "";
     $("boardWarn").hidden = !warn; $("boardWarn").textContent = warn;
@@ -2862,6 +3027,7 @@ textarea.cq-in { resize: vertical; }
   /* ---------- deed ledger ---------- */
   var ledgerView = "today";
   function renderLedger() {
+    try { var tk0 = todayKey(), n0 = 0, x0 = 0; state.log.forEach(function (l) { if (l.d === tk0 && !l.take) { if (!l.mainBonus && !l.fail) n0++; x0 += +l.xp || 0; } }); $("ledgerMeta").textContent = n0 + (n0 === 1 ? " deed" : " deeds") + " this day · " + (x0 >= 0 ? "+" : "\u2212") + Math.abs(x0) + " XP"; } catch (e) {}
     document.querySelectorAll("[data-ledger]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.ledger === ledgerView)); });
     var tk = todayKey(), cut = new Date(); cut.setDate(cut.getDate() - 7); var cutKey = todayKey(cut);
     var rows = state.log.filter(function (l) { return ledgerView === "today" ? l.d === tk : (l.d < tk && l.d > cutKey); });
@@ -2871,7 +3037,6 @@ textarea.cq-in { resize: vertical; }
       return;
     }
     var last = "", html = "", total = rows.length;
-    if (secOpen !== "ledger") rows = rows.slice(0, 2);
     rows.forEach(function (l) {
       if (ledgerView === "past" && l.d !== last) {
         last = l.d; var p = l.d.split("-"), dt = new Date(+p[0], +p[1] - 1, +p[2]);
@@ -2880,7 +3045,7 @@ textarea.cq-in { resize: vertical; }
       html += '<li class="ledger-row"><span class="lt">' + esc(l.t) + '</span><span class="xp"' + (l.xp < 0 ? ' style="color:#e0715a"' : "") + ">" + (l.xp < 0 ? "\u2212" + (-l.xp) : "+" + l.xp) + " XP</span>" +
         (l.bounty ? '<span class="lf-none">bounty</span>' : l.mainBonus ? '<span class="lf-none">bonus</span>' : l.crown ? '<span class="lf-none">crown</span>' : l.take ? '<span class="lf-none">taken</span>' : l.fail ? '<span class="lf-none">failed</span>' : '<button class="lf" type="button" data-forfeit="' + esc(l.k) + '">Forfeit</button>') + "</li>";
     });
-    $("log").innerHTML = html + (secOpen !== "ledger" && total > 2 ? '<li class="see-more"><button class="btn small ghost" type="button" data-secopen="ledger">See all ' + total + " deeds</button></li>" : "");
+    $("log").innerHTML = html;
   }
 
   /* ---------- job popup ---------- */
@@ -2901,7 +3066,7 @@ textarea.cq-in { resize: vertical; }
     if (other) { status = '<p class="qm-status" style="color:#7a1f14">' + (bc.done ? "Done by " : "Taken by ") + esc(bc.name || "another adventurer") + (!bc.done && bc.due ? ". If not done by " + clockAt(bc.due) + ", it returns to the board." : ". None else may take it this day.") + "</p>"; acts = '<button class="btn ghost" data-close>Close</button>'; }
     else if (ban) { status = '<p class="qm-status" style="color:#7a1f14">Thou did not finish this in time. Thou may not take it again this day.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
     else if (gone) { status = '<p class="qm-status" style="color:#6b5134">This notice has left the board.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
-    else if (done) { status = '<p class="qm-status" style="color:#8f1f1c">Done this day. It returns at dawn.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
+    else if (done) { status = '<p class="qm-status" style="color:#8f1f1c">Fulfilled and sealed. Fresh notices come at dawn.</p>'; acts = '<button class="btn ghost" data-close>Seal it again</button>'; }
     else if (taken) { var tb = state.boardTake[id]; status = '<p class="qm-status" style="color:#2f5a2f">Underway' + (tb && tb.due ? '</p><p class="slot-timer" style="color:#7a1d14;text-align:center;margin:-6px 0 12px" data-due="' + tb.due + '">\u23F3 ' + leftTxt(tb.due - Date.now()) + " \u00B7 by " + clockAt(tb.due) : "") + "</p>"; acts = '<button class="btn gold" data-complete="' + id + '">Complete</button><button class="btn ghost" data-abandon="' + id + '">Abandon</button>'; }
     else if (full) { status = '<p class="qm-status" style="color:#6b5134">Thy hands are full (3 of 3). See a quest through first.</p>'; acts = '<button class="btn ghost" data-close>Close</button>'; }
     else if (pickFor === id) {
@@ -2919,14 +3084,15 @@ textarea.cq-in { resize: vertical; }
     var stepsHtml = "";
     if (isMain && q.steps && q.steps.length) {
       var ck = done ? q.steps.map(function (s, i) { return i; }) : checksFor(id);
-      stepsHtml = '<div class="qm-steps"><span>' + (done ? "Steps done" : "Mark each step as it is done") + "</span><ul>" +
+      stepsHtml = '<div class="qm-steps"><span>' + (done ? "Steps (a guide)" : "Steps to guide thee (optional)") + "</span><ul>" +
         q.steps.map(function (s, i) {
           var on = ck.indexOf(i) >= 0;
           return '<li class="' + (on ? "on" : "") + '"><label><input type="checkbox" data-step="' + i + '"' + (on ? " checked" : "") + (done ? " disabled" : "") + "><em></em><span>" + esc(s) + "</span></label></li>";
         }).join("") + "</ul>" +
-        (!done ? '<p class="qm-lock">' + (left ? "&#128274; " + left + " of " + q.steps.length + " steps remain ere thou may seal it" : "All steps are marked. Seal it!") + "</p>" : "") + "</div>";
+        "</div>";
     }
-    if (isMain) status = done ? '<p class="qm-status" style="color:#8f1f1c">' + (q.once ? "Done! This quest departs the board at 7 in the morn." : "Done. It returns on the morrow at 7.") + "</p>" : "";
+    if (isMain) status = done ? '<p class="qm-status" style="color:#8f1f1c">' + (q.once ? "Fulfilled! This decree departs the board at 7 in the morn." : "Fulfilled. The Crown renews it on the morrow at 7.") + "</p>" : "";
+    if (isMain && done) acts = '<button class="btn ghost" data-close>Seal it again</button>';
     var canDown = !isQ && !isMain && !q.custom && !taken && !done && state.posted.indexOf(id) >= 0;
     $("qmPaper").className = "qm-paper r-" + q.rank + (isMain ? "" : " qm-land");
     $("qmodal").classList.toggle("land", !isMain);
@@ -2940,17 +3106,24 @@ textarea.cq-in { resize: vertical; }
       (q.desc ? '<p class="qm-desc">' + esc(q.desc) + "</p>" : "") +
       stepsHtml + L1 +
       '<div class="qm-story"><span>' + (q.story ? "The tale" : "Word from the guild") + '</span><p>' + esc(q.story || FLAVOR[q.rank]) + "</p></div>" +
-      (function () { return isMain || (q.custom && !q.gcustom) ? "" : '<p class="qm-posted">Upon the guild board for <b>' + esc(qotdDateLabel()) + "</b> only.<br>If none takes it, it vanishes at 6 in the morn.</p>"; })() +
-      '<dl class="qm-meta"><div><dt>Patron</dt><dd>' + esc(isMain && !q.custom ? "The Crown" : q.gcustom ? (q.byName || "A guildmate") : q.custom ? "Yourself" : (CLIENT[q.cat] || "The Guild")) + '</dd></div><div><dt>Kind</dt><dd>' + esc(q.cat) +
-      '</dd></div><div><dt>Reward</dt><dd class="rw">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP" + (!q.main && (state.boardTake[id] || onBoardToday(id)) ? " <small>+" + TAKE_XP + " board bonus, on completion</small>" : "") + "</dd></div></dl>" + L2 +
+      (function () { return isMain || q.custom ? (q.personal ? '<p class="qm-posted">Thine own decree for <b>' + esc(qotdDateLabel()) + "</b>. Only thou can see it.<br>It vanishes at 6 in the morn.</p>" : "") : '<p class="qm-posted">Upon the guild board for <b>' + esc(qotdDateLabel()) + "</b> only.<br>If none takes it, it vanishes at 6 in the morn.</p>"; })() +
+      '<dl class="qm-meta"><div><dt>Patron</dt><dd>' + esc(isMain && !q.custom ? "The Crown" : q.custom ? "Thyself" : (CLIENT[q.cat] || "The Guild")) + '</dd></div><div><dt>Kind</dt><dd>' + esc(q.cat) +
+      '</dd></div><div><dt>Reward</dt><dd class="rw">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP" + (q.personal ? " <small>no coins for thine own decree</small>" : !q.main && (state.boardTake[id] || onBoardToday(id)) ? " <small>+" + TAKE_XP + " board bonus, on completion</small>" : "") + "</dd></div></dl>" + L2 +
       status + '<div class="qm-acts">' + acts + "</div>" +
       (isMain ? '<div class="qm-two">' + (q.custom ? '<button class="qm-del" data-medit="' + id + '">Amend this decree</button>' : "") + '<button class="qm-del" data-mremove="' + id + '">Strike this decree</button></div>' :
-       q.gcustom ? ((q.by === cloud.uid || q.by === "me") && !claimOf(id) ? '<button class="qm-del" data-cqdel="' + id + '">Tear down thy notice</button>' : "") :
+       q.gcustom ? (!claimOf(id) && state.active.indexOf(id) < 0 ? '<button class="qm-del" data-cqdel="' + id + '">Tear down thy decree</button>' : "") :
        q.custom ? '<button class="qm-del" data-remove="' + id + '">Burn this notice</button>' :
        canDown ? '<button class="qm-del" data-down="' + id + '">Tear this notice down</button>' : "");
+    var ful = q.main ? mainIsDone(id) : !!(bc && bc.done);
+    if (ful) {
+      var le = null; state.log.forEach(function (l) { if (!le && l.id === id && l.d === todayKey()) le = l; });
+      var who = q.main || !bc || isMine(bc) ? "thee" : esc(bc.name || "an adventurer");
+      $("qmPaper").insertAdjacentHTML("afterbegin", '<div class="qm-fulfilled" aria-hidden="true"><span class="qf-scroll">' + scrollSvg(q.personal ? "teal" : isQOf(id) ? "gold" : "") + '</span><span class="qf-txt">Fulfilled</span><small>Sealed by ' + who + (le && le.at ? " at " + clockAt(le.at) : "") + "</small></div>");
+    }
+    $("qmPaper").classList.toggle("unroll", ful && !keep);
     if (!keep) { $("qmodal").classList.add("show"); $("qmodal").scrollTop = 0; sfx("paper"); var b = $("qmPaper").querySelector(".qm-acts .btn"); if (b) b.focus(); }
   }
-  function closeJob() { openId = null; pickFor = null; $("qmodal").classList.remove("show"); }
+  function closeJob() { var was = $("qmPaper").querySelector(".qm-fulfilled"); openId = null; pickFor = null; $("qmodal").classList.remove("show"); if (was) sfx("pin"); }
   function pickWarn(lose) {
     return "Finish by <b>" + clockAt(Date.now() + pickMins * 60000) + "</b> (" + minsTxt(pickMins) + "). If not, the notice returns to the board, thou may not take it again this day, and thou lose <b>" + lose + " XP</b>.";
   }
@@ -3022,9 +3195,14 @@ textarea.cq-in { resize: vertical; }
 
   /* ---------- events ---------- */
   document.addEventListener("click", function (e) {
+    var mn = e.target.closest && e.target.closest(".note.mnote");
+    if (mn && mn.classList.contains("sealed")) sfx("paper");
+    if (mn && !e.target.closest("button")) { showJob(mn.dataset.open); return; }
     var t = e.target.closest("button"); if (!t) return;
     if (t.dataset.filter) { filter = t.dataset.filter; render(); return; }
     if (t.dataset.rank) { rankTab = t.dataset.rank; render(); return; }
+    if (t.dataset.mstep) { var ms = t.dataset.mstep.split("|"); toggleStep(ms[0], +ms[1]); return; }
+    if (t.dataset.mdone) { markMainDone(t.dataset.mdone); return; }
     if (t.dataset.open) { showJob(t.dataset.open); return; }
     if (t.hasAttribute("data-close")) { closeJob(); return; }
     var inModal = !!t.closest("#qmodal");
@@ -3323,7 +3501,7 @@ textarea.cq-in { resize: vertical; }
       .then(function () {
         if (!firebase.apps.length) firebase.initializeApp(cfg);
         cloud.db = firebase.database();
-        watchSeasons(); watchTavern(); watchParties(); watchDeeds(); watchBoard(); watchCustoms(); watchQuotes();
+        watchSeasons(); watchTavern(); watchParties(); watchDeeds(); watchBoard(); watchQuotes();
         cloud.db.ref("players").orderByChild("xp").limitToLast(200).on("value", function (snap) {
           var arr = []; snap.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(decodePlayer(v)); });
           cloud.players = arr; try { localStorage.setItem("sidequest-lb", JSON.stringify(arr)); } catch (e) {}
@@ -3353,7 +3531,7 @@ textarea.cq-in { resize: vertical; }
           if (state.acct && u.isAnonymous) { openGate("relogin"); return; }
           if (!u.isAnonymous && state.acct) watchSave(u.uid);
           pushNow();
-          try { claimCrown(); claimParties(); renderTavern(); renderParty(); renderChron(); watchGifts(); watchBoard(); watchCustoms(); watchQuotes(); render(); setTimeout(function () { tidy(true); }, 3000); } catch (e) {}
+          try { claimCrown(); claimParties(); renderTavern(); renderParty(); renderChron(); watchGifts(); watchBoard(); watchQuotes(); render(); setTimeout(function () { tidy(true); }, 3000); } catch (e) {}
         });
       })
       .catch(authFail);
@@ -3826,6 +4004,7 @@ textarea.cq-in { resize: vertical; }
   function renderJournal() {
     var list = state.journal;
     $("jCount").textContent = list.length ? list.length + (list.length === 1 ? " page" : " pages") : "";
+    try { $("journalMeta").textContent = list.length ? list.length + (list.length === 1 ? " page written" : " pages written") : "No pages yet. Pen thy first tale."; } catch (e) {}
     if (!list.length) { $("jPages").innerHTML = '<p class="j-empty">Thy journal is yet blank. Finish a quest and pen the first page.</p>'; $("jMore").hidden = true; return; }
     $("jPages").innerHTML = list.slice(0, jShow).map(function (e, i) {
       return '<article class="jpage tear' + (i % 5 + 1) + '">' +
@@ -4384,7 +4563,7 @@ textarea.cq-in { resize: vertical; }
     if (!today) return { id: "restless", name: "Restless", line: "It paces and pecks at the door. Seal a deed today and it will cheer up.", icon: "❔" };
     return { id: "content", name: "Content", line: "Fed and calm. It watches thee with quiet pride.", icon: "♪" };
   }
-  function petGift() {
+  function petGift() { return;
     // a joyful companion brings a small gift once a day
     var m = petMood(), tk = todayKey();
     if (m.id !== "joyful" || state.pet.giftDay === tk || !state.signed) return;
@@ -4691,7 +4870,49 @@ textarea.cq-in { resize: vertical; }
   }
   $("calPrev").addEventListener("click", function () { cal.m--; if (cal.m < 0) { cal.m = 11; cal.y--; } cal.pick = null; renderCal(); });
   $("calNext").addEventListener("click", function () { cal.m++; if (cal.m > 11) { cal.m = 0; cal.y++; } cal.pick = null; renderCal(); });
-  $("calGrid").addEventListener("click", function (e) { var b = e.target.closest("[data-cal]"); if (!b || b.disabled) return; cal.pick = cal.pick === b.dataset.cal ? null : b.dataset.cal; renderCal(); });
+  $("calGrid").addEventListener("click", function (e) {
+    var b = e.target.closest("[data-cal]"); if (!b || b.disabled) return;
+    var k = b.dataset.cal, list = state.log.filter(function (l) { return l.d === k; }), o = (state.dayStats || {})[k] || { n: 0, xp: 0 };
+    if (!list.length && !o.n) { toast("No deeds on that day."); return; }
+    cal.pick = k; renderCal(); openTally(k);
+  });
+  function openTally(k) {
+    var p = k.split("-"), dd = new Date(+p[0], +p[1] - 1, +p[2]), list = state.log.filter(function (l) { return l.d === k; }), o = (state.dayStats || {})[k] || { n: 0, xp: 0 };
+    var deeds = list.filter(function (l) { return !l.mainBonus && !l.take && !l.fail && !l.bounty && !l.crown; });
+    var t = { xp: 0, coins: 0, main: 0, side: 0, qotd: 0, party: 0, fail: 0, bonus: 0, N: 0, S: 0, SS: 0 }, cats = {};
+    list.forEach(function (l) { t.xp += +l.xp || 0; t.coins += +l.coins || 0; if (l.fail) t.fail++; if (l.mainBonus) t.bonus++; });
+    deeds.forEach(function (l) {
+      if (l.main) t.main++; else if (/^Party quest/.test(l.t || "")) t.party++; else t.side++;
+      if (l.q) t.qotd++; if (t[l.rank] !== undefined) t[l.rank]++; if (l.cat) cats[l.cat] = (cats[l.cat] || 0) + 1;
+    });
+    var nDeeds = deeds.length || o.n || 0, xpAll = list.length ? t.xp : o.xp || 0;
+    var tile = function (n, lab, cls) { return '<div class="tl-tile' + (cls ? " " + cls : "") + '"><b>' + n + "</b><span>" + lab + "</span></div>"; };
+    var bar = function (lab, n, max, cls) { return '<div class="tl-bar"><span>' + esc(lab) + '</span><i><em class="' + (cls || "") + '" style="width:' + (max ? Math.round(n / max * 100) : 0) + '%"></em></i><b>' + n + "</b></div>"; };
+    var maxR = Math.max(t.N, t.S, t.SS, 1), catKeys = Object.keys(cats).sort(function (a, b) { return cats[b] - cats[a]; }), maxC = catKeys.length ? cats[catKeys[0]] : 1;
+    $("tallyPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-tlclose aria-label="Close">&times;</button>' +
+      '<div class="qm-kicker">The Day\u2019s Tally</div><h3 id="tallyHead">The ' + ordinal(dd.getDate()) + " of " + MONTHS[dd.getMonth()] + ", " + dd.getFullYear() + "</h3>" +
+      '<div class="tl-tiles">' + tile(nDeeds, nDeeds === 1 ? "deed done" : "deeds done") + tile((xpAll >= 0 ? "+" : "\u2212") + Math.abs(xpAll), "XP earned", "gold") + tile(t.coins, "coins") + "</div>" +
+      '<div class="tl-tiles small">' + tile(t.main, "main quests") + tile(t.side, "side quests") + tile(t.qotd, "Quest of the Day") + (t.party ? tile(t.party, "party") : "") + (t.bonus ? tile("\u2714", "day conquered", "gold") : "") + (t.fail ? tile(t.fail, "failed", "bad") : "") + "</div>" +
+      (deeds.length ? '<div class="tl-sec">By rank</div>' + bar("Normal", t.N, maxR, "rN") + bar("S-Class", t.S, maxR, "rS") + bar("SS-Class", t.SS, maxR, "rSS") : "") +
+      (catKeys.length ? '<div class="tl-sec">By kind</div>' + catKeys.map(function (c) { return bar(c, cats[c], maxC); }).join("") : "") +
+      '<div class="tl-sec">Every deed</div>' +
+      (list.length ? '<p class="tl-tip">Tap a deed to read what it was.</p><ul class="tl-list">' + list.slice().sort(function (a, b) { return (a.at || 0) - (b.at || 0); }).map(function (l) {
+        var q = l.id ? findQ(l.id) : null; if (!q) BASE.concat(MAIN).forEach(function (b) { if (!q && String(l.t || "").indexOf(b.title) >= 0) q = b; });
+        var info = l.mainBonus ? "Every decree of the Crown was fulfilled this day, so the Crown granted a bonus." : l.fail ? "This quest was taken but not finished before its time ran out, so XP was lost." : l.take ? "Free XP for taking a notice from the board." :
+          q ? (q.desc || "") : "No description was kept for this deed.";
+        var meta = q ? '<div class="tl-tags"><span>' + esc(q.main ? "Main Quest" : q.personal ? "Thine own decree" : "Side Quest") + "</span><span>" + esc(RANK_NAME[q.rank] || "") + "</span><span>" + esc(q.cat || "") + "</span>" + (l.q ? "<span>Quest of the Day</span>" : "") + "</div>" : "";
+        var steps = q && q.steps && q.steps.length ? '<ul class="tl-steps">' + q.steps.map(function (st) { return "<li>" + esc(st) + "</li>"; }).join("") + "</ul>" : "";
+        return '<li class="tl-row" tabindex="0" role="button" aria-expanded="false"><small>' + (l.at ? clockAt(l.at) : "") + "</small><span>" + esc(l.t) + '</span><b class="' + (l.xp < 0 ? "bad" : "") + '">' + (l.xp < 0 ? "\u2212" + (-l.xp) : "+" + l.xp) + " XP</b>" +
+          '<div class="tl-desc">' + meta + "<p>" + esc(info) + "</p>" + steps + (q && q.story ? '<p class="tl-story">' + esc(q.story) + "</p>" : "") + "</div></li>";
+      }).join("") + "</ul>" : '<p class="tl-none">The ledger keeps only recent deeds, so the details of this day have faded. ' + nDeeds + " deeds, " + xpAll + " XP.</p>") +
+      '<div class="qm-acts"><button class="btn gold" type="button" data-tlclose>Close</button></div>';
+    $("tallyModal").classList.add("show"); $("tallyModal").scrollTop = 0; sfx("paper");
+  }
+  $("tallyModal").addEventListener("click", function (e) {
+    if (e.target === this || (e.target.closest && e.target.closest("[data-tlclose]"))) { this.classList.remove("show"); return; }
+    var r = e.target.closest && e.target.closest(".tl-row"); if (!r) return;
+    var on = !r.classList.contains("open"); r.classList.toggle("open", on); r.setAttribute("aria-expanded", String(on)); sfx("paper");
+  });
   /* ======================================================================= MONTHLY SEASONS */
   var CROWN_XP = [0, 100, 60, 30], PLACE = ["", "first", "second", "third"];
   function monthKey(d) { d = d || new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1); }
@@ -4848,7 +5069,7 @@ textarea.cq-in { resize: vertical; }
     return "";
   }
   function petSvg(i, cls, kind, gear, color, rar) {
-    var rr = kind === undefined ? (state.pet && state.pet.rar) || "c" : rar || "c";
+    var rr = "c";
     var kd0 = rr === "l" ? PHOENIX : PET_KINDS[typeof kind === "number" && PET_KINDS[kind] ? kind : petKind()], kd = kd0;
     var cIdx = color !== undefined ? color : (kind === undefined ? (pt && pt.preview != null ? pt.preview : myColor()) : -1);
     if (typeof cIdx === "number" && PET_COLORS[cIdx]) { var pc = PET_COLORS[cIdx]; kd = { name: kd0.name, egg: pc.egg, body: pc.body, band: kd0.band, pat: kd0.pat }; }
@@ -4898,8 +5119,11 @@ textarea.cq-in { resize: vertical; }
     petKind();
     var tg = targetStage(state.pet);
     if (typeof state.pet.seen !== "number") state.pet.seen = tg;
-    else if (tg < state.pet.seen) state.pet.seen = tg;
-    var i = shownStage(state.pet), st = PET_STAGES[i], nx = PET_STAGES[i + 1], lv = petLvOf(state.pet), ready = readyToHatch(state.pet);
+    else if (tg > state.pet.seen) {
+      state.pet.seen = tg;
+      try { localStorage.setItem(LS_KEY, JSON.stringify(state)); } catch (e) {}
+    } else if (tg < state.pet.seen) state.pet.seen = tg;
+    var i = shownStage(state.pet), st = PET_STAGES[i], nx = PET_STAGES[i + 1], lv = petLvOf(state.pet), ready = false;
     var md = petMood();
     $("petArt").innerHTML = petSvg(i, moodClass()) + '<span class="pet-bubble" aria-hidden="true">' + (ready ? "\u2728" : md.icon) + "</span>";
     $("petArt").className = "pet-art " + moodClass() + (ready ? " ready" : "");
@@ -4909,11 +5133,10 @@ textarea.cq-in { resize: vertical; }
     $("petName").textContent = petName();
     $("petStage").textContent = (state.pet.rar && state.pet.rar !== "c" ? RARITY[state.pet.rar].name + " " : "") + petTitleOf(state.pet, i);
     $("petNext").textContent = ready ? "\u2728 Ready to hatch! Tap to hatch it" : nx ? "Grows into a " + nx.name + " at its Level " + nx.lv + " (now " + lv + ")" : "Its final, mightiest form";
-    try { renderHatch(); } catch (e) {}
     if ($("petModal").classList.contains("show") && Date.now() > pt.busy) openPet(true);
   }
   function openPet(keep) {
-    var lv = petLvOf(state.pet), i = shownStage(state.pet), st = PET_STAGES[i], nx = PET_STAGES[i + 1], ready = readyToHatch(state.pet);
+    var lv = petLvOf(state.pet), i = shownStage(state.pet), st = PET_STAGES[i], nx = PET_STAGES[i + 1], ready = false;
     var nameVal = keep && $("petNameIn") ? $("petNameIn").value : petName();
     $("petPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-petclose aria-label="Close">&times;</button>' +
       '<div class="qm-kicker">Thy Companion</div>' +
@@ -4991,7 +5214,6 @@ textarea.cq-in { resize: vertical; }
     }
   }
   function petTap() {
-    if (readyToHatch(state.pet)) { hatchPet(state.pet); return; }
     if (petIsEgg()) { petAct("act-wobble", 900); sfx("knock"); petSay(["*knock knock*", "Something inside knocks back!", "*tap tap*", "The egg feels warm."][Math.floor(Math.random() * 4)], 2000); return; }
     if (!petAwake()) { petAct("act-grumble", 900); sfx("purr"); petSay(["Zzz…", "*mumbles in its sleep*", "Five more minutes…"][Math.floor(Math.random() * 3)], 2000); return; }
     var acts = ["act-hop", "act-spin", "act-flap", "act-wiggle"], a = acts[Math.floor(Math.random() * acts.length)];
@@ -5083,7 +5305,6 @@ textarea.cq-in { resize: vertical; }
     if (e.target === this) { this.classList.remove("show"); if (pt.preview != null) { pt.preview = null; renderPet(); } return; }
     var t = e.target.closest("button"); if (!t) return;
     if (t.hasAttribute("data-petclose")) { this.classList.remove("show"); if (pt.preview != null) { pt.preview = null; renderPet(); } }
-    else if (t.hasAttribute("data-hatchme")) hatchPet(state.pet);
     else if (t.dataset.pact) { var pa = t.dataset.pact; if (pa === "pet") { petStroke(); setTimeout(petStroke, 450); } else if (pa === "play") petPlay(); else petTalk(); }
     else if (t.dataset.dye) {
       var dk = +t.dataset.dye; if (state.pet.dyed || !PET_COLORS[dk]) return;
@@ -5101,154 +5322,6 @@ textarea.cq-in { resize: vertical; }
     }
   });
 
-
-  /* ======================================================================= HATCHERY & EGGS */
-  var EGG_NAMES = { c: ["Pip", "Soot", "Nib", "Rook", "Bramble", "Flint", "Pebble"], u: ["Quill", "Sable", "Wisp", "Thistle", "Moss"], r: ["Echo", "Glimmer", "Azure", "Prism", "Frostbeak"], l: ["Ignis", "Pyra", "Aurum", "Solace", "Cinder"] };
-  var MAX_PETS = 8, EGG_LIFE = 3 * 864e5;
-  function allPets() { return [state.pet].concat(state.pets || []); }
-  function petCard(p, active) {
-    var i = shownStage(p), rd = readyToHatch(p), rr = p.rar || "c";
-    return '<div class="hp-card rar-' + rr + (active ? " active" : "") + (rd ? " ready" : "") + '">' +
-      '<button type="button" class="hp-art" data-hpet="' + esc(p.id) + '" aria-label="' + esc(p.name || "Companion") + '">' + petSvg(i, "", typeof p.kind === "number" ? p.kind : 0, p.gear || {}, typeof p.color === "number" ? p.color : -1, rr) + (rd ? '<span class="hp-ready">\\u2728</span>' : "") + "</button>" +
-      '<b>' + esc(p.name || "Unnamed") + '</b><span class="rar-tag rar-' + rr + '">' + RARITY[rr].name + "</span>" +
-      "<small>" + esc(petTitleOf(p, i)) + " · Lv " + petLvOf(p) + "</small>" +
-      (rd ? '<button type="button" class="btn gold small" data-hhatch="' + esc(p.id) + '">Hatch!</button>' : active ? '<span class="hp-on">Thy companion</span>' : '<button type="button" class="btn ghost small" data-hpet="' + esc(p.id) + '">Make companion</button>') + "</div>";
-  }
-  function eggOnly(rr, k, cls) { return petSvg(0, cls || "", k, {}, -1, rr); }
-  function renderHatch() {
-    if (!$("hatchMine")) return;
-    var pets = allPets();
-    $("hatchMeta").textContent = pets.length + " of " + MAX_PETS + " companions";
-    $("hatchMine").innerHTML = pets.map(function (p, n) { return petCard(p, n === 0); }).join("");
-    var f = state.found, fh = "";
-    if (f && (cloud.eggs || []).some(function (e) { return e.id === f.eid && e.taken && e.taken !== cloud.uid; })) { state.found = null; f = null; save(); }
-    if (f) fh = '<div class="found-egg rar-' + f.r + '"><div class="fe-art">' + eggOnly(f.r, f.k, "fe-svg") + '</div><div class="fe-txt"><b>An egg awaits thy choice</b><span class="rar-tag rar-' + f.r + '">' + RARITY[f.r].name + " Egg</span><small>Found " + shortAgo(f.at) + ". Others in the guild may take it from the Wild Nest while thou wait.</small>" +
-      '<div class="fe-acts"><button type="button" class="btn gold small" data-eadopt="' + esc(f.eid) + '">Take it home</button><button type="button" class="btn ghost small" data-etoss>Throw it away</button></div></div></div>';
-    $("hatchFound").innerHTML = fh;
-    var now = Date.now(), wild = (cloud.eggs || []).filter(function (e) { return !e.taken && now - (+e.at || 0) < EGG_LIFE && !(f && f.eid === e.id); });
-    var taken = (cloud.eggs || []).filter(function (e) { return e.taken && now - (+e.takenAt || +e.at || 0) < 864e5; });
-    $("hatchWild").innerHTML = (wild.length ? wild.map(function (e) {
-      var mine = e.by === cloud.uid, left = Math.max(1, Math.round((EGG_LIFE - (now - e.at)) / 3600000));
-      return '<div class="hp-card wild rar-' + e.r + '"><div class="hp-art">' + eggOnly(e.r, e.k) + '</div><span class="rar-tag rar-' + e.r + '">' + RARITY[e.r].name + " Egg</span><small>" + (mine ? "Found by thee" : "Left by " + esc(e.byName || "someone")) + " · " + left + "h left</small>" +
-        '<button type="button" class="btn gold small" data-eadopt="' + esc(e.id) + '">Adopt</button></div>';
-    }).join("") : '<p class="hatch-empty">' + (cloud.eggErr ? "The Wild Nest could not be reached. Publish the newest Firebase rules." : !cloud.db ? "The Wild Nest opens when the guild is reached." : "No eggs in the Wild Nest. Eggs turn up on random days. Keep questing!") + "</p>") +
-      (taken.length ? '<div class="hatch-taken">' + taken.slice(-4).map(function (e) { return "<span>" + RARITY[e.r].name + " egg adopted by <b>" + esc(e.takenName || "someone") + "</b></span>"; }).join("") + "</div>" : "");
-  }
-  function findPet(id) { var r = null; allPets().forEach(function (p) { if (p.id === id) r = p; }); return r; }
-  function makeCompanion(id) {
-    var at = -1; state.pets.forEach(function (p, k) { if (p.id === id) at = k; }); if (at < 0) return;
-    var cur = state.pet, nxt = state.pets[at];
-    cur.food = petFood(); cur.fedAt = Date.now();
-    nxt.owned = cur.owned || []; delete cur.owned;
-    nxt.fedAt = Date.now(); if (typeof nxt.food !== "number") nxt.food = 70;
-    state.pets[at] = cur; state.pet = nxt;
-    pt.preview = null; save(); renderPet(); pushNow(); sfx("chirp");
-    toast((nxt.name || "Thy new friend") + " is now thy companion.");
-  }
-  function newPetFrom(e) {
-    var names = EGG_NAMES[e.r] || EGG_NAMES.c;
-    return { id: "e" + (e.id || Date.now().toString(36)), name: names[Math.floor(Math.random() * names.length)], kind: +e.k || 0, rar: e.r, base: state.xp || 0, seen: 0, food: 70, fedAt: Date.now() };
-  }
-  function adoptEgg(eid) {
-    if (allPets().length >= MAX_PETS) { toast("Thy hatchery is full (" + MAX_PETS + " companions)."); return; }
-    var f = state.found && state.found.eid === eid ? state.found : null;
-    var src = f ? { id: f.eid, r: f.r, k: f.k } : null;
-    (cloud.eggs || []).forEach(function (e) { if (e.id === eid) src = src || { id: e.id, r: e.r, k: e.k }; });
-    if (!src) { toast("That egg is gone."); return; }
-    function keep() {
-      var p = newPetFrom(src); state.pets.push(p); if (f) state.found = null;
-      save(); renderPet(); closeFx(); sfx(src.r === "l" ? "legend" : "fanfare");
-      toast("Thou took home a " + RARITY[src.r].name + " egg. Name it and make it thy companion in the Hatchery!");
-    }
-    if (/^local-/.test(eid) || !boardOnline()) { keep(); return; }
-    var me = { uid: cloud.uid, name: (state.name || "Adventurer").slice(0, 24) };
-    cloud.db.ref("eggs/" + eid).transaction(function (cur) { if (!cur || cur.taken) return; cur.taken = me.uid; cur.takenName = me.name; cur.takenAt = Date.now(); return cur; })
-      .then(function (r) { if (r && r.committed) keep(); else { if (f) { state.found = null; save(); renderHatch(); } closeFx(); toast("Too late! Someone else took that egg."); } })
-      .catch(function () { if (f) keep(); else toast("The Wild Nest could not be reached."); });
-  }
-  function tossEgg() {
-    var f = state.found; if (!f) return;
-    state.found = null; save(); renderHatch(); closeFx(); sfx("paper");
-    toast(/^local-/.test(f.eid) ? "Thou set the egg down by the road." : "The egg goes to the Wild Nest. Another adventurer may take it.");
-  }
-  function watchEggs() { return;
-    if (!cloud.db || cloud.eRef) return;
-    var ref = cloud.eRef = cloud.db.ref("eggs").orderByChild("at").limitToLast(40);
-    ref.on("value", function (sn) {
-      var arr = []; sn.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(v); });
-      cloud.eggs = arr; cloud.eggErr = ""; renderHatch();
-    }, function (e) { cloud.eggErr = String(e && e.code || e); cloud.eRef = null; renderHatch(); });
-  }
-  // an egg turns up on random days (always on the first day, so thou may meet the hatchery)
-  function rollEgg(dk) {
-    var a = hash((state.seed || "") + ":egg:" + dk) % 100, b = hash((state.seed || "") + ":rar:" + dk) % 100;
-    return { hit: !state.eggIntro || a < 30, r: b < 5 ? "l" : b < 20 ? "r" : b < 50 ? "u" : "c", k: hash((state.seed || "") + ":kind:" + dk) % PET_KINDS.length };
-  }
-  function maybeEgg() { return;
-    var dk = todayKey();
-    if (state.eggDay === dk || !state.signed) return;
-    if (document.documentElement.classList.contains("intro-lock") || document.querySelector(".gate.show, #gate.show")) { setTimeout(maybeEgg, 4000); return; }
-    if (cloud.db && !cloud.ready) { setTimeout(maybeEgg, 3000); return; }
-    var roll = rollEgg(dk); state.eggDay = dk;
-    if (!roll.hit) { save(); return; }
-    state.eggIntro = true;
-    var e = { by: cloud.uid || "me", byName: (state.name || "Adventurer").slice(0, 24), r: roll.r, k: roll.k, at: Date.now() };
-    function show(eid) { state.found = { eid: eid, r: e.r, k: e.k, at: e.at }; save(); renderHatch(); showEggFx(); }
-    if (boardOnline()) {
-      var key = newKey();
-      cloud.db.ref("eggs/" + key).set(e).then(function () { show(key); }).catch(function () { show("local-" + key); });
-    } else show("local-" + Date.now().toString(36));
-  }
-
-  /* ---------- the glowing stage for hatching and found eggs ---------- */
-  var fx = { busy: false };
-  function closeFx() { $("hatchFx").className = "hatch-fx"; fx.busy = false; }
-  function showEggFx() {
-    var f = state.found; if (!f || fx.busy) return;
-    fx.busy = true;
-    var R = RARITY[f.r];
-    $("hatchFx").className = "hatch-fx show egg rar-" + f.r;
-    $("hfPet").innerHTML = eggOnly(f.r, f.k, "hf-svg");
-    $("hfKick").textContent = "A " + R.name + " Egg!";
-    $("hfTxt").textContent = f.r === "l" ? "A blazing egg falls from the sky!" : f.r === "r" ? "A shimmering egg lies at the guild door!" : f.r === "u" ? "A banded egg rolls out of the hedge!" : "Thou found an egg by the road!";
-    $("hfSub").textContent = "Take it home and care for it, or leave it. Eggs thou do not take go to the Wild Nest, where anyone in the guild may adopt them.";
-    $("hfActs").innerHTML = '<button type="button" class="btn gold" data-eadopt="' + esc(f.eid) + '">Take it home</button><button type="button" class="btn ghost" data-eleave>Leave it for now</button><button type="button" class="btn ghost" data-etoss>Throw it away</button>';
-    sfx("eggdrop"); if (f.r === "l") setTimeout(function () { sfx("legend"); }, 600); else if (f.r === "r") setTimeout(function () { sfx("hatch"); }, 650);
-  }
-  function hatchPet(p) {
-    if (!p || !readyToHatch(p) || fx.busy) return;
-    fx.busy = true; $("petModal").classList.remove("show");
-    var from = shownStage(p), to = targetStage(p), rr = p.rar || "c", k = typeof p.kind === "number" ? p.kind : 0, col = typeof p.color === "number" ? p.color : -1;
-    var art = function (i) { return petSvg(i, "hf-svg", k, p.gear || {}, col, rr); };
-    $("hatchFx").className = "hatch-fx show shake rar-" + rr;
-    $("hfPet").innerHTML = art(from);
-    $("hfKick").textContent = from === 0 ? "It is hatching!" : "It is changing!";
-    $("hfTxt").textContent = (p.name || "Thy companion") + "\\u2026"; $("hfSub").textContent = ""; $("hfActs").innerHTML = "";
-    sfx("crack"); setTimeout(function () { sfx("crack"); }, 500); setTimeout(function () { sfx("crack"); }, 900);
-    setTimeout(function () {
-      p.seen = to; save();
-      $("hatchFx").className = "hatch-fx show burst rar-" + rr;
-      $("hfPet").innerHTML = art(to);
-      sfx("hatch"); if (rr === "l") sfx("legend");
-      $("hfKick").textContent = from === 0 ? "Hatched!" : "Evolved!";
-      $("hfTxt").textContent = (p.name || "Thy companion") + " became " + (/^[AEIOU]/.test(petTitleOf(p, to)) ? "an " : "a ") + petTitleOf(p, to) + "!";
-      $("hfSub").textContent = PET_STAGES[to].line;
-      $("hfActs").innerHTML = '<button type="button" class="btn gold" data-fxok>Wondrous!</button>';
-      renderPet(); pushNow();
-    }, 1500);
-  }
-  $("hatchFx").addEventListener("click", function (e) {
-    var t = e.target.closest("button"); if (!t) return;
-    if (t.hasAttribute("data-fxok")) closeFx();
-    else if (t.hasAttribute("data-eleave")) { closeFx(); toast("The egg waits in thy Hatchery. Others may take it from the Wild Nest."); }
-  });
-  document.addEventListener("click", function (e) {
-    var t = e.target.closest && e.target.closest("button"); if (!t) return;
-    if (t.dataset.eadopt) { adoptEgg(t.dataset.eadopt); return; }
-    if (t.hasAttribute("data-etoss")) { tossEgg(); return; }
-    if (t.dataset.hhatch) { hatchPet(findPet(t.dataset.hhatch)); return; }
-    if (t.dataset.hpet && t.closest("#hatchMine")) { if (t.dataset.hpet === state.pet.id) openPet(false); else makeCompanion(t.dataset.hpet); return; }
-  });
 
   /* ======================================================================= TAVERN BOARD */
   var TAVERN_REACT = ["🍺", "🔥", "👏", "😂", "👑"];
@@ -5281,7 +5354,7 @@ textarea.cq-in { resize: vertical; }
     $("tvNote").textContent = ok ? "" : cloud.exiled ? "Exiles may not speak in this tavern." : !state.signed ? "Sign the guild ledger to speak in the tavern." : "The tavern opens once the guild is reached (thou must be online).";
     var list = (cloud.tavern || []).slice().sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
     if (cloud.tavernErr && !list.length) { $("tvFeed").innerHTML = '<p class="tv-empty">The tavern doors are shut: the new Firebase rules need to be published.</p>'; $("tvMore").hidden = true; return; }
-    if (!list.length) { $("tvFeed").innerHTML = '<p class="tv-empty">The tavern is quiet. Be the first to raise a cup and post thy tidings.</p>'; $("tvMore").hidden = true; return; }
+    if (!list.length) { $("tvFeed").innerHTML = '<p class="tv-empty">The tavern is quiet. Be the first to raise a cup and post thy tidings.</p>'; $("tvMore").hidden = true; try { $("tavernMeta").textContent = "No tidings yet"; } catch (e) {} return; }
     var gm = isMaster();
     $("tvFeed").innerHTML = list.slice(0, tav.show).map(function (p) {
       var pl = playerOf(p.uid), mine = p.uid === cloud.uid, r = p.r || {}, counts = {};
@@ -5299,7 +5372,7 @@ textarea.cq-in { resize: vertical; }
         ((mine || gm) ? '<button type="button" class="tv-del" data-tvdel="' + esc(p.id) + '">' + (tav.armed === p.id ? "Tap again to burn it" : "Burn") + "</button>" : "") +
         "</div></div></article>";
     }).join("");
-    $("tvMore").hidden = list.length <= tav.show || secOpen === "tavern";
+    $("tvMore").hidden = true; try { $("tavernMeta").textContent = list.length + (list.length === 1 ? " tiding" : " tidings") + (list[0] ? " · latest " + shortAgo(list[0].at) : ""); } catch (e) {}
     $("tvMore").textContent = "See all " + list.length + " tidings";
   }
   $("tvFile").addEventListener("change", function () {
@@ -5567,7 +5640,7 @@ textarea.cq-in { resize: vertical; }
   /* ---------- bookmarks: tap any empty space (or the ribbon) to jump to a section ---------- */
   var BOOKMARKS = [
     ["chapelTitle", "The Chapel", "words of the guild and the chapel film"],
-    ["sheet", "Character Sheet", "thy level, XP and companion", ".sheet"],
+    ["sheet", "Character Sheet", "thy level and XP", ".sheet"],
     ["mainTitle", "Main Quests", "the Crown's daily decrees"],
     ["boardTitle", "Side Quests", "the guild board, renewed at 6"],
     ["calTitle", "Deed Calendar", "thy days of deeds"],
@@ -5677,7 +5750,6 @@ textarea.cq-in { resize: vertical; }
       else still.push(m);
     });
     if (still.length !== state.boardMine.length) { state.boardMine = still; save(); }
-    (cloud.eggs || []).forEach(function (e) { if (Date.now() - (+e.at || 0) > EGG_LIFE + 864e5) cloud.db.ref("eggs/" + e.id).remove().catch(function () {}); });
     var ccut = todayKey(new Date(Date.now() - 2 * 864e5)), keepC = [];
     (state.customMine || []).forEach(function (m) { if (m.d < ccut) cloud.db.ref("custom/" + m.d + "/" + m.id).remove().catch(function () {}); else keepC.push(m); });
     if ((state.customMine || []).length !== keepC.length) { state.customMine = keepC; save(); }
@@ -5693,23 +5765,24 @@ textarea.cq-in { resize: vertical; }
   var secOpen = null, secHold = null;
   function openSec(which) {
     if (secOpen) closeSec();
-    var sec = (which === "ledger" ? $("logTitle") : $("tavernTitle")).closest("section"); if (!sec) return;
+    var sec = $({ ledger: "logTitle", tavern: "tavernTitle", journal: "jTitle" }[which] || "logTitle").closest("section"); if (!sec) return;
     secHold = document.createComment("sec-" + which); sec.parentNode.insertBefore(secHold, sec);
     $("secSlot").appendChild(sec); secOpen = which;
     if (which === "tavern") tav.show = 500;
     $("secModal").classList.add("show"); $("secModal").scrollTop = 0; sfx("paper");
-    if (which === "ledger") renderLedger(); else renderTavern();
+    if (which === "ledger") renderLedger(); else if (which === "tavern") renderTavern(); else renderJournal();
   }
   function closeSec() {
     if (!secOpen) return;
     var sec = $("secSlot").firstElementChild, which = secOpen;
     if (sec && secHold && secHold.parentNode) secHold.parentNode.replaceChild(sec, secHold);
     secHold = null; secOpen = null; $("secModal").classList.remove("show");
-    if (which === "tavern") { tav.show = 5; renderTavern(); } else renderLedger();
+    if (which === "tavern") { tav.show = 5; renderTavern(); } else if (which === "ledger") renderLedger();
   }
   document.addEventListener("click", function (e) {
     var t = e.target.closest && e.target.closest("button");
     if (t && t.dataset.secopen) { openSec(t.dataset.secopen); return; }
+    if (t && t.hasAttribute("data-hallopen")) { $("hallBtn").click(); return; }
     if ((t && t.hasAttribute("data-secclose")) || (e.target && e.target.id === "secModal")) closeSec();
   });
   document.addEventListener("keydown", function (e) { if (e.key === "Escape" && secOpen && !$("qmodal").classList.contains("show") && !$("cmodal").classList.contains("show")) closeSec(); });
@@ -5717,11 +5790,9 @@ textarea.cq-in { resize: vertical; }
   /* ---------- guild-made side quests ---------- */
   var CQ_MAX = 3;
   function customsToday() {
-    var dk = boardDayKey(), list = [];
-    if (cloud.customs && cloud.cDay === dk) list = cloud.customs;
-    else if (state.localCustom && state.localCustom.d === dk) list = state.localCustom.list || [];
+    var dk = boardDayKey(), list = state.localCustom && state.localCustom.d === dk ? state.localCustom.list || [] : [];
     return list.filter(function (c) { return c && c.title && XP[c.rank] && CATS.indexOf(c.cat) >= 0; }).map(function (c) {
-      return { id: c.id, title: c.title, desc: c.desc || "", cat: c.cat, rank: c.rank, custom: true, gcustom: true, by: c.by, byName: c.byName, story: "" };
+      return { id: c.id, title: c.title, desc: c.desc || "", cat: c.cat, rank: c.rank, custom: true, gcustom: true, personal: true, by: "me", byName: state.name || "thee", story: "" };
     });
   }
   function watchCustoms() {
@@ -5740,7 +5811,7 @@ textarea.cq-in { resize: vertical; }
   setInterval(function () { if (cloud.db && cloud.cDay && cloud.cDay !== boardDayKey()) watchCustoms(); }, 30000);
   var cqRank = "N";
   function openCq() {
-    var mine = customsToday().filter(function (c) { return c.by === (cloud.uid || "me"); }).length;
+    var mine = customsToday().length;
     if (mine >= CQ_MAX) { toast("Thou hast posted " + CQ_MAX + " notices this day already. Return at 6 in the morn."); return; }
     cqRank = "N"; $("cqTitle").value = ""; $("cqDesc").value = ""; $("cqCat").value = "Spirit"; cqRanks();
     $("cqLeft").textContent = (CQ_MAX - mine) + " of " + CQ_MAX + " notices left for thee this day";
@@ -5752,27 +5823,14 @@ textarea.cq-in { resize: vertical; }
     if (title.length < 4) { toast("Give the quest a proper title."); $("cqTitle").focus(); return; }
     if (CATS.indexOf(cat) < 0) cat = "Spirit";
     var dk = boardDayKey(), id = "x" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
-    var c = { title: title, desc: desc, cat: cat, rank: cqRank, by: cloud.uid || "me", byName: (state.name || "Adventurer").slice(0, 24), at: Date.now() };
-    function local(note) {
-      if (!state.localCustom || state.localCustom.d !== dk) state.localCustom = { d: dk, list: [] };
-      c.id = id; state.localCustom.list.push(c); save(); render();
-      $("cqModal").classList.remove("show"); sfx("pin"); toast("Nailed to the board: " + title + (note || ""));
-    }
-    if (!boardOnline()) { local(cloud.db ? " (offline: only thou can see it)" : ""); return; }
-    $("cqOk").disabled = true;
-    cloud.db.ref("custom/" + dk + "/" + id).set(c).then(function () {
-      $("cqOk").disabled = false; state.customMine = (state.customMine || []).concat([{ d: dk, id: id }]).slice(-30); save();
-      $("cqModal").classList.remove("show"); sfx("pin"); toast("Nailed to the guild board: " + title);
-    }).catch(function (e) {
-      $("cqOk").disabled = false;
-      if (/permission/i.test(String(e && e.code || e))) toast("The guild board refused it. The newest Firebase rules must be published.");
-      else local(" (only on this device for now)");
-    });
+    var c = { id: id, title: title, desc: desc, cat: cat, rank: cqRank, at: Date.now() };
+    if (!state.localCustom || state.localCustom.d !== dk) state.localCustom = { d: dk, list: [] };
+    state.localCustom.list.push(c); save(); render();
+    $("cqModal").classList.remove("show"); sfx("pin"); toast("Thine own decree is nailed to thy board: " + title);
   }
   function delCq(id) {
     var dk = boardDayKey();
     if (state.localCustom && state.localCustom.d === dk) state.localCustom.list = (state.localCustom.list || []).filter(function (c) { return c.id !== id; });
-    if (boardOnline()) cloud.db.ref("custom/" + dk + "/" + id).remove().catch(function () {});
     closeJob(); save(); render(); sfx("paper"); toast("Thy notice is torn down.");
   }
   document.addEventListener("click", function (e) {
