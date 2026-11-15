@@ -1448,6 +1448,54 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 .fboard.show { display: block; }
 .fb-wrap { position: relative; max-width: 1100px; margin: 0 auto; }
 .fb-x { position: absolute; right: 10px; top: 10px; z-index: 5; width: 38px; height: 38px; border-radius: 50%; border: 1px solid rgba(214,162,74,.7); background: rgba(20,12,6,.85); color: #f3dfb6; font-size: 24px; line-height: 1; cursor: pointer; }
+
+.flow { display: grid; gap: 24px; min-width: 0; }
+.flow > section { min-width: 0; }
+
+.chron-more { display: block; margin: 10px auto 0; }
+#chModal .fb-wrap { max-width: 640px; }
+#chModal .sec-head { padding-right: 44px; }
+
+/* ---------- quote strip ---------- */
+.quote-strip { display: grid; grid-template-columns: auto 1fr auto; grid-template-rows: auto auto; column-gap: 8px; align-items: center; padding: 8px 12px 8px 10px; margin-bottom: -10px; cursor: pointer;
+  border-radius: 6px; border: 1px solid rgba(214,162,74,.45); background: linear-gradient(90deg, rgba(40,24,12,.85), rgba(60,38,18,.85)); box-shadow: inset 0 0 12px rgba(0,0,0,.5); transition: opacity .35s; }
+.quote-strip.fade { opacity: .15; }
+.qs-mark { grid-row: span 2; font: 30px/1 Georgia, serif; color: #d6a24a; }
+.qs-text { font: italic 14px/1.35 Georgia, serif; color: #f3dfb6; overflow: hidden; display: -webkit-box; -webkit-line-clamp: 2; -webkit-box-orient: vertical; }
+.qs-by { grid-column: 2; font: 600 11.5px Georgia, serif; color: #d6a24a; } .qs-by::before { content: "\2014  "; }
+.qs-pen { grid-column: 3; grid-row: 1 / span 2; font-size: 15px; color: #d6a24a; opacity: .8; }
+/* ---------- create a side quest ---------- */
+.create-q { display: block; width: 100%; margin: 10px 0 4px; padding: 11px; font-size: 15.5px; }
+.create-q small { display: block; margin-top: 2px; font: italic 12px Georgia, serif; opacity: .85; }
+.cq-paper { text-align: left; }
+.cq-paper h3 { text-align: center; } .cq-paper .qm-kicker { text-align: center; }
+.cq-lead { font: italic 13.5px/1.4 Georgia, serif; color: #4a2a12; margin: 0 0 10px; text-align: center; }
+.cq-in { display: block; width: 100%; box-sizing: border-box; margin: 2px 0 10px; padding: 8px 10px; border-radius: 6px; border: 1px solid rgba(60,35,15,.5); background: #fff8ea; color: #2a1a0c; font: 15px Georgia, serif; color-scheme: light; }
+textarea.cq-in { resize: vertical; }
+.cq-ranks { display: flex; flex-wrap: wrap; gap: 6px; margin: 4px 0 8px; }
+.cq-ranks button { flex: 1 1 30%; padding: 7px 6px; border-radius: 14px; border: 1px solid rgba(60,35,15,.5); background: rgba(255,248,230,.7); color: #3b2412; font: 700 12.5px Georgia, serif; cursor: pointer; }
+.cq-ranks button[aria-pressed="true"] { background: #7a1d14; color: #fbe6bd; border-color: #4a0f0a; }
+.cq-left { font: italic 12.5px Georgia, serif; color: #6b4a2a; text-align: center; margin: 0 0 10px; }
+#cqModal, #qtModal { overflow-y: auto; } #cqModal.show, #qtModal.show { display: flex; flex-direction: column; } #cqModal .qm-paper, #qtModal .qm-paper { margin: auto; flex: none; max-height: none; overflow: visible; }
+/* ---------- see-all popups ---------- */
+.sec-holder > section { margin: 0; }
+.sec-holder .fb-x { z-index: 6; }
+.log .see-more { list-style: none; text-align: center; padding: 8px 0 2px; border: 0 !important; }
+/* ---------- landscape job paper (side quests) ---------- */
+#qmodal.land { padding: 10px 6px; }
+.qm-paper.qm-land { max-width: 780px; padding-left: 16px; padding-right: 16px; }
+.ql-grid { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr); gap: 14px; align-items: start; margin-top: 4px; }
+.ql-left { text-align: center; }
+.qm-land .qm-seal { width: 46px; height: 46px; font-size: 17px; margin: 4px auto; }
+.qm-land h3 { font-size: 21px; margin: 6px 0 6px; }
+.qm-land .qm-desc { font-size: 14px; line-height: 1.4; margin-bottom: 0; }
+.qm-land .qm-story { margin: 0 0 8px; } .qm-land .qm-story p { font-size: 13.5px; line-height: 1.4; }
+.qm-land .qm-posted { font-size: 12px; margin: 0 0 8px; }
+.qm-land .qm-meta { display: grid; grid-template-columns: 1fr; gap: 4px; margin: 0; }
+.qm-land .qm-meta > div { display: flex; justify-content: space-between; gap: 6px; border: 0 !important; padding: 2px 0 !important; text-align: left; }
+.qm-land .qm-meta dd { text-align: right; font-size: 13px; }
+.qm-land .qm-status, .qm-land .qm-time { margin-top: 10px; }
+@media (max-width: 380px) { .qm-land h3 { font-size: 18px; } .qm-land .qm-desc, .qm-land .qm-story p { font-size: 12.5px; } .ql-grid { gap: 10px; } }
 </style>
 </head>
 <body>
@@ -1484,7 +1532,23 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     </div>
   </header>
 
-  <section class="sheet iron stone-bg" aria-label="Character sheet">
+
+  <div class="flow">
+    <div class="quote-strip" id="quoteStrip" role="button" tabindex="0" aria-label="Words of the guild. Tap to write thine own."><span class="qs-mark" aria-hidden="true">&#10077;</span><span class="qs-text" id="qsText">Small deeds done daily become great deeds done.</span><span class="qs-by" id="qsBy">the Guild</span><span class="qs-pen" aria-hidden="true">&#9998;</span></div>
+    <section class="board chapel iron stone-bg" aria-labelledby="chapelTitle">
+      <div class="board-sign">
+        <h2 id="chapelTitle">The Chapel</h2>
+        <div class="meta">A word before the road</div>
+      </div>
+      <div class="chapel-frame">
+        <span class="cf-rivet tl" aria-hidden="true"></span><span class="cf-rivet tr" aria-hidden="true"></span><span class="cf-rivet bl" aria-hidden="true"></span><span class="cf-rivet br" aria-hidden="true"></span>
+        <div class="chapel-screen">
+          <video id="chapelVid" src="chapel.mp4" poster="chapel.jpg" playsinline webkit-playsinline preload="metadata"></video>
+          <button class="chapel-play" id="chapelPlay" type="button" aria-label="Play the film"><span class="cp-seal" aria-hidden="true"></span><span class="cp-txt">Behold</span></button>
+        </div>
+      </div>
+    </section>
+    <section class="sheet iron stone-bg" aria-label="Character sheet">
     <div>
       <div class="who">
       <button class="portrait-btn" id="avatarBtn" type="button" aria-label="Change avatar"><img class="portrait" id="portrait" src="data:image/jpeg;base64,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" alt="Your avatar"><span class="pchg">Change</span></button>
@@ -1510,27 +1574,58 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       <span class="pet-txt"><small>Thy Companion</small><b id="petName">Corvin</b><span id="petStage"></span><span class="pet-mood" id="petMood"></span><span class="pet-next" id="petNext"></span><span class="pet-coins" id="petCoins"></span></span>
     </button>
   </section>
-
-  <section class="hatchery iron stone-bg" aria-labelledby="hatchTitle">
-    <div class="sec-head"><h2 id="hatchTitle">The Hatchery</h2><span class="meta" id="hatchMeta"></span></div>
-    <div id="hatchFound"></div>
-    <div class="hs-sub">Thy Companions <small>tap one to make it thy companion</small></div>
-    <div class="hatch-grid" id="hatchMine"></div>
-    <div class="hs-sub">The Wild Nest <small>eggs the guild left behind · the first to take one keeps it</small></div>
-    <div class="hatch-grid" id="hatchWild"></div>
-  </section>
-
-  <section class="chron iron stone-bg" aria-labelledby="chronTitle">
-    <div class="sec-head"><h2 id="chronTitle">Guild Chronicle</h2><span class="meta">what thy companions have done</span></div>
-    <div class="lb-tabs chron-tabs" role="group" aria-label="Whose deeds">
-      <button class="chip" type="button" data-chron="others" aria-pressed="true">Thy companions</button>
-      <button class="chip" type="button" data-chron="all" aria-pressed="false">Everyone</button>
-    </div>
-    <div class="chron-list" id="chronList"></div>
-    <button class="btn small ghost chron-more" type="button" id="chronMore" hidden>Unroll more of the chronicle</button>
-  </section>
-
-  <section class="ranks iron stone-bg" aria-labelledby="lbTitle">
+    <section class="board main-board iron stone-bg" aria-labelledby="mainTitle">
+      <div class="board-sign">
+        <h2 id="mainTitle">Main Quests</h2>
+        <div class="meta" id="mainMeta"></div>
+      </div>
+      <div class="plank" id="mainQuests"></div>
+      <button class="btn wax give add-main" type="button" data-mnew>+ Decree a main quest</button>
+    </section>
+    <section class="board iron stone-bg" aria-labelledby="boardTitle">
+      <div class="board-sign">
+        <h2 id="boardTitle">Side Quests</h2>
+        <div class="meta" id="boardMeta">Tap a notice to read it.</div>
+      </div>
+      <div class="board-reset" id="boardReset"></div><div class="board-warn" id="boardWarn" hidden></div><div class="plank" id="quests"></div>
+    </section>
+    <section class="scroll iron stone-bg cal-sec" aria-labelledby="calTitle">
+        <div class="sec-head"><h2 id="calTitle">Deed Calendar</h2><span class="meta" id="calMeta"></span></div>
+        <div class="cal-nav"><button class="btn small ghost" type="button" id="calPrev" aria-label="Previous month">&lsaquo;</button><b id="calMonth"></b><button class="btn small ghost" type="button" id="calNext" aria-label="Next month">&rsaquo;</button></div>
+        <div class="cal-grid" id="calGrid"></div>
+        <div class="cal-legend"><span>Fewer</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span>More deeds</span></div>
+        <div class="cal-day" id="calDay"></div>
+      </section>
+    <section class="scroll iron stone-bg" aria-labelledby="partyTitle">
+        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px solid var(--iron-lo);padding-bottom:6px">
+          <h2 id="partyTitle" style="border:0;padding:0">Quests in Hand</h2>
+          <span class="meta" id="slotCount">0 of 3</span>
+        </div>
+        <div class="slots" id="slots"></div>
+      </section>
+    <section class="scroll iron stone-bg" aria-labelledby="logTitle">
+        <div class="sec-head"><h2 id="logTitle">Deed Ledger</h2><span class="meta" id="ffMeta"></span></div>
+        <div class="lb-tabs ledger-tabs" role="group" aria-label="Which deeds"><button class="chip" data-ledger="today" aria-pressed="true">This day</button><button class="chip" data-ledger="past" aria-pressed="false">Seven days past</button></div>
+        <p class="ledger-note">Forfeit any deed not truly finished. The XP returns to the guild and thy name stays honest.</p>
+        <ul class="log" id="log"></ul>
+      </section>
+    <section class="scroll iron stone-bg journal-sec" aria-labelledby="jTitle">
+        <div class="sec-head"><h2 id="jTitle">Adventurer's Journal</h2><span class="meta" id="jCount"></span></div>
+        <button class="btn small ghost j-write" id="jWrite" type="button">Pen a page</button>
+        <div class="jpages" id="jPages"></div>
+        <button class="btn small ghost" id="jMore" type="button" hidden>Turn to older pages</button>
+      </section>
+    <section class="board party-board iron stone-bg" aria-labelledby="partyQTitle">
+      <div class="board-sign">
+        <h2 id="partyQTitle">Party Quests</h2>
+        <div class="meta">Quests for two or more. Finish together for bonus XP.</div>
+      </div>
+      <div class="party-wrap">
+        <button class="btn wax give" type="button" data-pnew>+ Raise a party</button>
+        <div id="partyList"></div>
+      </div>
+    </section>
+    <section class="ranks iron stone-bg" aria-labelledby="lbTitle">
     <div class="lb-head">
       <h2 id="lbTitle">Guild Rankings</h2>
       <div class="lb-tabs" role="group" aria-label="Ranking period">
@@ -1546,51 +1641,6 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     <div class="gm-box" id="gmBox" hidden></div>
     <button class="btn small ghost lb-more" id="lbMore" type="button" hidden>Unroll the whole list</button>
   </section>
-
-  <div class="main">
-   <div class="boards">
-    <section class="board chapel iron stone-bg" aria-labelledby="chapelTitle">
-      <div class="board-sign">
-        <h2 id="chapelTitle">The Chapel</h2>
-        <div class="meta">A word before the road</div>
-      </div>
-      <div class="chapel-frame">
-        <span class="cf-rivet tl" aria-hidden="true"></span><span class="cf-rivet tr" aria-hidden="true"></span><span class="cf-rivet bl" aria-hidden="true"></span><span class="cf-rivet br" aria-hidden="true"></span>
-        <div class="chapel-screen">
-          <video id="chapelVid" src="chapel.mp4" poster="chapel.jpg" playsinline webkit-playsinline preload="metadata"></video>
-          <button class="chapel-play" id="chapelPlay" type="button" aria-label="Play the film"><span class="cp-seal" aria-hidden="true"></span><span class="cp-txt">Behold</span></button>
-        </div>
-      </div>
-    </section>
-
-    <section class="board main-board iron stone-bg" aria-labelledby="mainTitle">
-      <div class="board-sign">
-        <h2 id="mainTitle">Main Quests</h2>
-        <div class="meta" id="mainMeta"></div>
-      </div>
-      <div class="plank" id="mainQuests"></div>
-      <button class="btn wax give add-main" type="button" data-mnew>+ Decree a main quest</button>
-    </section>
-
-    <section class="board iron stone-bg" aria-labelledby="boardTitle">
-      <div class="board-sign">
-        <h2 id="boardTitle">Side Quests</h2>
-        <div class="meta" id="boardMeta">Tap a notice to read it.</div>
-      </div>
-      <div class="board-reset" id="boardReset"></div><div class="board-warn" id="boardWarn" hidden></div><div class="plank" id="quests"></div>
-    </section>
-
-    <section class="board party-board iron stone-bg" aria-labelledby="partyQTitle">
-      <div class="board-sign">
-        <h2 id="partyQTitle">Party Quests</h2>
-        <div class="meta">Quests for two or more. Finish together for bonus XP.</div>
-      </div>
-      <div class="party-wrap">
-        <button class="btn wax give" type="button" data-pnew>+ Raise a party</button>
-        <div id="partyList"></div>
-      </div>
-    </section>
-
     <section class="board tavern-board iron stone-bg" aria-labelledby="tavernTitle">
       <div class="board-sign">
         <h2 id="tavernTitle">The Tavern Board</h2>
@@ -1609,39 +1659,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       <div class="tv-feed" id="tvFeed"></div>
       <button class="btn small ghost tv-more" type="button" id="tvMore" hidden>Read older tidings</button>
     </section>
-   </div>
-
-    <aside class="side">
-      <section class="scroll iron stone-bg" aria-labelledby="partyTitle">
-        <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px solid var(--iron-lo);padding-bottom:6px">
-          <h2 id="partyTitle" style="border:0;padding:0">Quests in Hand</h2>
-          <span class="meta" id="slotCount">0 of 3</span>
-        </div>
-        <div class="slots" id="slots"></div>
-      </section>
-
-      <section class="scroll iron stone-bg" aria-labelledby="logTitle">
-        <div class="sec-head"><h2 id="logTitle">Deed Ledger</h2><span class="meta" id="ffMeta"></span></div>
-        <div class="lb-tabs ledger-tabs" role="group" aria-label="Which deeds"><button class="chip" data-ledger="today" aria-pressed="true">This day</button><button class="chip" data-ledger="past" aria-pressed="false">Seven days past</button></div>
-        <p class="ledger-note">Forfeit any deed not truly finished. The XP returns to the guild and thy name stays honest.</p>
-        <ul class="log" id="log"></ul>
-      </section>
-
-      <section class="scroll iron stone-bg cal-sec" aria-labelledby="calTitle">
-        <div class="sec-head"><h2 id="calTitle">Deed Calendar</h2><span class="meta" id="calMeta"></span></div>
-        <div class="cal-nav"><button class="btn small ghost" type="button" id="calPrev" aria-label="Previous month">&lsaquo;</button><b id="calMonth"></b><button class="btn small ghost" type="button" id="calNext" aria-label="Next month">&rsaquo;</button></div>
-        <div class="cal-grid" id="calGrid"></div>
-        <div class="cal-legend"><span>Fewer</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span>More deeds</span></div>
-        <div class="cal-day" id="calDay"></div>
-      </section>
-      <section class="scroll iron stone-bg journal-sec" aria-labelledby="jTitle">
-        <div class="sec-head"><h2 id="jTitle">Adventurer's Journal</h2><span class="meta" id="jCount"></span></div>
-        <button class="btn small ghost j-write" id="jWrite" type="button">Pen a page</button>
-        <div class="jpages" id="jPages"></div>
-        <button class="btn small ghost" id="jMore" type="button" hidden>Turn to older pages</button>
-      </section>
-
-      <section class="scroll iron stone-bg" aria-labelledby="achTitle">
+    <section class="scroll iron stone-bg" aria-labelledby="achTitle">
         <div class="sec-head"><h2 id="achTitle">Honors &amp; Feats</h2><span class="meta" id="achMeta"></span></div>
         <label class="honor-pick" for="honorSel">Title the heralds call thee
           <select id="honorSel"></select>
@@ -1652,8 +1670,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
           <button class="btn small gold" id="hallBtn" type="button">Enter the Hall of Honors</button>
         </div>
       </section>
-
-      <section class="scroll iron stone-bg save-sec" aria-labelledby="bkTitle">
+    <section class="scroll iron stone-bg save-sec" aria-labelledby="bkTitle">
         <div class="sec-head"><h2 id="bkTitle">Save Scroll</h2></div>
         <p class="meta" style="margin:8px 0 6px">Thy deeds are kept on this device. Now and then, write a save scroll and keep it safe in Files, iCloud Drive or Google Drive. Should ill fortune strike, or should thou change devices, restore it here.</p>
         <p class="save-status" id="saveStatus"></p>
@@ -1672,7 +1689,6 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
           <button class="btn small" id="pasteApply" type="button">Inspect this scroll</button>
         </div>
       </section>
-    </aside>
   </div>
 </div>
 
@@ -1762,6 +1778,26 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 </div>
 <div class="crow-fly" id="crowFly" aria-hidden="true"><img id="crowImg" alt=""></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="fboard" id="secModal" role="dialog" aria-modal="true" aria-label="See all"><div class="fb-wrap sec-holder"><button class="fb-x" type="button" data-secclose aria-label="Close">&times;</button><div id="secSlot"></div></div></div>
+<div class="qmodal" id="cqModal" role="dialog" aria-modal="true" aria-labelledby="cqHead"><div class="qm-paper cq-paper">
+  <span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-cqclose aria-label="Close">&times;</button>
+  <div class="qm-kicker">Post a Notice</div><h3 id="cqHead">Create a Side Quest</h3>
+  <p class="cq-lead">Thy notice hangs on the guild board until 6 in the morn. Anyone may take it, thyself included.</p>
+  <label class="jm-lab" for="cqTitle">The quest</label><input id="cqTitle" class="cq-in" maxlength="60" autocomplete="off" placeholder="e.g. Help clean the barangay chapel">
+  <label class="jm-lab" for="cqDesc">What must be done</label><textarea id="cqDesc" class="cq-in" rows="3" maxlength="200" placeholder="Say clearly what counts as done."></textarea>
+  <label class="jm-lab" for="cqCat">Kind</label><select id="cqCat" class="cq-in"><option>Adventure</option><option>Body</option><option>Mind</option><option>Home</option><option>Social</option><option>Creative</option><option selected>Spirit</option></select>
+  <div class="jm-lab">Rank</div><div class="cq-ranks"><button type="button" data-cqrank="N" aria-pressed="true">Normal · 10 XP</button><button type="button" data-cqrank="S" aria-pressed="false">S-Class · 25 XP</button><button type="button" data-cqrank="SS" aria-pressed="false">SS-Class · 50 XP</button></div>
+  <p class="cq-left" id="cqLeft"></p>
+  <div class="qm-acts"><button class="btn wax" id="cqOk" type="button">Nail it to the board</button><button class="btn ghost" type="button" data-cqclose>Not now</button></div>
+</div></div>
+<div class="qmodal" id="qtModal" role="dialog" aria-modal="true" aria-labelledby="qtHead"><div class="qm-paper cq-paper">
+  <span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-qtclose aria-label="Close">&times;</button>
+  <div class="qm-kicker">Words of the Guild</div><h3 id="qtHead">Thy Quote</h3>
+  <p class="cq-lead">Thy words hang above the chapel for the whole guild. Each adventurer keeps one quote; change it whenever thou like.</p>
+  <label class="jm-lab" for="qtText">The quote</label><textarea id="qtText" class="cq-in" rows="3" maxlength="160" placeholder="e.g. Discipline is choosing what thou want most over what thou want now."></textarea>
+  <label class="jm-lab" for="qtBy">Said by</label><input id="qtBy" class="cq-in" maxlength="40" autocomplete="off" placeholder="Who said it (or leave blank for thy name)">
+  <div class="qm-acts"><button class="btn gold" id="qtSave" type="button">Hang it up</button><button class="btn ghost" id="qtDel" type="button" hidden>Take mine down</button></div>
+</div></div>
 <div class="fboard" id="fbModal" role="dialog" aria-modal="true" aria-labelledby="fbTitle">
   <section class="board fb-wrap iron stone-bg">
     <button class="fb-x" type="button" data-fbclose aria-label="Close the board">&times;</button>
@@ -1992,6 +2028,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       if (!XP[q.rank]) q.rank = "N";
     });
     var ok = {}; BASE.concat(s.custom).forEach(function (q) { ok[q.id] = 1; });
+    if (s.boardTake && typeof s.boardTake === "object") for (var ck in s.boardTake) if (s.boardTake[ck] && s.boardTake[ck].cq) ok[ck] = 1;
     s.active = s.active.filter(function (id) { return ok[id]; });
     s.posted = s.posted.filter(function (id) { return ok[id] && s.active.indexOf(id) < 0; });
     var keep = {};
@@ -2080,7 +2117,15 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     if (at < 0) { sfx("pin"); if (!stepsLeft(q)) toast("Every step is marked. Thou may seal it now."); }
   }
   function allQuests() { return BASE.concat(state.custom); }
-  function findQ(id) { var a = allQuests().concat(MAIN, state.mainCustom || [], BOUNTY); for (var i = 0; i < a.length; i++) if (a[i].id === id) return a[i]; return null; }
+  function findQ(id) {
+    var a = allQuests().concat(MAIN, state.mainCustom || [], BOUNTY); for (var i = 0; i < a.length; i++) if (a[i].id === id) return a[i];
+    if (/^x[a-z0-9]{4,16}$/.test(id)) {
+      var c = null; try { customsToday().forEach(function (x) { if (x.id === id) c = x; }); } catch (e) {}
+      if (c) return c;
+      var bt = state.boardTake && state.boardTake[id]; if (bt && bt.cq) return bt.cq;
+    }
+    return null;
+  }
 
   // each level asks more than the last, and the climb steepens as thou rise
   function levelNeed(lv) { var k = lv - 1; return 100 + k * 50 + 12 * k * k; }
@@ -2101,7 +2146,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   /* ---------- progress records, achievements, quest of the day, weekly boss ---------- */
   function hash(str) { var h = 2166136261; for (var i = 0; i < str.length; i++) { h ^= str.charCodeAt(i); h = Math.imul(h, 16777619); } return h >>> 0; }
   /* ---------- the guild board: the same notices for everyone, renewed each morn at 6 ---------- */
-  var BOARD_HOUR = 6, BOARD_SIZE = { N: 10, S: 7, SS: 4 }, BOARD_PREVIEW = 6, TAKE_XP = 5, boardCache = { k: "", ids: [] }, accepting = {};
+  var BOARD_HOUR = 6, BOARD_SIZE = { N: 5, S: 3, SS: 2 }, BOARD_PREVIEW = 6, TAKE_XP = 5, boardCache = { k: "", ids: [] }, accepting = {};
   function boardDayKey(dt) { var d = dt || new Date(); return todayKey(new Date(d.getFullYear(), d.getMonth(), d.getDate(), d.getHours() - BOARD_HOUR, d.getMinutes())); }
   function boardIds(dk) {
     dk = dk || boardDayKey();
@@ -2140,7 +2185,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     boardCache.ok = dk; boardCache.order = best;
     return best;
   }
-  function onBoardToday(id) { return boardIds().indexOf(id) >= 0; }
+  function onBoardToday(id) { return boardIds().indexOf(id) >= 0 || customsToday().some(function (c) { return c.id === id; }); }
   function qotdId(dk) { dk = dk || boardDayKey(); var ids = boardIds(dk); return ids[hash("qotd:" + dk) % ids.length]; }
   function isQOf(id) { var bt = state.boardTake && state.boardTake[id]; return bt ? !!bt.q : id === qotdId(); }
   function qotdDateLabel() { var p = boardDayKey().split("-"), d = new Date(+p[0], +p[1] - 1, +p[2]); return "the " + ordinal(d.getDate()) + " of " + MONTHS[d.getMonth()]; }
@@ -2524,7 +2569,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     if (state.active.length >= MAX_SLOTS) { toast("Thy hands are full. See a quest through first."); return; }
     if (state.active.indexOf(id) >= 0) return;
     var dk = boardDayKey();
-    if (boardIds(dk).indexOf(id) < 0) { toast("That notice is no longer upon the board."); render(); return; }
+    if (!onBoardToday(id)) { toast("That notice is no longer upon the board."); render(); return; }
     var c = claimOf(id);
     if (c && !isMine(c)) { toast("Too late! " + (c.name || "Another adventurer") + " already took this quest."); return; }
     if (c && c.done) return;
@@ -2555,6 +2600,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     state.posted = state.posted.filter(function (x) { return x !== id; });
     setLocalClaim(dk, id, { uid: me.uid, name: me.name, at: me.at, due: me.due, qid: id });
     state.boardTake[id] = { d: dk, q: id === qotdId(dk), due: me.due };
+    if (q.gcustom) state.boardTake[id].cq = { id: q.id, title: q.title, desc: q.desc, cat: q.cat, rank: q.rank, custom: true, gcustom: true, by: q.by, byName: q.byName, story: "" };
     if (me.uid !== "me") { state.boardMine.push({ d: dk, id: id }); if (state.boardMine.length > 60) state.boardMine = state.boardMine.slice(-60); }
     save(); render(); sfx("take"); crowFly();
     toast("Quest taken: " + q.title + ". Finish it by " + clockAt(me.due) + " to earn the XP." + (note || ""));
@@ -2724,7 +2770,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       '" data-open="' + q.id + '" aria-label="' + esc(P.head + ", " + RANK_NAME[q.rank] + ": " + q.title) + '">' +
       (P.v === "scroll" ? '<span class="roll rt" aria-hidden="true"></span><span class="roll rb" aria-hidden="true"></span>' : '<span class="pin" aria-hidden="true"></span>') +
       '<span class="nhead">' + P.head + "</span>" +
-      '<span class="ncat">' + esc(q.cat) + (q.custom ? " · yours" : "") + "</span>" +
+      '<span class="ncat">' + esc(q.cat) + (q.gcustom ? " · by " + esc(q.by === cloud.uid || q.by === "me" ? "thee" : q.byName || "a guildmate") : q.custom ? " · yours" : "") + "</span>" +
       '<span class="nt">' + esc(q.title) + "</span>" +
       (sub ? '<span class="ndate">' + sub + "</span>" : "") +
       (kind === "main" && q.steps && q.steps.length ? (function () {
@@ -2769,7 +2815,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
         (r === "All" ? "Any rank" : RANK_HEAD[r]) + "</button>";
     }).join("");
     var QID = qotdId(), claims = boardClaims();
-    var onBoard = boardOrder().filter(function (id) { return id !== QID; }).map(findQ).filter(Boolean);
+    var onBoard = boardOrder().filter(function (id) { return id !== QID; }).map(findQ).filter(Boolean).concat(customsToday());
     var shown = onBoard.filter(function (q) { return (filter === "All" || q.cat === filter) && (rankTab === "All" || q.rank === rankTab); });
     var what = (rankTab === "All" ? "" : RANK_NAME[rankTab] + " ") + (filter === "All" ? "" : filter + " ");
     var qq = findQ(QID);
@@ -2778,7 +2824,8 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var free = nAll - nTaken;
     var prev = onBoard.filter(function (q) { return !claims[q.id]; }).concat(onBoard.filter(function (q) { return claims[q.id]; })).slice(0, BOARD_PREVIEW);
     $("quests").innerHTML = qotdHtml + '<div class="notes">' + prev.map(function (q) { return noteHtml(q, "side"); }).join("") + "</div>" +
-      '<button class="btn wax give see-all" type="button" data-seeall>See all ' + onBoard.length + " notices <small>" + onBoard.filter(function (q) { return !claims[q.id]; }).length + " still free · plus the Quest of the Day</small></button>";
+      (onBoard.length > prev.length ? '<button class="btn wax give see-all" type="button" data-seeall>See all ' + onBoard.length + " notices <small>" + onBoard.filter(function (q) { return !claims[q.id]; }).length + " still free · plus the Quest of the Day</small></button>" : "") +
+      '<button class="btn gold create-q" type="button" data-cqnew>+ Create a side quest <small>post thine own notice for the guild this day</small></button>';
     $("fbQuests").innerHTML = (fbOpenNow() || $("fbModal").classList.contains("show")) ? ((rankTab === "All" && filter === "All") || (qq && (filter === "All" || qq.cat === filter) && (rankTab === "All" || qq.rank === rankTab)) ? qotdHtml : "") + (shown.length
       ? '<div class="notes">' + shown.map(function (q) { return noteHtml(q, "side"); }).join("") + '</div><div class="board-count">' +
         (shown.length < onBoard.length ? "Showing " + shown.length + " of " + onBoard.length + " notices · " : "") + nTaken + " of " + nAll + " notices taken this day</div>"
@@ -2823,7 +2870,8 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       $("log").innerHTML = '<li class="none">' + (ledgerView === "today" ? "No deeds yet this day. The first quest is ever the hardest to begin." : "No deeds these seven days past.") + "</li>";
       return;
     }
-    var last = "", html = "";
+    var last = "", html = "", total = rows.length;
+    if (secOpen !== "ledger") rows = rows.slice(0, 2);
     rows.forEach(function (l) {
       if (ledgerView === "past" && l.d !== last) {
         last = l.d; var p = l.d.split("-"), dt = new Date(+p[0], +p[1] - 1, +p[2]);
@@ -2832,7 +2880,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       html += '<li class="ledger-row"><span class="lt">' + esc(l.t) + '</span><span class="xp"' + (l.xp < 0 ? ' style="color:#e0715a"' : "") + ">" + (l.xp < 0 ? "\u2212" + (-l.xp) : "+" + l.xp) + " XP</span>" +
         (l.bounty ? '<span class="lf-none">bounty</span>' : l.mainBonus ? '<span class="lf-none">bonus</span>' : l.crown ? '<span class="lf-none">crown</span>' : l.take ? '<span class="lf-none">taken</span>' : l.fail ? '<span class="lf-none">failed</span>' : '<button class="lf" type="button" data-forfeit="' + esc(l.k) + '">Forfeit</button>') + "</li>";
     });
-    $("log").innerHTML = html;
+    $("log").innerHTML = html + (secOpen !== "ledger" && total > 2 ? '<li class="see-more"><button class="btn small ghost" type="button" data-secopen="ledger">See all ' + total + " deeds</button></li>" : "");
   }
 
   /* ---------- job popup ---------- */
@@ -2880,21 +2928,24 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     }
     if (isMain) status = done ? '<p class="qm-status" style="color:#8f1f1c">' + (q.once ? "Done! This quest departs the board at 7 in the morn." : "Done. It returns on the morrow at 7.") + "</p>" : "";
     var canDown = !isQ && !isMain && !q.custom && !taken && !done && state.posted.indexOf(id) >= 0;
-    $("qmPaper").className = "qm-paper r-" + q.rank;
-    $("qmPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" data-close aria-label="Close">×</button>' +
+    $("qmPaper").className = "qm-paper r-" + q.rank + (isMain ? "" : " qm-land");
+    $("qmodal").classList.toggle("land", !isMain);
+    var L0 = isMain ? "" : '<div class="ql-grid"><div class="ql-left">', L1 = isMain ? "" : '</div><div class="ql-right">', L2 = isMain ? "" : "</div></div>";
+    $("qmPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" data-close aria-label="Close">×</button>' + L0 +
       '<div class="qm-kicker">' + (isMain ? "Royal Decree" : isQ ? "Quest of the Day" : "Job Request") + "</div>" +
       (isQ ? '<div class="qm-ribbon">Twice the reward · this day only</div>' : isMain ? '<div class="qm-ribbon">' + (q.once ? "Main quest · once and no more" : "Main quest · renewed each morn at 7") + "</div>" : "") +
       '<div class="qm-seal" aria-hidden="true">' + q.rank + "</div>" +
       '<div class="qm-rank">' + RANK_NAME[q.rank] + (isMain ? " Main Quest" : " Job") + "</div>" +
       '<h3 id="qmTitle">' + esc(q.title) + "</h3>" +
       (q.desc ? '<p class="qm-desc">' + esc(q.desc) + "</p>" : "") +
-      stepsHtml +
+      stepsHtml + L1 +
       '<div class="qm-story"><span>' + (q.story ? "The tale" : "Word from the guild") + '</span><p>' + esc(q.story || FLAVOR[q.rank]) + "</p></div>" +
-      (function () { return isMain || q.custom ? "" : '<p class="qm-posted">Upon the guild board for <b>' + esc(qotdDateLabel()) + "</b> only.<br>If none takes it, it vanishes at 6 in the morn.</p>"; })() +
-      '<dl class="qm-meta"><div><dt>Patron</dt><dd>' + esc(isMain && !q.custom ? "The Crown" : q.custom ? "Yourself" : (CLIENT[q.cat] || "The Guild")) + '</dd></div><div><dt>Kind</dt><dd>' + esc(q.cat) +
-      '</dd></div><div><dt>Reward</dt><dd class="rw">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP" + (!q.main && (state.boardTake[id] || onBoardToday(id)) ? " <small>+" + TAKE_XP + " board bonus, on completion</small>" : "") + "</dd></div></dl>" +
+      (function () { return isMain || (q.custom && !q.gcustom) ? "" : '<p class="qm-posted">Upon the guild board for <b>' + esc(qotdDateLabel()) + "</b> only.<br>If none takes it, it vanishes at 6 in the morn.</p>"; })() +
+      '<dl class="qm-meta"><div><dt>Patron</dt><dd>' + esc(isMain && !q.custom ? "The Crown" : q.gcustom ? (q.byName || "A guildmate") : q.custom ? "Yourself" : (CLIENT[q.cat] || "The Guild")) + '</dd></div><div><dt>Kind</dt><dd>' + esc(q.cat) +
+      '</dd></div><div><dt>Reward</dt><dd class="rw">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP" + (!q.main && (state.boardTake[id] || onBoardToday(id)) ? " <small>+" + TAKE_XP + " board bonus, on completion</small>" : "") + "</dd></div></dl>" + L2 +
       status + '<div class="qm-acts">' + acts + "</div>" +
       (isMain ? '<div class="qm-two">' + (q.custom ? '<button class="qm-del" data-medit="' + id + '">Amend this decree</button>' : "") + '<button class="qm-del" data-mremove="' + id + '">Strike this decree</button></div>' :
+       q.gcustom ? ((q.by === cloud.uid || q.by === "me") && !claimOf(id) ? '<button class="qm-del" data-cqdel="' + id + '">Tear down thy notice</button>' : "") :
        q.custom ? '<button class="qm-del" data-remove="' + id + '">Burn this notice</button>' :
        canDown ? '<button class="qm-del" data-down="' + id + '">Tear this notice down</button>' : "");
     if (!keep) { $("qmodal").classList.add("show"); $("qmodal").scrollTop = 0; sfx("paper"); var b = $("qmPaper").querySelector(".qm-acts .btn"); if (b) b.focus(); }
@@ -3272,7 +3323,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       .then(function () {
         if (!firebase.apps.length) firebase.initializeApp(cfg);
         cloud.db = firebase.database();
-        watchSeasons(); watchTavern(); watchParties(); watchDeeds(); watchBoard(); watchEggs();
+        watchSeasons(); watchTavern(); watchParties(); watchDeeds(); watchBoard(); watchCustoms(); watchQuotes();
         cloud.db.ref("players").orderByChild("xp").limitToLast(200).on("value", function (snap) {
           var arr = []; snap.forEach(function (c) { var v = c.val() || {}; v.id = c.key; arr.push(decodePlayer(v)); });
           cloud.players = arr; try { localStorage.setItem("sidequest-lb", JSON.stringify(arr)); } catch (e) {}
@@ -3302,7 +3353,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
           if (state.acct && u.isAnonymous) { openGate("relogin"); return; }
           if (!u.isAnonymous && state.acct) watchSave(u.uid);
           pushNow();
-          try { claimCrown(); claimParties(); renderTavern(); renderParty(); renderChron(); watchGifts(); watchBoard(); watchEggs(); render(); setTimeout(function () { tidy(true); }, 3000); setTimeout(maybeEgg, 2500); } catch (e) {}
+          try { claimCrown(); claimParties(); renderTavern(); renderParty(); renderChron(); watchGifts(); watchBoard(); watchCustoms(); watchQuotes(); render(); setTimeout(function () { tidy(true); }, 3000); } catch (e) {}
         });
       })
       .catch(authFail);
@@ -4856,7 +4907,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     $("petMood").textContent = "Mood: " + md.name + " · Fullness " + Math.round(petFood()) + "%";
     $("petCoins").textContent = "🪙 " + (state.coins || 0) + " coins";
     $("petName").textContent = petName();
-    $("petStage").textContent = RARITY[state.pet.rar || "c"].name + " " + petTitleOf(state.pet, i);
+    $("petStage").textContent = (state.pet.rar && state.pet.rar !== "c" ? RARITY[state.pet.rar].name + " " : "") + petTitleOf(state.pet, i);
     $("petNext").textContent = ready ? "\u2728 Ready to hatch! Tap to hatch it" : nx ? "Grows into a " + nx.name + " at its Level " + nx.lv + " (now " + lv + ")" : "Its final, mightiest form";
     try { renderHatch(); } catch (e) {}
     if ($("petModal").classList.contains("show") && Date.now() > pt.busy) openPet(true);
@@ -4871,7 +4922,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       (ready ? '<button type="button" class="hatch-btn" data-hatchme>\u2728 Ready to hatch! Tap to hatch ' + esc(petName()) + "</button>" : "") +
       '<p class="pet-hint">Tap it, or stroke it with thy finger. Its eyes follow thee.</p>' +
       '<h3 id="petTitle">' + esc(petName()) + ' <small>the ' + esc(petTitleOf(state.pet, i)) + "</small></h3>" +
-      '<p class="pet-kind"><span class="rar-tag rar-' + (state.pet.rar || "c") + '">' + RARITY[state.pet.rar || "c"].name + "</span> Its egg was of the <b>" + esc(kindName(state.pet)) + "</b> kind. It grows with every XP thou earn.</p>" +
+      '<p class="pet-kind">' + (state.pet.rar && state.pet.rar !== "c" ? '<span class="rar-tag rar-' + state.pet.rar + '">' + RARITY[state.pet.rar].name + "</span> " : "") + "Its egg was of the <b>" + esc(kindName(state.pet)) + "</b> kind. It grows with every XP thou earn.</p>" +
       '<p class="pet-line">' + esc(st.line) + "</p>" +
       (function () {
         var md = petMood(), fd = Math.round(petFood());
@@ -5120,7 +5171,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     state.found = null; save(); renderHatch(); closeFx(); sfx("paper");
     toast(/^local-/.test(f.eid) ? "Thou set the egg down by the road." : "The egg goes to the Wild Nest. Another adventurer may take it.");
   }
-  function watchEggs() {
+  function watchEggs() { return;
     if (!cloud.db || cloud.eRef) return;
     var ref = cloud.eRef = cloud.db.ref("eggs").orderByChild("at").limitToLast(40);
     ref.on("value", function (sn) {
@@ -5133,7 +5184,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     var a = hash((state.seed || "") + ":egg:" + dk) % 100, b = hash((state.seed || "") + ":rar:" + dk) % 100;
     return { hit: !state.eggIntro || a < 30, r: b < 5 ? "l" : b < 20 ? "r" : b < 50 ? "u" : "c", k: hash((state.seed || "") + ":kind:" + dk) % PET_KINDS.length };
   }
-  function maybeEgg() {
+  function maybeEgg() { return;
     var dk = todayKey();
     if (state.eggDay === dk || !state.signed) return;
     if (document.documentElement.classList.contains("intro-lock") || document.querySelector(".gate.show, #gate.show")) { setTimeout(maybeEgg, 4000); return; }
@@ -5148,8 +5199,6 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
       cloud.db.ref("eggs/" + key).set(e).then(function () { show(key); }).catch(function () { show("local-" + key); });
     } else show("local-" + Date.now().toString(36));
   }
-  setTimeout(maybeEgg, 6000);
-  setInterval(maybeEgg, 10 * 60000);
 
   /* ---------- the glowing stage for hatching and found eggs ---------- */
   var fx = { busy: false };
@@ -5203,7 +5252,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 
   /* ======================================================================= TAVERN BOARD */
   var TAVERN_REACT = ["🍺", "🔥", "👏", "😂", "👑"];
-  var tav = { img: null, show: 15, armed: null };
+  var tav = { img: null, show: 5, armed: null };
   function newKey() { return Date.now().toString(36) + Math.random().toString(36).slice(2, 7); }
   function canPost() { return !!(cloud.ready && cloud.db && cloud.uid && state.signed && !cloud.exiled && !cloud.hold && !(state.acct && cloud.anon)); }
   function shortAgo(ts) {
@@ -5250,7 +5299,8 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
         ((mine || gm) ? '<button type="button" class="tv-del" data-tvdel="' + esc(p.id) + '">' + (tav.armed === p.id ? "Tap again to burn it" : "Burn") + "</button>" : "") +
         "</div></div></article>";
     }).join("");
-    $("tvMore").hidden = list.length <= tav.show;
+    $("tvMore").hidden = list.length <= tav.show || secOpen === "tavern";
+    $("tvMore").textContent = "See all " + list.length + " tidings";
   }
   $("tvFile").addEventListener("change", function () {
     var f = this.files && this.files[0]; if (!f) return;
@@ -5269,7 +5319,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     }).catch(function (e) { toast(/permission/i.test(String(e && e.code || e)) ? "The tavern is shut until the new Firebase rules are published." : "The raven could not deliver thy message."); })
       .then(function () { btn.disabled = !canPost(); });
   });
-  $("tvMore").addEventListener("click", function () { tav.show += 15; renderTavern(); });
+  $("tvMore").addEventListener("click", function () { openSec("tavern"); });
   $("tvFeed").addEventListener("click", function (e) {
     var t = e.target.closest("button"); if (!t) return;
     if (t.hasAttribute("data-tvimg")) { var im = t.querySelector("img"); $("lbImg").src = im.src; $("lbImg").alt = im.alt; $("lightbox").classList.add("show"); return; }
@@ -5422,7 +5472,7 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 
 
   /* ======================================================================= GUILD CHRONICLE (deeds of the guild) */
-  var chron = { view: "others", show: 12 };
+  var chron = { view: "others", show: 2 };
   function recordDeed(entry, kind) {
     if (!cloud.ready || !cloud.db || !cloud.uid || !state.signed || cloud.exiled || cloud.hold || (state.acct && cloud.anon)) return;
     var key = newKey(), title = String(entry.t || "").replace(/ \(Quest of the Day\)$/, "").replace(/^Party quest: /, "").slice(0, 80);
@@ -5456,22 +5506,36 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   }
   function renderChron() {
     var box = $("chronList"); if (!box) return;
+    if (!$("chModal")) return;
     document.querySelectorAll("[data-chron]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.chron === chron.view)); });
+    if ($("chAll")) $("chAll").innerHTML = "";
     if (!cloud.db) { box.innerHTML = '<p class="ch-empty">The chronicle opens once the guild is reached (thou must be online).</p>'; $("chronMore").hidden = true; return; }
     var list = (cloud.deeds || []).filter(function (d) { return d && d.uid && (chron.view === "all" || d.uid !== cloud.uid) && !(cloud.banished && cloud.banished[d.uid] != null); })
       .sort(function (a, b) { return (b.at || 0) - (a.at || 0); });
     if (cloud.deedErr && !list.length) { box.innerHTML = '<p class="ch-empty">The chronicle is sealed until the new Firebase rules are published.</p>'; $("chronMore").hidden = true; return; }
     if (!list.length) { box.innerHTML = '<p class="ch-empty">' + (chron.view === "others" ? "None of thy companions have sealed a deed yet. When they do, it is written here." : "No deeds written yet.") + "</p>"; $("chronMore").hidden = true; return; }
     var html = "", last = "";
-    list.slice(0, chron.show).forEach(function (d) { var lb = dayLabel(d.at); if (lb !== last) { html += '<div class="ch-day">' + esc(lb) + "</div>"; last = lb; } html += deedRow(d); });
+    list.slice(0, 2).forEach(function (d) { var lb = dayLabel(d.at); if (lb !== last) { html += '<div class="ch-day">' + esc(lb) + "</div>"; last = lb; } html += deedRow(d); });
     box.innerHTML = html;
-    $("chronMore").hidden = list.length <= chron.show;
+    $("chronMore").hidden = list.length <= 2;
+    $("chronMore").textContent = "See all " + list.length + " deeds";
+    if ($("chModal").classList.contains("show")) {
+      var all = "", l2 = "";
+      list.forEach(function (d) { var lb = dayLabel(d.at); if (lb !== l2) { all += '<div class="ch-day">' + esc(lb) + "</div>"; l2 = lb; } all += deedRow(d); });
+      $("chAll").innerHTML = all;
+      $("chMeta").textContent = list.length + (list.length === 1 ? " deed" : " deeds") + " written" + (chron.view === "others" ? " by thy companions" : " by the whole guild");
+    }
   }
   document.addEventListener("click", function (e) {
     var b = e.target.closest("[data-chron]"); if (!b) return;
-    chron.view = b.dataset.chron; chron.show = 12; renderChron();
+    chron.view = b.dataset.chron; renderChron();
   });
-  $("chronMore").addEventListener("click", function () { chron.show += 12; renderChron(); });
+
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest && e.target.closest("button");
+    if (t && t.hasAttribute("data-chclose") && $("chModal")) $("chModal").classList.remove("show");
+  });
+
   function recentDeedsHtml(uid) {
     var list = (cloud.deeds || []).filter(function (d) { return d.uid === uid; }).sort(function (a, b) { return (b.at || 0) - (a.at || 0); }).slice(0, 5);
     if (!list.length) return "";
@@ -5502,19 +5566,17 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
 
   /* ---------- bookmarks: tap any empty space (or the ribbon) to jump to a section ---------- */
   var BOOKMARKS = [
+    ["chapelTitle", "The Chapel", "words of the guild and the chapel film"],
     ["sheet", "Character Sheet", "thy level, XP and companion", ".sheet"],
-    ["hatchTitle", "The Hatchery", "thy companions and found eggs"],
-    ["chronTitle", "Guild Chronicle", "what thy companions have done"],
-    ["lbTitle", "Guild Rankings", "who leads the guild"],
-    ["chapelTitle", "The Chapel", "the chapel film"],
     ["mainTitle", "Main Quests", "the Crown's daily decrees"],
     ["boardTitle", "Side Quests", "the guild board, renewed at 6"],
-    ["partyQTitle", "Party Quests", "quests for two or more"],
-    ["tavernTitle", "The Tavern Board", "talk with the guild"],
+    ["calTitle", "Deed Calendar", "thy days of deeds"],
     ["partyTitle", "Quests in Hand", "what thou art doing now"],
     ["logTitle", "Deed Ledger", "XP earned, day by day"],
-    ["calTitle", "Deed Calendar", "thy days of deeds"],
     ["jTitle", "Adventurer's Journal", "thy tales and pictures"],
+    ["partyQTitle", "Party Quests", "quests for two or more"],
+    ["lbTitle", "Guild Rankings", "who leads the guild"],
+    ["tavernTitle", "The Tavern Board", "talk with the guild"],
     ["achTitle", "Honors & Feats", "achievements won"],
     ["bkTitle", "Save Scroll", "keep or move thy progress"]
   ];
@@ -5616,6 +5678,9 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
     });
     if (still.length !== state.boardMine.length) { state.boardMine = still; save(); }
     (cloud.eggs || []).forEach(function (e) { if (Date.now() - (+e.at || 0) > EGG_LIFE + 864e5) cloud.db.ref("eggs/" + e.id).remove().catch(function () {}); });
+    var ccut = todayKey(new Date(Date.now() - 2 * 864e5)), keepC = [];
+    (state.customMine || []).forEach(function (m) { if (m.d < ccut) cloud.db.ref("custom/" + m.d + "/" + m.id).remove().catch(function () {}); else keepC.push(m); });
+    if ((state.customMine || []).length !== keepC.length) { state.customMine = keepC; save(); }
     var tcut = Date.now() - 30 * 864e5, gm = cloud.master && cloud.master === cloud.uid;
     try { cloud.db.ref("tavern").orderByChild("at").endAt(tcut).limitToFirst(100).once("value").then(function (sn) {
       sn.forEach(function (c) { var v = c.val() || {}; if ((+v.at || 0) < tcut && (v.uid === cloud.uid || gm)) cloud.db.ref("tavern/" + c.key).remove().catch(function () {}); });
@@ -5623,6 +5688,153 @@ html[data-theme="valentine"] .season-note { color: #ffe6ee; background: rgba(140
   }
   setTimeout(function () { tidy(false); }, 4000);
   setInterval(function () { tidy(false); }, 30 * 60000);
+
+  /* ---------- "See all": lift a whole section into a popup, then put it back ---------- */
+  var secOpen = null, secHold = null;
+  function openSec(which) {
+    if (secOpen) closeSec();
+    var sec = (which === "ledger" ? $("logTitle") : $("tavernTitle")).closest("section"); if (!sec) return;
+    secHold = document.createComment("sec-" + which); sec.parentNode.insertBefore(secHold, sec);
+    $("secSlot").appendChild(sec); secOpen = which;
+    if (which === "tavern") tav.show = 500;
+    $("secModal").classList.add("show"); $("secModal").scrollTop = 0; sfx("paper");
+    if (which === "ledger") renderLedger(); else renderTavern();
+  }
+  function closeSec() {
+    if (!secOpen) return;
+    var sec = $("secSlot").firstElementChild, which = secOpen;
+    if (sec && secHold && secHold.parentNode) secHold.parentNode.replaceChild(sec, secHold);
+    secHold = null; secOpen = null; $("secModal").classList.remove("show");
+    if (which === "tavern") { tav.show = 5; renderTavern(); } else renderLedger();
+  }
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest && e.target.closest("button");
+    if (t && t.dataset.secopen) { openSec(t.dataset.secopen); return; }
+    if ((t && t.hasAttribute("data-secclose")) || (e.target && e.target.id === "secModal")) closeSec();
+  });
+  document.addEventListener("keydown", function (e) { if (e.key === "Escape" && secOpen && !$("qmodal").classList.contains("show") && !$("cmodal").classList.contains("show")) closeSec(); });
+
+  /* ---------- guild-made side quests ---------- */
+  var CQ_MAX = 3;
+  function customsToday() {
+    var dk = boardDayKey(), list = [];
+    if (cloud.customs && cloud.cDay === dk) list = cloud.customs;
+    else if (state.localCustom && state.localCustom.d === dk) list = state.localCustom.list || [];
+    return list.filter(function (c) { return c && c.title && XP[c.rank] && CATS.indexOf(c.cat) >= 0; }).map(function (c) {
+      return { id: c.id, title: c.title, desc: c.desc || "", cat: c.cat, rank: c.rank, custom: true, gcustom: true, by: c.by, byName: c.byName, story: "" };
+    });
+  }
+  function watchCustoms() {
+    if (!cloud.db) return;
+    var dk = boardDayKey(); if (cloud.cRef && cloud.cDay === dk) return;
+    if (cloud.cRef) { try { cloud.cRef.off(); } catch (e) {} }
+    cloud.cDay = dk; cloud.customs = null;
+    var ref = cloud.cRef = cloud.db.ref("custom/" + dk);
+    ref.on("value", function (sn) {
+      if (cloud.cRef !== ref) return;
+      var arr = []; if (sn && sn.forEach) sn.forEach(function (c) { var v = c.val(); if (v && typeof v === "object") { v.id = c.key; arr.push(v); } });
+      arr.sort(function (a, b) { return (a.at || 0) - (b.at || 0); });
+      cloud.customs = arr; cloud.cErr = ""; render();
+    }, function (e) { if (cloud.cRef !== ref) return; cloud.cErr = String(e && e.code || e); cloud.cRef = null; cloud.customs = null; render(); });
+  }
+  setInterval(function () { if (cloud.db && cloud.cDay && cloud.cDay !== boardDayKey()) watchCustoms(); }, 30000);
+  var cqRank = "N";
+  function openCq() {
+    var mine = customsToday().filter(function (c) { return c.by === (cloud.uid || "me"); }).length;
+    if (mine >= CQ_MAX) { toast("Thou hast posted " + CQ_MAX + " notices this day already. Return at 6 in the morn."); return; }
+    cqRank = "N"; $("cqTitle").value = ""; $("cqDesc").value = ""; $("cqCat").value = "Spirit"; cqRanks();
+    $("cqLeft").textContent = (CQ_MAX - mine) + " of " + CQ_MAX + " notices left for thee this day";
+    $("cqModal").classList.add("show"); $("cqModal").scrollTop = 0; sfx("paper"); setTimeout(function () { $("cqTitle").focus(); }, 60);
+  }
+  function cqRanks() { document.querySelectorAll("#cqModal [data-cqrank]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.cqrank === cqRank)); }); }
+  function saveCq() {
+    var title = $("cqTitle").value.trim().replace(/\s+/g, " ").slice(0, 60), desc = $("cqDesc").value.trim().slice(0, 200), cat = $("cqCat").value;
+    if (title.length < 4) { toast("Give the quest a proper title."); $("cqTitle").focus(); return; }
+    if (CATS.indexOf(cat) < 0) cat = "Spirit";
+    var dk = boardDayKey(), id = "x" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
+    var c = { title: title, desc: desc, cat: cat, rank: cqRank, by: cloud.uid || "me", byName: (state.name || "Adventurer").slice(0, 24), at: Date.now() };
+    function local(note) {
+      if (!state.localCustom || state.localCustom.d !== dk) state.localCustom = { d: dk, list: [] };
+      c.id = id; state.localCustom.list.push(c); save(); render();
+      $("cqModal").classList.remove("show"); sfx("pin"); toast("Nailed to the board: " + title + (note || ""));
+    }
+    if (!boardOnline()) { local(cloud.db ? " (offline: only thou can see it)" : ""); return; }
+    $("cqOk").disabled = true;
+    cloud.db.ref("custom/" + dk + "/" + id).set(c).then(function () {
+      $("cqOk").disabled = false; state.customMine = (state.customMine || []).concat([{ d: dk, id: id }]).slice(-30); save();
+      $("cqModal").classList.remove("show"); sfx("pin"); toast("Nailed to the guild board: " + title);
+    }).catch(function (e) {
+      $("cqOk").disabled = false;
+      if (/permission/i.test(String(e && e.code || e))) toast("The guild board refused it. The newest Firebase rules must be published.");
+      else local(" (only on this device for now)");
+    });
+  }
+  function delCq(id) {
+    var dk = boardDayKey();
+    if (state.localCustom && state.localCustom.d === dk) state.localCustom.list = (state.localCustom.list || []).filter(function (c) { return c.id !== id; });
+    if (boardOnline()) cloud.db.ref("custom/" + dk + "/" + id).remove().catch(function () {});
+    closeJob(); save(); render(); sfx("paper"); toast("Thy notice is torn down.");
+  }
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest && e.target.closest("button"); if (!t) return;
+    if (t.hasAttribute("data-cqnew")) { openCq(); return; }
+    if (t.dataset.cqrank) { cqRank = t.dataset.cqrank; cqRanks(); return; }
+    if (t.hasAttribute("data-cqclose")) { $("cqModal").classList.remove("show"); return; }
+    if (t.dataset.cqdel) { delCq(t.dataset.cqdel); return; }
+  });
+  $("cqOk").addEventListener("click", saveCq);
+  $("cqModal").addEventListener("click", function (e) { if (e.target === this) this.classList.remove("show"); });
+
+  /* ---------- words of the guild: a quote strip above the chapel ---------- */
+  var qs = { list: [], i: 0 };
+  var QUOTE_DEFAULT = [{ text: "Small deeds done daily become great deeds done.", by: "the Guild" }];
+  function quoteList() {
+    var arr = (cloud.quotes || []).filter(function (q) { return q && q.text; });
+    if (!arr.length && state.quote && state.quote.text) arr = [state.quote];
+    return arr.length ? arr : QUOTE_DEFAULT;
+  }
+  function showQuote(fade) {
+    var l = quoteList(); if (qs.i >= l.length) qs.i = 0;
+    var q = l[qs.i], el = $("quoteStrip");
+    function put() { $("qsText").textContent = q.text; $("qsBy").textContent = q.by || q.name || "a guildmate"; el.classList.remove("fade"); }
+    if (fade && l.length > 1) { el.classList.add("fade"); setTimeout(put, 380); } else put();
+  }
+  setInterval(function () { var l = quoteList(); if (l.length > 1 && !$("qtModal").classList.contains("show")) { qs.i = (qs.i + 1) % l.length; showQuote(true); } }, 12000);
+  function watchQuotes() {
+    if (!cloud.db || cloud.qRef) return;
+    var ref = cloud.qRef = cloud.db.ref("quotes");
+    ref.on("value", function (sn) {
+      var arr = []; if (sn && sn.forEach) sn.forEach(function (c) { var v = c.val(); if (v && typeof v === "object" && v.text) { v.uid = c.key; arr.push(v); } });
+      arr.sort(function (a, b) { return (a.at || 0) - (b.at || 0); });
+      cloud.quotes = arr; showQuote(false);
+    }, function () { cloud.qRef = null; });
+  }
+  function myQuote() { var m = null; (cloud.quotes || []).forEach(function (q) { if (q.uid === cloud.uid) m = q; }); return m || state.quote || null; }
+  function openQuote() {
+    var m = myQuote();
+    $("qtText").value = m ? m.text : ""; $("qtBy").value = m ? (m.by || "") : "";
+    $("qtDel").hidden = !m;
+    $("qtModal").classList.add("show"); sfx("paper"); setTimeout(function () { $("qtText").focus(); }, 60);
+  }
+  function saveQuote() {
+    var text = $("qtText").value.trim().replace(/\s+/g, " ").slice(0, 160), by = $("qtBy").value.trim().slice(0, 40);
+    if (text.length < 3) { toast("Write a few words first."); return; }
+    var q = { text: text, by: by || (state.name || "Adventurer"), name: (state.name || "Adventurer").slice(0, 24), at: Date.now() };
+    state.quote = q; save();
+    if (boardOnline()) cloud.db.ref("quotes/" + cloud.uid).set(q).catch(function () { toast("Saved on this device; the guild could not be reached."); });
+    $("qtModal").classList.remove("show"); qs.i = 0; showQuote(false); sfx("quill"); toast("Thy words hang above the chapel.");
+  }
+  function delQuote() {
+    state.quote = null; save();
+    if (boardOnline()) cloud.db.ref("quotes/" + cloud.uid).remove().catch(function () {});
+    $("qtModal").classList.remove("show"); qs.i = 0; showQuote(false); toast("Thy words are taken down.");
+  }
+  $("quoteStrip").addEventListener("click", openQuote);
+  $("quoteStrip").addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); openQuote(); } });
+  $("qtSave").addEventListener("click", saveQuote);
+  $("qtDel").addEventListener("click", delQuote);
+  $("qtModal").addEventListener("click", function (e) { if (e.target === this || (e.target.closest && e.target.closest("[data-qtclose]"))) this.classList.remove("show"); });
+  setTimeout(function () { showQuote(false); }, 0);
   window.SIDEQUEST_BOOT = function () { cloudInit(); bootGate(); };
   applySeason(); setInterval(applySeason, 10 * 60000);
   setInterval(renderLb, 60000);
