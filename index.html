@@ -1679,6 +1679,10 @@ textarea.cq-in { resize: vertical; }
 .dl-sig span { font: italic 11.5px Georgia, serif; color: #6b4a2a; }
 .qf-sig { width: 96px; height: auto; margin-top: 2px; border-bottom: 1px solid #8a6a3a; }
 @media print { .pr-sigc img { width: 74px; height: auto; display: block; } .pr-sigc { width: 80px; } }
+
+.dl-rm { color: #7a1d14 !important; border-color: rgba(122,29,20,.5) !important; }
+.dl-rm.armed { background: #7a1d14 !important; color: #fbe6bd !important; }
+.dl-rmnote { margin: 8px 0 0; font: italic 12.5px Georgia, serif; color: #7a1d14; text-align: center; }
 </style>
 </head>
 <body>
@@ -5073,10 +5077,42 @@ textarea.cq-in { resize: vertical; }
       '</div><div class="ql-right">' + stepsHtml +
         (q && q.story ? '<div class="qm-story"><span>The tale</span><p>' + esc(q.story) + "</p></div>" : "") +
       "</div></div>" +
-      '<div class="qm-acts"><button class="btn gold" type="button" data-dlclose>Back to the tally</button></div>';
+      '<div class="qm-acts"><button class="btn gold" type="button" data-dlclose>Back to the tally</button>' +
+      (!l.mainBonus && !l.fail && !l.take && !l.bounty && !l.crown ? '<button class="btn ghost dl-rm" type="button" data-dlremove="' + esc(l.k) + '">Strike this deed</button>' : "") + "</div>" +
+      '<p class="dl-rmnote" id="dlRmNote" hidden></p>';
+    dlArm = null;
     $("deedModal").classList.add("show"); $("deedModal").scrollTop = 0; sfx("paper");
   }
-  $("deedModal").addEventListener("click", function (e) { if (e.target === this || (e.target.closest && e.target.closest("[data-dlclose]"))) this.classList.remove("show"); });
+  var dlArm = null;
+  $("deedModal").addEventListener("click", function (e) {
+    if (e.target === this || (e.target.closest && e.target.closest("[data-dlclose]"))) { this.classList.remove("show"); return; }
+    var b = e.target.closest && e.target.closest("[data-dlremove]"); if (!b) return;
+    var k = b.getAttribute("data-dlremove"), l = null; state.log.forEach(function (x) { if (x.k === k) l = x; }); if (!l) return;
+    if (dlArm !== k) {
+      dlArm = k; b.textContent = "Tap again to strike it"; b.classList.add("armed");
+      var n = $("dlRmNote"); n.hidden = false;
+      n.textContent = "Striking it removes it from the calendar and takes back its " + l.xp + " XP" + (l.coins ? " and " + l.coins + " coins" : "") + (l.main && state.mainBonus === (l.md || l.d) ? ", and the day-conquered bonus" : "") + ".";
+      sfx("paper"); return;
+    }
+    removeDeed(k);
+  });
+  function removeDeed(k) {
+    var l = null; state.log.forEach(function (x) { if (x.k === k) l = x; }); if (!l) return;
+    var day = l.d, id = l.id, ff = { n: state.forfeit.n, xp: state.forfeit.xp };
+    forfeitDeed(k);
+    state.forfeit.n = ff.n; state.forfeit.xp = ff.xp; // a plain removal is not counted as a forfeit
+    // a side quest struck this very day goes back upon the board
+    var dk = boardDayKey(), c = state.boardLocal && state.boardLocal.d === dk ? state.boardLocal.c[id] : null;
+    if (id && findQ(id) && !findQ(id).main && day === todayKey()) {
+      if (c) delete state.boardLocal.c[id];
+      if (boardOnline() && !/^x/.test(id)) cloud.db.ref("board/" + dk + "/" + id).transaction(function (cur) { if (cur && cur.uid === cloud.uid) return null; return; }).catch(function () {});
+      if (state.today && state.today.d === todayKey()) state.today.ids = state.today.ids.filter(function (x) { return x !== id; });
+    }
+    save(); render(); try { renderCal(); } catch (e) {}
+    $("deedModal").classList.remove("show"); sfx("paper");
+    toast("The deed is struck from the calendar.");
+    if (state.log.some(function (x) { return x.d === day; })) openTally(day); else $("tallyModal").classList.remove("show");
+  }
   /* ======================================================================= MONTHLY SEASONS */
   var CROWN_XP = [0, 100, 60, 30], PLACE = ["", "first", "second", "third"];
   function monthKey(d) { d = d || new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1); }
