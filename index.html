@@ -1595,6 +1595,41 @@ textarea.cq-in { resize: vertical; }
 .qf-scroll { display: block; width: 84px; }
 .qf-scroll .sc-svg { filter: drop-shadow(0 2px 2px rgba(0,0,0,.35)); }
 .qm-fulfilled { top: 120px !important; right: 4px !important; transform: rotate(6deg) !important; }
+
+/* the seal button on royal decrees */
+.nsealbtn { position: relative; z-index: 2; display: flex; align-items: center; gap: 8px; width: 100%; margin-top: 6px; padding: 6px 8px 6px 6px; cursor: pointer;
+  border-radius: 6px; border: 1px solid #3a1408; background: linear-gradient(180deg, #6e1e12, #45100a); box-shadow: inset 0 1px 0 rgba(255,190,150,.25), 0 2px 3px rgba(0,0,0,.45);
+  color: #f6dca0; text-align: left; }
+.nsealbtn:hover, .nsealbtn:focus-visible { box-shadow: inset 0 1px 0 rgba(255,190,150,.25), 0 0 0 2px rgba(244,200,74,.55), 0 2px 3px rgba(0,0,0,.45); }
+.nsealbtn:active { transform: translateY(1px); }
+.nsb-wax { flex: none; width: 30px; height: 30px; display: grid; place-items: center; border-radius: 47% 53% 50% 46% / 52% 46% 54% 48%;
+  background: radial-gradient(circle at 36% 30%, #f0c862, #b8861e 55%, #6a4406); color: #4a2a04; font-size: 15px; box-shadow: inset 0 -2px 3px rgba(0,0,0,.4), 0 1px 2px rgba(0,0,0,.5); }
+.nsb-txt { font: 400 15px/1.05 "IM Fell English SC", Georgia, serif; letter-spacing: .04em; }
+.nsb-txt small { display: block; font: italic 11px Georgia, serif; letter-spacing: 0; color: #e0bf86; }
+.nguide { gap: 2px; }
+.nguide .ng { display: flex; align-items: flex-start; gap: 5px; padding: 1px 0; border: 0; background: none; color: #4a2a12; font: italic 11.5px/1.3 Georgia, serif; text-align: left; cursor: pointer; }
+.nguide .ng i { flex: none; width: 11px; height: 11px; margin-top: 2px; border: 1.2px solid #6b4422; border-radius: 2px; background: rgba(255,250,235,.5); position: relative; }
+.nguide .ng.on i { background: #6b4422; }
+.nguide .ng.on i::after { content: ""; position: absolute; left: 2.5px; top: 0; width: 3px; height: 6px; border: solid #fff3d0; border-width: 0 1.5px 1.5px 0; transform: rotate(45deg); }
+.nguide .ng.on { color: #2f4a1f; }
+/* calendar: the day tally lives in a popup only */
+.cal-tap { text-align: center; }
+/* a deed, opened wide */
+#deedModal { overflow-y: auto; z-index: 16; } #deedModal.show { display: flex; flex-direction: column; } #deedModal .qm-paper { margin: auto; flex: none; max-height: none; overflow: visible; }
+.deed-paper .ql-left { text-align: left; } .deed-paper .qm-kicker, .deed-paper h3 { text-align: left; }
+.dl-when { font: italic 12.5px Georgia, serif; color: #6b4a2a; margin: 6px 0 0; }
+.dl-steps { padding: 8px 10px; border: 1px dashed rgba(60,35,15,.45); border-radius: 6px; background: rgba(255,248,225,.35); margin-bottom: 8px; text-align: left; }
+.dl-steps > span { display: block; font: 400 14px "IM Fell English SC", Georgia, serif; color: #6e0f0a; margin-bottom: 4px; }
+.dl-steps ul { list-style: none; margin: 0; padding: 0; }
+.dl-steps li { display: flex; gap: 7px; align-items: baseline; padding: 3px 0; font: 13.5px/1.3 Georgia, serif; color: #2a1a0c; border-bottom: 1px solid rgba(60,35,15,.12); }
+.dl-steps li i { flex: none; width: 16px; font-style: normal; font-weight: 700; color: #7a5a3a; }
+.dl-steps li.on i { color: #2f6a2f; } .dl-steps li.off { color: #8a7458; } .dl-steps li.off i { color: #a3261b; }
+.dl-steps small { display: block; margin-top: 4px; font: italic 11.5px Georgia, serif; color: #7a5a3a; }
+.tl-row > span::after { content: " \203A"; }
+.tl-row.open > span::after { content: " \203A"; }
+
+.deed-paper .qm-kicker { font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: #8a1c10; margin-top: 4px; }
+.deed-paper h3 { font-size: 22px; margin: 4px 0 8px; }
 </style>
 </head>
 <body>
@@ -1694,7 +1729,8 @@ textarea.cq-in { resize: vertical; }
         <div class="cal-nav"><button class="btn small ghost" type="button" id="calPrev" aria-label="Previous month">&lsaquo;</button><b id="calMonth"></b><button class="btn small ghost" type="button" id="calNext" aria-label="Next month">&rsaquo;</button></div>
         <div class="cal-grid" id="calGrid"></div>
         <div class="cal-legend"><span>Fewer</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span>More deeds</span></div>
-        <div class="cal-day" id="calDay"></div>
+        <div class="cal-day" id="calDay" hidden></div>
+        <p class="cal-hint cal-tap">Tap a day with deeds to open its tally.</p>
       </section>
     <section class="scroll iron stone-bg" aria-labelledby="partyTitle">
         <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px solid var(--iron-lo);padding-bottom:6px">
@@ -1703,7 +1739,7 @@ textarea.cq-in { resize: vertical; }
         </div>
         <div class="slots" id="slots"></div>
       </section>
-    <section class="compact scroll iron stone-bg" aria-labelledby="logTitle">
+    <section hidden class="compact scroll iron stone-bg" aria-labelledby="logTitle">
         <div class="sec-head"><h2 id="logTitle">Deed Ledger</h2><span class="meta" id="ffMeta"></span></div>
         <div class="enter-row"><span class="enter-meta" id="ledgerMeta"></span><button class="btn gold enter-btn" type="button" data-secopen="ledger">Open the Deed Ledger</button></div>
         <div class="lb-tabs ledger-tabs" role="group" aria-label="Which deeds"><button class="chip" data-ledger="today" aria-pressed="true">This day</button><button class="chip" data-ledger="past" aria-pressed="false">Seven days past</button></div>
@@ -1882,6 +1918,7 @@ textarea.cq-in { resize: vertical; }
 </div>
 <div class="crow-fly" id="crowFly" aria-hidden="true"><img id="crowImg" alt=""></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="qmodal land" id="deedModal" role="dialog" aria-modal="true" aria-labelledby="deedHead"><div class="qm-paper deed-paper" id="deedPaper"></div></div>
 <div class="qmodal" id="tallyModal" role="dialog" aria-modal="true" aria-labelledby="tallyHead"><div class="qm-paper tally-paper" id="tallyPaper"></div></div>
 <div class="fboard" id="secModal" role="dialog" aria-modal="true" aria-label="See all"><div class="fb-wrap sec-holder"><button class="fb-x" type="button" data-secclose aria-label="Close">&times;</button><div id="secSlot"></div></div></div>
 <div class="qmodal" id="cqModal" role="dialog" aria-modal="true" aria-labelledby="cqHead"><div class="qm-paper cq-paper">
@@ -2227,7 +2264,7 @@ textarea.cq-in { resize: vertical; }
     var c = checksFor(id).slice(), at = c.indexOf(i);
     if (at >= 0) c.splice(at, 1); else c.push(i);
     state.mainChecks.c[id] = c; save(); render();
-    if (at < 0) { sfx("pin"); if (!stepsLeft(q)) toast("Every step is marked. Thou may seal it now."); }
+    if (at < 0) { sfx("pin"); if (c.length === q.steps.length) toast("Every step of the guide is marked."); }
   }
   function allQuests() { return BASE.concat(state.custom); }
   function findQ(id) {
@@ -2794,7 +2831,8 @@ textarea.cq-in { resize: vertical; }
     if (state.days.length > 400) state.days = state.days.slice(-400);
     var mk = mainDayKey();
     if (q.main) { if (!mainIsDone(id)) mainDoneIds().push(id); if (q.once) q.doneOn = mk; }
-    var entry = { k: id + "-" + Date.now().toString(36), id: id, cat: q.cat, rank: q.rank, q: isQ, main: !!q.main, md: q.main ? mk : "", coins: coins, t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
+    var stepsDone = q.main && q.steps && q.steps.length ? checksFor(id).slice() : null;
+    var entry = { k: id + "-" + Date.now().toString(36), id: id, steps: stepsDone || undefined, stepList: stepsDone && q.custom ? q.steps.slice() : undefined, desc: q.custom ? q.desc || "" : undefined, cat: q.cat, rank: q.rank, q: isQ, main: !!q.main, md: q.main ? mk : "", coins: coins, t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
     state.log.unshift(entry); delete state.takenAt[id];
     if (bt) {
       delete state.boardTake[id];
@@ -2938,8 +2976,8 @@ textarea.cq-in { resize: vertical; }
       (sub ? '<span class="ndate">' + sub + "</span>" : "") +
       (kind === "main" ? (function () {
         var steps = q.steps || [], c = done ? steps.map(function (s, i) { return i; }) : checksFor(q.id), left = steps.filter(function (s, i) { return c.indexOf(i) < 0; }).length;
-        return (steps.length ? '<span class="nguide">' + steps.map(function (st) { return "<span>\u2022 " + esc(st) + "</span>"; }).join("") + "</span>" : "") +
-          '<button type="button" class="nck ndone' + (done ? " on" : "") + '" data-mdone="' + q.id + '"' + (done ? " disabled" : "") + ' aria-pressed="' + done + '"><i aria-hidden="true"></i><span>' + (done ? "Fulfilled this day" : "Seal it as fulfilled") + "</span></button>";
+        return (steps.length ? '<span class="nguide">' + steps.map(function (st, i) { var on = c.indexOf(i) >= 0; return '<button type="button" class="ng' + (on ? " on" : "") + '" data-mstep="' + q.id + "|" + i + '" aria-pressed="' + on + '"><i aria-hidden="true"></i>' + esc(st) + "</button>"; }).join("") + "</span>" : "") +
+          '<button type="button" class="nsealbtn" data-mdone="' + q.id + '"' + (done ? " disabled" : "") + '><span class="nsb-wax" aria-hidden="true">\u2720</span><span class="nsb-txt">Seal it<small>as fulfilled</small></span></button>';
       })() : "") +
       '<span class="nfoot"><span class="nxp">+' + xp + " XP" + (kind === "qotd" ? " <s>+" + XP[q.rank] + "</s>" : "") + "</span>" +
       '<span class="sealbox" aria-hidden="true"><span class="wax' + (kind === "qotd" ? " star" : "") + '">' + (kind === "qotd" ? "★" : q.rank) + '</span><span class="nrib">' + RANK_NAME[q.rank] + "</span></span></span>" +
@@ -4896,13 +4934,13 @@ textarea.cq-in { resize: vertical; }
       (deeds.length ? '<div class="tl-sec">By rank</div>' + bar("Normal", t.N, maxR, "rN") + bar("S-Class", t.S, maxR, "rS") + bar("SS-Class", t.SS, maxR, "rSS") : "") +
       (catKeys.length ? '<div class="tl-sec">By kind</div>' + catKeys.map(function (c) { return bar(c, cats[c], maxC); }).join("") : "") +
       '<div class="tl-sec">Every deed</div>' +
-      (list.length ? '<p class="tl-tip">Tap a deed to read what it was.</p><ul class="tl-list">' + list.slice().sort(function (a, b) { return (a.at || 0) - (b.at || 0); }).map(function (l) {
+      (list.length ? '<p class="tl-tip">Tap a deed to open it.</p><ul class="tl-list">' + list.slice().sort(function (a, b) { return (a.at || 0) - (b.at || 0); }).map(function (l) {
         var q = l.id ? findQ(l.id) : null; if (!q) BASE.concat(MAIN).forEach(function (b) { if (!q && String(l.t || "").indexOf(b.title) >= 0) q = b; });
         var info = l.mainBonus ? "Every decree of the Crown was fulfilled this day, so the Crown granted a bonus." : l.fail ? "This quest was taken but not finished before its time ran out, so XP was lost." : l.take ? "Free XP for taking a notice from the board." :
           q ? (q.desc || "") : "No description was kept for this deed.";
         var meta = q ? '<div class="tl-tags"><span>' + esc(q.main ? "Main Quest" : q.personal ? "Thine own decree" : "Side Quest") + "</span><span>" + esc(RANK_NAME[q.rank] || "") + "</span><span>" + esc(q.cat || "") + "</span>" + (l.q ? "<span>Quest of the Day</span>" : "") + "</div>" : "";
         var steps = q && q.steps && q.steps.length ? '<ul class="tl-steps">' + q.steps.map(function (st) { return "<li>" + esc(st) + "</li>"; }).join("") + "</ul>" : "";
-        return '<li class="tl-row" tabindex="0" role="button" aria-expanded="false"><small>' + (l.at ? clockAt(l.at) : "") + "</small><span>" + esc(l.t) + '</span><b class="' + (l.xp < 0 ? "bad" : "") + '">' + (l.xp < 0 ? "\u2212" + (-l.xp) : "+" + l.xp) + " XP</b>" +
+        return '<li class="tl-row" tabindex="0" role="button" data-lk="' + esc(l.k) + '"><small>' + (l.at ? clockAt(l.at) : "") + "</small><span>" + esc(l.t) + '</span><b class="' + (l.xp < 0 ? "bad" : "") + '">' + (l.xp < 0 ? "\u2212" + (-l.xp) : "+" + l.xp) + " XP</b>" +
           '<div class="tl-desc">' + meta + "<p>" + esc(info) + "</p>" + steps + (q && q.story ? '<p class="tl-story">' + esc(q.story) + "</p>" : "") + "</div></li>";
       }).join("") + "</ul>" : '<p class="tl-none">The ledger keeps only recent deeds, so the details of this day have faded. ' + nDeeds + " deeds, " + xpAll + " XP.</p>") +
       '<div class="qm-acts"><button class="btn gold" type="button" data-tlclose>Close</button></div>';
@@ -4911,8 +4949,34 @@ textarea.cq-in { resize: vertical; }
   $("tallyModal").addEventListener("click", function (e) {
     if (e.target === this || (e.target.closest && e.target.closest("[data-tlclose]"))) { this.classList.remove("show"); return; }
     var r = e.target.closest && e.target.closest(".tl-row"); if (!r) return;
-    var on = !r.classList.contains("open"); r.classList.toggle("open", on); r.setAttribute("aria-expanded", String(on)); sfx("paper");
+    openDeed(r.getAttribute("data-lk"));
   });
+  function openDeed(k) {
+    var l = null; state.log.forEach(function (x) { if (x.k === k) l = x; }); if (!l) return;
+    var q = l.id ? findQ(l.id) : null; if (!q) BASE.concat(MAIN).forEach(function (b) { if (!q && String(l.t || "").indexOf(b.title) >= 0) q = b; });
+    var p = l.d.split("-"), dd = new Date(+p[0], +p[1] - 1, +p[2]);
+    var info = l.mainBonus ? "Every decree of the Crown was fulfilled this day, so the Crown granted a bonus." : l.fail ? "This quest was taken but not finished before its time ran out, so XP was lost." : l.take ? "Free XP for taking a notice from the board." : (l.desc != null ? l.desc : q ? q.desc || "" : "No description was kept for this deed.");
+    var steps = l.stepList || (q && q.steps) || [], got = Array.isArray(l.steps) ? l.steps : null;
+    var stepsHtml = steps.length ? '<div class="dl-steps"><span>Steps to guide thee' + (got ? " · " + got.length + " of " + steps.length + " checked" : "") + "</span><ul>" + steps.map(function (st, i) {
+        var on = got ? got.indexOf(i) >= 0 : null;
+        return '<li class="' + (on === true ? "on" : on === false ? "off" : "") + '"><i aria-hidden="true">' + (on === true ? "\u2714" : on === false ? "\u2715" : "\u2022") + "</i>" + esc(st) + "</li>";
+      }).join("") + "</ul>" + (got ? "" : '<small>This deed was sealed before checks were kept.</small>') + "</div>" : "";
+    var kindName = q ? (q.main ? "Royal Decree" : q.personal ? "Thine Own Decree" : l.q ? "Quest of the Day" : "Side Quest") : l.mainBonus ? "Crown's Bonus" : "Deed";
+    $("deedPaper").className = "qm-paper qm-land deed-paper r-" + ((q && q.rank) || l.rank || "N");
+    $("deedPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-dlclose aria-label="Close">&times;</button>' +
+      '<div class="ql-grid"><div class="ql-left">' +
+        '<div class="qm-kicker">' + esc(kindName) + "</div>" +
+        '<h3 id="deedHead">' + esc(q ? q.title : l.t) + "</h3>" +
+        '<div class="tl-tags">' + (q ? "<span>" + esc(RANK_NAME[q.rank] || "") + "</span><span>" + esc(q.cat || "") + "</span>" : "") + "<span>" + (l.xp < 0 ? "\u2212" + (-l.xp) : "+" + l.xp) + " XP</span>" + (l.coins ? "<span>+" + l.coins + " coins</span>" : "") + "</div>" +
+        '<p class="qm-desc">' + esc(info) + "</p>" +
+        '<p class="dl-when">Sealed on the ' + ordinal(dd.getDate()) + " of " + MONTHS[dd.getMonth()] + (l.at ? " at " + clockAt(l.at) : "") + "</p>" +
+      '</div><div class="ql-right">' + stepsHtml +
+        (q && q.story ? '<div class="qm-story"><span>The tale</span><p>' + esc(q.story) + "</p></div>" : "") +
+      "</div></div>" +
+      '<div class="qm-acts"><button class="btn gold" type="button" data-dlclose>Back to the tally</button></div>';
+    $("deedModal").classList.add("show"); $("deedModal").scrollTop = 0; sfx("paper");
+  }
+  $("deedModal").addEventListener("click", function (e) { if (e.target === this || (e.target.closest && e.target.closest("[data-dlclose]"))) this.classList.remove("show"); });
   /* ======================================================================= MONTHLY SEASONS */
   var CROWN_XP = [0, 100, 60, 30], PLACE = ["", "first", "second", "third"];
   function monthKey(d) { d = d || new Date(); return d.getFullYear() + "-" + pad(d.getMonth() + 1); }
@@ -5645,7 +5709,6 @@ textarea.cq-in { resize: vertical; }
     ["boardTitle", "Side Quests", "the guild board, renewed at 6"],
     ["calTitle", "Deed Calendar", "thy days of deeds"],
     ["partyTitle", "Quests in Hand", "what thou art doing now"],
-    ["logTitle", "Deed Ledger", "XP earned, day by day"],
     ["jTitle", "Adventurer's Journal", "thy tales and pictures"],
     ["partyQTitle", "Party Quests", "quests for two or more"],
     ["lbTitle", "Guild Rankings", "who leads the guild"],
