@@ -1732,6 +1732,11 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
 .sd-bar { display: block; height: 6px; border-radius: 4px; background: rgba(0,0,0,.45); overflow: hidden; margin-top: 3px; }
 .sd-bar em { display: block; height: 100%; background: linear-gradient(90deg, #b8861e, #f2c45a); }
 .sheet-door .enter-btn { min-width: 0; flex: none; padding: 8px 12px; }
+
+.slot-open { display: block; width: 100%; padding: 0; border: 0; background: none; text-align: left; cursor: pointer; color: inherit; font: inherit; }
+.slot-open small { font: italic 11.5px Georgia, serif; color: #c9b38a; white-space: nowrap; }
+.slot-open:hover, .slot-open:focus-visible { text-decoration: underline; text-decoration-color: rgba(214,162,74,.6); }
+.jm-lab small { font: italic 11px Georgia, serif; text-transform: none; letter-spacing: 0; }
 </style>
 </head>
 <body>
@@ -1804,7 +1809,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
       </div>
       <div class="plank" id="mainQuests"></div>
       <button class="btn wax give add-main" type="button" data-mnew>+ Decree a main quest</button>
-      <button class="btn gold give add-side" type="button" data-cqnew>+ Decree a side quest <small>a quest for thee alone, on thy Side Quest board</small></button>
+      <button class="btn gold give add-side" type="button" data-cqnew>+ Decree a side quest <small>a quest for thee alone, beside thy Main Quests</small></button>
     </section>
     <section class="board iron stone-bg" aria-labelledby="boardTitle">
       <div class="board-sign">
@@ -2029,9 +2034,10 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
 <div class="qmodal" id="cqModal" role="dialog" aria-modal="true" aria-labelledby="cqHead"><div class="qm-paper cq-paper">
   <span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-cqclose aria-label="Close">&times;</button>
   <div class="qm-kicker">Thine Own Decree</div><h3 id="cqHead">Decree a Side Quest</h3>
-  <p class="cq-lead">This quest is for thee alone. It hangs on thy Side Quest board in its own colour until 6 in the morn. It earns XP, but no coins.</p>
+  <p class="cq-lead">This quest is for thee alone. It hangs on thy Main Quests board in its own colour until 6 in the morn. It earns XP, but no coins.</p>
   <label class="jm-lab" for="cqTitle">The quest</label><input id="cqTitle" class="cq-in" maxlength="60" autocomplete="off" placeholder="e.g. Help clean the barangay chapel">
-  <label class="jm-lab" for="cqDesc">What must be done</label><textarea id="cqDesc" class="cq-in" rows="3" maxlength="200" placeholder="Say clearly what counts as done."></textarea>
+  <label class="jm-lab" for="cqDesc">What must be done</label><textarea id="cqDesc" class="cq-in" rows="2" maxlength="200" placeholder="Say clearly what counts as done."></textarea>
+  <label class="jm-lab" for="cqSteps">Steps to guide thee <small>(optional, one per line)</small></label><textarea id="cqSteps" class="cq-in" rows="3" maxlength="600" placeholder="Open the notes&#10;Read chapter 3&#10;Write a summary"></textarea>
   <label class="jm-lab" for="cqCat">Kind</label><select id="cqCat" class="cq-in"><option>Adventure</option><option>Body</option><option>Mind</option><option>Home</option><option>Social</option><option>Creative</option><option selected>Spirit</option></select>
   <div class="jm-lab">Rank</div><div class="cq-ranks"><button type="button" data-cqrank="N" aria-pressed="true">Normal · 10 XP</button><button type="button" data-cqrank="S" aria-pressed="false">S-Class · 25 XP</button><button type="button" data-cqrank="SS" aria-pressed="false">SS-Class · 50 XP</button></div>
   <p class="cq-left" id="cqLeft"></p>
@@ -2938,7 +2944,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
     if (q.main) { if (!mainIsDone(id)) mainDoneIds().push(id); if (q.once) q.doneOn = mk; }
     var stepsDone = q.main && q.steps && q.steps.length ? checksFor(id).slice() : null;
     var sig = pendingSig; pendingSig = null;
-    var entry = { k: id + "-" + Date.now().toString(36), id: id, sig: sig || undefined, steps: stepsDone || undefined, stepList: stepsDone && q.custom ? q.steps.slice() : undefined, desc: q.custom ? q.desc || "" : undefined, cat: q.cat, rank: q.rank, q: isQ, main: !!q.main, md: q.main ? mk : "", coins: coins, t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
+    var entry = { k: id + "-" + Date.now().toString(36), id: id, own: q.personal ? true : undefined, sig: sig || undefined, steps: stepsDone || undefined, stepList: stepsDone && q.custom ? q.steps.slice() : undefined, desc: q.custom ? q.desc || "" : undefined, cat: q.cat, rank: q.rank, q: isQ, main: !!q.main, md: q.main ? mk : "", coins: coins, t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
     state.log.unshift(entry); delete state.takenAt[id];
     if (bt) {
       delete state.boardTake[id];
@@ -2957,7 +2963,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
       if (opts.proof) cb.st.proofs[id] = opts.proof;
     }
     var conquered = false;
-    if (q.main && state.mainBonus !== mk && mainQuests().every(function (m) { return mainIsDone(m.id); })) {
+    if (q.main && !q.decree && state.mainBonus !== mk && mainQuests().every(function (m) { return mainIsDone(m.id); })) {
       conquered = true; state.mainBonus = mk; S.mainDays = (S.mainDays || 0) + 1; state.xp += MAIN_BONUS; state.coins += 5; bumpDay(tk, 0, MAIN_BONUS);
       state.log.unshift({ k: "mb-" + mk, mainBonus: true, md: mk, coins: 5, t: "The day conquered: every decree fulfilled", xp: MAIN_BONUS, d: tk, at: Date.now() });
     }
@@ -3057,11 +3063,11 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
   function noteHtml(q, kind) {
     var bc = kind !== "main" ? claimOf(q.id) : null, mine = bc && isMine(bc), other = bc && !mine;
     var done = kind === "main" ? mainIsDone(q.id) : bc ? !!bc.done : state.today.ids.indexOf(q.id) >= 0, taken = state.active.indexOf(q.id) >= 0;
-    var P = kind === "main" ? PAPER.main : kind === "qotd" ? PAPER.qotd : q.personal ? PAPER.decree : q.custom ? PAPER.custom : PAPER[q.rank];
+    var P = q.decree ? PAPER.decree : kind === "main" ? PAPER.main : kind === "qotd" ? PAPER.qotd : q.personal ? PAPER.decree : q.custom ? PAPER.custom : PAPER[q.rank];
     var tear = 1; for (var k = 0; k < q.id.length; k++) tear += q.id.charCodeAt(k); tear = tear % 5 + 1;
     var pi = null, xp = (XP[q.rank] || 10) * (kind === "qotd" ? 2 : 1);
     var who = bc ? (mine ? "thee" : esc(bc.name || "an adventurer")) : "";
-    var sub = kind === "main" ? (q.once ? "Once and no more" : "Renewed each morn at 7") + (q.after != null ? " · seal after " + q.after + ":00" : "")
+    var sub = q.decree ? "Thine own decree · this day only · XP, no coins" : kind === "main" ? (q.once ? "Once and no more" : "Renewed each morn at 7") + (q.after != null ? " · seal after " + q.after + ":00" : "")
       : (kind === "qotd" ? "Quest for " + qotdDateLabel() + " · twice the reward" : q.personal ? "Thy decree · XP only, no coins" : "Free to take · +" + TAKE_XP + " bonus XP when done");
     if (mine && !bc.done && bc.due && kind !== "main") sub = '<span class="nby">Thine · finish by ' + clockAt(bc.due) + "</span>";
     if (bc) sub = mine ? '<span class="nby">' + (bc.done ? "Done by " : "Taken by ") + who + "</span>" : "";
@@ -3069,7 +3075,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
       var sealBy = kind === "main" ? "thee" : bc ? (mine ? "thee" : esc(bc.name || "an adventurer")) : "thee", TGs = kind === "main" ? "div" : "button";
       return "<" + TGs + ' class="note sealed r-' + q.rank + (kind === "main" ? " mnote" : "") + (kind === "qotd" ? " qotd" : "") + (other ? " others" : "") + (q.personal ? " own" : "") + '" data-open="' + q.id + '"' + (kind === "main" ? ' role="button" tabindex="0"' : "") + ' aria-label="Fulfilled: ' + esc(q.title) + '. Tap to unroll it.">' +
         '<span class="sc-scroll" aria-hidden="true">' + scrollSvg(kind === "qotd" ? "gold" : q.personal ? "teal" : "") + "</span>" +
-        '<span class="sc-rib">Fulfilled</span><span class="sc-title">' + esc(q.title) + '</span><span class="sc-by">' + (kind === "main" ? "Royal Decree" : kind === "qotd" ? "Quest of the Day" : RANK_NAME[q.rank]) + " · sealed by " + sealBy + "</span></" + TGs + ">";
+        '<span class="sc-rib">Fulfilled</span><span class="sc-title">' + esc(q.title) + '</span><span class="sc-by">' + (q.decree ? "Thine Own Decree" : kind === "main" ? "Royal Decree" : kind === "qotd" ? "Quest of the Day" : RANK_NAME[q.rank]) + " · sealed by " + sealBy + "</span></" + TGs + ">";
     }
     var TAG = kind === "main" ? "div" : "button";
     return "<" + TAG + ' class="note p-' + P.v + (kind === "main" ? " mnote" : "") + " t-" + P.tone + " tear" + tear + " r-" + q.rank + (done ? " done" : "") + (taken ? " taken" : "") + (other ? " claimed" : "") + (kind !== "main" && !bc && bannedToday(q.id) ? " claimed" : "") +
@@ -3093,7 +3099,8 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
     var list = mainQuests(), tk = todayKey();
     var n = list.filter(function (m) { return mainIsDone(m.id); }).length; tk = mainDayKey();
     var hid = (state.mainHidden || []).length;
-    $("mainQuests").innerHTML = (list.length ? '<div class="notes">' + list.map(function (q) { return noteHtml(q, "main"); }).join("") + "</div>" +
+    var own = customsToday();
+    $("mainQuests").innerHTML = (list.length || own.length ? '<div class="notes">' + list.concat(own).map(function (q) { return noteHtml(q, "main"); }).join("") + "</div>" +
       '<div class="board-count">' + (state.mainBonus === tk ? "The day is conquered! +" + MAIN_BONUS + " XP earned. New decrees arrive at 7 in the morn." : n + " of " + list.length + " done this day · finish them all for +" + MAIN_BONUS + " XP") + "</div>"
       : '<div class="board-count">No decrees upon the board. Proclaim one below.</div>') +
       (hid ? '<button class="restore-main" type="button" data-mrestore>Restore struck decrees (' + hid + ")</button>" : "");
@@ -3123,7 +3130,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
         (r === "All" ? "Any rank" : RANK_HEAD[r]) + "</button>";
     }).join("");
     var QID = qotdId(), claims = boardClaims();
-    var onBoard = boardOrder().filter(function (id) { return id !== QID; }).map(findQ).filter(Boolean).concat(customsToday());
+    var onBoard = boardOrder().filter(function (id) { return id !== QID; }).map(findQ).filter(Boolean);
     var shown = onBoard.filter(function (q) { return (filter === "All" || q.cat === filter) && (rankTab === "All" || q.rank === rankTab); });
     var what = (rankTab === "All" ? "" : RANK_NAME[rankTab] + " ") + (filter === "All" ? "" : filter + " ");
     var qq = findQ(QID);
@@ -3154,7 +3161,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
       if (q) {
         var isQ = isQOf(q.id);
         slotsHtml += '<div class="slot filled r-' + q.rank + (isQ ? " qslot" : "") + '"><div style="display:flex;justify-content:space-between;gap:8px;align-items:center"><span class="cat">' + esc(q.cat) + (isQ ? " · Quest of the Day" : "") + '</span><span class="xp">+' + ((XP[q.rank] || 10) * (isQ ? 2 : 1) + (state.boardTake[q.id] ? TAKE_XP : 0)) + " XP</span></div>" +
-          '<div class="t">' + esc(q.title) + "</div>" +
+          '<button type="button" class="t slot-open" data-open="' + q.id + '">' + esc(q.title) + ' <small>read it \u203A</small></button>' +
           (state.boardTake[q.id] && state.boardTake[q.id].due ? '<div class="slot-timer" data-due="' + state.boardTake[q.id].due + '">\u23F3 ' + leftTxt(state.boardTake[q.id].due - Date.now()) + " \u00B7 by " + clockAt(state.boardTake[q.id].due) + "</div>" : "") +
           '<div class="acts"><button class="btn gold small" data-complete="' + q.id + '">Complete</button><button class="btn ghost small" data-abandon="' + q.id + '">Abandon</button></div></div>';
       } else {
@@ -3243,10 +3250,10 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
     $("qmodal").classList.toggle("land", !isMain);
     var L0 = isMain ? "" : '<div class="ql-grid"><div class="ql-left">', L1 = isMain ? "" : '</div><div class="ql-right">', L2 = isMain ? "" : "</div></div>";
     $("qmPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" data-close aria-label="Close">×</button>' + L0 +
-      '<div class="qm-kicker">' + (isMain ? "Royal Decree" : isQ ? "Quest of the Day" : "Job Request") + "</div>" +
-      (isQ ? '<div class="qm-ribbon">Twice the reward · this day only</div>' : isMain ? '<div class="qm-ribbon">' + (q.once ? "Main quest · once and no more" : "Main quest · renewed each morn at 7") + "</div>" : "") +
+      '<div class="qm-kicker">' + (q.decree ? "Thine Own Decree" : isMain ? "Royal Decree" : isQ ? "Quest of the Day" : "Job Request") + "</div>" +
+      (isQ ? '<div class="qm-ribbon">Twice the reward · this day only</div>' : q.decree ? '<div class="qm-ribbon">For thee alone · this day only</div>' : isMain ? '<div class="qm-ribbon">' + (q.once ? "Main quest · once and no more" : "Main quest · renewed each morn at 7") + "</div>" : "") +
       '<div class="qm-seal" aria-hidden="true">' + q.rank + "</div>" +
-      '<div class="qm-rank">' + RANK_NAME[q.rank] + (isMain ? " Main Quest" : " Job") + "</div>" +
+      '<div class="qm-rank">' + RANK_NAME[q.rank] + (q.decree ? " Decree" : isMain ? " Main Quest" : " Job") + "</div>" +
       '<h3 id="qmTitle">' + esc(q.title) + "</h3>" +
       (q.desc ? '<p class="qm-desc">' + esc(q.desc) + "</p>" : "") +
       stepsHtml + L1 +
@@ -3255,7 +3262,8 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
       '<dl class="qm-meta"><div><dt>Patron</dt><dd>' + esc(isMain && !q.custom ? "The Crown" : q.custom ? "Thyself" : (CLIENT[q.cat] || "The Guild")) + '</dd></div><div><dt>Kind</dt><dd>' + esc(q.cat) +
       '</dd></div><div><dt>Reward</dt><dd class="rw">+' + (XP[q.rank] || 10) * (isQ ? 2 : 1) + " XP" + (q.personal ? " <small>no coins for thine own decree</small>" : !q.main && (state.boardTake[id] || onBoardToday(id)) ? " <small>+" + TAKE_XP + " board bonus, on completion</small>" : "") + "</dd></div></dl>" + L2 +
       status + '<div class="qm-acts">' + acts + "</div>" +
-      (isMain ? '<div class="qm-two">' + (q.custom ? '<button class="qm-del" data-medit="' + id + '">Amend this decree</button>' : "") + '<button class="qm-del" data-mremove="' + id + '">Strike this decree</button></div>' :
+      (q.decree ? (mainIsDone(id) ? "" : '<button class="qm-del" data-cqdel="' + id + '">Tear down thy decree</button>') :
+       isMain ? '<div class="qm-two">' + (q.custom ? '<button class="qm-del" data-medit="' + id + '">Amend this decree</button>' : "") + '<button class="qm-del" data-mremove="' + id + '">Strike this decree</button></div>' :
        q.gcustom ? (!claimOf(id) && state.active.indexOf(id) < 0 ? '<button class="qm-del" data-cqdel="' + id + '">Tear down thy decree</button>' : "") :
        q.custom ? '<button class="qm-del" data-remove="' + id + '">Burn this notice</button>' :
        canDown ? '<button class="qm-del" data-down="' + id + '">Tear this notice down</button>' : "");
@@ -5062,7 +5070,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
     var t = { xp: 0, coins: 0, main: 0, side: 0, qotd: 0, party: 0, fail: 0, bonus: 0, N: 0, S: 0, SS: 0 }, cats = {};
     list.forEach(function (l) { t.xp += +l.xp || 0; t.coins += +l.coins || 0; if (l.fail) t.fail++; if (l.mainBonus) t.bonus++; });
     deeds.forEach(function (l) {
-      if (l.main) t.main++; else if (/^Party quest/.test(l.t || "")) t.party++; else t.side++;
+      if (l.main && !l.own) t.main++; else if (/^Party quest/.test(l.t || "")) t.party++; else t.side++;
       if (l.q) t.qotd++; if (t[l.rank] !== undefined) t[l.rank]++; if (l.cat) cats[l.cat] = (cats[l.cat] || 0) + 1;
     });
     var nDeeds = deeds.length || o.n || 0, xpAll = list.length ? t.xp : o.xp || 0;
@@ -5080,7 +5088,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
         var q = l.id ? findQ(l.id) : null; if (!q) BASE.concat(MAIN).forEach(function (b) { if (!q && String(l.t || "").indexOf(b.title) >= 0) q = b; });
         var info = l.mainBonus ? "Every decree of the Crown was fulfilled this day, so the Crown granted a bonus." : l.fail ? "This quest was taken but not finished before its time ran out, so XP was lost." : l.take ? "Free XP for taking a notice from the board." :
           q ? (q.desc || "") : "No description was kept for this deed.";
-        var meta = q ? '<div class="tl-tags"><span>' + esc(q.main ? "Main Quest" : q.personal ? "Thine own decree" : "Side Quest") + "</span><span>" + esc(RANK_NAME[q.rank] || "") + "</span><span>" + esc(q.cat || "") + "</span>" + (l.q ? "<span>Quest of the Day</span>" : "") + "</div>" : "";
+        var meta = q ? '<div class="tl-tags"><span>' + esc(l.own || q.personal ? "Thine own decree" : q.main ? "Main Quest" : "Side Quest") + "</span><span>" + esc(RANK_NAME[q.rank] || "") + "</span><span>" + esc(q.cat || "") + "</span>" + (l.q ? "<span>Quest of the Day</span>" : "") + "</div>" : "";
         var steps = q && q.steps && q.steps.length ? '<ul class="tl-steps">' + q.steps.map(function (st) { return "<li>" + esc(st) + "</li>"; }).join("") + "</ul>" : "";
         return '<li class="tl-row" tabindex="0" role="button" data-lk="' + esc(l.k) + '"><small>' + (l.at ? clockAt(l.at) : "") + "</small><span>" + esc(l.t) + '</span><b class="' + (l.xp < 0 ? "bad" : "") + '">' + (l.xp < 0 ? "\u2212" + (-l.xp) : "+" + l.xp) + " XP</b>" +
           '<div class="tl-desc">' + meta + "<p>" + esc(info) + "</p>" + steps + (q && q.story ? '<p class="tl-story">' + esc(q.story) + "</p>" : "") + "</div></li>";
@@ -5103,7 +5111,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
         var on = got ? got.indexOf(i) >= 0 : null;
         return '<li class="' + (on === true ? "on" : on === false ? "off" : "") + '"><i aria-hidden="true">' + (on === true ? "\u2714" : on === false ? "\u2715" : "\u2022") + "</i>" + esc(st) + "</li>";
       }).join("") + "</ul>" + (got ? "" : '<small>This deed was sealed before checks were kept.</small>') + "</div>" : "";
-    var kindName = q ? (q.main ? "Royal Decree" : q.personal ? "Thine Own Decree" : l.q ? "Quest of the Day" : "Side Quest") : l.mainBonus ? "Crown's Bonus" : "Deed";
+    var kindName = l.own ? "Thine Own Decree" : q ? (q.personal ? "Thine Own Decree" : q.main ? "Royal Decree" : l.q ? "Quest of the Day" : "Side Quest") : l.mainBonus ? "Crown's Bonus" : "Deed";
     $("deedPaper").className = "qm-paper qm-land deed-paper r-" + ((q && q.rank) || l.rank || "N");
     $("deedPaper").innerHTML = '<span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-dlclose aria-label="Close">&times;</button>' +
       '<div class="ql-grid"><div class="ql-left">' +
@@ -6030,7 +6038,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
   function customsToday() {
     var dk = boardDayKey(), list = state.localCustom && state.localCustom.d === dk ? state.localCustom.list || [] : [];
     return list.filter(function (c) { return c && c.title && XP[c.rank] && CATS.indexOf(c.cat) >= 0; }).map(function (c) {
-      return { id: c.id, title: c.title, desc: c.desc || "", cat: c.cat, rank: c.rank, custom: true, gcustom: true, personal: true, by: "me", byName: state.name || "thee", story: "" };
+      return { id: c.id, title: c.title, desc: c.desc || "", cat: c.cat, rank: c.rank, steps: Array.isArray(c.steps) ? c.steps.slice(0, 10) : [], custom: true, gcustom: true, personal: true, main: true, decree: true, by: "me", byName: state.name || "thee", story: "" };
     });
   }
   function watchCustoms() {
@@ -6051,7 +6059,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
   function openCq() {
     var mine = customsToday().length;
     if (mine >= CQ_MAX) { toast("Thou hast posted " + CQ_MAX + " notices this day already. Return at 6 in the morn."); return; }
-    cqRank = "N"; $("cqTitle").value = ""; $("cqDesc").value = ""; $("cqCat").value = "Spirit"; cqRanks();
+    cqRank = "N"; $("cqTitle").value = ""; $("cqDesc").value = ""; $("cqSteps").value = ""; $("cqCat").value = "Spirit"; cqRanks();
     $("cqLeft").textContent = (CQ_MAX - mine) + " of " + CQ_MAX + " notices left for thee this day";
     $("cqModal").classList.add("show"); $("cqModal").scrollTop = 0; sfx("paper"); setTimeout(function () { $("cqTitle").focus(); }, 60);
   }
@@ -6061,10 +6069,11 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
     if (title.length < 4) { toast("Give the quest a proper title."); $("cqTitle").focus(); return; }
     if (CATS.indexOf(cat) < 0) cat = "Spirit";
     var dk = boardDayKey(), id = "x" + Date.now().toString(36) + Math.random().toString(36).slice(2, 5);
-    var c = { id: id, title: title, desc: desc, cat: cat, rank: cqRank, at: Date.now() };
+    var steps = $("cqSteps").value.split(/\n+/).map(function (x) { return x.trim().replace(/^[-*\u2022]\s*/, "").slice(0, 60); }).filter(Boolean).slice(0, 10);
+    var c = { id: id, title: title, desc: desc, cat: cat, rank: cqRank, steps: steps, at: Date.now() };
     if (!state.localCustom || state.localCustom.d !== dk) state.localCustom = { d: dk, list: [] };
     state.localCustom.list.push(c); save(); render();
-    $("cqModal").classList.remove("show"); sfx("pin"); toast("Thine own decree is nailed to thy board: " + title);
+    $("cqModal").classList.remove("show"); sfx("pin"); toast("Thine own decree is nailed to thy Main Quests board: " + title);
   }
   function delCq(id) {
     var dk = boardDayKey();
@@ -6156,7 +6165,7 @@ canvas.anim-cv { display: block; width: 100%; height: 100%; }
     var body = "", last = "";
     rows.forEach(function (l) {
       var q = l.id ? findQ(l.id) : null; if (!q) BASE.concat(MAIN).forEach(function (b) { if (!q && String(l.t || "").indexOf(b.title) >= 0) q = b; });
-      var kind = l.main || (q && q.main) ? "Main" : q && q.personal ? "Own decree" : /^Party quest/.test(l.t || "") ? "Party" : "Side";
+      var kind = l.own || (q && q.personal) ? "Own decree" : l.main || (q && q.main) ? "Main" : /^Party quest/.test(l.t || "") ? "Party" : "Side";
       xp += +l.xp || 0; coins += +l.coins || 0; days[l.d] = 1;
       if (kind === "Main") cnt.main++; else if (kind === "Own decree") cnt.own++; else cnt.side++;
       if (ranks[l.rank] !== undefined) ranks[l.rank]++;
