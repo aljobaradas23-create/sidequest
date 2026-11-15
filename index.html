@@ -1668,6 +1668,17 @@ textarea.cq-in { resize: vertical; }
   .pr-sign { flex: 1; text-align: center; font-size: 11px; color: #5a3d22; } .pr-sign span { display: block; border-bottom: 1px solid #1a1006; height: 26px; margin-bottom: 4px; }
   .pr-note { margin-top: 14px; font-size: 9.5px; color: #8a7458; text-align: center; font-style: italic; }
 }
+
+.cm-sign { margin: 6px 0 4px; }
+#cmPad { display: block; width: 100%; height: 130px; border-radius: 6px; border: 1px solid rgba(60,35,15,.45); background: #fffaf0 repeating-linear-gradient(0deg, transparent 0 25px, rgba(120,90,50,.07) 25px 26px); touch-action: none; cursor: crosshair; box-shadow: inset 0 1px 4px rgba(60,35,15,.25); }
+.cm-sline { display: flex; align-items: center; gap: 6px; margin: -34px 12px 22px; pointer-events: none; color: #8a6a3a; font-size: 16px; position: relative; }
+.cm-sline i { flex: 1; border-bottom: 1.5px solid #8a6a3a; opacity: .7; }
+.cm-srow { display: flex; justify-content: space-between; align-items: center; gap: 8px; }
+.cm-srow small { font: italic 12.5px Georgia, serif; color: #6b4a2a; }
+.dl-sig { margin: 8px 0 0; text-align: left; } .dl-sig img { display: block; max-width: 180px; height: auto; border-bottom: 1px solid #8a6a3a; }
+.dl-sig span { font: italic 11.5px Georgia, serif; color: #6b4a2a; }
+.qf-sig { width: 96px; height: auto; margin-top: 2px; border-bottom: 1px solid #8a6a3a; }
+@media print { .pr-sigc img { width: 74px; height: auto; display: block; } .pr-sigc { width: 80px; } }
 </style>
 </head>
 <body>
@@ -1895,6 +1906,11 @@ textarea.cq-in { resize: vertical; }
     <p class="cm-warn" id="cmWarn" hidden></p>
     <p class="cm-lead" id="cmLead"></p>
     <input id="cmInput" type="text" autocomplete="off" autocapitalize="none" autocorrect="off" spellcheck="false" aria-label="Type complete to confirm">
+    <div class="cm-sign" id="cmSign" hidden>
+      <canvas id="cmPad" aria-label="Sign here with thy finger"></canvas>
+      <div class="cm-sline"><span>&#10007;</span><i></i></div>
+      <div class="cm-srow"><small id="cmSignHint">Sign thy name above the line</small><button type="button" class="btn small ghost" id="cmPadClear">Wipe it clean</button></div>
+    </div>
     <label class="cm-bar" id="cmBarRow" hidden><input type="checkbox" id="cmBar"> Bar them from returning to this guild</label>
     <p class="cm-hint" id="cmHint" aria-live="polite"></p>
     <div class="qm-acts"><button class="btn gold" id="cmOk" type="button" disabled>Seal it</button><button class="btn ghost" type="button" data-cclose>Not yet</button></div>
@@ -2275,7 +2291,7 @@ textarea.cq-in { resize: vertical; }
     return MAIN.filter(function (m) { return h.indexOf(m.id) < 0; })
       .concat((state.mainCustom || []).filter(function (m) { return !(m.once && m.doneOn && m.doneOn !== k); }));
   }
-  function askRemoveMain(id) {
+  function askRemoveMain(id) { useSign(false);
     var q = findQ(id); if (!q || !q.main) return;
     cm.mode = "mremove"; cm.word = "remove"; cm.id = id;
     $("cmKick").textContent = "Strike a Main Quest"; $("cmTitle").textContent = q.title;
@@ -2290,7 +2306,7 @@ textarea.cq-in { resize: vertical; }
     var q = findQ(id); if (!q || !q.main || mainIsDone(id)) return;
     var hr = new Date().getHours();
     if (q.after != null && hr < q.after && hr >= MAIN_HOUR) { toast("Check this one when thou retire to bed, after " + q.after + ":00."); return; }
-    complete(id);
+    askComplete(id);
   }
   function removeMain(id) {
     var q = findQ(id); if (!q || !q.main) return;
@@ -2881,7 +2897,8 @@ textarea.cq-in { resize: vertical; }
     var mk = mainDayKey();
     if (q.main) { if (!mainIsDone(id)) mainDoneIds().push(id); if (q.once) q.doneOn = mk; }
     var stepsDone = q.main && q.steps && q.steps.length ? checksFor(id).slice() : null;
-    var entry = { k: id + "-" + Date.now().toString(36), id: id, steps: stepsDone || undefined, stepList: stepsDone && q.custom ? q.steps.slice() : undefined, desc: q.custom ? q.desc || "" : undefined, cat: q.cat, rank: q.rank, q: isQ, main: !!q.main, md: q.main ? mk : "", coins: coins, t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
+    var sig = pendingSig; pendingSig = null;
+    var entry = { k: id + "-" + Date.now().toString(36), id: id, sig: sig || undefined, steps: stepsDone || undefined, stepList: stepsDone && q.custom ? q.steps.slice() : undefined, desc: q.custom ? q.desc || "" : undefined, cat: q.cat, rank: q.rank, q: isQ, main: !!q.main, md: q.main ? mk : "", coins: coins, t: q.title + (isQ ? " (Quest of the Day)" : ""), xp: gain, d: tk, at: Date.now(), bw: "" };
     state.log.unshift(entry); delete state.takenAt[id];
     if (bt) {
       delete state.boardTake[id];
@@ -3205,7 +3222,7 @@ textarea.cq-in { resize: vertical; }
     if (ful) {
       var le = null; state.log.forEach(function (l) { if (!le && l.id === id && l.d === todayKey()) le = l; });
       var who = q.main || !bc || isMine(bc) ? "thee" : esc(bc.name || "an adventurer");
-      $("qmPaper").insertAdjacentHTML("afterbegin", '<div class="qm-fulfilled" aria-hidden="true"><span class="qf-scroll">' + scrollSvg(q.personal ? "teal" : isQOf(id) ? "gold" : "") + '</span><span class="qf-txt">Fulfilled</span><small>Sealed by ' + who + (le && le.at ? " at " + clockAt(le.at) : "") + "</small></div>");
+      $("qmPaper").insertAdjacentHTML("afterbegin", '<div class="qm-fulfilled" aria-hidden="true"><span class="qf-scroll">' + scrollSvg(q.personal ? "teal" : isQOf(id) ? "gold" : "") + '</span><span class="qf-txt">Fulfilled</span><small>Sealed by ' + who + (le && le.at ? " at " + clockAt(le.at) : "") + "</small>" + (le && le.sig ? '<img class="qf-sig" src="' + le.sig + '" alt="">' : "") + "</div>");
     }
     $("qmPaper").classList.toggle("unroll", ful && !keep);
     if (!keep) { $("qmodal").classList.add("show"); $("qmodal").scrollTop = 0; sfx("paper"); var b = $("qmPaper").querySelector(".qm-acts .btn"); if (b) b.focus(); }
@@ -3359,10 +3376,10 @@ textarea.cq-in { resize: vertical; }
     $("cmWarn").hidden = !fast && !late;
     $("cmWarn").textContent = late ? "The tenth bell has long rung. Seal it only if thou were truly abed by 22:00." : fast ? "Thou took up this quest " + (mins < 1 ? "less than a minute" : mins + (mins === 1 ? " minute" : " minutes")) + " ago. Seal it only if it is truly done; the guild runs on honor." : "";
     $("cmOk").textContent = "Seal it"; $("cmOk").className = "btn gold";
-    $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type complete to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
-    $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
+    $("cmInput").value = ""; $("cmOk").disabled = true; $("cmHint").textContent = "";
+    $("cmodal").classList.add("show"); sfx("paper"); useSign(true);
   }
-  function askForfeit(k) {
+  function askForfeit(k) { useSign(false);
     var e = null; state.log.forEach(function (l) { if (l.k === k) e = l; }); if (!e) return;
     cm.mode = "forfeit"; cm.word = "forfeit"; cm.id = k;
     var cb = currentBoss(), boss = e.bw && e.bw === cb.w.key && cb.st.won && cb.st.hits - 1 < cb.b.hp;
@@ -3373,8 +3390,8 @@ textarea.cq-in { resize: vertical; }
     $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type forfeit to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
     $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
   }
-  function closeConfirm() { cm.id = null; $("cmodal").classList.remove("show"); $("cmBarRow").hidden = true; $("cmBar").checked = false; }
-  function askExile(id) {
+  function closeConfirm() { cm.id = null; if (cm.sign) useSign(false); $("cmodal").classList.remove("show"); $("cmBarRow").hidden = true; $("cmBar").checked = false; }
+  function askExile(id) { useSign(false);
     var p = null; cloud.players.forEach(function (x) { if (x.id === id) p = x; }); if (!p) return;
     $("pmodal").classList.remove("show");
     cm.mode = "exile"; cm.word = "exile"; cm.id = id;
@@ -3386,10 +3403,43 @@ textarea.cq-in { resize: vertical; }
     $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type exile to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
     $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
   }
-  function cmValid() { return $("cmInput").value.trim().toLowerCase() === (cm.word || "complete"); }
+  /* ---------- the oath: every deed is sealed with thy signature ---------- */
+  var sigPad = { ink: 0, down: false, last: null, strokes: 0 }, pendingSig = null;
+  function useSign(on) {
+    cm.sign = !!on; $("cmSign").hidden = !on; $("cmInput").hidden = !!on;
+    if (on) {
+      $("cmLead").innerHTML = "Sign thy name below to swear this quest is truly fulfilled.";
+      setTimeout(function () { padReset(); }, 30);
+    }
+  }
+  function padReset() {
+    var c = $("cmPad"), r = { width: c.offsetWidth || 300, height: c.offsetHeight || 130 }, dpr = Math.min(3, window.devicePixelRatio || 1);
+    c.width = Math.max(10, Math.round(r.width * dpr)); c.height = Math.max(10, Math.round(r.height * dpr));
+    var x = c.getContext("2d"); x.setTransform(dpr, 0, 0, dpr, 0, 0); x.clearRect(0, 0, r.width, r.height);
+    x.lineCap = "round"; x.lineJoin = "round"; x.strokeStyle = "#1f2a5a"; x.lineWidth = 2.6;
+    sigPad.ink = 0; sigPad.strokes = 0; sigPad.last = null; $("cmOk").disabled = true; $("cmSignHint").textContent = "Sign thy name above the line";
+  }
+  function padPt(e) { var c = $("cmPad"), r = c.getBoundingClientRect(); return { x: (e.clientX - r.left) * (c.offsetWidth / (r.width || 1)), y: (e.clientY - r.top) * (c.offsetHeight / (r.height || 1)) }; }
+  $("cmPad").addEventListener("pointerdown", function (e) { e.preventDefault(); sigPad.down = true; sigPad.last = padPt(e); sigPad.strokes++; try { this.setPointerCapture(e.pointerId); } catch (x) {} });
+  $("cmPad").addEventListener("pointermove", function (e) {
+    if (!sigPad.down) return; e.preventDefault();
+    var p = padPt(e), x = this.getContext("2d"), l = sigPad.last;
+    x.beginPath(); x.moveTo(l.x, l.y); x.quadraticCurveTo(l.x, l.y, (l.x + p.x) / 2, (l.y + p.y) / 2); x.lineTo(p.x, p.y); x.stroke();
+    sigPad.ink += Math.sqrt((p.x - l.x) * (p.x - l.x) + (p.y - l.y) * (p.y - l.y)); sigPad.last = p;
+    if (cmValid()) { $("cmOk").disabled = false; $("cmSignHint").textContent = "A fine hand. Seal it when ready."; }
+  });
+  ["pointerup", "pointercancel", "pointerleave"].forEach(function (ev) { $("cmPad").addEventListener(ev, function () { sigPad.down = false; }); });
+  $("cmPadClear").addEventListener("click", padReset);
+  function padImage() {
+    var c = $("cmPad"), w = 210, h = Math.round(w * c.height / c.width), o = document.createElement("canvas"); o.width = w; o.height = h;
+    o.getContext("2d").drawImage(c, 0, 0, w, h);
+    try { return o.toDataURL("image/png"); } catch (e) { return null; }
+  }
+  function cmValid() { if (cm.sign) return sigPad.ink > 60; return $("cmInput").value.trim().toLowerCase() === (cm.word || "complete"); }
   function cmSubmit() {
     if (!cm.id) return;
-    if (!cmValid()) { $("cmHint").textContent = "Write the word " + cm.word + " exactly to confirm."; return; }
+    if (!cmValid()) { $("cmHint").textContent = cm.sign ? "Sign thy name first." : "Write the word " + cm.word + " exactly to confirm."; return; }
+    pendingSig = cm.sign ? padImage() : null;
     var id = cm.id, mode = cm.mode, bar = $("cmBar").checked; closeConfirm(); $("cmInput").blur();
     if (mode === "forfeit") forfeitDeed(id); else if (mode === "mremove") removeMain(id); else if (mode === "party") partyDone(id); else if (mode === "exile") exilePlayer(id, bar); else complete(id);
   }
@@ -5018,6 +5068,7 @@ textarea.cq-in { resize: vertical; }
         '<h3 id="deedHead">' + esc(q ? q.title : l.t) + "</h3>" +
         '<div class="tl-tags">' + (q ? "<span>" + esc(RANK_NAME[q.rank] || "") + "</span><span>" + esc(q.cat || "") + "</span>" : "") + "<span>" + (l.xp < 0 ? "\u2212" + (-l.xp) : "+" + l.xp) + " XP</span>" + (l.coins ? "<span>+" + l.coins + " coins</span>" : "") + "</div>" +
         '<p class="qm-desc">' + esc(info) + "</p>" +
+        (l.sig ? '<div class="dl-sig"><img src="' + l.sig + '" alt="Thy signature"><span>Sworn and signed</span></div>' : "") +
         '<p class="dl-when">Sealed on the ' + ordinal(dd.getDate()) + " of " + MONTHS[dd.getMonth()] + (l.at ? " at " + clockAt(l.at) : "") + "</p>" +
       '</div><div class="ql-right">' + stepsHtml +
         (q && q.story ? '<div class="qm-story"><span>The tale</span><p>' + esc(q.story) + "</p></div>" : "") +
@@ -5629,8 +5680,8 @@ textarea.cq-in { resize: vertical; }
     $("cmLead").innerHTML = "Did thou truly do this with thy party? Write <b>complete</b> below to seal thy part.";
     $("cmWarn").hidden = false; $("cmWarn").textContent = "The XP comes once enough of the party has sealed their part.";
     $("cmOk").textContent = "Seal it"; $("cmOk").className = "btn gold";
-    $("cmInput").value = ""; $("cmInput").setAttribute("aria-label", "Type complete to confirm"); $("cmOk").disabled = true; $("cmHint").textContent = "";
-    $("cmodal").classList.add("show"); sfx("paper"); setTimeout(function () { $("cmInput").focus(); }, 60);
+    $("cmInput").value = ""; $("cmOk").disabled = true; $("cmHint").textContent = "";
+    $("cmodal").classList.add("show"); sfx("paper"); useSign(true);
   }
   function partyDone(id) {
     var p = null; (cloud.parties || []).forEach(function (x) { if (x.id === id) p = x; }); if (!p || !canPost()) return;
@@ -6034,17 +6085,17 @@ textarea.cq-in { resize: vertical; }
       xp += +l.xp || 0; coins += +l.coins || 0; days[l.d] = 1;
       if (kind === "Main") cnt.main++; else if (kind === "Own decree") cnt.own++; else cnt.side++;
       if (ranks[l.rank] !== undefined) ranks[l.rank]++;
-      if (l.d !== last) { last = l.d; body += '<tr class="pr-day"><td colspan="5">' + prDate(l.d) + "</td></tr>"; }
+      if (l.d !== last) { last = l.d; body += '<tr class="pr-day"><td colspan="6">' + prDate(l.d) + "</td></tr>"; }
       var steps = l.stepList || (q && q.steps) || [], got = Array.isArray(l.steps) ? l.steps : null, stepTxt = "";
       if (withSteps && steps.length && got) stepTxt = '<div class="pr-steps">' + steps.map(function (st, i) { return (got.indexOf(i) >= 0 ? "☑ " : "☐ ") + esc(st); }).join("&nbsp;&nbsp; ") + "</div>";
-      body += "<tr><td>" + (l.at ? clockAt(l.at) : "") + "</td><td><b>" + esc(String(l.t || "").replace(/ \(Quest of the Day\)$/, "")) + "</b>" + (l.q ? ' <em>(Quest of the Day)</em>' : "") + stepTxt + "</td><td>" + kind + "</td><td>" + esc(RANK_NAME[l.rank] || "") + "</td><td class=\"pr-xp\">+" + l.xp + "</td></tr>";
+      body += "<tr><td>" + (l.at ? clockAt(l.at) : "") + "</td><td><b>" + esc(String(l.t || "").replace(/ \(Quest of the Day\)$/, "")) + "</b>" + (l.q ? ' <em>(Quest of the Day)</em>' : "") + stepTxt + "</td><td>" + kind + "</td><td>" + esc(RANK_NAME[l.rank] || "") + "</td><td class=\"pr-xp\">+" + l.xp + "</td><td class=\"pr-sigc\">" + (l.sig ? '<img src="' + l.sig + '" alt="">' : "") + "</td></tr>";
     });
     $("printRoll").innerHTML = '<div class="pr-sheet">' +
       '<div class="pr-top"><div class="pr-crest">✠</div><h1>Roll of Deeds</h1><div class="pr-sub">Sidequest Board · kept by the Guild Scribe</div></div>' +
       '<table class="pr-who"><tr><td>Adventurer</td><td><b>' + esc(state.name || "Adventurer") + '</b></td><td>Rank</td><td><b>Level ' + li.lv + " · " + esc(titleFor(li.lv)) + '</b></td></tr>' +
       "<tr><td>Span</td><td>" + span + "</td><td>Copied on</td><td>" + prDate(todayKey()) + "</td></tr></table>" +
       '<div class="pr-tot"><div><b>' + rows.length + "</b>quests fulfilled</div><div><b>+" + xp + "</b>XP earned</div><div><b>" + Object.keys(days).length + "</b>days of deeds</div><div><b>" + cnt.main + " / " + cnt.side + (cnt.own ? " / " + cnt.own : "") + "</b>main / side" + (cnt.own ? " / own" : "") + "</div><div><b>" + ranks.N + " · " + ranks.S + " · " + ranks.SS + "</b>Normal · S · SS</div></div>" +
-      '<table class="pr-list"><thead><tr><th>Time</th><th>Quest</th><th>Kind</th><th>Rank</th><th>XP</th></tr></thead><tbody>' + body + "</tbody></table>" +
+      '<table class="pr-list"><thead><tr><th>Time</th><th>Quest</th><th>Kind</th><th>Rank</th><th>XP</th><th>Signed</th></tr></thead><tbody>' + body + "</tbody></table>" +
       '<div class="pr-foot"><div class="pr-sign"><span></span>Signature of the adventurer</div><div class="pr-sign"><span></span>Witnessed by</div></div>' +
       '<p class="pr-note">Only deeds still kept in the ledger can be copied (the most recent 150).</p></div>';
   }
