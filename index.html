@@ -1630,6 +1630,44 @@ textarea.cq-in { resize: vertical; }
 
 .deed-paper .qm-kicker { font-size: 15px; letter-spacing: .12em; text-transform: uppercase; color: #8a1c10; margin-top: 4px; }
 .deed-paper h3 { font-size: 22px; margin: 4px 0 8px; }
+
+.print-btn { display: block; width: 100%; margin-top: 10px; padding: 10px; }
+.print-btn small { display: block; font: italic 12px Georgia, serif; opacity: .85; margin-top: 2px; }
+.pr-range button { flex: 1 1 22%; }
+.pr-opt { display: flex; align-items: center; gap: 8px; margin: 4px 0 8px; font: 14px Georgia, serif; color: #3b2412; }
+.pr-opt input { width: 18px; height: 18px; accent-color: #7a1d14; }
+#prModal { overflow-y: auto; } #prModal.show { display: flex; flex-direction: column; } #prModal .qm-paper { margin: auto; flex: none; max-height: none; overflow: visible; }
+#printRoll { display: none; }
+@media print {
+  @page { size: A4 portrait; margin: 14mm; }
+  html, body { background: #fff !important; }
+  body > *:not(#printRoll) { display: none !important; }
+  #printRoll { display: block !important; color: #1a1006; font-family: Georgia, "Times New Roman", serif; }
+  .pr-sheet { border: 3px double #6b4422; padding: 16px 18px; }
+  .pr-top { text-align: center; border-bottom: 2px solid #6b4422; padding-bottom: 8px; margin-bottom: 10px; }
+  .pr-crest { font-size: 28px; color: #7a1d14; }
+  #printRoll *, #printRoll *::before, #printRoll *::after { filter: none !important; box-shadow: none !important; }
+  #printRoll h1::before, #printRoll h1::after { content: none !important; display: none !important; }
+  #printRoll * { text-shadow: none !important; -webkit-text-fill-color: currentColor !important; background-image: none !important; }
+  .pr-top h1 { color: #1a1006 !important; margin: 2px 0; font: 400 30px "IM Fell English SC", Georgia, serif; letter-spacing: .06em; }
+  .pr-sub { font-style: italic; font-size: 12px; color: #5a3d22; }
+  .pr-who { width: 100%; border-collapse: collapse; font-size: 12.5px; margin-bottom: 10px; }
+  .pr-who td { padding: 3px 6px; border-bottom: 1px solid #c9b48a; } .pr-who td:nth-child(odd) { color: #6b4a2a; width: 16%; }
+  .pr-tot { display: flex; gap: 6px; margin-bottom: 12px; }
+  .pr-tot div { flex: 1; border: 1px solid #c9b48a; padding: 6px 4px; text-align: center; font-size: 10.5px; color: #5a3d22; }
+  .pr-tot b { display: block; font-size: 17px; color: #1a1006; }
+  .pr-list { width: 100%; border-collapse: collapse; font-size: 12px; }
+  .pr-list th { text-align: left; border-bottom: 2px solid #6b4422; padding: 4px 6px; font-size: 11px; text-transform: uppercase; letter-spacing: .08em; color: #5a3d22; }
+  .pr-list td { padding: 4px 6px; border-bottom: 1px solid #e2d2a8; vertical-align: top; }
+  .pr-list tr { page-break-inside: avoid; }
+  .pr-day td { padding-top: 10px; font-weight: 700; font-style: italic; color: #7a1d14; border-bottom: 1px solid #c9b48a; }
+  .pr-xp { text-align: right; font-weight: 700; white-space: nowrap; }
+  .pr-list td:first-child { white-space: nowrap; color: #6b4a2a; width: 62px; }
+  .pr-steps { margin-top: 2px; font-size: 10.5px; color: #4a3220; }
+  .pr-foot { display: flex; gap: 40px; margin-top: 34px; }
+  .pr-sign { flex: 1; text-align: center; font-size: 11px; color: #5a3d22; } .pr-sign span { display: block; border-bottom: 1px solid #1a1006; height: 26px; margin-bottom: 4px; }
+  .pr-note { margin-top: 14px; font-size: 9.5px; color: #8a7458; text-align: center; font-style: italic; }
+}
 </style>
 </head>
 <body>
@@ -1731,6 +1769,7 @@ textarea.cq-in { resize: vertical; }
         <div class="cal-legend"><span>Fewer</span><i class="l0"></i><i class="l1"></i><i class="l2"></i><i class="l3"></i><i class="l4"></i><span>More deeds</span></div>
         <div class="cal-day" id="calDay" hidden></div>
         <p class="cal-hint cal-tap">Tap a day with deeds to open its tally.</p>
+        <button class="btn gold print-btn" type="button" data-prollopen>&#128220; Print a Roll of Deeds <small>a printable record of thy fulfilled quests</small></button>
       </section>
     <section class="scroll iron stone-bg" aria-labelledby="partyTitle">
         <div style="display:flex;justify-content:space-between;align-items:baseline;gap:8px;border-bottom:1px solid var(--iron-lo);padding-bottom:6px">
@@ -1918,6 +1957,16 @@ textarea.cq-in { resize: vertical; }
 </div>
 <div class="crow-fly" id="crowFly" aria-hidden="true"><img id="crowImg" alt=""></div>
 <div class="toast" id="toast" role="status" aria-live="polite"></div>
+<div class="qmodal" id="prModal" role="dialog" aria-modal="true" aria-labelledby="prHead"><div class="qm-paper cq-paper">
+  <span class="pin" aria-hidden="true"></span><button class="qm-x" type="button" data-prclose aria-label="Close">&times;</button>
+  <div class="qm-kicker">The Scribe's Desk</div><h3 id="prHead">Print a Roll of Deeds</h3>
+  <p class="cq-lead">Choose which deeds the scribe shall copy. Then print it, or save it as a PDF from the print window.</p>
+  <div class="cq-ranks pr-range"><button type="button" data-prrange="day" aria-pressed="false">This day</button><button type="button" data-prrange="week" aria-pressed="true">Seven days</button><button type="button" data-prrange="month" aria-pressed="false">This month</button><button type="button" data-prrange="all" aria-pressed="false">All kept</button></div>
+  <label class="pr-opt"><input type="checkbox" id="prSteps" checked> Show the steps I checked</label>
+  <p class="cq-left" id="prCount"></p>
+  <div class="qm-acts"><button class="btn wax" id="prGo" type="button">&#128424; Print the roll</button><button class="btn ghost" type="button" data-prclose>Not now</button></div>
+</div></div>
+<div id="printRoll" aria-hidden="true"></div>
 <div class="qmodal land" id="deedModal" role="dialog" aria-modal="true" aria-labelledby="deedHead"><div class="qm-paper deed-paper" id="deedPaper"></div></div>
 <div class="qmodal" id="tallyModal" role="dialog" aria-modal="true" aria-labelledby="tallyHead"><div class="qm-paper tally-paper" id="tallyPaper"></div></div>
 <div class="fboard" id="secModal" role="dialog" aria-modal="true" aria-label="See all"><div class="fb-wrap sec-holder"><button class="fb-x" type="button" data-secclose aria-label="Close">&times;</button><div id="secSlot"></div></div></div>
@@ -3023,11 +3072,11 @@ textarea.cq-in { resize: vertical; }
     var qotdHtml = !qq ? "" : '<div class="qotd-wrap"><div class="qotd-head">Quest of the Day <small>' + esc(qotdDateLabel()) + ' · twice the reward · only one adventurer may take it</small></div>' + noteHtml(qq, "qotd") + "</div>";
     var nTaken = boardIds().filter(function (id) { return claims[id]; }).length, nAll = boardIds().length;
     var free = nAll - nTaken;
-    var prev = onBoard.filter(function (q) { return !claims[q.id]; }).concat(onBoard.filter(function (q) { return claims[q.id]; })).slice(0, BOARD_PREVIEW);
+    var prev = onBoard.filter(function (q) { return !claims[q.id]; }).concat(onBoard.filter(function (q) { return claims[q.id]; })).slice(0, 0);
     var rest = restDay();
     $("quests").innerHTML = (rest ? '<div class="rest-day"><b>No side quests today</b><span>The guild board rests this day. No notices were nailed up. Tend to thy Main Quests and thine own decrees, and return at 6 in the morn.</span></div>' : "") +
       qotdHtml + (prev.length ? '<div class="notes">' + prev.map(function (q) { return noteHtml(q, "side"); }).join("") + "</div>" : "") +
-      (onBoard.length > prev.length ? '<button class="btn wax give see-all" type="button" data-seeall>See all ' + onBoard.length + " notices <small>" + onBoard.filter(function (q) { return !claims[q.id]; }).length + " still free · plus the Quest of the Day</small></button>" : "") +
+      (onBoard.length ? '<button class="btn wax give see-all" type="button" data-seeall>\u2694 Behold the Whole Board <small>' + onBoard.length + (onBoard.length === 1 ? " notice awaits" : " notices await") + " · " + onBoard.filter(function (q) { return !claims[q.id]; }).length + " yet unclaimed</small></button>" : "") +
       "";
     $("fbQuests").innerHTML = (fbOpenNow() || $("fbModal").classList.contains("show")) ? ((rankTab === "All" && filter === "All") || (qq && (filter === "All" || qq.cat === filter) && (rankTab === "All" || qq.rank === rankTab)) ? qotdHtml : "") + (shown.length
       ? '<div class="notes">' + shown.map(function (q) { return noteHtml(q, "side"); }).join("") + '</div><div class="board-count">' +
@@ -5956,6 +6005,63 @@ textarea.cq-in { resize: vertical; }
   $("qtDel").addEventListener("click", delQuote);
   $("qtModal").addEventListener("click", function (e) { if (e.target === this || (e.target.closest && e.target.closest("[data-qtclose]"))) this.classList.remove("show"); });
   setTimeout(function () { showQuote(false); }, 0);
+
+  /* ---------- the scribe: a printable roll of fulfilled quests ---------- */
+  var pr = { range: "week" };
+  function prRows() {
+    var now = new Date(), tk = todayKey(), from = "";
+    if (pr.range === "day") from = tk;
+    else if (pr.range === "week") from = todayKey(new Date(now.getFullYear(), now.getMonth(), now.getDate() - 6));
+    else if (pr.range === "month") from = now.getFullYear() + "-" + pad(now.getMonth() + 1) + "-01";
+    return state.log.filter(function (l) { return l && l.d && l.d >= from && !l.take && !l.fail && !l.mainBonus && !l.bounty && !l.crown && (+l.xp || 0) > 0; })
+      .sort(function (a, b) { return (a.at || 0) - (b.at || 0); });
+  }
+  function prRefresh() {
+    document.querySelectorAll("[data-prrange]").forEach(function (b) { b.setAttribute("aria-pressed", String(b.dataset.prrange === pr.range)); });
+    var n = prRows().length;
+    $("prCount").textContent = n ? n + (n === 1 ? " fulfilled quest" : " fulfilled quests") + " will be copied." : "No fulfilled quests in this span.";
+    $("prGo").disabled = !n;
+  }
+  function prDate(k) { var p = k.split("-"), d = new Date(+p[0], +p[1] - 1, +p[2]); return "the " + ordinal(d.getDate()) + " of " + MONTHS[d.getMonth()] + ", " + d.getFullYear(); }
+  function buildRoll() {
+    var rows = prRows(), withSteps = $("prSteps").checked, li = levelInfo(state.xp);
+    var span = { day: "This day", week: "The last seven days", month: "This month, " + MONTHS[new Date().getMonth()], all: "All deeds kept in the ledger" }[pr.range];
+    var xp = 0, coins = 0, cnt = { main: 0, side: 0, own: 0 }, ranks = { N: 0, S: 0, SS: 0 }, days = {};
+    var body = "", last = "";
+    rows.forEach(function (l) {
+      var q = l.id ? findQ(l.id) : null; if (!q) BASE.concat(MAIN).forEach(function (b) { if (!q && String(l.t || "").indexOf(b.title) >= 0) q = b; });
+      var kind = l.main || (q && q.main) ? "Main" : q && q.personal ? "Own decree" : /^Party quest/.test(l.t || "") ? "Party" : "Side";
+      xp += +l.xp || 0; coins += +l.coins || 0; days[l.d] = 1;
+      if (kind === "Main") cnt.main++; else if (kind === "Own decree") cnt.own++; else cnt.side++;
+      if (ranks[l.rank] !== undefined) ranks[l.rank]++;
+      if (l.d !== last) { last = l.d; body += '<tr class="pr-day"><td colspan="5">' + prDate(l.d) + "</td></tr>"; }
+      var steps = l.stepList || (q && q.steps) || [], got = Array.isArray(l.steps) ? l.steps : null, stepTxt = "";
+      if (withSteps && steps.length && got) stepTxt = '<div class="pr-steps">' + steps.map(function (st, i) { return (got.indexOf(i) >= 0 ? "☑ " : "☐ ") + esc(st); }).join("&nbsp;&nbsp; ") + "</div>";
+      body += "<tr><td>" + (l.at ? clockAt(l.at) : "") + "</td><td><b>" + esc(String(l.t || "").replace(/ \(Quest of the Day\)$/, "")) + "</b>" + (l.q ? ' <em>(Quest of the Day)</em>' : "") + stepTxt + "</td><td>" + kind + "</td><td>" + esc(RANK_NAME[l.rank] || "") + "</td><td class=\"pr-xp\">+" + l.xp + "</td></tr>";
+    });
+    $("printRoll").innerHTML = '<div class="pr-sheet">' +
+      '<div class="pr-top"><div class="pr-crest">✠</div><h1>Roll of Deeds</h1><div class="pr-sub">Sidequest Board · kept by the Guild Scribe</div></div>' +
+      '<table class="pr-who"><tr><td>Adventurer</td><td><b>' + esc(state.name || "Adventurer") + '</b></td><td>Rank</td><td><b>Level ' + li.lv + " · " + esc(titleFor(li.lv)) + '</b></td></tr>' +
+      "<tr><td>Span</td><td>" + span + "</td><td>Copied on</td><td>" + prDate(todayKey()) + "</td></tr></table>" +
+      '<div class="pr-tot"><div><b>' + rows.length + "</b>quests fulfilled</div><div><b>+" + xp + "</b>XP earned</div><div><b>" + Object.keys(days).length + "</b>days of deeds</div><div><b>" + cnt.main + " / " + cnt.side + (cnt.own ? " / " + cnt.own : "") + "</b>main / side" + (cnt.own ? " / own" : "") + "</div><div><b>" + ranks.N + " · " + ranks.S + " · " + ranks.SS + "</b>Normal · S · SS</div></div>" +
+      '<table class="pr-list"><thead><tr><th>Time</th><th>Quest</th><th>Kind</th><th>Rank</th><th>XP</th></tr></thead><tbody>' + body + "</tbody></table>" +
+      '<div class="pr-foot"><div class="pr-sign"><span></span>Signature of the adventurer</div><div class="pr-sign"><span></span>Witnessed by</div></div>' +
+      '<p class="pr-note">Only deeds still kept in the ledger can be copied (the most recent 150).</p></div>';
+  }
+  function openPr() { pr.range = "week"; prRefresh(); $("prModal").classList.add("show"); $("prModal").scrollTop = 0; sfx("paper"); }
+  document.addEventListener("click", function (e) {
+    var t = e.target.closest && e.target.closest("button"); if (!t) return;
+    if (t.hasAttribute("data-prollopen")) { openPr(); return; }
+    if (t.dataset.prrange) { pr.range = t.dataset.prrange; prRefresh(); return; }
+    if (t.hasAttribute("data-prclose")) { $("prModal").classList.remove("show"); return; }
+  });
+  $("prModal").addEventListener("click", function (e) { if (e.target === this) this.classList.remove("show"); });
+  $("prGo").addEventListener("click", function () {
+    buildRoll(); $("prModal").classList.remove("show"); sfx("quill");
+    document.documentElement.classList.add("printing");
+    setTimeout(function () { try { window.print(); } catch (x) {} }, 120);
+  });
+  window.addEventListener("afterprint", function () { document.documentElement.classList.remove("printing"); });
   window.SIDEQUEST_BOOT = function () { cloudInit(); bootGate(); };
   applySeason(); setInterval(applySeason, 10 * 60000);
   setInterval(renderLb, 60000);
